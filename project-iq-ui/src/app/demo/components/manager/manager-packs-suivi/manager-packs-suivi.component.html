@@ -1,0 +1,119 @@
+<div class="mb-4 flex flex-column md:flex-row justify-content-between md:align-items-center gap-3">
+    <div>
+        <h2 class="m-0 text-900 font-bold flex align-items-center gap-3">
+            <i class="pi pi-th-large text-3xl text-primary bg-primary-reverse p-3 border-circle"></i>
+            Suivi Kanban de Production
+        </h2>
+        <p class="m-0 mt-2 text-600 text-lg">Supervisez la création des packs par les analystes et l'IA en temps réel.</p>
+    </div>
+    <div class="p-input-icon-left w-full md:w-20rem">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Filtrer le tableau..." class="w-full border-round-3xl" />
+    </div>
+</div>
+
+<p-toast></p-toast>
+
+<div *ngIf="loading" class="flex justify-content-center py-8">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
+</div>
+
+<!-- KANBAN BOARD -->
+<div *ngIf="!loading" class="grid kanban-board">
+    
+    <!-- COLONNE 1 : MATCHING (Recherche Profils) -->
+    <div class="col-12 md:col-4">
+        <div class="kanban-column bg-blue-50 border-round-xl p-3 h-full border-1 border-blue-100 flex flex-column">
+            <div class="flex justify-content-between align-items-center mb-4">
+                <h5 class="m-0 font-bold text-blue-900 flex align-items-center">
+                    <i class="pi pi-users mr-2"></i> Matching en cours
+                </h5>
+                <p-badge [value]="matchingDossiers.length.toString()" severity="info" styleClass="p-badge-lg"></p-badge>
+            </div>
+
+            <div class="flex-1 flex flex-column gap-3">
+                <div *ngFor="let d of matchingDossiers" class="kanban-card bg-white p-3 border-round-lg shadow-1 border-left-3 border-blue-500 animate-fade-in relative overflow-hidden">
+                    <div class="flex justify-content-between mb-2">
+                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 border-round-2xl">ÉTAPE 1</span>
+                        <i class="pi pi-spin pi-cog text-blue-300"></i>
+                    </div>
+                    <h6 class="m-0 font-bold text-900 mb-1 line-height-3">{{ d.intituleOffre }}</h6>
+                    <span class="text-sm text-600"><i class="pi pi-building text-blue-400 mr-1"></i>{{ d.client }}</span>
+                </div>
+                
+                <div *ngIf="matchingDossiers.length === 0" class="text-center p-4 border-2 border-dashed border-blue-200 border-round-lg text-blue-300 mt-2">
+                    Aucun dossier dans cette étape
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLONNE 2 : DRAFTING (Génération IA) -->
+    <div class="col-12 md:col-4">
+        <div class="kanban-column bg-purple-50 border-round-xl p-3 h-full border-1 border-purple-100 flex flex-column">
+            <div class="flex justify-content-between align-items-center mb-4">
+                <h5 class="m-0 font-bold text-purple-900 flex align-items-center">
+                    <i class="pi pi-sparkles mr-2"></i> Génération IA (Drafting)
+                </h5>
+                <p-badge [value]="draftingDossiers.length.toString()" severity="warning" styleClass="bg-purple-500 p-badge-lg"></p-badge>
+            </div>
+
+            <div class="flex-1 flex flex-column gap-3">
+                <div *ngFor="let d of draftingDossiers" class="kanban-card bg-white p-3 border-round-lg shadow-1 border-left-3 border-purple-500 animate-fade-in relative overflow-hidden pulse-border">
+                    <div class="flex justify-content-between mb-2">
+                        <span class="text-xs font-bold text-purple-500 bg-purple-50 px-2 py-1 border-round-2xl">ÉTAPE 2</span>
+                        <i class="pi pi-sparkles text-purple-400 animate-pulse"></i>
+                    </div>
+                    <h6 class="m-0 font-bold text-900 mb-1 line-height-3">{{ d.intituleOffre }}</h6>
+                    <span class="text-sm text-600"><i class="pi pi-building text-purple-400 mr-1"></i>{{ d.client }}</span>
+                    
+                    <div class="mt-3">
+                        <div class="flex justify-content-between text-xs text-500 mb-1">
+                            <span>Création des documents...</span>
+                            <span>IA Active</span>
+                        </div>
+                        <div class="w-full bg-purple-100 border-round-xl h-top" style="height: 4px;">
+                            <div class="bg-purple-500 h-full border-round-xl w-6 animate-width"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="draftingDossiers.length === 0" class="text-center p-4 border-2 border-dashed border-purple-200 border-round-lg text-purple-300 mt-2">
+                    Aucune génération en cours
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLONNE 3 : PACK READY (Prêt pour validation) -->
+    <div class="col-12 md:col-4">
+        <div class="kanban-column bg-green-50 border-round-xl p-3 h-full border-1 border-green-100 flex flex-column">
+            <div class="flex justify-content-between align-items-center mb-4">
+                <h5 class="m-0 font-bold text-green-900 flex align-items-center">
+                    <i class="pi pi-check-circle mr-2"></i> Pack Prêt (Ready)
+                </h5>
+                <p-badge [value]="readyDossiers.length.toString()" severity="success" styleClass="p-badge-lg"></p-badge>
+            </div>
+
+            <div class="flex-1 flex flex-column gap-3">
+                <div *ngFor="let d of readyDossiers" class="kanban-card bg-white p-3 border-round-lg shadow-1 border-left-3 border-green-500 animate-fade-in relative overflow-hidden">
+                    <div class="flex justify-content-between mb-2">
+                        <span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 border-round-2xl">TERMINÉ</span>
+                        <i class="pi pi-file-zip text-green-400"></i>
+                    </div>
+                    <h6 class="m-0 font-bold text-900 mb-1 line-height-3">{{ d.intituleOffre }}</h6>
+                    <span class="text-sm text-600"><i class="pi pi-building text-green-400 mr-1"></i>{{ d.client }}</span>
+                    
+                    <div class="mt-3 bg-green-100 p-2 border-round-md text-center">
+                        <span class="text-xs font-bold text-green-700">En attente des décideurs</span>
+                    </div>
+                </div>
+
+                <div *ngIf="readyDossiers.length === 0" class="text-center p-4 border-2 border-dashed border-green-200 border-round-lg text-green-300 mt-2">
+                    Aucun pack finalisé
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,193 @@
+<p-toast></p-toast>
+
+<div class="dashboard-page grid p-4 fade-in-up">
+    <!-- Header -->
+    <div class="col-12 mb-3">
+        <div class="header-card">
+            <div class="flex align-items-center justify-content-between flex-wrap gap-3 w-full">
+                <div class="flex align-items-center gap-3">
+                    <div class="header-icon-box"><i class="pi pi-briefcase"></i></div>
+                    <div>
+                        <h1 class="m-0 page-title">Dashboard Dossiers AO</h1>
+                        <p class="m-0 page-subtitle">Pilotage global et supervision des flux d'appels d'offres</p>
+                    </div>
+                </div>
+                <button pButton icon="pi pi-plus" label="Nouveau Dossier" class="border-round-3xl btn-new-project px-4 py-3" (click)="newDossier()"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats KPI (Pastel Cards) -->
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="kpi-card kpi-urgent hover-lift">
+            <div class="kpi-icon-wrapper"><i class="pi pi-clock"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-num">{{ stats.urgent }}</span>
+                <span class="kpi-label">Urgents <span class="days-indicator">&lt;10j</span></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="kpi-card kpi-analyse hover-lift">
+            <div class="kpi-icon-wrapper"><i class="pi pi-cog"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-num">{{ stats.enAnalyse }}</span>
+                <span class="kpi-label">En analyse</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="kpi-card kpi-validation hover-lift">
+            <div class="kpi-icon-wrapper"><i class="pi pi-verified"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-num">{{ stats.enValidation }}</span>
+                <span class="kpi-label">En validation</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="kpi-card kpi-total hover-lift">
+            <div class="kpi-icon-wrapper"><i class="pi pi-server"></i></div>
+            <div class="kpi-content">
+                <span class="kpi-num">{{ stats.total }}</span>
+                <span class="kpi-label">Total</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table dossiers -->
+    <div class="col-12 mt-2">
+        <div class="card table-card p-0 overflow-hidden">
+            <p-table #dt [value]="filtered" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,25,50]"
+                     [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+                     responsiveLayout="scroll" [(selection)]="selectedDossiers" dataKey="id"
+                     [globalFilterFields]="['intituleOffre','client','pays','status']"
+                     exportFilename="Registre_Dossiers_Importes"
+                     styleClass="p-datatable-striped p-datatable-hoverable custom-table-premium">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
+                        <div class="flex align-items-center gap-3">
+                            <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Dossiers</h5>
+                            <!-- BATCH ACTION BAR (Appears only if selection > 0) -->
+                            <div *ngIf="selectedDossiers.length > 0" class="fade-in flex align-items-center bg-blue-50 px-3 py-1 border-round-3xl border-1 border-blue-200">
+                                <span class="font-bold text-blue-800 mr-2 text-sm">
+                                    <i class="pi pi-check-square mr-1"></i> {{ selectedDossiers.length }} sél.
+                                </span>
+                                <button *ngIf="availableBatchAction" pButton [label]="availableBatchActionLabel" 
+                                        class="p-button-rounded p-button-primary p-button-sm shadow-1 py-1 px-3"
+                                        icon="pi pi-bolt" (click)="executeBatchAction()"></button>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 mt-2 md:mt-0">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="searchTerm" placeholder="Rechercher (Client, Offre...)" class="border-round-2xl" />
+                            </span>
+                            <button pButton icon="pi pi-file-excel" class="p-button-outlined p-button-success border-round-2xl" pTooltip="Exporter CSV" tooltipPosition="top" (click)="dt.exportCSV()"></button>
+                            <button pButton icon="pi pi-file-pdf" class="p-button-outlined p-button-danger border-round-2xl" pTooltip="Exporter PDF" tooltipPosition="top" (click)="exportPdf()"></button>
+                            <button pButton icon="pi pi-refresh" class="p-button-outlined p-button-secondary border-round-2xl ml-1" pTooltip="Actualiser" (click)="loadDossiers()"></button>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr class="bg-gray-50 text-700">
+                        <th style="width: 3rem" class="p-3">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="intituleOffre" class="pl-4 p-3">Intitulé du Dossier <p-sortIcon field="intituleOffre"></p-sortIcon></th>
+                        <th pSortableColumn="client" class="p-3">Client / Pays <p-sortIcon field="client"></p-sortIcon></th>
+                        <th pSortableColumn="dtLimSoum" class="p-3">Date Limite <p-sortIcon field="dtLimSoum"></p-sortIcon></th>
+                        <th pSortableColumn="pwinScore" class="text-center p-3" style="width:10rem">Score P-Win <p-sortIcon field="pwinScore"></p-sortIcon></th>
+                        <th pSortableColumn="status" class="p-3">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                        <th class="text-center pr-4 p-3" style="width:10rem">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-d>
+                    <tr class="row-hover" [pSelectableRow]="d">
+                        <td>
+                            <p-tableCheckbox [value]="d"></p-tableCheckbox>
+                        </td>
+                        <td class="font-bold text-900 pl-4">{{ d.intituleOffre || '—' }}</td>
+                        <td>
+                            <div class="client-cell">
+                                <span class="client-name">{{ d.client || '—' }}</span>
+                                <span class="pays-badge" *ngIf="d.pays">{{ d.pays }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span [class.urgent-red-text]="(d.joursOuvrables ?? 99) < 10" class="font-semibold text-700">
+                                {{ joursLabel(d) }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="pwin-badge" [class.pwin-good]="(d.pwinScore ?? 0) >= 70">
+                                {{ pwinDisplay(d) }}
+                            </span>
+                        </td>
+                        <td>
+                            <!-- Pastel state tags -->
+                            <span class="status-tag" [ngClass]="d.status.toLowerCase()">
+                                {{ statusLabel(d.status) }}
+                            </span>
+                        </td>
+                        <td class="text-center pr-4">
+                            <button *ngIf="d.status === 'ERROR'" pButton icon="pi pi-refresh" label="Analyser" class="p-button-text p-button-sm p-button-danger mr-2" (click)="retryAnalysis(d)"></button>
+                            <button pButton icon="pi pi-arrow-right" iconPos="right" [label]="d.status === 'ERROR' ? 'Consulter' : 'Ouvrir'" class="p-button-text p-button-sm btn-open-project" (click)="openDossier(d)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-500">
+                            <div class="empty-state-illust">
+                                <i class="pi pi-folder-open text-4xl block mb-2 text-300"></i>
+                            </div>
+                            <span>Aucun dossier trouvé. <a routerLink="/dossiers/nouveau" class="link-new">Créer un nouveau dossier</a></span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE DE BATCH PROCESSING -->
+<p-dialog [(visible)]="batchStatusModalVisible" [modal]="true" [style]="{width: '50vw'}" [closable]="!isBatchProcessing"
+          [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+            <i class="pi pi-server text-2xl text-primary"></i>
+            <span class="font-bold text-xl">{{ batchActionTitle }}</span>
+        </div>
+    </ng-template>
+
+    <div class="p-4" style="background: #f8fafc; border-radius: 12px;">
+        <p class="text-600 mb-4">
+            L'architecture de l'IA traite actuellement vos dossiers en parallèle en arrière-plan.<br>
+            Vous pouvez réduire cette fenêtre, le traitement continuera.
+        </p>
+
+        <div class="batch-progress-list flex flex-column gap-3">
+            <div *ngFor="let dossier of selectedDossiers" class="bg-white p-3 border-round-lg shadow-1 border-1 border-200">
+                <div class="flex justify-content-between align-items-center mb-2">
+                    <span class="font-bold text-700 text-sm">
+                        <i class="pi pi-folder mr-2 text-blue-500"></i>{{ dossier.intituleOffre }}
+                    </span>
+                    
+                    <span class="status-tag" [ngClass]="batchProgress[dossier.id]?.error ? 'error' : 'info'" style="font-size: 0.75rem;">
+                        {{ batchProgress[dossier.id]?.status }}
+                    </span>
+                </div>
+                <p-progressBar [value]="batchProgress[dossier.id]?.progress || 0" 
+                               [color]="batchProgress[dossier.id]?.error ? '#ef4444' : (batchProgress[dossier.id]?.completed ? '#22c55e' : '#3b82f6')"
+                               [showValue]="false" styleClass="h-1rem border-round-3xl"></p-progressBar>
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-times" label="Fermer (Processus en arrière-plan)" class="p-button-text p-button-secondary" (click)="closeBatchModal()"></button>
+    </ng-template>
+</p-dialog>

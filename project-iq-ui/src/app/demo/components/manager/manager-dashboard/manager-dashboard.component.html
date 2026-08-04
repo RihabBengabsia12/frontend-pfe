@@ -1,0 +1,191 @@
+<div class="card bg-white shadow-1 border-round-xl border-1 surface-border">
+    <!-- Header -->
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-5 pb-4 border-bottom-1 surface-border gap-3">
+        <div>
+            <h2 class="text-900 font-bold text-3xl m-0 flex align-items-center gap-3">
+                <i class="pi pi-chart-pie text-4xl text-primary bg-primary-reverse p-3 border-circle"></i>
+                Supervision Globale
+            </h2>
+            <p class="text-500 mt-2 mb-0 text-lg">Indicateurs clés de performance et répartition de la charge en temps réel.</p>
+        </div>
+        <div class="flex align-items-center gap-2">
+            <button pButton pRipple icon="pi pi-refresh" label="Actualiser" class="p-button-outlined p-button-secondary border-round-3xl font-bold" (click)="refresh()" [loading]="loading"></button>
+        </div>
+    </div>
+
+    <!-- Skeleton Loading -->
+    <div *ngIf="loading" class="grid">
+        <div class="col-12 md:col-6 lg:col-3" *ngFor="let i of [1,2,3,4]">
+            <p-skeleton width="100%" height="8rem" borderRadius="16px"></p-skeleton>
+        </div>
+        <div class="col-12 lg:col-6 mt-4">
+            <p-skeleton width="100%" height="20rem" borderRadius="16px"></p-skeleton>
+        </div>
+        <div class="col-12 lg:col-6 mt-4">
+            <p-skeleton width="100%" height="20rem" borderRadius="16px"></p-skeleton>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div *ngIf="!loading">
+        <!-- LIGNE 1 : KPI Cards -->
+        <div class="grid mb-5">
+            <!-- Projets Actifs -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-card bg-white border-1 border-purple-100 p-4 h-full animate-fade-in shadow-1 hover:shadow-3 relative overflow-hidden" style="animation-delay: 0s">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-purple-500"></div>
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-purple-600 font-bold mb-1 text-sm">EN PRODUCTION</span>
+                            <div class="text-900 font-bold text-4xl mb-2">{{ totalActive }}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-purple-50 border-round-xl" style="width:3.5rem;height:3.5rem">
+                            <i class="pi pi-cog text-purple-500 text-2xl pi-spin-hover"></i>
+                        </div>
+                    </div>
+                    <p-progressBar [value]="activePercent" [showValue]="false" [style]="{'height': '6px'}" styleClass="bg-purple-100 mb-2"></p-progressBar>
+                    <span class="text-purple-500 text-xs font-bold">{{ activePercent }}% du volume total</span>
+                </div>
+            </div>
+
+            <!-- Attente Validation -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-card bg-white border-1 border-orange-100 p-4 h-full animate-fade-in shadow-1 hover:shadow-3 relative overflow-hidden" style="animation-delay: 0.1s">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-orange-500"></div>
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-orange-600 font-bold mb-1 text-sm">ATTENTE DÉCISION</span>
+                            <div class="text-900 font-bold text-4xl mb-2">{{ pendingValidation }}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-orange-50 border-round-xl" style="width:3.5rem;height:3.5rem">
+                            <i class="pi pi-inbox text-orange-500 text-2xl"></i>
+                        </div>
+                    </div>
+                    <p-progressBar [value]="pendingPercent" [showValue]="false" [style]="{'height': '6px'}" styleClass="bg-orange-100 mb-2" [color]="'#f59e0b'"></p-progressBar>
+                    <span class="text-orange-500 text-xs font-bold">{{ pendingPercent }}% du volume total</span>
+                </div>
+            </div>
+
+            <!-- Alertes No-Go -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-card bg-white border-1 border-red-100 p-4 h-full animate-fade-in shadow-1 hover:shadow-3 relative overflow-hidden" style="animation-delay: 0.2s">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-red-600 font-bold mb-1 text-sm">ALERTES NO-GO</span>
+                            <div class="text-900 font-bold text-4xl mb-2">{{ criticalNoGo }}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-red-50 border-round-xl pulse-danger" style="width:3.5rem;height:3.5rem">
+                            <i class="pi pi-exclamation-triangle text-red-500 text-2xl"></i>
+                        </div>
+                    </div>
+                    <p-progressBar [value]="nogoPercent" [showValue]="false" [style]="{'height': '6px'}" styleClass="bg-red-100 mb-2" [color]="'#ef4444'"></p-progressBar>
+                    <span class="text-red-500 text-xs font-bold">{{ nogoPercent }}% du volume total</span>
+                </div>
+            </div>
+
+            <!-- Projets Clôturés -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-card bg-white border-1 border-green-100 p-4 h-full animate-fade-in shadow-1 hover:shadow-3 relative overflow-hidden" style="animation-delay: 0.3s">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-green-600 font-bold mb-1 text-sm">PROJETS CLÔTURÉS</span>
+                            <div class="text-900 font-bold text-4xl mb-2">{{ archivedProjects }}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-green-50 border-round-xl" style="width:3.5rem;height:3.5rem">
+                            <i class="pi pi-verified text-green-500 text-2xl"></i>
+                        </div>
+                    </div>
+                    <p-progressBar [value]="archivedPercent" [showValue]="false" [style]="{'height': '6px'}" styleClass="bg-green-100 mb-2" [color]="'#10b981'"></p-progressBar>
+                    <span class="text-green-500 text-xs font-bold">{{ archivedPercent }}% du volume total</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIGNE 2 : Chart & Dossiers Chauds -->
+        <div class="grid">
+            
+            <!-- Graphique Répartition -->
+            <div class="col-12 lg:col-4">
+                <div class="surface-card shadow-1 border-round-xl p-4 border-1 surface-border h-full animate-fade-in" style="animation-delay: 0.4s">
+                    <h5 class="text-800 font-bold mb-4 flex align-items-center"><i class="pi pi-chart-pie mr-2 text-purple-500"></i> Pipeline Actuel</h5>
+                    
+                    <div *ngIf="totalActive + pendingValidation + archivedProjects === 0" class="flex flex-column align-items-center justify-content-center h-15rem">
+                        <i class="pi pi-chart-pie text-4xl text-300 mb-2"></i>
+                        <span class="text-500">Pas de données</span>
+                    </div>
+
+                    <div *ngIf="totalActive + pendingValidation + archivedProjects > 0" class="flex justify-content-center align-items-center" style="height: 250px;">
+                        <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" width="100%"></p-chart>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cercle Animés (Taux de Décisions) -->
+            <div class="col-12 lg:col-4">
+                <div class="surface-card shadow-1 border-round-xl p-4 border-1 surface-border h-full animate-fade-in" style="animation-delay: 0.5s">
+                    <h5 class="text-800 font-bold mb-4 flex align-items-center"><i class="pi pi-bullseye mr-2 text-blue-500"></i> Bilan des Décisions</h5>
+                    
+                    <div class="flex flex-column align-items-center justify-content-center gap-4 mt-2">
+                        <!-- Ligne 1 : Go et No-Go -->
+                        <div class="flex justify-content-around w-full">
+                            <div class="flex flex-column align-items-center">
+                                <p-knob [(ngModel)]="tauxGo" valueColor="#10b981" rangeColor="#d1fae5" [readonly]="true" [size]="90" valueTemplate="{value}%"></p-knob>
+                                <span class="font-bold text-green-600 mt-2 text-sm">Go Final</span>
+                            </div>
+                            <div class="flex flex-column align-items-center">
+                                <p-knob [(ngModel)]="tauxNoGo" valueColor="#ef4444" rangeColor="#fee2e2" [readonly]="true" [size]="90" valueTemplate="{value}%"></p-knob>
+                                <span class="font-bold text-red-600 mt-2 text-sm">No-Go</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Ligne 2 : Force Go centré -->
+                        <div class="flex flex-column align-items-center mt-2">
+                            <p-knob [(ngModel)]="tauxForceGo" valueColor="#f59e0b" rangeColor="#fef3c7" [readonly]="true" [size]="100" valueTemplate="{value}%"></p-knob>
+                            <span class="font-bold text-orange-600 mt-2 text-sm">Force Go</span>
+                            <span class="text-500 text-xs text-center mt-1">Dossiers validés malgré un score critique</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des Urgences (Dossiers Chauds) -->
+            <div class="col-12 lg:col-4">
+                <div class="surface-card shadow-1 border-round-xl p-4 border-1 surface-border h-full animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="flex justify-content-between align-items-center mb-4">
+                        <h5 class="text-800 font-bold m-0"><i class="pi pi-bell mr-2 text-primary"></i> Dossiers nécessitant une attention</h5>
+                        <button pButton pRipple label="Voir tout" class="p-button-text p-button-sm font-bold" routerLink="/manager/decisions-finales"></button>
+                    </div>
+
+                    <div *ngIf="hotDossiers.length === 0" class="text-center p-5 surface-50 border-round-xl">
+                        <i class="pi pi-check-circle text-4xl text-green-400 mb-3"></i>
+                        <p class="m-0 text-600 font-medium">Excellent ! Aucun dossier urgent en attente de décision.</p>
+                    </div>
+
+                    <ul class="list-none p-0 m-0" *ngIf="hotDossiers.length > 0">
+                        <li *ngFor="let d of hotDossiers; let last = last" class="flex align-items-center py-3 px-2 border-bottom-1 surface-border transition-colors hover:surface-hover" [ngClass]="{'border-bottom-none': last}">
+                            <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle mr-3 flex-shrink-0 shadow-1"
+                                 [ngClass]="d.status === 'NO_GO_CONFIRMED' ? 'bg-red-50 text-red-500' : 'bg-orange-50 text-orange-500'">
+                                <i class="pi" [ngClass]="d.status === 'NO_GO_CONFIRMED' ? 'pi-exclamation-triangle' : 'pi-inbox'"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-900 block mb-1 text-overflow-ellipsis overflow-hidden white-space-nowrap" style="max-width: 250px;">{{ d.intituleOffre }}</span>
+                                <div class="text-600 text-sm flex align-items-center gap-2">
+                                    <i class="pi pi-building text-xs"></i> {{ d.client }}
+                                </div>
+                            </div>
+                            <div class="flex align-items-center gap-3">
+                                <span class="text-sm font-bold" [ngClass]="d.status === 'NO_GO_CONFIRMED' ? 'text-red-500' : 'text-orange-500'">
+                                    {{ d.status === 'NO_GO_CONFIRMED' ? 'Alerte No-Go' : 'En Validation' }}
+                                </span>
+                                <button pButton pRipple icon="pi pi-angle-right" class="p-button-rounded p-button-text p-button-secondary"></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

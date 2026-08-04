@@ -1,0 +1,96 @@
+<div class="login-bg flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden relative">
+    <!-- Blobs pastel -->
+    <div style="position:absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, #C4B5FD 0%, transparent 70%); top: -10%; left: -10%; filter: blur(80px); opacity: 0.3; z-index: 0;"></div>
+    <div style="position:absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, #FBCFE8 0%, transparent 70%); bottom: -20%; right: -10%; filter: blur(80px); opacity: 0.3; z-index: 0;"></div>
+
+    <div class="flex flex-column align-items-center justify-content-center" style="z-index: 1;">
+
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(135deg, #A78BFA, #FBCFE8, #93C5FD);">
+            <div class="w-full glass-panel py-8 px-5 sm:px-8">
+
+                <!-- 🔶 BANNIÈRE ORANGE - COMPTE EN ATTENTE (403) -->
+                <div *ngIf="showPendingBanner" class="pending-banner mb-5"
+                    style="background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 100%);
+                           border: 1.5px solid #fb8c00;
+                           border-left: 5px solid #e65100;
+                           border-radius: 12px;
+                           padding: 1.25rem 1.5rem;">
+
+                    <!-- En-tête de la bannière -->
+                    <div class="flex align-items-center gap-2 mb-3">
+                        <span class="banner-dot"></span>
+                        <span class="font-bold" style="color:#e65100; font-size:1rem; letter-spacing:0.02em;">
+                            <i class="pi pi-clock mr-2"></i>Accès en attente de validation
+                        </span>
+                    </div>
+
+                    <!-- Message principal -->
+                    <div class="line-height-3 mb-3" style="color:#4e342e; font-size:0.92rem;">
+                        Votre compte a été créé avec succès, mais il doit être
+                        <strong>validé par un administrateur</strong> avant votre première connexion à
+                        <strong>ProjectIQ</strong>.
+                    </div>
+
+                    <!-- Séparateur léger -->
+                    <div style="border-top: 1px solid #ffcc80; margin-bottom:0.75rem;"></div>
+
+                    <!-- Action suggérée -->
+                    <div class="flex align-items-center gap-2" style="color:#6d4c41; font-size:0.85rem;">
+                        <i class="pi pi-envelope" style="color:#fb8c00;"></i>
+                        <span>Un email vous sera envoyé dès que votre accès sera activé.</span>
+                    </div>
+                </div>
+
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Bon retour !</div>
+                    <span class="text-600 font-medium">Connectez-vous pour continuer</span>
+                </div>
+
+                <div>
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Adresse Email</label>
+                    <input id="email1" type="email" placeholder="votre@email.com" pInputText
+                        class="w-full md:w-30rem mb-5" style="padding:1rem" [(ngModel)]="email">
+
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Mot de passe</label>
+                    <p-password id="password1" [(ngModel)]="password" placeholder="Votre mot de passe"
+                        [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+                    <small *ngIf="errorMessage" class="p-error block mb-3">{{ errorMessage }}</small>
+
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                        <div class="flex align-items-center">
+                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2" [(ngModel)]="rememberMe"></p-checkbox>
+                            <label for="rememberme1">Se souvenir de moi</label>
+                        </div>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" 
+                           style="color: #8B5CF6" (click)="displayForgotDialog = true">Mot de passe oublié ?</a>
+                    </div>
+                    <button pButton pRipple label="Se connecter" class="w-full text-xl btn-primary-saas"
+                        [loading]="isLoading" (click)="onLogin()"></button>
+
+                    <div class="text-center mt-4">
+                        <span class="text-600 font-medium">Vous n'avez pas de compte ? </span>
+                        <a class="font-medium no-underline ml-1 cursor-pointer" style="color: #8B5CF6" [routerLink]="['/auth/register']">Créez-en un</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 📧 DIALOG MOT DE PASSE OUBLIÉ -->
+<p-dialog header="Réinitialiser le mot de passe" [(visible)]="displayForgotDialog" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-3 mt-2">
+        <p>Saisissez votre adresse email pour recevoir les instructions de réinitialisation.</p>
+        <div class="field">
+            <label for="forgotEmail" class="block font-medium mb-2">Email</label>
+            <input id="forgotEmail" type="email" pInputText class="w-full" [(ngModel)]="forgotEmail" placeholder="votre@email.com">
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="displayForgotDialog = false"></button>
+        <button pButton pRipple label="Envoyer" icon="pi pi-check" [loading]="isSendingForgot" (click)="onForgotPassword()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

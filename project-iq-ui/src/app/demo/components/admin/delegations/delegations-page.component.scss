@@ -1,0 +1,10 @@
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.surface-hover:hover {
+    background-color: var(--surface-hover);
+}

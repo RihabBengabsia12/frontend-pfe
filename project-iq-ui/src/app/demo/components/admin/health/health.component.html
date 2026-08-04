@@ -1,0 +1,82 @@
+<div class="card border-round-xl shadow-2 p-5 border-top-3 border-blue-200">
+    <!-- En-tête -->
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-6 gap-3">
+        <div>
+            <h2 class="text-900 font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-check-circle text-blue-500"></i>
+                Disponibilité de la Plateforme
+            </h2>
+            <p class="text-500 mt-2 mb-0">
+                État opérationnel des services essentiels au bon fonctionnement de ProjectIQ.
+            </p>
+        </div>
+        <div class="flex align-items-center gap-3">
+            <span class="text-500 text-sm italic">Mise à jour : {{ lastChecked | date:'HH:mm:ss' }}</span>
+            <button pButton icon="pi pi-refresh" label="Actualiser l'état"
+                class="p-button-raised p-button-info p-button-sm px-4" (click)="checkAll()">
+            </button>
+        </div>
+    </div>
+
+    <!-- Bannière globale Pastel -->
+    <div class="mb-6 p-4 border-round-xl flex align-items-center gap-4 transition-all shadow-1"
+         [style.background]="allUp() ? '#f0fdf4' : '#fef2f2'"
+         [style.border]="allUp() ? '1px solid #86efac' : '1px solid #fca5a5'">
+        <div class="w-3rem h-3rem border-circle flex align-items-center justify-content-center" 
+             [style.background]="allUp() ? '#86efac40' : '#fca5a540'">
+            <i [class]="allUp() ? 'pi pi-check' : 'pi pi-exclamation-triangle'"
+               [style.color]="allUp() ? '#16a34a' : '#dc2626'"
+               style="font-size:1.4rem;">
+            </i>
+        </div>
+        <div>
+            <div [style.color]="allUp() ? '#16a34a' : '#dc2626'" class="font-bold text-lg">
+                {{ allUp() ? 'Tous les systèmes sont optimaux' : 'Une perturbation a été détectée' }}
+            </div>
+            <div class="text-600 text-sm mt-1">
+                {{ allUp() ? 'Toutes les fonctionnalités de gestion et de sécurité sont disponibles.' : 'Certaines fonctions peuvent être momentanément ralenties.' }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Cartes des capacités métier -->
+    <div class="grid">
+        <div class="col-12 md:col-6" *ngFor="let service of services">
+            <div class="surface-card border-round-xl p-4 shadow-2 hover:shadow-4 transition-all border-1 border-gray-100 h-full flex flex-column">
+                
+                <div class="flex align-items-start justify-content-between mb-4">
+                    <div class="flex align-items-center gap-3">
+                        <div class="w-3rem h-3rem border-round-lg flex align-items-center justify-content-center shadow-1"
+                             [style.background]="statusColor(service.status) + '15'">
+                            <i [class]="service.icon" style="font-size:1.5rem;"
+                               [style.color]="statusColor(service.status)">
+                            </i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-900 text-xl">{{ service.name }}</div>
+                            <p-tag [value]="statusLabel(service.status)" 
+                                   [severity]="service.status === 'UP' ? 'success' : 'danger'"
+                                   [rounded]="true" styleClass="text-xs px-2"></p-tag>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-grow-1">
+                    <p class="text-600 line-height-3 m-0 bg-gray-50 p-3 border-round-lg">
+                        {{ service.description }}
+                    </p>
+                </div>
+
+                <div class="mt-4 flex align-items-center gap-2 pt-3 border-top-1 border-gray-100">
+                    <div class="w-8px h-8px border-circle" [style.background]="statusColor(service.status)"></div>
+                    <span class="text-500 text-xs font-medium uppercase tracking-wider">Service {{ statusLabel(service.status) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .w-8px { width: 8px; }
+    .h-8px { height: 8px; }
+</style>

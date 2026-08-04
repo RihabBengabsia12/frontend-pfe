@@ -1,0 +1,247 @@
+<div class="referentiel-container fadein animation-duration-500">
+    <div class="header-section mb-4">
+        <h2 class="page-title text-3xl font-bold text-gray-800 m-0 flex align-items-center">
+            <i class="pi pi-database text-primary mr-3 text-4xl"></i>
+            Référentiel Métier
+        </h2>
+        <p class="text-gray-500 mt-2">Gérez les données fondamentales de l'entreprise utilisées par l'IA pour l'analyse des dossiers.</p>
+    </div>
+
+    <p-toast></p-toast>
+
+    <div class="card shadow-2 border-round-2xl overflow-hidden pastel-card">
+        <p-tabView styleClass="custom-tabview">
+            <!-- ONGLET 1 : COMPÉTENCES -->
+            <p-tabPanel header="Compétences" leftIcon="pi pi-tags">
+                <div class="flex justify-content-between align-items-center mb-4">
+                    <h5 class="m-0 text-gray-700 font-semibold">Dictionnaire des Compétences</h5>
+                    <button pButton label="Nouvelle Compétence" icon="pi pi-plus" class="p-button-rounded p-button-success shadow-2 hover-lift" (click)="openNewComp()"></button>
+                </div>
+                
+                <p-table [value]="competences" [loading]="loadingComp" styleClass="p-datatable-sm custom-table" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Domaine</th>
+                            <th>Sous-Domaine</th>
+                            <th>Niveau</th>
+                            <th>Mots-clés</th>
+                            <th>Statut</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-c>
+                        <tr class="hover:surface-hover transition-colors transition-duration-200">
+                            <td class="font-medium text-gray-800">{{c.domaine}}</td>
+                            <td>{{c.sousDomaine || '-'}}</td>
+                            <td>
+                                <p-tag [severity]="c.niveau === 'EXPERT' || c.niveau === 'REFERENCE' ? 'success' : 'info'" [value]="c.niveau"></p-tag>
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap gap-1">
+                                    <span *ngFor="let m of c.motsCles" class="text-xs bg-blue-50 text-blue-600 px-2 py-1 border-round-xl border-1 border-blue-200">{{m}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <p-tag [severity]="c.actif ? 'success' : 'danger'" [value]="c.actif ? 'Actif' : 'Inactif'"></p-tag>
+                            </td>
+                            <td class="text-center">
+                                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="editComp(c)"></button>
+                                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteComp(c)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr><td colspan="6" class="text-center p-4 text-gray-500">Aucune compétence trouvée.</td></tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+
+            <!-- ONGLET 2 : RÉFÉRENCES -->
+            <p-tabPanel header="Références Projets" leftIcon="pi pi-briefcase">
+                <div class="flex justify-content-between align-items-center mb-4">
+                    <h5 class="m-0 text-gray-700 font-semibold">Portfolio de Projets</h5>
+                    <button pButton label="Nouvelle Référence" icon="pi pi-plus" class="p-button-rounded p-button-success shadow-2 hover-lift" (click)="openNewRef()"></button>
+                </div>
+
+                <p-table [value]="references" [loading]="loadingRef" styleClass="p-datatable-sm custom-table" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Titre</th>
+                            <th>Client / Pays</th>
+                            <th>Secteur</th>
+                            <th>Année</th>
+                            <th>Budget (€)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-r>
+                        <tr class="hover:surface-hover transition-colors transition-duration-200">
+                            <td class="font-medium text-gray-800 max-w-15rem text-overflow-ellipsis overflow-hidden white-space-nowrap" [pTooltip]="r.titre">{{r.titre}}</td>
+                            <td>
+                                <div class="text-sm font-semibold">{{r.client}}</div>
+                                <div class="text-xs text-gray-500"><i class="pi pi-map-marker text-xs mr-1"></i>{{r.pays}}</div>
+                            </td>
+                            <td><p-tag severity="info" [value]="r.secteur"></p-tag></td>
+                            <td>{{r.annee}}</td>
+                            <td class="font-semibold text-green-600">{{r.budgetEuros | currency:'EUR':'symbol':'1.0-0'}}</td>
+                            <td class="text-center">
+                                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="editRef(r)"></button>
+                                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteRef(r)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr><td colspan="6" class="text-center p-4 text-gray-500">Aucune référence trouvée.</td></tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+
+            <!-- ONGLET 3 : EXPERTS -->
+            <p-tabPanel header="Experts Mobilisables" leftIcon="pi pi-users">
+                <div class="flex justify-content-between align-items-center mb-4">
+                    <h5 class="m-0 text-gray-700 font-semibold">Vivier de Talents</h5>
+                    <button pButton label="Nouvel Expert" icon="pi pi-plus" class="p-button-rounded p-button-success shadow-2 hover-lift" (click)="openNewExpert()"></button>
+                </div>
+
+                <p-table [value]="experts" [loading]="loadingExpert" styleClass="p-datatable-sm custom-table" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Spécialités</th>
+                            <th>Expérience</th>
+                            <th>Disponibilité</th>
+                            <th>TJM (€)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-e>
+                        <tr class="hover:surface-hover transition-colors transition-duration-200">
+                            <td class="font-bold text-gray-800 flex align-items-center gap-2">
+                                <div class="w-2rem h-2rem border-circle bg-primary-100 text-primary-700 flex align-items-center justify-content-center text-sm">
+                                    {{e.nom.charAt(0) | uppercase}}
+                                </div>
+                                {{e.nom}}
+                            </td>
+                            <td>
+                                <div class="flex flex-wrap gap-1">
+                                    <span *ngFor="let s of e.specialites" class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 border-round-xl border-1 border-indigo-200">{{s}}</span>
+                                </div>
+                            </td>
+                            <td>{{e.anneesExperience}} ans</td>
+                            <td>
+                                <div class="text-xs">
+                                    Du <span class="font-semibold">{{e.disponibleDu | date:'dd/MM/yyyy'}}</span><br>
+                                    Au <span class="font-semibold">{{e.disponibleAu | date:'dd/MM/yyyy'}}</span>
+                                </div>
+                            </td>
+                            <td class="font-semibold text-green-600">{{e.tauxJournalier}}</td>
+                            <td class="text-center">
+                                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="editExpert(e)"></button>
+                                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteExpert(e)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr><td colspan="6" class="text-center p-4 text-gray-500">Aucun expert trouvé.</td></tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>
+
+<!-- DIALOG COMPÉTENCE -->
+<p-dialog [(visible)]="compDialog" [style]="{width: '500px'}" header="Détails Compétence" [modal]="true" styleClass="p-fluid pastel-dialog">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="domaine">Domaine Secteur <span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="domaine" [(ngModel)]="comp.domaine" required autofocus class="w-full" placeholder="Ex: Infrastructures" />
+        </div>
+        <div class="field">
+            <label for="sousDomaine">Sous-Domaine</label>
+            <input type="text" pInputText id="sousDomaine" [(ngModel)]="comp.sousDomaine" class="w-full" placeholder="Ex: Ouvrages d'art" />
+        </div>
+        <div class="field">
+            <label for="niveau">Niveau d'expertise</label>
+            <p-dropdown [options]="niveaux" [(ngModel)]="comp.niveau" optionLabel="label" optionValue="value" appendTo="body"></p-dropdown>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="compDialog=false"></button>
+        <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-success" [disabled]="!comp.domaine" (click)="saveComp()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- DIALOG RÉFÉRENCE -->
+<p-dialog [(visible)]="refDialog" [style]="{width: '600px'}" header="Détails Référence" [modal]="true" styleClass="p-fluid pastel-dialog">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="titre">Titre du Projet <span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="titre" [(ngModel)]="ref.titre" required autofocus />
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="client">Client</label>
+                <input type="text" pInputText id="client" [(ngModel)]="ref.client" />
+            </div>
+            <div class="field col-6">
+                <label for="pays">Pays</label>
+                <input type="text" pInputText id="pays" [(ngModel)]="ref.pays" />
+            </div>
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="secteur">Secteur</label>
+                <input type="text" pInputText id="secteur" [(ngModel)]="ref.secteur" placeholder="Doit correspondre à un Domaine" />
+            </div>
+            <div class="field col-6">
+                <label for="annee">Année</label>
+                <p-inputNumber id="annee" [(ngModel)]="ref.annee" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="budget">Budget (€)</label>
+                <p-inputNumber id="budget" [(ngModel)]="ref.budgetEuros" mode="currency" currency="EUR" locale="fr-FR"></p-inputNumber>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="refDialog=false"></button>
+        <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-success" [disabled]="!ref.titre" (click)="saveRef()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- DIALOG EXPERT -->
+<p-dialog [(visible)]="expertDialog" [style]="{width: '600px'}" header="Détails Expert" [modal]="true" styleClass="p-fluid pastel-dialog">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="nom">Nom Complet <span class="text-red-500">*</span></label>
+            <input type="text" pInputText id="nom" [(ngModel)]="expert.nom" required autofocus />
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="exp">Années d'Expérience</label>
+                <p-inputNumber id="exp" [(ngModel)]="expert.anneesExperience" [showButtons]="true" [min]="0" [max]="50"></p-inputNumber>
+            </div>
+            <div class="field col-6">
+                <label for="tjm">Taux Journalier (€)</label>
+                <p-inputNumber id="tjm" [(ngModel)]="expert.tauxJournalier" mode="currency" currency="EUR"></p-inputNumber>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="du">Disponible Du</label>
+                <p-calendar id="du" [(ngModel)]="expert.disponibleDu" dateFormat="yy-mm-dd" appendTo="body"></p-calendar>
+            </div>
+            <div class="field col-6">
+                <label for="au">Disponible Au</label>
+                <p-calendar id="au" [(ngModel)]="expert.disponibleAu" dateFormat="yy-mm-dd" appendTo="body"></p-calendar>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Annuler" icon="pi pi-times" class="p-button-text" (click)="expertDialog=false"></button>
+        <button pButton label="Enregistrer" icon="pi pi-check" class="p-button-success" [disabled]="!expert.nom" (click)="saveExpert()"></button>
+    </ng-template>
+</p-dialog>

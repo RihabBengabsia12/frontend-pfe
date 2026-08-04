@@ -1,0 +1,58 @@
+<div class="apo-preview-widget">
+
+    <!-- Progress Bar Header -->
+    <div class="apo-progress-header">
+        <div class="progress-info">
+            <div class="title-row">
+                <i class="pi pi-file-edit"></i>
+                <span class="widget-title">Template APO — Remplissage Progressif</span>
+            </div>
+            <div class="mode-badge" [ngClass]="'mode-' + mode">
+                <i class="pi" [ngClass]="{
+                    'pi-sparkles': mode === 'extraction',
+                    'pi-check': mode === 'validation',
+                    'pi-verified': mode === 'indexation'
+                }"></i>
+                <span *ngIf="mode === 'extraction'">Extraction IA</span>
+                <span *ngIf="mode === 'validation'">Validation Humaine</span>
+                <span *ngIf="mode === 'indexation'">Indexé &amp; Finalisé</span>
+            </div>
+        </div>
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" [ngClass]="'mode-' + mode"
+                     [style.width.%]="fillPercent">
+                </div>
+            </div>
+            <span class="progress-label">{{ filledCount }} / {{ totalFields }} champs • {{ fillPercent }}%</span>
+        </div>
+    </div>
+
+    <!-- Sections -->
+    <div class="apo-sections">
+        <div class="apo-section" *ngFor="let section of sections">
+            <div class="section-title">
+                <i class="pi" [ngClass]="section.icon"></i>
+                <span>{{ section.title }}</span>
+            </div>
+            <div class="fields-grid">
+                <div class="field-row" *ngFor="let field of section.fields"
+                     [ngClass]="fieldClass(field)">
+                    <div class="field-placeholder">
+                        <span class="placeholder-tag">[[ {{ field.key }} ]]</span>
+                        <span class="field-label">{{ field.label }}</span>
+                    </div>
+                    <div class="field-value-wrapper">
+                        <i class="pi status-icon" [ngClass]="fieldIcon(field)"></i>
+                        <span class="field-value" *ngIf="field.value">{{ field.value }}</span>
+                        <span class="field-value empty" *ngIf="!field.value">Non encore extrait</span>
+                        <span class="confidence-chip" *ngIf="field.confidence != null && mode === 'extraction'">
+                            {{ field.confidence }}%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

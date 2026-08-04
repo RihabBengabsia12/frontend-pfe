@@ -1,0 +1,682 @@
+<p-toast position="top-right"></p-toast>
+
+<!-- Zone 1 — En-tête de l'écran Phase 3 -->
+<div class="px-4 pt-4 pb-0" *ngIf="!isLoading">
+    <app-pipeline-stepper mode="phase3" [activeStep]="0" context="matching"></app-pipeline-stepper>
+</div>
+
+<div *ngIf="isLoading" class="matching-loading flex flex-column align-items-center justify-content-center py-8">
+    <p-progressSpinner strokeWidth="3"></p-progressSpinner>
+    <p class="loading-text mt-3 text-500 font-medium">Chargement Phase 3…</p>
+</div>
+
+<div class="matching-page grid p-4 fade-in-up" *ngIf="!isLoading">
+
+    <!-- Zone 1: En-tête -->
+    <div class="col-12 mb-3">
+        <div class="flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <div class="flex align-items-center gap-2 mb-2">
+                    <span class="badge-phase">Phase 03</span>
+                    <span class="badge-status" [ngClass]="getStatusClass()">{{ getStatusLabel() }}</span>
+                </div>
+                <h1 class="text-3xl font-bold m-0 text-900">
+                    Matching, matrice et extraction stratégique
+                </h1>
+                <p class="m-0 mt-1 text-sm text-500">
+                    Comparaison exigences AO ↔ référentiel Egis · génération matrice de différenciation
+                </p>
+            </div>
+            <div class="flex flex-column align-items-end gap-1">
+                <div class="flex gap-2">
+
+                    <button pButton
+                            [icon]="isRunningMatching ? 'pi pi-spin pi-cog' : 'pi pi-play'"
+                            label="Lancer la phase 3"
+                            class="p-button-purple border-round-3xl px-4 py-3 shadow-2"
+                            [disabled]="isRunningMatching"
+                            (click)="runMatching()"></button>
+                </div>
+                <span class="text-xs text-500 mt-2">Durée estimée 10–20 secondes · 2 appels Claude</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone 2: Pipeline d'extraction animé -->
+    <div class="col-12 mb-4" *ngIf="isRunningMatching || hasMatchingData">
+        <div class="pipeline-card p-5 border-round-2xl shadow-2 bg-white" id="pipeline-section">
+            <div class="pipeline-container">
+                <!-- Step 1: Exig. TDR -->
+                <div class="pipeline-step" [ngClass]="getStepClass(1)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(1)">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Exig.<br><small>TDR</small></div>
+                </div>
+                <div class="pipeline-connector" [ngClass]="getConnectorClass(1)"></div>
+                
+                <!-- Step 2: Comp. BDD -->
+                <div class="pipeline-step" [ngClass]="getStepClass(2)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(2)">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Comp.<br><small>BDD</small></div>
+                </div>
+                <div class="pipeline-connector" [ngClass]="getConnectorClass(2)"></div>
+
+                <!-- Step 3: Réfs. BDD -->
+                <div class="pipeline-step" [ngClass]="getStepClass(3)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(3)">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Réfs.<br><small>BDD</small></div>
+                </div>
+                <div class="pipeline-connector" [ngClass]="getConnectorClass(3)"></div>
+
+                <!-- Step 4: Experts BDD -->
+                <div class="pipeline-step" [ngClass]="getStepClass(4)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(4)">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Experts<br><small>BDD</small></div>
+                </div>
+                <div class="pipeline-connector" [ngClass]="getConnectorClass(4)"></div>
+
+                <!-- Step 5: Matrice Claude -->
+                <div class="pipeline-step" [ngClass]="getStepClass(5)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(5)">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Matrice<br><small>Claude</small></div>
+                </div>
+            </div>
+
+            <!-- Bloc vert Exigences extraites -->
+            <div class="sections-grid mt-5 fade-in-up" *ngIf="matchingProgressStep > 1 || hasMatchingData">
+                <div class="extraction-section card accent-green" style="width: 100%; grid-column: 1 / -1;">
+                    <div class="section-header">
+                        <div class="icon-wrapper bg-green-pastel">
+                            <i class="pi pi-sparkles text-green-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title mb-1">Champs extraits du TDR (Claude IA)</h3>
+                            <span class="text-sm text-green-600">RequirementsResponseDto</span>
+                        </div>
+                    </div>
+
+                    <div class="fields-list grid">
+                        <!-- Références -->
+                        <div class="col-12 lg:col-4">
+                            <div class="field-item is-editing">
+                                <div class="field-label-row">
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="field-label">Exigences références</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                            <div class="conf-dot"></div>
+                                            91%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field-value-box mt-3 mb-1 edit-mode">
+                                    <p-chips *ngIf="extractedRequirements" [(ngModel)]="extractedRequirements.references" styleClass="w-full" inputStyleClass="custom-input w-full border-none shadow-none" placeholder="Ajouter référence..."></p-chips>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experts -->
+                        <div class="col-12 lg:col-4">
+                            <div class="field-item is-editing">
+                                <div class="field-label-row">
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="field-label">Profils experts requis</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                            <div class="conf-dot"></div>
+                                            89%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field-value-box mt-3 mb-1 p-2">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="badge-pastel-green-dark" *ngFor="let exp of extractedRequirements?.experts">
+                                            {{exp.role}} ({{exp.hm}} h/m)
+                                        </span>
+                                        <span *ngIf="!extractedRequirements?.experts?.length" class="text-green-600 italic text-sm">Aucun expert détecté</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Qualifications -->
+                        <div class="col-12 lg:col-4">
+                            <div class="field-item is-editing">
+                                <div class="field-label-row">
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="field-label">Qualifications exigées</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                            <div class="conf-dot"></div>
+                                            96%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field-value-box mt-3 mb-1 edit-mode">
+                                    <p-chips *ngIf="extractedRequirements" [(ngModel)]="extractedRequirements.qualifications" styleClass="w-full" inputStyleClass="custom-input w-full border-none shadow-none" placeholder="Ajouter qualification..."></p-chips>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secteur -->
+                        <div class="col-12 lg:col-4">
+                            <div class="field-item is-editing">
+                                <div class="field-label-row">
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="field-label">Secteur détecté</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                            <div class="conf-dot"></div>
+                                            88%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field-value-box mt-3 mb-1 edit-mode">
+                                    <p-dropdown [options]="secteursList" [(ngModel)]="secteurAo" 
+                                                (onChange)="updateField('SECTEUR_AO', $event.value)"
+                                                styleClass="custom-select w-full border-none shadow-none" appendTo="body"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Type de contrat -->
+                        <div class="col-12 lg:col-4">
+                            <div class="field-item is-editing">
+                                <div class="field-label-row">
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="field-label">Type de contrat</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                            <div class="conf-dot"></div>
+                                            91%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field-value-box mt-3 mb-1 edit-mode">
+                                    <p-dropdown [options]="typeContratsList" [(ngModel)]="typeContrat" 
+                                                (onChange)="updateField('TYPE_CONTRAT', $event.value)"
+                                                styleClass="custom-select w-full border-none shadow-none" appendTo="body"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone 3: 4 Tuiles KPI -->
+    <div class="col-12 mb-3" *ngIf="hasMatchingData && !isRunningMatching">
+        <div class="grid kpi-grid">
+            <!-- Compétences -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-tile" [ngClass]="{'active': activeTab === 0, 'kpi-green': getTauxCompetences() >= 70, 'kpi-amber': getTauxCompetences() >= 40 && getTauxCompetences() < 70, 'kpi-red': getTauxCompetences() < 40}" (click)="setActiveTab(0)">
+                    <div class="kpi-score">{{ getTauxCompetences() }}%</div>
+                    <div class="kpi-label">Compétences</div>
+                </div>
+            </div>
+            <!-- Références -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-tile" [ngClass]="{'active': activeTab === 1, 'kpi-green': calculateRefTaux() >= 70, 'kpi-amber': calculateRefTaux() >= 40 && calculateRefTaux() < 70, 'kpi-red': calculateRefTaux() < 40}" (click)="setActiveTab(1)">
+                    <div class="kpi-score">{{ calculateRefTaux() }}%</div>
+                    <div class="kpi-label">Références</div>
+                </div>
+            </div>
+            <!-- Experts -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-tile" [ngClass]="{'active': activeTab === 2, 'kpi-green': getTauxExperts() >= 70, 'kpi-amber': getTauxExperts() >= 40 && getTauxExperts() < 70, 'kpi-red': getTauxExperts() < 40}" (click)="setActiveTab(2)">
+                    <div class="kpi-score">{{ getTauxExperts() }}%</div>
+                    <div class="kpi-label">Experts</div>
+                </div>
+            </div>
+            <!-- Champs Strat -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-tile" [ngClass]="{'active': activeTab === 3, 'kpi-neutral': true}" (click)="setActiveTab(3)">
+                    <div class="kpi-score">Rempli</div>
+                    <div class="kpi-label">Champs strat</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone 4: Les 4 onglets -->
+    <div class="col-12 mb-4" *ngIf="hasMatchingData && !isRunningMatching" id="tabs-section">
+        <div class="tabs-content-card p-4 border-round-2xl shadow-2 bg-white min-h-20rem">
+            
+            <!-- Onglet 1: Compétences -->
+            <div *ngIf="activeTab === 0" class="tab-panel-anim">
+                <div class="flex align-items-center gap-3 mb-4">
+                    <span class="text-lg font-semibold text-800">Taux global :</span>
+                    <span class="text-lg font-bold" [ngStyle]="{'color': getScoreColor(getTauxCompetences())}">{{ getTauxCompetences() }}%</span>
+                    <div class="global-bar-track flex-1 h-1rem border-round overflow-hidden bg-gray-200">
+                        <div class="global-bar-fill h-full"
+                             [style.width]="getTauxCompetences() + '%'"
+                             [style.background]="getScoreGradient(getTauxCompetences())">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="w-full text-left border-collapse custom-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">Exigence extraite du TDR</th>
+                                <th style="width:30%">Niveau référentiel</th>
+                                <th style="width:30%">Taux</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of competencesDetail">
+                                <td class="font-medium text-900">{{ row.domaine || row.libelle || row.exigence }}</td>
+                                <td><span class="font-medium text-700">{{ row.niveauReferentiel || row.niveauEgis | uppercase }}</span></td>
+                                <td>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="font-bold w-3rem" [ngStyle]="{'color': getScoreColor(row.score)}">{{ row.score }}%</span>
+                                        <div class="mini-bar-track flex-1 h-1rem border-round bg-gray-200 overflow-hidden">
+                                            <div class="mini-bar-fill h-full"
+                                                 [style.width]="row.score + '%'"
+                                                 [style.background]="getScoreGradient(row.score)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!competencesDetail || competencesDetail.length === 0">
+                                <td colspan="3" class="text-center text-500 p-4">Aucune donnée de compétences.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Onglet 2: Références -->
+            <div *ngIf="activeTab === 1" class="tab-panel-anim">
+                 <div class="table-container">
+                    <table class="w-full text-left border-collapse custom-table">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">Exigence du TDR</th>
+                                <th style="width:40%">Référence Egis</th>
+                                <th style="width:20%">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of gapRefs">
+                                <td class="text-900">{{ row.exigence }}</td>
+                                <td [ngClass]="{'text-500 italic': !row.reference || row.reference === 'Aucune disponible'}">
+                                    {{ row.reference || 'Aucune disponible' }}
+                                </td>
+                                <td>
+                                    <span class="pill" [ngClass]="getRefStatusClass(row.couvert)">
+                                        <i [class]="getRefStatusIcon(row.couvert)"></i>
+                                        {{ getRefStatusLabel(row.couvert) }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!gapRefs || gapRefs.length === 0">
+                                <td colspan="3" class="text-center text-500 p-4">Aucun gap analysé.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+            </div>
+
+            <!-- Onglet 3: Experts -->
+            <div *ngIf="activeTab === 2" class="tab-panel-anim">
+                <div class="text-sm text-500 mb-3 font-medium">
+                    <i class="pi pi-calendar mr-1"></i> Période estimée : DT_LIM_SOUM + 2 mois → + durée mission
+                </div>
+
+                <div class="table-container mb-4">
+                    <table class="w-full text-left border-collapse custom-table">
+                        <thead>
+                            <tr>
+                                <th style="width:45%">Profil requis (TDR)</th>
+                                <th style="width:35%">Expert Egis</th>
+                                <th style="width:20%">Disponible</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of expertsDetail">
+                                <td>
+                                    <div class="font-medium text-900">{{ row.profil }}</div>
+                                    <div class="text-sm text-500 mt-1" *ngIf="row.hm">{{ row.hm }} H.M requis</div>
+                                </td>
+                                <td [ngClass]="{'text-500 italic': !row.expert || row.expert.includes('Non identifié')}">
+                                    {{ row.expert || 'Non identifié' }}
+                                </td>
+                                <td>
+                                    <span class="pill" [ngClass]="row.disponible ? 'pill-green' : 'pill-red'">
+                                        <i [class]="row.disponible ? 'pi pi-check' : 'pi pi-times'"></i>
+                                        {{ row.disponible ? 'Oui' : 'Non' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!expertsDetail || expertsDetail.length === 0">
+                                <td colspan="3" class="text-center text-500 p-4">Aucun expert identifié.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex align-items-center gap-3">
+                    <span class="font-semibold text-700">Taux de couverture :</span>
+                    <span class="font-bold" [ngStyle]="{'color': getScoreColor(getTauxExperts())}">{{ getTauxExperts() }}%</span>
+                    <span class="text-sm text-500">({{ getDispoExpertsCount() }} profil(s) sur {{ expertsDetail.length }})</span>
+                    <div class="global-bar-track flex-1 h-1rem border-round bg-gray-200 overflow-hidden ml-3">
+                        <div class="global-bar-fill h-full"
+                             [style.width]="getTauxExperts() + '%'"
+                             [style.background]="getScoreGradient(getTauxExperts())">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet 4: Champs Strat. -->
+            <div *ngIf="activeTab === 3" class="tab-panel-anim">
+                <div class="table-container">
+                    <table class="w-full text-left border-collapse custom-table editable-table">
+                        <thead>
+                            <tr>
+                                <th style="width:25%">Champ APO</th>
+                                <th style="width:55%">Valeur</th>
+                                <th style="width:20%">Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium text-700">[[SECTEUR_AO]]</td>
+                                <td>
+                                    <p-dropdown [options]="secteursList" [(ngModel)]="secteurAo" 
+                                                (onChange)="updateField('SECTEUR_AO', $event.value)"
+                                                styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
+                                </td>
+                                <td><span class="badge-source badge-claude">{{ apoSources['SECTEUR_AO'] || '88% Claude' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium text-700">[[TYPE_CONTRAT]]</td>
+                                <td>
+                                    <p-dropdown [options]="typeContratsList" [(ngModel)]="typeContrat" 
+                                                (onChange)="updateField('TYPE_CONTRAT', $event.value)"
+                                                styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
+                                </td>
+                                <td><span class="badge-source badge-claude">{{ apoSources['TYPE_CONTRAT'] || '91% Claude' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium text-700">[[PARTENAIRES]]</td>
+                                <td>
+                                    <input pInputText type="text" [(ngModel)]="partenaires" 
+                                           (blur)="updateField('PARTENAIRES', partenaires)"
+                                           class="w-full border-none shadow-none font-medium p-2" placeholder="________________________" />
+                                </td>
+                                <td><span class="badge-source badge-manuel">Manuel</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium text-700">[[CHEF_DE_FILE]]</td>
+                                <td>
+                                    <p-dropdown [options]="chefDeFileList" [(ngModel)]="chefDeFile" 
+                                                (onChange)="updateField('CHEF_DE_FILE', $event.value)"
+                                                styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
+                                </td>
+                                <td><span class="badge-source badge-manuel">Manuel</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium text-700">[[ALIGNEMENT_STRAT]]</td>
+                                <td>
+                                    <p-dropdown [options]="alignementList" [(ngModel)]="alignementStrategique" 
+                                                (onChange)="updateField('ALIGNEMENT_STRATEGIQUE', $event.value)"
+                                                styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
+                                </td>
+                                <td><span class="badge-source badge-calcule">Calculé</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium text-700">[[RELATION_CLIENT]]</td>
+                                <td>
+                                    <p-dropdown [options]="relationClientList" [(ngModel)]="relationClientLabel" 
+                                                (onChange)="updateRelationClient($event.value)"
+                                                styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
+                                </td>
+                                <td><span class="badge-source badge-calcule">Calculé</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Zone 5: Matrice de différenciation -->
+    <div class="col-12 mb-4" *ngIf="hasMatchingData && !isRunningMatching" id="matrix-section">
+        <div class="matrix-card p-4 border-round-2xl shadow-2 bg-white">
+            <div class="flex justify-content-between align-items-center mb-4">
+                <div class="flex align-items-center gap-3">
+                    <div class="icon-wrap bg-purple-50 text-purple-600 p-2 border-round-lg">
+                        <i class="pi pi-table text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="m-0 font-bold text-xl">Matrice de différenciation</h2>
+                        <p class="m-0 text-sm text-500 mt-1">Section indépendante · combine résultats des 3 matchers · générée par Claude</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Légende -->
+            <div class="flex gap-4 mb-3 text-sm font-medium border-bottom-1 border-gray-200 pb-3">
+                <span class="text-700">Légende :</span>
+                <span class="flex align-items-center gap-1 text-green-600"><i class="pi pi-check"></i> COUVERT</span>
+                <span class="flex align-items-center gap-1 text-orange-500"><i class="pi pi-minus"></i> PARTIELLEMENT</span>
+                <span class="flex align-items-center gap-1 text-red-500"><i class="pi pi-times"></i> NON_COUVERT</span>
+                <span class="flex align-items-center gap-1 text-blue-500"><i class="pi pi-arrow-up-right"></i> VIA_PARTENAIRE</span>
+            </div>
+
+            <div class="table-container border-1 border-gray-200 border-round-xl overflow-hidden">
+                <table class="matrix-table w-full text-left border-collapse custom-table">
+                    <thead>
+                        <tr class="bg-gray-50 border-bottom-1 border-gray-200 text-700">
+                            <th style="width:30%" class="p-3">Critère (extrait du TDR)</th>
+                            <th style="width:20%" class="p-3">Position Egis</th>
+                            <th style="width:40%" class="p-3">Argument / gap</th>
+                            <th style="width:10%" class="text-center p-3">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of matriceRows; let i = index" class="border-bottom-1 border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td class="p-3">
+                                <div *ngIf="!editingRows[i]" class="font-medium text-800">{{ row.critere }}</div>
+                                <input *ngIf="editingRows[i]" pInputText [(ngModel)]="row.critere" class="w-full p-inputtext-sm">
+                            </td>
+                            <td class="p-3">
+                                <div *ngIf="!editingRows[i]" class="font-medium flex align-items-center gap-2" [ngClass]="getMatrixPosTextClass(row.positionEgis)">
+                                    <i [class]="getMatrixPosIcon(row.positionEgis)"></i> {{ getMatrixPosLabel(row.positionEgis) }}
+                                </div>
+                                <p-dropdown *ngIf="editingRows[i]" [options]="positions" [(ngModel)]="row.positionEgis" styleClass="w-full p-inputtext-sm" appendTo="body" (onChange)="onPositionChange(i, $event.value)"></p-dropdown>
+                            </td>
+                            <td class="p-3">
+                                <div *ngIf="!editingRows[i]" class="text-sm text-700">{{ row.argumentGap }}</div>
+                                <input *ngIf="editingRows[i]" pInputText [(ngModel)]="row.argumentGap" class="w-full p-inputtext-sm">
+                            </td>
+                            <td class="text-center p-3">
+                                <button *ngIf="!editingRows[i]" pButton icon="pi pi-pencil" class="p-button-text p-button-rounded text-500 hover:text-purple-500 w-2rem h-2rem" (click)="editRow(i)"></button>
+                                <button *ngIf="editingRows[i]" pButton icon="pi pi-check" class="p-button-text p-button-rounded text-green-500 w-2rem h-2rem" (click)="saveRow(i)"></button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!matriceRows || matriceRows.length === 0">
+                            <td colspan="4" class="text-center text-500 p-4">Matrice vide.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4 text-sm font-semibold text-700 flex align-items-center gap-2">
+                <span>Taux couverture matrice : {{ getCoveredCount() }}/{{ matriceRows.length }} critères couverts ({{ getMatrixCoverage() }}%)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone 6: Décision de compatibilité -->
+    <div class="col-12 mt-4" *ngIf="hasMatchingData && !isRunningMatching">
+        <div class="decision-card shadow-1 relative overflow-hidden transition-all duration-500" 
+             [ngClass]="isCompatible() ? 'decision-go' : 'decision-nogo'">
+             
+            <!-- Decorative animated blobs -->
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            
+            <div class="decision-content relative z-1 p-5">
+                <div class="decision-header mb-5">
+                    <div class="flex align-items-center gap-3">
+                        <div class="decision-icon-wrapper flex align-items-center justify-content-center border-round-xl shadow-1 p-3">
+                            <i class="pi text-2xl" [ngClass]="isCompatible() ? 'pi-verified text-green-500' : 'pi-ban text-red-500'"></i>
+                        </div>
+                        <div>
+                            <h3 class="m-0 text-2xl font-bold decision-title">Décision de compatibilité</h3>
+                            <p class="m-0 mt-1 text-sm opacity-80 font-medium">Analyse des seuils configurés (ScoringConfig)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid decision-body gap-4 md:gap-0">
+                    <!-- Les règles -->
+                    <div class="col-12 md:col-6 flex flex-column gap-3 md:border-right-1 border-gray-300 md:pr-5 border-opacity-50">
+                        <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+                            <span class="font-semibold text-700">Compétences (≥ 50%)</span>
+                            <div class="flex align-items-center gap-3">
+                                <span class="text-xl font-black" [ngClass]="getTauxCompetences() >= 50 ? 'text-green-600' : 'text-red-500'">{{ getTauxCompetences() }}%</span>
+                                <i class="pi text-lg" [ngClass]="getTauxCompetences() >= 50 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+                            <span class="font-semibold text-700">Références (≥ 50%)</span>
+                            <div class="flex align-items-center gap-3">
+                                <span class="text-xl font-black" [ngClass]="calculateRefTaux() >= 50 ? 'text-green-600' : 'text-red-500'">{{ calculateRefTaux() }}%</span>
+                                <i class="pi text-lg" [ngClass]="calculateRefTaux() >= 50 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+                            <span class="font-semibold text-700">Experts (≥ 40%)</span>
+                            <div class="flex align-items-center gap-3">
+                                <span class="text-xl font-black" [ngClass]="getTauxExperts() >= 40 ? 'text-green-600' : 'text-red-500'">{{ getTauxExperts() }}%</span>
+                                <i class="pi text-lg" [ngClass]="getTauxExperts() >= 40 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+                            <span class="font-semibold text-700">Alignement Stratégique</span>
+                            <div class="flex align-items-center gap-3">
+                                <span class="font-bold text-sm" [ngClass]="isAlignementOk() ? 'text-green-600' : 'text-red-500'">{{ alignementStrategique || 'Non évalué' }}</span>
+                                <i class="pi text-lg" [ngClass]="isAlignementOk() ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Le Résultat -->
+                    <div class="col-12 md:col-6 md:pl-5 flex flex-column justify-content-center">
+                        <div class="result-box p-4 border-round-2xl text-center shadow-1 transition-all duration-500 hover:shadow-3 bg-white">
+                            <div *ngIf="isCompatible()">
+                                <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
+                                    <i class="pi pi-check text-green-600 text-3xl"></i>
+                                </div>
+                                <h4 class="m-0 text-xl font-black text-green-700 mb-2">Compatible</h4>
+                                <p class="m-0 text-green-600 font-medium line-height-3 text-sm">
+                                    Tous les seuils sont respectés.<br/>
+                                    <strong>→ compatibleMethodologie = true</strong>
+                                </p>
+                            </div>
+
+                            <div *ngIf="!isCompatible()">
+                                <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
+                                    <i class="pi pi-exclamation-triangle text-red-600 text-3xl"></i>
+                                </div>
+                                <h4 class="m-0 text-xl font-black text-red-700 mb-2">Non Compatible</h4>
+                                <ul class="m-0 pl-0 list-none text-red-600 font-medium line-height-3 text-sm text-center">
+                                    <li *ngIf="getTauxCompetences() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Compétences insuffisantes ({{getTauxCompetences()}}%)</li>
+                                    <li *ngIf="calculateRefTaux() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Références insuffisantes ({{calculateRefTaux()}}%)</li>
+                                    <li *ngIf="getTauxExperts() < 40" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Experts insuffisants ({{getTauxExperts()}}%)</li>
+                                    <li *ngIf="!isAlignementOk()" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Alignement non respecté</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="decision-actions flex justify-content-center gap-3 mt-4">
+                            <div class="flex gap-2" *ngIf="isCompatible()">
+                                <button pButton icon="pi pi-sparkles" label="Générer Méthodologie"
+                                        class="p-button-rounded p-button-success px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="showDocxPreview()"></button>
+                            </div>
+                            
+                            <button *ngIf="isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
+                                    class="p-button-rounded p-button-text p-button-danger px-4 py-3 font-bold opacity-60 hover:opacity-100" (click)="confirmNoGo()"></button>
+
+                            <button *ngIf="!isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
+                                    class="p-button-rounded p-button-danger px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="confirmNoGo()"></button>
+
+                            <button *ngIf="!isCompatible()" pButton icon="pi pi-unlock" label="Forcer GO"
+                                    class="p-button-rounded p-button-outlined p-button-warning px-4 py-3 font-bold" (click)="forceCompatible()"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog Génération de la Méthodologie Egis -->
+    <p-dialog appendTo="body" header="Aperçu du Template (DOCX Réel)" [(visible)]="showApoPreviewDialog" [modal]="true" [style]="{width: '80vw', maxWidth: '1200px'}" [breakpoints]="{'960px': '95vw'}" [draggable]="false" [resizable]="false">
+        
+        <div class="methodo-preview-container p-2 flex flex-column h-full">
+            <div class="flex align-items-center justify-content-between mb-4 pb-3 border-bottom-1 border-gray-200">
+                <div class="flex align-items-center gap-3">
+                    <i class="pi pi-file-word text-5xl text-blue-600"></i>
+                    <div>
+                        <h2 class="m-0 text-xl font-bold text-800">Template DOCX Officiel</h2>
+                        <p class="m-0 text-sm text-500 mt-1">L'aperçu du vrai fichier Word utilisé comme trame par l'IA.</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button pButton icon="pi pi-download" label="Télécharger DOCX" class="p-button-outlined p-button-primary shadow-1 font-bold px-3" (click)="downloadDocxTemplate()"></button>
+                    <button pButton icon="pi pi-bolt" label="Générer avec l'IA" class="p-button-rounded p-button-success shadow-2 font-bold px-4" (click)="generateMethodology()"></button>
+                </div>
+            </div>
+
+            <!-- Conteneur d'Aperçu DOCX -->
+            <div class="relative w-full" style="height: 65vh; min-height: 400px;">
+                
+                <!-- Loading indicator -->
+                <div *ngIf="isDocxLoading" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl" style="background: rgba(255,255,255,0.9);">
+                    <i class="pi pi-spin pi-spinner text-6xl text-blue-500 mb-3"></i>
+                    <p class="mt-3 text-700 font-bold text-lg">Génération de l'aperçu du document DOCX...</p>
+                </div>
+
+                <!-- Error / Fallback state -->
+                <div *ngIf="docxLoadError" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl" style="background: rgba(255,255,255,0.95);">
+                    <div class="w-4rem h-4rem border-circle bg-orange-100 flex align-items-center justify-content-center mb-4">
+                        <i class="pi pi-exclamation-triangle text-orange-500 text-3xl"></i>
+                    </div>
+                    <h3 class="m-0 text-xl font-bold text-800 mb-2">Aperçu direct impossible</h3>
+                    <p class="m-0 text-600 text-center line-height-3 mb-2 max-w-20rem">
+                        Votre navigateur ou la librairie ne permet pas de lire ce fichier directement. Vous pouvez néanmoins le télécharger.
+                    </p>
+                    <p class="m-0 text-red-500 text-center font-bold text-sm mb-4 max-w-20rem">
+                        {{errorMessageForUI}}
+                    </p>
+                    <button pButton icon="pi pi-download" label="Télécharger le Template DOCX" class="p-button-rounded p-button-primary shadow-2" (click)="downloadDocxTemplate()"></button>
+                </div>
+
+                <!-- Docx container (docx-preview needs the exact div to inject elements) -->
+                <div [class.hidden]="isDocxLoading || docxLoadError" class="docx-preview-wrapper bg-gray-100 p-2 border-round-xl overflow-auto shadow-inner w-full h-full">
+                    <div #docxContainer></div>
+                </div>
+            </div>
+
+            <div class="flex justify-content-end mt-4">
+                <button pButton icon="pi pi-times" label="Fermer" class="p-button-text font-bold text-red-500" (click)="showApoPreviewDialog = false"></button>
+            </div>
+        </div>
+    </p-dialog>
+</div>

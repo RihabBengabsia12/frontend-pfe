@@ -1,0 +1,142 @@
+<div class="grid p-4 fade-in-up">
+    <!-- Header -->
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center">
+                    <i class="pi pi-align-left text-2xl text-blue-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-3xl m-0">Analyses IA (Logs)</h1>
+                    <p class="text-blue-800 m-0 opacity-80">Page d'audit technique de l'API : consommation de tokens, temps de réponse et inspection des données JSON brutes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Token statistics panel -->
+    <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="card card-pastel-blue border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between">
+            <div class="flex align-items-center justify-content-between mb-3">
+                <span class="text-700 font-semibold text-lg">Total Appels IA</span>
+                <i class="pi pi-bolt text-blue-700"></i>
+            </div>
+            <div>
+                <h2 class="text-midnight font-bold text-3xl m-0">{{ logs.length }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Requêtes enregistrées</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="card card-pastel-orange border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between">
+            <div class="flex align-items-center justify-content-between mb-3">
+                <span class="text-700 font-semibold text-lg">Tokens Consommés</span>
+                <i class="pi pi-database text-orange-700"></i>
+            </div>
+            <div>
+                <h2 class="text-midnight font-bold text-3xl m-0">{{ tokenStats.total | number }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Volume global</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-4 mb-4">
+        <div class="card border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between" style="background:#dcfce7; border:1px solid #bbf7d0;">
+            <div class="flex align-items-center justify-content-between mb-3">
+                <span class="text-700 font-semibold text-lg">Coût Estimé</span>
+                <i class="pi pi-dollar text-green-700"></i>
+            </div>
+            <div>
+                <h2 class="text-midnight font-bold text-3xl m-0">{{ tokenStats.totalCost | currency:'USD' }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Dépense API Anthropic</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="col-12">
+        <div class="card border-round-2xl shadow-2 p-5 bg-white">
+            <div class="flex justify-content-between align-items-center mb-4">
+                <h5 class="text-900 font-bold text-xl m-0">Journal d'Audit Technique des Requêtes (Prompt Caching)</h5>
+                <div class="flex gap-2">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filtrer par dossier..." class="p-inputtext-sm border-round-3xl" />
+                    </span>
+                    <button pButton icon="pi pi-refresh" label="Actualiser" class="p-button-outlined p-button-sm border-round-3xl" (click)="loadLogs()" [loading]="loadingLogs"></button>
+                </div>
+            </div>
+
+            <p-table #dt [value]="logs" [paginator]="true" [rows]="10" responsiveLayout="scroll" [loading]="loadingLogs"
+                     styleClass="p-datatable-sm" [rowHover]="true" [globalFilterFields]="['project', 'actionName', 'model']">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Date</th>
+                        <th>Dossier</th>
+                        <th>Action / Type</th>
+                        <th>Tokens Utilisés</th>
+                        <th>Cache Hit (Read)</th>
+                        <th>Cache Write</th>
+                        <th>Temps (ms)</th>
+                        <th class="text-right">Coût ($)</th>
+                        <th class="text-center">JSON</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-log>
+                    <tr>
+                        <td class="text-600 text-sm">{{ log.createdAt | date:'short' }}</td>
+                        <td class="font-semibold text-700 text-sm"><i class="pi pi-folder mr-1 text-primary"></i>{{ log.project }}</td>
+                        <td><p-tag [value]="log.actionName" severity="info"></p-tag></td>
+                        <td class="font-bold">{{ log.tokenUsage | number }}</td>
+                        <td>
+                            <span class="text-green-600 font-bold" *ngIf="log.cacheReadTokens > 0">
+                                <i class="pi pi-check-circle mr-1"></i>{{ log.cacheReadTokens | number }}
+                            </span>
+                            <span class="text-400" *ngIf="!log.cacheReadTokens">-</span>
+                        </td>
+                        <td>
+                            <span class="text-orange-500 font-bold" *ngIf="log.cacheCreationTokens > 0">
+                                <i class="pi pi-cloud-upload mr-1"></i>{{ log.cacheCreationTokens | number }}
+                            </span>
+                            <span class="text-400" *ngIf="!log.cacheCreationTokens">-</span>
+                        </td>
+                        <td>{{ log.processingTimeMs }} ms</td>
+                        <td class="text-right font-bold text-red-500">${{ log.estimatedCost | number:'1.4-4' }}</td>
+                        <td class="text-center">
+                            <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-sm" 
+                                    (click)="inspectJson(log)" pTooltip="Voir la réponse brute"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8" class="text-center p-4 text-600">Aucun journal d'audit trouvé.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Inspecteur JSON -->
+<p-dialog header="Inspecteur JSON Extrait"
+          [(visible)]="displayJsonDialog"
+          [modal]="true"
+          [style]="{width: '50vw', maxWidth: '600px'}"
+          [draggable]="false"
+          [resizable]="false">
+
+    <div *ngIf="selectedLog">
+        <div class="mb-3">
+            <h5 class="m-0 text-900 font-bold">{{ selectedLog.project }}</h5>
+            <span class="text-500 text-sm">Réponse brute extraite par le modèle {{ selectedLog.model }}</span>
+        </div>
+        <div class="json-viewer shadow-inner">
+            {{ selectedLog.rawJson }}
+        </div>
+        <div class="flex justify-content-end gap-2 mt-4">
+            <button pButton label="Fermer" icon="pi pi-times" class="p-button-text" (click)="displayJsonDialog = false"></button>
+        </div>
+    </div>
+</p-dialog>

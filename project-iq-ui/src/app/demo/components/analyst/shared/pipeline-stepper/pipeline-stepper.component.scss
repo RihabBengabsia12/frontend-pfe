@@ -1,0 +1,389 @@
+/* ===================================================
+   Pipeline Stepper — Shared Component
+   Palette: Emerald Sage · Champagne Amber · Muted Rose
+   =================================================== */
+
+// --- Variables ---
+$clr-done:      #2d6a4f;
+$clr-done-bg:   #d8f3dc;
+$clr-done-ring: #b7e4c7;
+
+$clr-active:     #1976d2;
+$clr-active-bg:  #e3f2fd;
+$clr-active-border: #4a90e2;
+
+$clr-pending:    #94a3b8;
+$clr-pending-bg: #f8fafc;
+$clr-rail:       #e2e8f0;
+
+$clr-fill-start: #4a90e2;
+$clr-fill-end:   #40c97f;
+
+// --- Keyframes ---
+@keyframes pulsePing {
+  0%   { transform: scale(1);   opacity: 0.8; }
+  70%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1);   opacity: 0; }
+}
+
+@keyframes fillSlide {
+  from { width: 0; }
+  to   { width: var(--target-width); }
+}
+
+@keyframes bubblePop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes labelFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes badgeBounce {
+  0%   { transform: translateY(-4px) scale(0.85); opacity: 0; }
+  60%  { transform: translateY(2px) scale(1.05); }
+  100% { transform: translateY(0) scale(1);       opacity: 1; }
+}
+
+// --- Wrapper ---
+.pipeline-wrapper {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem 2rem 1rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  border: 1px solid #e8edf5;
+  margin-bottom: 1rem;
+}
+
+// --- Header ---
+.pipeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  animation: labelFade 0.5s ease both;
+
+  .pipeline-left {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .pipeline-icon-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    i { font-size: 1.15rem; }
+  }
+
+  .pipeline-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pipeline-phase-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+  }
+
+  .pipeline-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e2a3a;
+    line-height: 1.2;
+  }
+
+  .pipeline-subtitle {
+    font-size: 0.78rem;
+    color: #6b7a90;
+    font-weight: 400;
+    line-height: 1.55;
+    max-width: 500px;
+    text-align: right;
+  }
+}
+
+
+
+// --- Track ---
+.pipeline-track {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.5rem 0 2.5rem;
+
+  // Gray rail
+  .rail-base {
+    position: absolute;
+    top: 21px;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background: $clr-rail;
+    border-radius: 99px;
+    z-index: 1;
+  }
+
+  // Animated fill
+  .rail-fill {
+    position: absolute;
+    top: 21px;
+    left: 5%;
+    height: 4px;
+    background: linear-gradient(90deg, $clr-fill-start, $clr-fill-end);
+    border-radius: 99px;
+    z-index: 2;
+    transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(64, 201, 127, 0.4);
+  }
+}
+
+// --- Step Node ---
+.step-node {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  animation: bubblePop 0.5s ease both;
+
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i + 2}) { animation-delay: #{$i * 0.07}s; }
+  }
+
+  // Pulse ring (active only)
+  .pulse-ring {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(74, 144, 226, 0.15);
+    animation: pulsePing 1.8s ease-out infinite;
+    z-index: 0;
+  }
+}
+
+// --- Bubble ---
+.step-bubble {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Default (pending)
+  background: $clr-pending-bg;
+  border: 3px solid $clr-rail;
+  color: $clr-pending;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+
+  i { font-size: 0.95rem; transition: transform 0.3s ease; }
+}
+
+// --- States ---
+.step-done .step-bubble {
+  background: $clr-done-bg;
+  border-color: $clr-done-ring;
+  color: $clr-done;
+  box-shadow: 0 3px 10px rgba(45,106,79,0.15);
+
+  i { animation: bubblePop 0.4s ease; }
+}
+
+.step-active .step-bubble {
+  background: $clr-active-bg;
+  border-color: $clr-active-border;
+  color: $clr-active;
+  transform: scale(1.12);
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.25);
+}
+
+// --- Labels ---
+.step-label {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $clr-pending;
+  text-align: center;
+  transition: color 0.3s ease;
+  animation: labelFade 0.4s ease both;
+}
+
+.step-done .step-label  { color: $clr-done; }
+.step-active .step-label {
+  color: $clr-active;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+// --- "ACTUEL" badge ---
+.step-badge {
+  position: absolute;
+  bottom: -24px;
+  background: linear-gradient(135deg, $clr-fill-start, $clr-fill-end);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+  animation: badgeBounce 0.5s ease 0.3s both;
+  box-shadow: 0 2px 8px rgba(64, 201, 127, 0.4);
+}
+
+// --- Responsive ---
+@media (max-width: 768px) {
+  .pipeline-wrapper { padding: 1rem 0.8rem; }
+  .step-bubble { width: 36px; height: 36px; }
+  .step-label  { font-size: 0.65rem; }
+  .pipeline-header .pipeline-subtitle { display: none; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHEVRON STEPPER DESIGN (PHASE 1)
+// ─────────────────────────────────────────────────────────────────────────────
+.chevron-stepper-container {
+  margin-top: 1.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.chevron-pipeline {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #f1f5f9;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.chevron-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem 1rem 2rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #64748b;
+  position: relative;
+  background: #e2e8f0;
+  // Chevron arrow shape
+  clip-path: polygon(calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%, 0% 0%);
+  margin-left: -12px;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &:first-child {
+    clip-path: polygon(calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 0% 50%, 0% 0%);
+    margin-left: 0;
+    padding-left: 1.5rem;
+  }
+
+  &:last-child {
+    clip-path: polygon(100% 0%, 100% 50%, 100% 100%, 0% 100%, 15px 50%, 0% 0%);
+  }
+
+  .chevron-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &.active {
+    background: #dbeafe; // Pastel active blue
+    color: #1e40af;
+    cursor: pointer;
+    transform: scale(1.01);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+
+    .chevron-num {
+      background: #2563eb;
+      color: white;
+    }
+  }
+
+  &.done {
+    background: #dcfce7; // Pastel completed green
+    color: #15803d;
+    cursor: pointer;
+
+    .chevron-num {
+      background: #16a34a;
+      color: white;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    background: #f8fafc;
+    color: #94a3b8;
+    cursor: not-allowed;
+
+    .chevron-num {
+      background: #cbd5e1;
+      color: #64748b;
+    }
+  }
+
+  &:hover:not(.disabled):not(.active) {
+    background: #e2e8f0;
+    color: #334155;
+  }
+}
+
+// Fine blue progress line running below steps
+.progress-underbar {
+  width: 100%;
+  height: 4px;
+  background: #cbd5e1;
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-underbar .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+

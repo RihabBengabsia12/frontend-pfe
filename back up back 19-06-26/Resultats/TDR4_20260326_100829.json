@@ -1,0 +1,141 @@
+{
+  "informations_generales": {
+    "pays": "Tunisie",
+    "intitule_offre": "Désignation d'un bureau d'études pour la réalisation des études du projet de réhabilitation, de réaménagement et de protection du port présidentiel du Palais de Carthage",
+    "reference": "Consultation spéciale N°03/2026",
+    "client": "Présidence de la République Tunisienne",
+    "resume_contexte_objectifs": "La Présidence de la République Tunisienne lance une consultation spéciale restreinte pour désigner un bureau d'études chargé de réaliser les études de réhabilitation, de réaménagement et de protection du port présidentiel du Palais de Carthage. L'étude porte sur trois objets : (1) la remise en état des infrastructures et ouvrages portuaires existants et leur éventuel réaménagement, (2) la protection du port contre les phénomènes d'agitation et de franchissement, et (3) la protection contre l'ensablement. L'étude est structurée en deux phases : Phase I (expertise des ouvrages, études hydrauliques et sédimentologiques, proposition de variantes) et Phase II (étude d'impact environnemental, projet détaillé, dossier de consultation pour travaux). Seuls les bureaux d'études présélectionnés par le maître d'ouvrage sont invités à soumissionner ; les offres en groupement sont automatiquement éliminées.",
+    "date_limite_soumission": "27 mars 2026 à 10h00",
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": null,
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "raw_text": null
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": "Liste restreinte de bureaux d'études présélectionnés par le maître d'ouvrage conformément à l'article 02 du décret n°2013-3767 du 13 septembre 2013 ; membres non divulgués dans le document",
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Composition de la shortlist non communiquée dans le document"
+    },
+    "analyse_concurrence": "Consultation spéciale restreinte aux soumissionnaires invités par écrit. Offres en groupement éliminées automatiquement. Seules les offres individuelles sont acceptées."
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": "5 profils minimum requis : Spécialiste en travaux maritimes (ingénieur génie civil ou hydraulique portuaire, 15 ans d'expérience, 3 au moins), Spécialiste en hydraulique maritime (ingénieur hydraulique ou génie civil, 10 ans, 3 au moins), Sédimentologue (Bac+4, 10 ans, 3 au moins), Ecologiste (maîtrisard ou plus, 10 ans, 3 au moins), Géotechnicien (ingénieur géotechnique ou génie civil, 10 ans, 3 au moins)",
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "Date de publication non mentionnée ; date limite fixée au 27 mars 2026, séance d'information du 17 mars 2026. Délai de questions : 10 jours avant date limite, réponses 7 jours avant date limite."
+    },
+    "duree_mission_mois": "240 jours calendaires (environ 8 mois), hors délais d'approbation par le MDO (45 jours max par activité)",
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Dépend des ressources internes disponibles et des sous-traitants agréés à mobiliser"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": "Procédure en deux phases : Phase 1 - classement financier croissant de toutes les offres conformes administrativement ; Phase 2 - vérification de conformité technique de l'offre du moins-disant, puis des suivants si non-conformité. Attribution au moins-disant financièrement et conforme techniquement.",
+    "seuil_technique": "Conformité technique binaire (conforme/non conforme) : présentation obligatoire de la liste nominative des 5 profils requis avec diplômes et CV, et liste des sous-traitants agréés (sondages carottés béton, sondages géotechniques, essais laboratoire agréé ANPE ou accrédité CNA)",
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": "Sous-traitants obligatoires agréés : bureau de contrôle spécialisé agréé (sondages carottés béton), géotechnicien spécialisé agréé (sondages géotechniques), laboratoire agréé par le Ministère de l'Equipement et de l'Habitat ou accrédité par le Conseil National d'Accréditation (essais et analyses pour étude d'impact et étude sédimentologique)",
+    "chef_de_file": "Bureau d'études soumissionnaire unique (groupements interdits)",
+    "roles_repartition": "Bureau d'études : pilotage et réalisation de l'ensemble des études. Sous-traitants : sondages carottés béton, sondages géotechniques, essais laboratoire. Levés topo-bathymétriques assurés par le Centre Hydrographique et Océanographique de la marine nationale (à la charge du MDO). Inspection sous-marine assurée par les services du MDO sous supervision du bureau d'études."
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": "10 jours au plus tard avant la date limite de réception des offres (soit au plus tard le 17 mars 2026), par écrit au maître d'ouvrage. Réponses envoyées 7 jours au plus tard avant la date limite.",
+    "clarifications": [
+      "Le budget global estimé de la consultation spéciale n'est pas mentionné dans le document : quel est l'ordre de grandeur du budget alloué à cette étude afin d'évaluer la compétitivité de notre offre financière ?",
+      "La liste des soumissionnaires présélectionnés (shortlist) n'est pas communiquée : combien de bureaux d'études ont été invités à soumissionner et quels sont-ils, afin d'apprécier le niveau de concurrence ?",
+      "Le document mentionne une séance d'information le 17 mars 2026 mais sans préciser s'il s'agit d'une visite de site obligatoire ou facultative : la visite du port présidentiel est-elle obligatoire pour soumissionner, et des autorisations d'accès spécifiques sont-elles requises compte tenu du caractère présidentiel du site ?"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": "17 mars 2026 (mentionné dans le document sans qualification explicite)"
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Faible",
+      "commentaire": "Tunisie, site présidentiel à Carthage ; accès au site potentiellement contraint par des mesures de sécurité liées au caractère confidentiel des dépenses de la Présidence de la République (décret n°2013-3767)"
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Avance de 10% du montant initial du marché accordée sur demande écrite après approbation, contre caution bancaire tunisienne. Paiements progressifs par activité sur présentation de facture (délai max 45 jours). Variation possible de ±20% de la masse des prestations. Budget global non communiqué."
+    },
+    "penalites": {
+      "niveau": "Moyen",
+      "commentaire": "Pénalité de retard journalière de 3‰ du montant total du marché, plafonnée à 5% du montant total. Pénalité forfaitaire de 200 DT par absence à une réunion de convocation. Délai de 240 jours calendaires à respecter."
+    },
+    "exigences_inacceptables": {
+      "niveau": "Moyen",
+      "commentaire": "Offres en groupement automatiquement éliminées. Obligation de présenter des experts en exclusivité. Secret professionnel et confidentialité stricts sur l'ensemble des travaux. Règlement des litiges soumis à la commission spéciale de contrôle des dépenses de la Présidence de la République (pas d'arbitrage international)."
+    },
+    "garanties_elevees": {
+      "niveau": "Faible",
+      "commentaire": "Cautionnement définitif fixé à 3% du montant initial du marché, à constituer dans les 20 jours suivant notification d'approbation. Libération 4 mois après réception définitive sans réserves. Caution bancaire tunisienne agréée acceptée en remplacement."
+    },
+    "taille_dispersion": {
+      "niveau": "Faible",
+      "commentaire": "Mission concentrée sur un seul site (port présidentiel du Palais de Carthage, Tunisie). Durée de 240 jours."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Faible",
+      "commentaire": "Frais d'enregistrement du marché à la charge du titulaire (article 48 loi de finances 2020). TVA applicable. Frais de sous-traitants agréés à intégrer dans l'offre."
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget global non communiqué dans le document, impossibilité d'évaluer ce risque"
+    },
+    "participation_locale": {
+      "niveau": "Eleve",
+      "commentaire": "Consultation restreinte aux seuls bureaux d'études présélectionnés par le maître d'ouvrage. Sous-traitants doivent être agréés par les autorités tunisiennes. Caution bancaire obligatoirement délivrée par une banque tunisienne agréée. Experts tunisiens doivent fournir certificat d'affiliation à l'ordre des ingénieurs tunisiens."
+    },
+    "fiscalite": {
+      "niveau": "Faible",
+      "commentaire": "TVA applicable sur le montant de l'offre. Frais d'enregistrement du marché à la charge du titulaire. Régime fiscal tunisien standard."
+    }
+  },
+  "decision": {
+    "recommandation": "Mission techniquement intéressante et bien définie (études maritimes portuaires) mais présente plusieurs contraintes majeures : consultation restreinte à une shortlist non divulguée, groupements interdits (obligation de soumissionner seul avec sous-traitants agréés localement), caractère confidentiel lié à la Présidence de la République, budget global inconnu. Avant décision, il est impératif d'obtenir confirmation de la présence de l'entreprise sur la shortlist et de clarifier le budget estimé.",
+    "go_no_go": "GO",
+    "points_critiques": [
+      "Confirmation obligatoire que l'entreprise figure bien sur la liste restreinte des soumissionnaires invités par le maître d'ouvrage",
+      "Budget global non communiqué : risque de sous-évaluation ou de positionnement non compétitif",
+      "Interdiction absolue de soumissionner en groupement : nécessité de disposer de toutes les compétences en interne ou via des sous-traitants agréés tunisiens",
+      "Disponibilité et exclusivité des experts requis : 5 profils spécialisés avec ancienneté minimale de 10-15 ans, ne pouvant pas soumissionner pour d'autres candidats dans cette même consultation",
+      "Identification et engagement préalable de sous-traitants agréés tunisiens (bureau de contrôle béton, géotechnicien, laboratoire accrédité CNA ou agréé Ministère Equipement)",
+      "Caractère confidentiel de la mission (site présidentiel) : contraintes d'accès et obligations de confidentialité renforcées",
+      "Règlement des litiges exclusivement auprès de la commission spéciale de la Présidence de la République, sans recours international"
+    ]
+  },
+  "plan_action": "1. Vérifier immédiatement la présence de l'entreprise sur la shortlist officielle (condition sine qua non). 2. Envoyer les questions de clarification par écrit avant le 17 mars 2026. 3. Identifier et précontacter les sous-traitants agréés tunisiens disponibles (béton, géotechnique, laboratoire). 4. Confirmer la disponibilité et l'exclusivité des 5 profils experts requis. 5. Constituer le dossier administratif complet (annexes 1, 2, 3, 4, 5, 7, 8, 9, registre national entreprises, certificat sécurité sociale, cahier des charges bureau d'études arrêté 09/02/2009). 6. Élaborer l'offre technique (listes nominatives avec diplômes et CV, liste sous-traitants avec agréments). 7. Établir le bordereau des prix et détail estimatif. 8. Déposer l'offre sous pli fermé au bureau d'ordre des Services Communs de la Présidence de la République, 6 Rue Abou Alkacem Chebbi, 2016 Carthage, avant le 27 mars 2026 à 10h00."
+}

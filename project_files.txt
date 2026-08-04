@@ -1,0 +1,11 @@
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\analyste-service\src\main\java\tn\rihab\analysteservice\consumer\ProjectConsumer.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\analyste-service\src\main\java\tn\rihab\analysteservice\dto\ProjectEventDTO.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\ProjectServiceApplication.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\controller\ProjectController.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\model\Project.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\model\ProjectStatus.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\repository\ProjectRepository.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\main\java\tn\rihab\projectservice\service\ProjectService.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\project-service\src\test\java\tn\rihab\projectservice\ProjectServiceApplicationTests.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\src\main\java\tn\rihab\projectiq\ProjectIqPfeApplication.java
+C:\Users\Rihab\IdeaProjects\ProjectIQ-PFE\src\test\java\tn\rihab\projectiq\ProjectIqPfeApplicationTests.java

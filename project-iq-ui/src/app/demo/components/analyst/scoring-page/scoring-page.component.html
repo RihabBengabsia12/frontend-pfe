@@ -1,0 +1,123 @@
+<p-toast></p-toast>
+
+<!-- ═══ Pipeline Phase 2 — Calc P-Win (étape 2) ═══ -->
+<div class="px-4 pt-4 pb-0" *ngIf="!isLoading && scoringData">
+    <app-pipeline-stepper mode="phase2" [activeStep]="2" context="scoring"></app-pipeline-stepper>
+</div>
+
+<div class="grid p-4 fade-in-up" *ngIf="!isLoading && scoringData">
+    <!-- Header -->
+    <div class="col-12 mb-3 fade-in-up delay-1">
+        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2 hover-lift">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
+                    <i class="pi pi-chart-bar text-2xl text-blue-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-2xl m-0">Score P-Win — AO Eau ONEE</h1>
+                    <p class="text-blue-800 m-0 opacity-80 mt-1">Diagnostic et Évaluation de l'opportunité commerciale (Go / No-Go).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Double Column Diagnostics -->
+    <div class="col-12 lg:col-5 mb-4 fade-in-up delay-2">
+        <!-- Left Side: Donut and Verdict Card -->
+        <div class="card border-round-2xl shadow-2 p-5 bg-white flex flex-column align-items-center justify-content-center h-full text-center hover-lift">
+            <h5 class="text-900 font-bold text-xl mb-4 text-center w-full">Verdict de l'Algorithme</h5>
+            
+            <app-pwin-gauge [score]="scoringData.pwinScore" 
+                            [goThreshold]="scoringData.goThreshold" 
+                            [nogoThreshold]="scoringData.nogoThreshold"></app-pwin-gauge>
+            
+            <!-- Verdict Recommendation Card -->
+            <div class="border-round-2xl border-1 p-4 mt-5 text-left w-full shadow-1 hover-lift" [class]="getDecisionCardClass()">
+                <div class="flex align-items-center justify-content-between mb-2">
+                    <span class="font-black text-sm uppercase tracking-wider">Recommandation Générale</span>
+                    <span class="text-xs font-bold px-3 py-1 border-round-2xl" [class]="getDecisionBadgeClass()">
+                        {{ scoringData.pwinScore >= scoringData.goThreshold ? 'GO APPROUVÉ' : (scoringData.pwinScore >= scoringData.nogoThreshold ? 'ORANGE - ATTENTION' : 'REJETÉ NO-GO') }}
+                    </span>
+                </div>
+                <p class="m-0 font-bold line-height-3 text-sm">
+                    {{ scoringData.recommendation }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-7 mb-4 fade-in-up delay-3">
+        <!-- Right Side: Progressive Axes and Impact Factors -->
+        <div class="card border-round-2xl shadow-2 p-5 bg-white h-full hover-lift">
+            <h5 class="text-900 font-bold text-xl mb-4">Décomposition Technique des 5 Axes</h5>
+            <app-score-breakdown [axes]="scoringData.axes" [impacts]="scoringData.impacts"></app-score-breakdown>
+        </div>
+    </div>
+
+    <!-- Alert Auto Generation No-Go -->
+    <div class="col-12 fade-in-up delay-3" *ngIf="scoringData.pwinScore < scoringData.nogoThreshold">
+        <div class="card bg-red-50 border-1 border-red-200 border-round-2xl p-4 shadow-1 mb-2 flex flex-column md:flex-row align-items-start gap-4">
+            <div class="bg-white p-3 border-circle text-red-600 shadow-1 flex align-items-center justify-content-center flex-shrink-0" style="width: 4rem; height: 4rem;">
+                <i class="pi pi-file-export text-3xl"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="m-0 text-red-900 font-bold text-xl mb-2">Génération automatique du rapport No-Go</h3>
+                <p class="m-0 text-red-800 text-sm line-height-3 mb-3">
+                    Le score P-Win ({{ scoringData.pwinScore }}%) étant inférieur au seuil critique ({{ scoringData.nogoThreshold }}%), 
+                    la confirmation entraînera la <strong>génération d'un rapport narratif détaillé via Claude IA</strong>.
+                </p>
+                <div class="bg-white border-round-xl p-3 border-1 border-red-100 flex flex-column gap-2">
+                    <div class="font-bold text-700 text-sm mb-1">Contenu du rapport DOCX qui sera exporté :</div>
+                    <div class="flex align-items-center gap-2 text-sm text-600">
+                        <i class="pi pi-check-circle text-green-500"></i>
+                        <span>Score P-Win complet avec décomposition par axe</span>
+                    </div>
+                    <div class="flex align-items-center gap-2 text-sm text-600">
+                        <i class="pi pi-check-circle text-green-500"></i>
+                        <span>Top 3 des motifs pénalisants extraits de la matrice de risques</span>
+                    </div>
+                    <div class="flex align-items-start gap-2 text-sm text-600">
+                        <i class="pi pi-check-circle text-green-500 mt-1"></i>
+                        <span>Analyse narrative argumentée de 200 à 300 mots (Modèle Claude IA)</span>
+                    </div>
+                    <div class="flex align-items-start gap-2 text-sm text-red-700 mt-2 p-2 bg-red-50 border-round font-medium">
+                        <i class="pi pi-exclamation-triangle mt-1"></i>
+                        <span>Motif principal : {{ scoringData.motifNogo || 'Faisabilité critique ou risques majeurs détectés' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="col-12 flex justify-content-between align-items-center flex-wrap gap-3 mt-3">
+        <!-- Override / Bypass -->
+        <button pButton icon="pi pi-key" label="Forcer le Go (Overrule)" 
+                class="p-button-warning border-round-3xl px-4 py-3" 
+                (click)="onOverruleClick()"></button>
+
+        <!-- Standard Actions -->
+        <div class="flex gap-3">
+            <button *ngIf="scoringData.pwinScore < scoringData.nogoThreshold" 
+                    pButton icon="pi pi-times-circle" label="Confirmer le No-Go" 
+                    class="p-button-danger border-round-3xl px-5 py-3 pulse-button-red" 
+                    (click)="onConfirmNoGo()"></button>
+
+            <button *ngIf="scoringData.pwinScore >= scoringData.nogoThreshold" 
+                    pButton icon="pi pi-check-circle" label="Confirmer GO → Matching" 
+                    class="p-button-success border-round-3xl px-5 py-3 pulse-button" 
+                    (click)="onConfirmGo()"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal override config -->
+<app-force-go-modal [(visible)]="showOverruleModal" 
+                     [projectId]="projectId" 
+                     (overruleConfirm)="onOverruleConfirmed($event)"></app-force-go-modal>
+
+<!-- Loading State -->
+<div *ngIf="isLoading" class="text-center p-8">
+    <p-progressSpinner></p-progressSpinner>
+    <p class="text-600 mt-3 font-semibold">Calcul de l'Algorithme de Scoring Egis...</p>
+</div>

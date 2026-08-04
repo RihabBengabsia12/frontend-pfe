@@ -1,0 +1,305 @@
+<p-toast></p-toast>
+
+<!-- ══ LOADING ══ -->
+<div *ngIf="isLoading && !isWaitingForAI" class="loading-state">
+    <div class="ai-scan-layer" *ngIf="dossierStatus === 'PARSING_INITIAL'">
+        <div class="laser-beam"></div>
+        <div class="scan-particles"></div>
+    </div>
+    <i class="pi pi-spin pi-spinner loading-icon" [ngClass]="{'text-primary': dossierStatus === 'PARSING_INITIAL'}"></i>
+    <p *ngIf="dossierStatus === 'PARSING_INITIAL'">Extraction IA en cours... Veuillez patienter.</p>
+    <p *ngIf="dossierStatus !== 'PARSING_INITIAL'">Chargement des champs extraits par l'IA...</p>
+</div>
+
+<!-- ══ WAITING FOR AI (Phase 1) ══ -->
+<div class="loading-state waiting-ai" *ngIf="isWaitingForAI && !isLoading">
+    <i class="pi pi-sparkles loading-icon text-primary mb-3" style="font-size: 3rem;"></i>
+    <h3 class="mt-0">L'IA finalise l'extraction</h3>
+    <p class="text-color-secondary">Veuillez patienter quelques instants...</p>
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px', 'width': '300px', 'margin': '0 auto'}"></p-progressBar>
+</div>
+
+<!-- ══ PAGE ══ -->
+<div class="validation-page" *ngIf="!isLoading && !isWaitingForAI">
+
+    <!-- ── Stepper ── -->
+    <div class="stepper-wrapper p-4 pb-0">
+        <app-pipeline-stepper mode="phase1" [activeStep]="2" [dossierId]="dossierId" context="deposit">
+        </app-pipeline-stepper>
+    </div>
+
+    <main class="content-area p-4">
+
+        <!-- ── Page Header ── -->
+        <div class="card p-4 border-round-3xl shadow-2 card-pastel-blue mb-4 flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h1 class="text-midnight font-bold text-2xl m-0"><i class="pi pi-check-circle mr-2 text-primary"></i>Étape 1 : Validation des fondamentaux (P1)</h1>
+                <p class="text-blue-800 m-0 mt-1 opacity-80">
+                    L'IA a extrait ces {{ fields.length }} informations clés. Vérifiez-les avant la création du dossier.
+                </p>
+            </div>
+            
+            <button pButton icon="pi pi-server" label="Détails IA" class="p-button-outlined p-button-secondary p-button-sm border-round-3xl" (click)="openAiLogs()"></button>
+        </div>
+
+        <div class="page-header">
+            <div class="header-left">
+                <h2 class="page-title">
+                    <i class="pi pi-list-check"></i> Validation Phase 1
+                </h2>
+                <p class="page-subtitle">Vérifiez, corrigez et validez chaque champ extrait avant indexation.</p>
+            </div>
+            <div class="header-right flex align-items-center gap-3">
+                <button class="btn-apo-toggle" 
+                        (click)="toggleApoPreview()"
+                        [pTooltip]="showApoPreview ? 'Masquer le TDR' : 'Voir le TDR original'"
+                        tooltipPosition="top">
+                    <i [class]="showApoPreview ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+                </button>
+                <div class="progress-indicator" [class.all-done]="allValidated">
+                    <i [class]="allValidated ? 'pi pi-check-circle' : 'pi pi-hourglass'"></i>
+                    <span>{{ validatedCount }} / {{ fields.length }} validés</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Alerts ── -->
+        <div class="alert-banner visite-alert" *ngIf="visiteAlert">
+            <i class="pi pi-exclamation-triangle"></i>
+            <div>
+                <strong>Visite obligatoire imminente</strong>
+                <span> — Date : {{ getField('VISITE_DATE')?.value || '—' }} · J-{{ joursRestants }}</span>
+            </div>
+        </div>
+
+        <div class="alert-banner tjm-alert" *ngIf="tjmImplicite && tjmAlert">
+            <i class="pi pi-chart-bar"></i>
+            <div>
+                <strong>TJM implicite : {{ tjmImplicite | number:'1.0-0' }} €/j</strong>
+                <span> — Hors plage standard, vérifiez le budget.</span>
+            </div>
+        </div>
+
+        <!-- ── TJM info (non-alerte) ── -->
+        <div class="tjm-info-bar" *ngIf="tjmImplicite && !tjmAlert">
+            <i class="pi pi-chart-bar"></i>
+            <span>TJM implicite calculé : <strong>{{ tjmImplicite | number:'1.0-0' }} €/j</strong></span>
+        </div>
+
+        <!-- ── Global Actions Bar ── -->
+        <div class="global-actions-bar">
+            <button pButton 
+                    [icon]="validatedCount === fields.length ? 'pi pi-times-circle' : 'pi pi-check-square'" 
+                    [label]="validatedCount === fields.length ? 'Tout dé-valider' : 'Tout valider'"
+                    class="btn-ghost"
+                    (click)="toggleValidateAll()">
+            </button>
+            <button pButton icon="pi pi-refresh" label="Recharger"
+                    class="btn-ghost"
+                    (click)="loadExtractionFields()">
+            </button>
+        </div>
+
+        <!-- ── Validation Progress ── -->
+        <div class="validation-progress">
+            <div class="progress-fill" [style.width.%]="(validatedCount / fields.length) * 100"></div>
+        </div>
+
+
+        <!-- ════════════════════════════════ -->
+        <!-- SECTIONS GRID (Pastel Cards) -->
+        <!-- ════════════════════════════════ -->
+        <div class="sections-grid">
+            <div class="validation-section"
+                 *ngFor="let section of groupedFields; let sIdx = index"
+                 [ngClass]="'accent-' + section.color"
+                 [style.animation-delay.ms]="sIdx * 120">
+
+                <!-- Section Header -->
+                <div class="section-header">
+                    <div class="icon-wrapper">
+                        <i class="pi" [ngClass]="section.icon"></i>
+                    </div>
+                    <h3 class="section-title">{{ section.title }}</h3>
+                </div>
+
+                <!-- Fields -->
+                <div class="fields-list">
+                    <div class="field-item"
+                         *ngFor="let f of section.fields; let fIdx = index"
+                         [class.field-validated]="f.validated"
+                         [class.field-editing]="f.editing"
+                         [style.animation-delay.ms]="sIdx * 120 + fIdx * 60">
+
+                        <!-- Label Row -->
+                        <div class="field-label-row">
+                            <div class="label-left">
+                                <span class="field-label">{{ f.label }}</span>
+                                <span class="source-info" [pTooltip]="f.sourceText ? 'Source : « ' + f.sourceText + ' »' : 'Aucune source'" tooltipPosition="top">
+                                    <i class="pi pi-info-circle"></i>
+                                </span>
+                                <span class="modified-tag" *ngIf="f.humanModified">modifié</span>
+                            </div>
+                            <span class="confidence-badge" [ngClass]="confidenceClass(f.confidence)"
+                                  pTooltip="Confiance IA : {{ f.confidence }}%" tooltipPosition="top">
+                                <i class="pi" [ngClass]="f.confidence === 0 ? 'pi-exclamation-triangle' : 'pi-bolt'"></i> 
+                                <span>{{ f.confidence }}%</span>
+                            </span>
+                        </div>
+
+                        <!-- Content Row (Value + Actions) -->
+                        <div class="field-content-row">
+                            
+                            <!-- Value Display (Read Mode) -->
+                            <div class="field-value-box flex-grow-1" *ngIf="!f.editing">
+                                <ng-container *ngIf="f.value !== null && f.value !== ''">
+                                    <span class="field-value" *ngIf="f.value !== 'Oui' && f.value !== 'Non'">{{ f.value }}</span>
+                                    <p-tag *ngIf="f.value === 'Oui'" severity="success" value="Oui" [rounded]="true"></p-tag>
+                                    <p-tag *ngIf="f.value === 'Non'" severity="danger" value="Non" [rounded]="true"></p-tag>
+                                </ng-container>
+                                
+                                <span class="field-value empty" *ngIf="f.value === null || f.value === ''">
+                                    <p-tag severity="warning" value="Non extrait (À saisir)" icon="pi pi-pencil" [rounded]="true"></p-tag>
+                                </span>
+                            </div>
+
+                            <!-- Edit Mode -->
+                            <div class="field-edit-box flex-grow-1" *ngIf="f.editing">
+                                <input *ngIf="f.type === 'input' || f.type === 'number'"
+                                       pInputText class="edit-input"
+                                       [(ngModel)]="f.value"
+                                       [placeholder]="f.label" />
+                                <input *ngIf="f.type === 'date'"
+                                       type="date" class="edit-input"
+                                       [(ngModel)]="f.value" />
+                                <p-dropdown *ngIf="f.type === 'select'"
+                                            [options]="f.options!"
+                                            [(ngModel)]="f.value"
+                                            styleClass="edit-dropdown"
+                                            appendTo="body">
+                                </p-dropdown>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <button class="btn-icon-soft" *ngIf="!f.editing" (click)="startEdit(f)" pTooltip="Modifier" tooltipPosition="top">
+                                    <i class="pi pi-pencil"></i>
+                                </button>
+                                <button class="btn-icon-soft btn-save" *ngIf="f.editing" (click)="saveEdit(f)" pTooltip="Enregistrer" tooltipPosition="top">
+                                    <i class="pi pi-save"></i>
+                                </button>
+                                <button class="btn-icon-soft" (click)="reextract(f)" pTooltip="Ré-extraire" tooltipPosition="top">
+                                    <i class="pi pi-refresh"></i>
+                                </button>
+                                
+                                <div class="action-divider"></div>
+
+                                <!-- Big Validate Toggle -->
+                                <button class="btn-validate-toggle" [class.active]="f.validated" (click)="validateField(f)" [pTooltip]="f.validated ? 'Dévalider' : 'Valider'" tooltipPosition="top">
+                                    <i class="pi pi-check"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Validated Overlay -->
+                        <div class="validated-checkmark" *ngIf="f.validated">
+                            <i class="pi pi-verified"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Footer ── -->
+        <div class="page-footer">
+            <button pButton icon="pi pi-arrow-left" label="Retour"
+                    class="btn-ghost"
+                    routerLink="/dossiers">
+            </button>
+            <button pButton icon="pi pi-verified"
+                    label="Valider et indexer"
+                    class="btn-submit"
+                    [loading]="isSubmitting"
+                    [disabled]="!allValidated"
+                    (click)="submitValidation()">
+            </button>
+        </div>
+
+    </main>
+
+    <!-- APO Template Preview en mode Validation -->
+    <div class="apo-preview-wrapper p-4 pt-0" *ngIf="showApoPreview" style="animation: slideDown 0.4s ease-out;">
+        <app-apo-preview
+            [apoData]="apoPreviewData"
+            [confidences]="apoConfidences"
+            [validatedFields]="validatedFieldIds"
+            mode="validation">
+        </app-apo-preview>
+
+<!-- ── DIALOG LOGS IA ── -->
+<p-dialog header="Détails & Coûts IA"
+          [(visible)]="displayAiLogsDialog"
+          [modal]="true"
+          [style]="{width: '60vw', maxWidth: '800px'}"
+          [draggable]="false"
+          [resizable]="false">
+
+    <!-- KPI Summary -->
+    <div class="grid mb-4">
+        <div class="col-12 md:col-4">
+            <div class="card p-3 shadow-1 border-round-xl flex flex-column align-items-center justify-content-center bg-blue-50 text-blue-800">
+                <i class="pi pi-bolt text-2xl mb-2"></i>
+                <span class="text-sm">Appels IA</span>
+                <span class="text-xl font-bold">{{ aiLogs.length }}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-4">
+            <div class="card p-3 shadow-1 border-round-xl flex flex-column align-items-center justify-content-center bg-orange-50 text-orange-800">
+                <i class="pi pi-database text-2xl mb-2"></i>
+                <span class="text-sm">Tokens Consommés</span>
+                <span class="text-xl font-bold">{{ aiLogsStats.totalTokens | number }}</span>
+            </div>
+        </div>
+        <div class="col-12 md:col-4">
+            <div class="card p-3 shadow-1 border-round-xl flex flex-column align-items-center justify-content-center bg-green-50 text-green-800">
+                <i class="pi pi-dollar text-2xl mb-2"></i>
+                <span class="text-sm">Coût Estimé</span>
+                <span class="text-xl font-bold">{{ aiLogsStats.totalCost | currency:'USD':'symbol':'1.4-4' }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <p-table [value]="aiLogs" [loading]="aiLogsLoading" styleClass="p-datatable-sm" [rowHover]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Temps (ms)</th>
+                <th>Tokens</th>
+                <th class="text-right">Coût ($)</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log>
+            <tr>
+                <td class="text-500 text-sm">{{ log.createdAt | date:'shortTime' }}</td>
+                <td><p-tag [value]="log.actionType" severity="info"></p-tag></td>
+                <td>{{ log.responseTimeMs }} ms</td>
+                <td class="font-bold">{{ log.tokensConsumed | number }}</td>
+                <td class="text-right font-bold text-red-500">${{ log.estimatedCost | number:'1.4-4' }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" class="text-center p-4 text-500">Aucun log IA disponible pour ce dossier.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+    <div class="flex justify-content-end gap-2 mt-4">
+        <button pButton label="Fermer" icon="pi pi-times" class="p-button-text" (click)="displayAiLogsDialog = false"></button>
+    </div>
+</p-dialog>
+    </div>
+
+</div>

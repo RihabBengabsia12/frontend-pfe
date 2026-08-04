@@ -1,0 +1,42 @@
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.surface-hover {
+    transition: all 0.2s ease-in-out;
+}
+.surface-hover:hover {
+    background-color: var(--surface-hover);
+    transform: translateX(4px);
+}
+
+/* Animations Premium */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.glass-overlay {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Couleurs Pastel personnalisées pour les cartes de synthèse */
+.pastel-card {
+    background: linear-gradient(135deg, rgba(248,250,252,1) 0%, rgba(241,245,249,1) 100%);
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.7);
+    transition: transform 0.2s ease;
+}
+.pastel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.7);
+}

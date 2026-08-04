@@ -1,0 +1,141 @@
+{
+  "informations_generales": {
+    "pays": "République Tunisienne",
+    "intitule_offre": "Suivi et documentation de l'avancement des réformes vers un système alimentaire durable, soutenues par le PADR et le PACE",
+    "reference": "SUIDAR",
+    "client": "Ministère de l'Economie et de la Planification (MEP) – Unité de Gestion du Programme d'Appui à l'Accord d'Association (UGP3A)",
+    "resume_contexte_objectifs": "La mission s'inscrit dans le cadre du contrat SUIDAR, mis en œuvre par l'UGP3A sur 4 ans, visant à assurer le suivi des réformes vers un système alimentaire durable soutenues par les programmes d'appui budgétaire PADR et PACE. Le bénéficiaire principal est le MARHP, représenté par la DGEDA. La mission comporte deux objectifs spécifiques : (1) concevoir et déployer un dispositif de suivi trimestriel des réformes (base de données, tableau de bord, rapports, formation) ; (2) produire un bulletin bimensuel de veille informationnelle sur les politiques agricoles de l'UE. La zone d'intervention couvre l'ensemble du territoire tunisien, avec un siège à Tunis.",
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": "Union Européenne (UE)",
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "raw_text": null
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": null
+    },
+    "analyse_concurrence": null
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": "3 experts principaux sur 6 mois. Le nombre de personnes/jours par expert n'est pas renseigné dans le document (tableau vide dans les TDR).",
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "La date limite de soumission n'est pas mentionnée dans le document, ce qui ne permet pas d'évaluer le délai de préparation."
+    },
+    "duree_mission_mois": 6,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Date de démarrage indicative au 15/04/2026 pour 6 mois. Aucun élément interne ne permet d'évaluer la capacité à respecter ce délai."
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "seuil_technique": null,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": null,
+    "chef_de_file": null,
+    "roles_repartition": null
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": [
+      "Quel est le budget global alloué à ce marché et la structure de rémunération des experts (tarifs journaliers, nombre de jours par expert) ?",
+      "Quels sont les critères de sélection et de notation des offres (pondération technique/financière, seuil technique minimal) ?",
+      "Quelle est la date limite de soumission des offres et le calendrier complet de la procédure (publication, questions/réponses, attribution) ?",
+      "Le nombre de personnes/jours attendu par expert principal est-il défini dans un document annexe au TDR (le tableau figurant au point 6.1.1 est vide) ?",
+      "La mission est-elle ouverte à des soumissionnaires individuels ou uniquement à des groupements/consortiums ?"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "Non",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Faible",
+      "commentaire": "Tunisie : contexte économique en reprise progressive. Aucune alerte sécuritaire mentionnée dans le document."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Budget global non communiqué. Absence de tarifs de référence ou d'enveloppe financière indicative rendant difficile l'évaluation de la rentabilité de l'offre."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans le document."
+    },
+    "exigences_inacceptables": {
+      "niveau": "Faible",
+      "commentaire": "Les exigences portent sur des prestations classiques d'assistance technique (suivi-évaluation, veille, développement informatique). Aucune clause inacceptable identifiée."
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune garantie bancaire ou caution mentionnée."
+    },
+    "taille_dispersion": {
+      "niveau": "Faible",
+      "commentaire": "Mission de 6 mois à Tunis avec des déplacements limités sur le territoire tunisien. Taille et dispersion géographique maîtrisables."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Faible",
+      "commentaire": "Le contractant prend en charge les bureaux et équipements des experts. Aucun équipement transféré au PA. Frais logistiques a priori limités."
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget non communiqué. Impossible d'évaluer ce risque."
+    },
+    "participation_locale": {
+      "niveau": "Moyen",
+      "commentaire": "Un atout est accordé à une expérience en Tunisie (agriculture). Les fonctionnaires de l'administration publique tunisienne sont autorisés sous conditions strictes (justification, détachement). Risque modéré de disponibilité de profils locaux qualifiés."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune information fiscale mentionnée dans le document."
+    }
+  },
+  "decision": {
+    "recommandation": "Mission d'assistance technique de 6 mois en Tunisie, bien encadrée institutionnellement (UGP3A/MARHP/DGEDA), financée par l'UE. Les risques opérationnels sont modérés. Les principales incertitudes portent sur l'absence de budget communiqué, l'absence de critères de notation et le tableau des personnes/jours vide. Il est recommandé de demander des clarifications avant tout engagement de ressources significatives.",
+    "go_no_go": "GO",
+    "points_critiques": [
+      "Budget global et enveloppe financière non communiqués : impossible de valider la rentabilité sans cette information.",
+      "Nombre de personnes/jours par expert non renseigné dans le TDR (tableau vide au point 6.1.1).",
+      "Critères de sélection, pondération technique/financière et seuil technique absents du document.",
+      "Date limite de soumission non mentionnée.",
+      "Disponibilité de 3 experts principaux cumulant les profils requis (suivi-évaluation, veille, informatique) à vérifier en interne ou via partenariat."
+    ]
+  },
+  "plan_action": "1. Envoyer les 5 questions de clarification au pouvoir adjudicateur (UGP3A) avant la date limite de questions. 2. Identifier en interne ou via partenariat les 3 experts principaux correspondant aux profils exigés. 3. Dès réception du budget indicatif et des critères de notation, réaliser le chiffrage complet de l'offre financière. 4. Vérifier les conditions de soumission (individuel vs groupement) et désigner un chef de file si nécessaire. 5. Préparer les CV, déclarations d'exclusivité et de disponibilité des experts principaux."
+}

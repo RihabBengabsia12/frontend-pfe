@@ -1,0 +1,128 @@
+<p-toast></p-toast>
+
+<div class="px-4 pt-4 pb-0">
+    <app-pipeline-stepper mode="phase4" [activeStep]="0" context="rapport-final"></app-pipeline-stepper>
+</div>
+
+<div class="grid p-4 fade-in-up">
+    <!-- Header -->
+    <div class="col-12 mb-3 fade-in-up delay-1">
+        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2 hover-lift">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
+                    <i class="pi pi-file-pdf text-2xl text-blue-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-2xl m-0">Génération du Rapport d'Analyse Final</h1>
+                    <p class="text-blue-800 m-0 opacity-80 mt-1">Aperçu avant consolidation de toutes les données d'extraction, P-Win et Matching.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-12 lg:col-6 mb-4 fade-in-up">
+        <!-- Template Preview Card -->
+        <div class="card p-4 border-round-2xl shadow-2 hover-lift flex flex-column align-items-center justify-content-center h-full" style="min-height: 250px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+            <i class="pi pi-file-word text-6xl text-blue-400 mb-3 floating"></i>
+            <h3 class="text-xl font-bold text-700 m-0 mb-2">Modèle de Rapport (Template)</h3>
+            <p class="text-500 text-sm text-center mb-4 max-w-15rem">Visualisez le document modèle avant sa génération et son remplissage automatique par l'IA.</p>
+            <button pButton icon="pi pi-eye" label="Visualiser le modèle" class="p-button-outlined p-button-rounded p-button-info font-bold" (click)="showTemplatePreview = true"></button>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 mb-4 fade-in-up delay-2">
+        <!-- Actions Card -->
+        <div class="card p-4 border-round-2xl shadow-2 flex flex-column align-items-center justify-content-center h-full" style="min-height: 250px;">
+            <i class="pi pi-cog text-5xl text-purple-400 mb-3" [ngClass]="{'pi-spin': isGenerating}"></i>
+            <h3 class="text-xl font-bold text-700 m-0 mb-4">Actions de Génération</h3>
+            
+            <div class="flex flex-column gap-3 w-full max-w-15rem">
+                <!-- Prompt Config Button -->
+                <button pButton icon="pi pi-sliders-h" label="Ajuster Prompts IA" 
+                        class="p-button-rounded p-button-outlined p-button-secondary font-bold shadow-2 w-full" 
+                        (click)="promptDrawer.showDialog()"></button>
+
+                <!-- Generate Button -->
+                <button pButton icon="pi pi-cloud-upload" label="Générer Rapport" 
+                        class="p-button-rounded font-bold shadow-2 w-full" 
+                        [ngClass]="{'p-button-secondary': generatedReportPath, 'btn-pastel-primary pulse-button': !generatedReportPath}"
+                        (click)="generateRapport()"
+                        [disabled]="isGenerating"></button>
+                        
+                <!-- Export Button -->
+                <button pButton icon="pi pi-download" label="Exporter Rapport" 
+                        class="p-button-rounded p-button-success font-bold shadow-2 w-full" 
+                        [disabled]="!generatedReportPath"
+                        (click)="downloadReport()"></button>
+            </div>
+            
+            <div class="text-500 mt-4 text-xs text-center"><i class="pi pi-info-circle mr-1"></i> "Générer" remplira les champs du modèle avec les données extraites.</div>
+        </div>
+    </div>
+
+    <!-- Generated Report Section (Navigation) -->
+    <div id="generated-report-section" *ngIf="generatedReportPath" class="col-12 mt-2 mb-4 fade-in-up">
+        <div class="card p-4 border-round-xl border-1 border-blue-200" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+            <div class="flex align-items-center justify-content-center gap-3 mb-4">
+                <i class="pi pi-check-circle text-4xl text-green-600"></i>
+                <h2 class="text-green-800 m-0 font-bold text-2xl">Rapport Généré avec Succès</h2>
+            </div>
+            <div class="flex justify-content-center gap-4 mt-2">
+                <button pButton icon="pi pi-arrow-right" iconPos="right" label="Continuer vers l'Éditeur APO" 
+                        class="btn-pastel-success border-round-3xl px-6 py-3 font-bold shadow-3 text-lg hover-lift" 
+                        (click)="continueToApo()"></button>
+                        
+                <button pButton icon="pi pi-box" label="Continuer vers le Pack Final" 
+                        class="btn-pastel-info border-round-3xl px-6 py-3 font-bold shadow-3 text-lg hover-lift" 
+                        (click)="continueToPack()"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="flex flex-column align-items-center justify-content-center h-20rem">
+    <p-progressSpinner></p-progressSpinner>
+    <span class="text-600 mt-3 font-medium">Récupération des données du dossier...</span>
+</div>
+
+<!-- Modal de Génération Animée -->
+<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="false" [style]="{width: '450px'}" styleClass="border-round-2xl shadow-6">
+    <div class="flex flex-column align-items-center p-4 text-center">
+        <div class="w-5rem h-5rem bg-blue-50 border-circle flex align-items-center justify-content-center mb-4 floating">
+            <i class="pi pi-cog text-4xl text-blue-500" [ngClass]="{'pi-spin': progressValue < 100}"></i>
+        </div>
+        
+        <h2 class="text-900 font-bold m-0 mb-2">Création du Rapport Final</h2>
+        <p class="text-600 mb-5">{{ loadingMessages[loadingStep] }}</p>
+
+        <div class="w-full">
+            <p-progressBar [value]="progressValue" [showValue]="false" styleClass="h-1rem border-round-xl bg-blue-50"></p-progressBar>
+        </div>
+        <div class="text-right w-full mt-2 text-sm font-bold text-blue-600">{{ progressValue }}%</div>
+        
+        <div class="flex justify-content-between w-full mt-4 border-top-1 surface-border pt-4">
+            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 0}">
+                <i class="pi pi-database text-xl mb-1 text-blue-500"></i>
+                <span class="text-xs font-medium">Données</span>
+            </div>
+            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 1}">
+                <i class="pi pi-file-word text-xl mb-1 text-purple-500"></i>
+                <span class="text-xs font-medium">Formatage</span>
+            </div>
+            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 2}">
+                <i class="pi pi-check-circle text-xl mb-1 text-green-500"></i>
+                <span class="text-xs font-medium">Finalisation</span>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Modal de Prévisualisation du Template -->
+<p-dialog [(visible)]="showTemplatePreview" [modal]="true" header="Aperçu du Modèle (Template)" [style]="{width: '80vw', height: '90vh'}" [maximizable]="true" styleClass="border-round-xl" (onShow)="onTemplateModalShow()">
+    <div id="docx-preview-container" class="w-full h-full bg-white border-round-xl overflow-auto p-4" style="min-height: 500px;">
+        <!-- docx-preview will render the real DOCX here -->
+    </div>
+</p-dialog>
+
+<app-prompt-override #promptDrawer [dossierId]="dossierId"></app-prompt-override>

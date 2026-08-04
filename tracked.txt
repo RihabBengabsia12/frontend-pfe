@@ -1,0 +1,1733 @@
+.gitignore
+ProjectController.java
+ProjectIQ-PFE/.gitattributes
+ProjectIQ-PFE/.gitignore
+ProjectIQ-PFE/admin-service/.gitattributes
+ProjectIQ-PFE/admin-service/.gitignore
+ProjectIQ-PFE/admin-service/Dockerfile
+ProjectIQ-PFE/admin-service/pom.xml
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/AdminServiceApplication.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/CreateUserRequest.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/EmailNotificationDTO.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/PermissionGroupDTO.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/RoleRequest.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/UserResponse.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/DTO/UserSyncDTO.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/config/JwtAuthenticationFilter.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/config/JwtUtils.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/config/RabbitMQConfig.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/config/SecurityConfig.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/consumer/EmailConsumer.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/consumer/UserSyncListener.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/AuditController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/DashboardController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/PermissionController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/ProfileController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/RoleController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/controller/UserController.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/entity/AppUser.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/entity/DataEvent.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/entity/Permission.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/entity/Role.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/exception/AdminException.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/exception/GlobalExceptionHandler.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/repository/AppUserRepository.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/repository/DataEventRepository.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/repository/PermissionRepository.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/repository/RoleRepository.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/security/SecurityUtils.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/service/AuditService.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/service/DashboardService.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/service/RoleService.java
+ProjectIQ-PFE/admin-service/src/main/java/tn/rihab/adminservice/service/UserService.java
+ProjectIQ-PFE/admin-service/src/main/resources/application-docker.yml
+ProjectIQ-PFE/admin-service/src/main/resources/application.properties
+ProjectIQ-PFE/admin-service/src/main/resources/application.yml
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V1__create_admin_tables.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V2__seed_admin_user.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V3__seed_roles_permissions.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V4__update_permissions_structure.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V5__add_actor_email_to_data_event.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V6__add_actor_name_to_data_event.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V7__add_created_at_to_data_event.sql
+ProjectIQ-PFE/admin-service/src/main/resources/db/migration/V8__add_resource_to_data_event.sql
+ProjectIQ-PFE/admin-service/src/test/java/tn/rihab/adminservice/AdminServiceApplicationTests.java
+ProjectIQ-PFE/admin-service/target/admin-service-0.0.1-SNAPSHOT.jar
+ProjectIQ-PFE/admin-service/target/admin-service-0.0.1-SNAPSHOT.jar.original
+ProjectIQ-PFE/admin-service/target/classes/application-docker.yml
+ProjectIQ-PFE/admin-service/target/classes/application.properties
+ProjectIQ-PFE/admin-service/target/classes/application.yml
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V1__create_admin_tables.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V2__seed_admin_user.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V3__seed_roles_permissions.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V4__update_permissions_structure.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V5__add_actor_email_to_data_event.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V6__add_actor_name_to_data_event.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V7__add_created_at_to_data_event.sql
+ProjectIQ-PFE/admin-service/target/classes/db/migration/V8__add_resource_to_data_event.sql
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/AdminServiceApplication.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/CreateUserRequest.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/EmailNotificationDTO.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/PermissionGroupDTO.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/RoleRequest.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/UserResponse$UserResponseBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/UserResponse.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/UserSyncDTO$UserSyncDTOBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/DTO/UserSyncDTO.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/config/JwtAuthenticationFilter.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/config/JwtUtils.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/config/RabbitMQConfig.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/config/SecurityConfig.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/consumer/EmailConsumer.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/consumer/UserSyncListener.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/AuditController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/DashboardController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/PermissionController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/ProfileController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/RoleController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/controller/UserController.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/AppUser$AppUserBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/AppUser.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/DataEvent$DataEventBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/DataEvent.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/Permission$PermissionBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/Permission.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/Role$RoleBuilder.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/entity/Role.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/exception/AdminException.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/exception/GlobalExceptionHandler.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/repository/AppUserRepository.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/repository/DataEventRepository.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/repository/PermissionRepository.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/repository/RoleRepository.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/security/SecurityUtils.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/service/AuditService.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/service/DashboardService.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/service/RoleService.class
+ProjectIQ-PFE/admin-service/target/classes/tn/rihab/adminservice/service/UserService.class
+ProjectIQ-PFE/admin-service/target/maven-archiver/pom.properties
+ProjectIQ-PFE/admin-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ProjectIQ-PFE/admin-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ProjectIQ-PFE/admin-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+ProjectIQ-PFE/admin-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+ProjectIQ-PFE/admin-service/target/test-classes/tn/rihab/adminservice/AdminServiceApplicationTests.class
+ProjectIQ-PFE/analyste-service/.gitattributes
+ProjectIQ-PFE/analyste-service/.gitignore
+ProjectIQ-PFE/analyste-service/.mvn/wrapper/maven-wrapper.properties
+ProjectIQ-PFE/analyste-service/Dockerfile
+ProjectIQ-PFE/analyste-service/mvnw
+ProjectIQ-PFE/analyste-service/mvnw.cmd
+ProjectIQ-PFE/analyste-service/pom.xml
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/AnalysteServiceApplication.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/client/IaServiceClient.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/client/ProjectServiceClient.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/config/FeignConfig.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/config/MinIOConfig.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/config/RabbitMQConfig.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/config/ScoringConfigLoader.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/AnalyseController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ApoController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/DashboardController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ExportController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/IaAuditController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/MatchingController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ReferentielController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ScoringController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/controller/SseController.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/AuditEntryDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/DossierDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ApoGenerationContextDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ApoTextsResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/AuditContextDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/AuditReportResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChampResultDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChecklistRequestDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChecklistResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ExtractionRequestDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ExtractionResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MatchingContextDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MatrixResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MethodologieResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/NoGoContextDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/NoGoReportResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RequirementsResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RiskAnalysisResponseDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RiskItemDto.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/matching/MatchingEngine.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ClientMatcher.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/CompetencesMatcher.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ExpertsMatcher.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ReferencesMatcher.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/messaging/AnalysteEventConsumer.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/messaging/AnalysteEventPublisher.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/AnalyseDossier.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/ApoData.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/Competence.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/ExpertProfil.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/IaAuditLog.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/MatchingResult.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/NoGoReport.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/PwinScore.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/Reference.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/model/ScoringConfig.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/AnalyseDossierRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ApoDataRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/CompetenceRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ExpertProfilRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/IaAuditLogRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/MatchingResultRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/NoGoReportRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/PwinScoreRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ReferenceRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ScoringConfigRepository.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/ScoringConfigService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/ScoringEngine.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeConcurrenceCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeConformiteCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeFaisabiliteCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeRentabiliteCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeRisquesCalculator.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/AnalyseDeepService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/ApoAssemblyService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/AuditGenerationService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/ChecklistService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/DocumentExportService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/NoGoReportService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/PackGeneratorService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/PackStorageService.java
+ProjectIQ-PFE/analyste-service/src/main/java/tn/rihab/analysteservice/service/SseService.java
+ProjectIQ-PFE/analyste-service/src/main/resources/application.properties
+ProjectIQ-PFE/analyste-service/src/main/resources/application.yml
+ProjectIQ-PFE/analyste-service/src/main/resources/templates/APO-Formulaire Etudes-Template.docx
+ProjectIQ-PFE/analyste-service/src/main/resources/templates/Methodologie-Template.docx
+ProjectIQ-PFE/analyste-service/src/main/resources/templates/Rapport-Audit-Template.docx
+ProjectIQ-PFE/analyste-service/src/main/resources/templates/Rapport-General-Template.docx
+ProjectIQ-PFE/analyste-service/src/main/resources/templates/Rapport-NoGo-Template.docx
+ProjectIQ-PFE/analyste-service/src/test/java/tn/rihab/analysteservice/AnalysteServiceApplicationTests.java
+ProjectIQ-PFE/analyste-service/templates/APO-Formulaire Etudes-Template.docx
+ProjectIQ-PFE/analyste-service/templates/Methodologie-Template.docx
+ProjectIQ-PFE/analyste-service/templates/Rapport-Audit-Template.docx
+ProjectIQ-PFE/analyste-service/templates/Rapport-General-Template.docx
+ProjectIQ-PFE/analyste-service/templates/Rapport-NoGo-Template.docx
+ProjectIQ-PFE/analyste-service/templates/~$thodologie-Template.docx
+ProjectIQ-PFE/analyste-service/uploads/templates/APO-Formulaire Etudes-Template.docx
+ProjectIQ-PFE/api-gateway/.gitattributes
+ProjectIQ-PFE/api-gateway/.gitignore
+ProjectIQ-PFE/api-gateway/Dockerfile
+ProjectIQ-PFE/api-gateway/pom.xml
+ProjectIQ-PFE/api-gateway/src/main/java/tn/rihab/apigateway/ApiGatewayApplication.java
+ProjectIQ-PFE/api-gateway/src/main/resources/application.yml
+ProjectIQ-PFE/api-gateway/src/test/java/tn/rihab/apigateway/ApiGatewayApplicationTests.java
+ProjectIQ-PFE/api-gateway/target/classes/application.yml
+ProjectIQ-PFE/api-gateway/target/classes/tn/rihab/apigateway/ApiGatewayApplication.class
+ProjectIQ-PFE/api-gateway/target/gateway-service-0.0.1-SNAPSHOT.jar
+ProjectIQ-PFE/api-gateway/target/gateway-service-0.0.1-SNAPSHOT.jar.original
+ProjectIQ-PFE/api-gateway/target/maven-archiver/pom.properties
+ProjectIQ-PFE/api-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ProjectIQ-PFE/api-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ProjectIQ-PFE/api-gateway/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+ProjectIQ-PFE/api-gateway/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+ProjectIQ-PFE/api-gateway/target/test-classes/tn/rihab/apigateway/ApiGatewayApplicationTests.class
+ProjectIQ-PFE/auth-service/.gitattributes
+ProjectIQ-PFE/auth-service/.gitignore
+ProjectIQ-PFE/auth-service/Dockerfile
+ProjectIQ-PFE/auth-service/pom.xml
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/AuthServiceApplication.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/AccountResponse.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/ChangePasswordRequest.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/EmailNotificationDTO.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/LoginRequest.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/LoginResponse.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/RegisterRequest.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/ResetPasswordRequest.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/DTO/UserSyncDTO.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/config/AdminInitializer.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/config/RabbitMQConfig.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/config/SecurityConfig.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/consumer/EmailConsumer.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/controller/AuthController.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/entity/AccessEvent.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/entity/CredentialAccount.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/entity/RefreshToken.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/exception/AuthException.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/exception/GlobalExceptionHandler.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/repository/AccessEventRepository.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/repository/AccountRepository.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/repository/CredentialAccountRepository.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/repository/RefreshTokenRepository.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/security/JwtFilter.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/security/JwtService.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/service/AuditService.java
+ProjectIQ-PFE/auth-service/src/main/java/tn/rihab/authservice/service/AuthService.java
+ProjectIQ-PFE/auth-service/src/main/resources/application.properties
+ProjectIQ-PFE/auth-service/src/main/resources/application.yml
+ProjectIQ-PFE/auth-service/src/main/resources/db/migration/V1__create_auth_tables.sql
+ProjectIQ-PFE/auth-service/src/main/resources/db/migration/V2__seed_admin_credential.sql
+ProjectIQ-PFE/auth-service/src/main/resources/db/migration/V3__.sql
+ProjectIQ-PFE/auth-service/src/test/java/tn/rihab/authservice/AuthServiceApplicationTests.java
+ProjectIQ-PFE/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar
+ProjectIQ-PFE/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar.original
+ProjectIQ-PFE/auth-service/target/classes/application.properties
+ProjectIQ-PFE/auth-service/target/classes/application.yml
+ProjectIQ-PFE/auth-service/target/classes/db/migration/V1__create_auth_tables.sql
+ProjectIQ-PFE/auth-service/target/classes/db/migration/V2__seed_admin_credential.sql
+ProjectIQ-PFE/auth-service/target/classes/db/migration/V3__.sql
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/AuthServiceApplication.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/AccountResponse$AccountResponseBuilder.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/AccountResponse.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/ChangePasswordRequest.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/EmailNotificationDTO.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/LoginRequest.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/LoginResponse$LoginResponseBuilder.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/LoginResponse.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/RegisterRequest.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/ResetPasswordRequest.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/DTO/UserSyncDTO.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/config/AdminInitializer.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/config/RabbitMQConfig.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/config/SecurityConfig.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/consumer/EmailConsumer.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/controller/AuthController.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/AccessEvent$AccessEventBuilder.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/AccessEvent.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/CredentialAccount$CredentialAccountBuilder.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/CredentialAccount.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/RefreshToken$RefreshTokenBuilder.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/entity/RefreshToken.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/exception/AuthException.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/exception/GlobalExceptionHandler.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/repository/AccessEventRepository.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/repository/AccountRepository.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/repository/CredentialAccountRepository.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/repository/RefreshTokenRepository.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/security/JwtFilter.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/security/JwtService.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/service/AuditService.class
+ProjectIQ-PFE/auth-service/target/classes/tn/rihab/authservice/service/AuthService.class
+ProjectIQ-PFE/auth-service/target/maven-archiver/pom.properties
+ProjectIQ-PFE/auth-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ProjectIQ-PFE/auth-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ProjectIQ-PFE/auth-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+ProjectIQ-PFE/auth-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+ProjectIQ-PFE/auth-service/target/test-classes/tn/rihab/authservice/AuthServiceApplicationTests.class
+ProjectIQ-PFE/compose.yaml
+ProjectIQ-PFE/discovery-server/.gitattributes
+ProjectIQ-PFE/discovery-server/.gitignore
+ProjectIQ-PFE/discovery-server/Dockerfile
+ProjectIQ-PFE/discovery-server/pom.xml
+ProjectIQ-PFE/discovery-server/src/main/java/tn/rihab/discoveryserver/DiscoveryServerApplication.java
+ProjectIQ-PFE/discovery-server/src/main/resources/application.properties
+ProjectIQ-PFE/discovery-server/src/main/resources/application.yml
+ProjectIQ-PFE/discovery-server/src/test/java/tn/rihab/discoveryserver/DiscoveryServerApplicationTests.java
+ProjectIQ-PFE/discovery-server/target/classes/application.properties
+ProjectIQ-PFE/discovery-server/target/classes/application.yml
+ProjectIQ-PFE/discovery-server/target/classes/tn/rihab/discoveryserver/DiscoveryServerApplication.class
+ProjectIQ-PFE/discovery-server/target/discovery-service-0.0.1-SNAPSHOT.jar
+ProjectIQ-PFE/discovery-server/target/discovery-service-0.0.1-SNAPSHOT.jar.original
+ProjectIQ-PFE/discovery-server/target/maven-archiver/pom.properties
+ProjectIQ-PFE/discovery-server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ProjectIQ-PFE/discovery-server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ProjectIQ-PFE/discovery-server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+ProjectIQ-PFE/discovery-server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+ProjectIQ-PFE/discovery-server/target/test-classes/tn/rihab/discoveryserver/DiscoveryServerApplicationTests.class
+ProjectIQ-PFE/docker/postgres/init/01-bootstrap.sh
+ProjectIQ-PFE/gradlew
+ProjectIQ-PFE/init-db.sql
+ProjectIQ-PFE/pom.xml
+ProjectIQ-PFE/project-service/.gitattributes
+ProjectIQ-PFE/project-service/.gitignore
+ProjectIQ-PFE/project-service/.mvn/wrapper/maven-wrapper.properties
+ProjectIQ-PFE/project-service/Dockerfile
+ProjectIQ-PFE/project-service/mvnw
+ProjectIQ-PFE/project-service/mvnw.cmd
+ProjectIQ-PFE/project-service/pom.xml
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/ProjectServiceApplication.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/client/IaServiceClient.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/config/FeignConfig.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/config/MinIOConfig.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/config/RabbitMQConfig.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/config/SecurityConfig.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/AnonymizationController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/AuditController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/DelegationConfigController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/DocumentController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/DossierController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/ExtractionController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/controller/ValidationController.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/dto/ChampResult.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/dto/ExtractionRequestDto.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/dto/ExtractionResponseDto.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/dto/ReextractionRequestDto.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/dto/ValidateP1RequestDto.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/exception/GlobalExceptionHandler.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/messaging/EventConsumer.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/messaging/EventPublisher.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/messaging/dto/DossierEvent.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/DossierStatus.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/AnonymizationDict.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/AuditEntry.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/DelegationConfig.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/Dossier.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/ExtractionMetadata.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/model/entity/ValidationToken.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/AnonymizationDictRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/AuditEntryRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/DelegationConfigRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/DossierRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/ExtractionMetadataRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/repository/ValidationTokenRepository.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/AnonymizationService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/AuditTrailService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/DelegationConfigService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/DocumentParserService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/DossierService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/EmailService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/ExtractionService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/StorageService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/ValidationService.java
+ProjectIQ-PFE/project-service/src/main/java/tn/rihab/projectservice/service/ValidationTokenService.java
+ProjectIQ-PFE/project-service/src/main/resources/application.properties
+ProjectIQ-PFE/project-service/src/main/resources/application.yml
+ProjectIQ-PFE/project-service/src/main/resources/templates/APO-Formulaire Etudes-Template.docx
+ProjectIQ-PFE/project-service/src/test/java/tn/rihab/projectservice/ProjectServiceApplicationTests.java
+ProjectIQ-PFE/src/main/java/tn/rihab/projectiq/ProjectIqPfeApplication.java
+ProjectIQ-PFE/src/main/resources/application-docker.yml
+ProjectIQ-PFE/src/main/resources/application.properties
+ProjectIQ-PFE/src/main/resources/application.yml
+ProjectIQ-PFE/src/test/java/tn/rihab/projectiq/ProjectIqPfeApplicationTests.java
+ProjectIQ-PFE/uploads/00a64b04-d10c-48a5-be41-080eacba2bff.pdf
+ProjectIQ-PFE/uploads/012616fc-3df7-42c5-9c2a-028d0ff8f9e1.pdf
+ProjectIQ-PFE/uploads/0be96a7c-817b-46f5-bf06-17eb22ab5cb5.pdf
+ProjectIQ-PFE/uploads/129e6989-63e5-42dc-afc0-14c49edb3d22.pdf
+ProjectIQ-PFE/uploads/154dbe30-a1c2-470b-bc65-18f7bc088bb2.pdf
+ProjectIQ-PFE/uploads/1990501a-8446-403e-a305-21433872a44e.pdf
+ProjectIQ-PFE/uploads/22bc368b-2ac7-4065-b0fc-9dfde6ac1c10.pdf
+ProjectIQ-PFE/uploads/26c91562-d804-4571-b385-8013afd832c5.pdf
+ProjectIQ-PFE/uploads/2c5e241d-701f-4a81-b29d-764d418fe7e8.pdf
+ProjectIQ-PFE/uploads/3a26c181-628c-4753-83ff-4eca6d3a268d.pdf
+ProjectIQ-PFE/uploads/3bd15b68-dbb6-413f-92f2-8c885b1333aa.pdf
+ProjectIQ-PFE/uploads/45f36f0c-4687-4281-80c6-4febe807b9fa.pdf
+ProjectIQ-PFE/uploads/4bb28bca-8e40-45c0-b609-cdc9dbfac05f.pdf
+ProjectIQ-PFE/uploads/4d7c7c57-56e8-4909-ba25-9a4d2588a760.pdf
+ProjectIQ-PFE/uploads/4d90aa53-943b-4af0-868f-578d95359801.pdf
+ProjectIQ-PFE/uploads/4f20ffec-cc6f-4274-9df6-5387c2589d04.pdf
+ProjectIQ-PFE/uploads/503a7d7c-b2aa-4648-b981-c338d17b2180.pdf
+ProjectIQ-PFE/uploads/507f6263-220f-430c-ae02-669ddd5486f8.pdf
+ProjectIQ-PFE/uploads/57e817ef-99e1-4b89-b8ba-9360bd9398ca.pdf
+ProjectIQ-PFE/uploads/58ce20cd-e9fe-49e1-915a-c2d8f83dd7a0.pdf
+ProjectIQ-PFE/uploads/591dd29f-c935-4f7f-86ed-b3d9ea8ac538.pdf
+ProjectIQ-PFE/uploads/593aa611-553b-474b-99bf-c8334e64bffd.pdf
+ProjectIQ-PFE/uploads/605972ed-d9da-42b4-abc9-a19f4e01f7a6.pdf
+ProjectIQ-PFE/uploads/61e79a90-6b9b-4e14-95b6-68045b2deebe.pdf
+ProjectIQ-PFE/uploads/62ce5305-7ab1-45db-8b0d-2999c51b412a.pdf
+ProjectIQ-PFE/uploads/6311380a-cfae-458f-8217-adcf2b110d6f.pdf
+ProjectIQ-PFE/uploads/645c0550-b73b-472d-98bc-fd9fe61902cd.pdf
+ProjectIQ-PFE/uploads/6555c32f-59a2-486b-8060-113463bf6729.pdf
+ProjectIQ-PFE/uploads/68297bcb-7dc4-418f-8441-5a513ce03472.pdf
+ProjectIQ-PFE/uploads/6a317058-9a2f-49b6-81c8-3866068e96c2.pdf
+ProjectIQ-PFE/uploads/766f11e2-92b6-4549-9d95-813f5cb19eae.pdf
+ProjectIQ-PFE/uploads/79232aa5-2350-4980-93e9-476847e09292.pdf
+ProjectIQ-PFE/uploads/7df923a0-9fe8-4849-86c9-61cb57619f5d.pdf
+ProjectIQ-PFE/uploads/82b3c316-194b-4c38-bfff-78073d704ed5.pdf
+ProjectIQ-PFE/uploads/8ddc30fd-0489-45f2-a2d3-8d3469a95ba9.pdf
+ProjectIQ-PFE/uploads/92cf8192-a60f-4344-937e-01433c8078c1.pdf
+ProjectIQ-PFE/uploads/994d26d7-1c88-4abc-bde2-fc7f2bcfe5dc.pdf
+ProjectIQ-PFE/uploads/aa3c7c76-b23c-4374-a0b7-6790e2654a13.pdf
+ProjectIQ-PFE/uploads/abae8f98-a191-4531-a557-2d90aee5c541.pdf
+ProjectIQ-PFE/uploads/b04931dd-aafd-4a98-995c-3398bd6007e8.pdf
+ProjectIQ-PFE/uploads/b24d7eac-9ec3-455d-87bb-8cbf015c818d.pdf
+ProjectIQ-PFE/uploads/b5c54438-c085-4a91-b810-3c3a7bb829a9.pdf
+ProjectIQ-PFE/uploads/bacb0cd2-077e-4714-955c-fdf417432c41.pdf
+ProjectIQ-PFE/uploads/be1c0d00-8a49-433d-ab4c-437119bb3cda.pdf
+ProjectIQ-PFE/uploads/ca3b5641-159c-41e8-8098-4fc05ad594c7.pdf
+ProjectIQ-PFE/uploads/ccc168e4-1c19-4f8c-93f0-991cf724ee61.pdf
+ProjectIQ-PFE/uploads/d2c6313b-2ca7-4553-af06-6ac8c8a8463b.pdf
+ProjectIQ-PFE/uploads/d36ca834-4c81-4d2d-aea5-9ef87f069c71.pdf
+ProjectIQ-PFE/uploads/d4a216a3-e6fe-4920-985a-836b1749ea60.pdf
+ProjectIQ-PFE/uploads/d65e8a03-aed6-409b-8922-7e03a8d4920f.pdf
+ProjectIQ-PFE/uploads/d73e3d6a-682a-4908-9941-f5c61eeb8d92.pdf
+ProjectIQ-PFE/uploads/dd368554-ee74-46b1-883e-30227c308342.pdf
+ProjectIQ-PFE/uploads/e1ed9ae6-4180-4ffe-8090-4a212578b795.pdf
+ProjectIQ-PFE/uploads/e336ec83-588f-4e4d-837d-b4e03fb823cd.pdf
+ProjectIQ-PFE/uploads/e47df210-86b7-476c-94a5-9af553a5691a.pdf
+ProjectIQ-PFE/uploads/e76c0505-5410-4eae-8747-1089bb04049d.pdf
+ProjectIQ-PFE/uploads/eb300c7b-9272-40b0-8131-bc32693ed1c9.pdf
+ProjectIQ-PFE/uploads/ef750490-e26a-44de-a891-842ca93579bb.pdf
+ProjectIQ-PFE/uploads/f0a7ee65-a15c-4d05-a90c-802dac373cb3.pdf
+ProjectIQ-PFE/uploads/f47ab346-dbcd-4c60-9362-83137f829997.pdf
+ProjectIQ-PFE/uploads/f73fbd63-ca9e-4f74-aa9f-730996f0d628.pdf
+ProjectIQ-PFE/uploads/f74403aa-5d87-47b8-80eb-58249a5e221a.pdf
+ProjectIQ-PFE/uploads/fc364af5-69a6-4b9d-a552-076684a35601.pdf
+ProjectIQ-PFE/uploads/templates/APO-Formulaire Etudes-Template.docx
+TODO.md
+auth_logs.txt
+auth_out.txt
+back up back 19-06-26/.gitattributes
+back up back 19-06-26/.gitignore
+back up back 19-06-26/APO-Formulaire Etudes-Template (1).docx
+back up back 19-06-26/APO_Formulaire_20260326_143821.docx
+back up back 19-06-26/DPs/TDR.pdf
+back up back 19-06-26/DPs/TDR.txt
+back up back 19-06-26/DPs/TDR2.docx
+back up back 19-06-26/DPs/TDR3.docx
+back up back 19-06-26/DPs/TDR4.pdf
+back up back 19-06-26/DPs/chunks_semantic.json
+back up back 19-06-26/Extraction/__init__.py
+back up back 19-06-26/Extraction/extractor.py
+back up back 19-06-26/FRONTEND/package-lock.json
+back up back 19-06-26/FRONTEND/package.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/.editorconfig
+back up back 19-06-26/FRONTEND/projectIQ-frontend/.gitignore
+back up back 19-06-26/FRONTEND/projectIQ-frontend/README.md
+back up back 19-06-26/FRONTEND/projectIQ-frontend/angular.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/package-lock.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/package.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/public/favicon.ico
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.component.css
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.component.html
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.component.spec.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.component.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.config.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/app.routes.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/extraction-apo/extraction-apo.component.css
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/extraction-apo/extraction-apo.component.html
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/extraction-apo/extraction-apo.component.spec.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/app/extraction-apo/extraction-apo.component.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/index.html
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/main.ts
+back up back 19-06-26/FRONTEND/projectIQ-frontend/src/styles.css
+back up back 19-06-26/FRONTEND/projectIQ-frontend/tsconfig.app.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/tsconfig.json
+back up back 19-06-26/FRONTEND/projectIQ-frontend/tsconfig.spec.json
+back up back 19-06-26/Lecture/__init__.py
+back up back 19-06-26/Lecture/reader.py
+back up back 19-06-26/Nettoyage/__init__.py
+back up back 19-06-26/Nettoyage/cleaner.py
+back up back 19-06-26/Outputs/APO_Formulaire_20260330_150951.docx
+back up back 19-06-26/Remplissage/__init__.py
+back up back 19-06-26/Remplissage/formulaire.py
+back up back 19-06-26/Resultats/TDR2_20260317_143802.json
+back up back 19-06-26/Resultats/TDR2_20260326_093205.json
+back up back 19-06-26/Resultats/TDR2_20260326_113318.json
+back up back 19-06-26/Resultats/TDR3_20260326_093727.json
+back up back 19-06-26/Resultats/TDR3_20260326_121011.json
+back up back 19-06-26/Resultats/TDR4_20260326_100829.json
+back up back 19-06-26/Resultats/TDR4_20260326_115701.json
+back up back 19-06-26/Resultats/TDR_20260315_172107.json
+back up back 19-06-26/Resultats/TDR_20260317_121232.json
+back up back 19-06-26/Resultats/TDR_20260317_121524.json
+back up back 19-06-26/Resultats/TDR_20260317_132752.json
+back up back 19-06-26/Resultats/TDR_20260317_134121.json
+back up back 19-06-26/Resultats/TDR_20260317_135642.json
+back up back 19-06-26/Resultats/TDR_20260317_140419.json
+back up back 19-06-26/Resultats/TDR_20260317_141231.json
+back up back 19-06-26/Resultats/TDR_20260317_142233.json
+back up back 19-06-26/Resultats/TDR_20260323_155344.json
+back up back 19-06-26/Resultats/TDR_20260326_092830.json
+back up back 19-06-26/Resultats/TDR_20260326_103321.json
+back up back 19-06-26/Resultats/TDR_20260326_111230.json
+back up back 19-06-26/Resultats/TDR_20260326_111826.json
+back up back 19-06-26/Resultats/TDR_20260326_112639.json
+back up back 19-06-26/Resultats/TDR_20260326_113005.json
+back up back 19-06-26/Resultats/TDR_20260326_143706.json
+back up back 19-06-26/Resultats/TDR_20260328_003940.json
+back up back 19-06-26/Resultats/TDR_20260328_004236.json
+back up back 19-06-26/Resultats/TDR_20260328_004658.json
+back up back 19-06-26/Resultats/TDR_20260328_134121.json
+back up back 19-06-26/Resultats/TDR_20260328_134740.json
+back up back 19-06-26/Resultats/TDR_20260328_134951.json
+back up back 19-06-26/Test_qwen_claude.py
+back up back 19-06-26/Uploads/00a64b04-d10c-48a5-be41-080eacba2bff.pdf
+back up back 19-06-26/Uploads/012616fc-3df7-42c5-9c2a-028d0ff8f9e1.pdf
+back up back 19-06-26/Uploads/0be96a7c-817b-46f5-bf06-17eb22ab5cb5.pdf
+back up back 19-06-26/Uploads/129e6989-63e5-42dc-afc0-14c49edb3d22.pdf
+back up back 19-06-26/Uploads/154dbe30-a1c2-470b-bc65-18f7bc088bb2.pdf
+back up back 19-06-26/Uploads/1990501a-8446-403e-a305-21433872a44e.pdf
+"back up back 19-06-26/Uploads/20260330_155532_B-  Annexe 2- Termes de r\303\251f\303\251rence.pdf"
+back up back 19-06-26/Uploads/22bc368b-2ac7-4065-b0fc-9dfde6ac1c10.pdf
+back up back 19-06-26/Uploads/26c91562-d804-4571-b385-8013afd832c5.pdf
+back up back 19-06-26/Uploads/2c5e241d-701f-4a81-b29d-764d418fe7e8.pdf
+back up back 19-06-26/Uploads/3a26c181-628c-4753-83ff-4eca6d3a268d.pdf
+back up back 19-06-26/Uploads/3bd15b68-dbb6-413f-92f2-8c885b1333aa.pdf
+back up back 19-06-26/Uploads/45f36f0c-4687-4281-80c6-4febe807b9fa.pdf
+back up back 19-06-26/Uploads/4bb28bca-8e40-45c0-b609-cdc9dbfac05f.pdf
+back up back 19-06-26/Uploads/4d7c7c57-56e8-4909-ba25-9a4d2588a760.pdf
+back up back 19-06-26/Uploads/4d90aa53-943b-4af0-868f-578d95359801.pdf
+back up back 19-06-26/Uploads/4f20ffec-cc6f-4274-9df6-5387c2589d04.pdf
+back up back 19-06-26/Uploads/503a7d7c-b2aa-4648-b981-c338d17b2180.pdf
+back up back 19-06-26/Uploads/507f6263-220f-430c-ae02-669ddd5486f8.pdf
+back up back 19-06-26/Uploads/57e817ef-99e1-4b89-b8ba-9360bd9398ca.pdf
+back up back 19-06-26/Uploads/58ce20cd-e9fe-49e1-915a-c2d8f83dd7a0.pdf
+back up back 19-06-26/Uploads/591dd29f-c935-4f7f-86ed-b3d9ea8ac538.pdf
+back up back 19-06-26/Uploads/593aa611-553b-474b-99bf-c8334e64bffd.pdf
+back up back 19-06-26/Uploads/605972ed-d9da-42b4-abc9-a19f4e01f7a6.pdf
+back up back 19-06-26/Uploads/61e79a90-6b9b-4e14-95b6-68045b2deebe.pdf
+back up back 19-06-26/Uploads/62ce5305-7ab1-45db-8b0d-2999c51b412a.pdf
+back up back 19-06-26/Uploads/6311380a-cfae-458f-8217-adcf2b110d6f.pdf
+back up back 19-06-26/Uploads/645c0550-b73b-472d-98bc-fd9fe61902cd.pdf
+back up back 19-06-26/Uploads/6555c32f-59a2-486b-8060-113463bf6729.pdf
+back up back 19-06-26/Uploads/68297bcb-7dc4-418f-8441-5a513ce03472.pdf
+back up back 19-06-26/Uploads/6a317058-9a2f-49b6-81c8-3866068e96c2.pdf
+back up back 19-06-26/Uploads/766f11e2-92b6-4549-9d95-813f5cb19eae.pdf
+back up back 19-06-26/Uploads/79232aa5-2350-4980-93e9-476847e09292.pdf
+back up back 19-06-26/Uploads/7df923a0-9fe8-4849-86c9-61cb57619f5d.pdf
+back up back 19-06-26/Uploads/82b3c316-194b-4c38-bfff-78073d704ed5.pdf
+back up back 19-06-26/Uploads/8ddc30fd-0489-45f2-a2d3-8d3469a95ba9.pdf
+back up back 19-06-26/Uploads/92cf8192-a60f-4344-937e-01433c8078c1.pdf
+back up back 19-06-26/Uploads/994d26d7-1c88-4abc-bde2-fc7f2bcfe5dc.pdf
+back up back 19-06-26/Uploads/aa3c7c76-b23c-4374-a0b7-6790e2654a13.pdf
+back up back 19-06-26/Uploads/abae8f98-a191-4531-a557-2d90aee5c541.pdf
+back up back 19-06-26/Uploads/b04931dd-aafd-4a98-995c-3398bd6007e8.pdf
+back up back 19-06-26/Uploads/b24d7eac-9ec3-455d-87bb-8cbf015c818d.pdf
+back up back 19-06-26/Uploads/b5c54438-c085-4a91-b810-3c3a7bb829a9.pdf
+back up back 19-06-26/Uploads/bacb0cd2-077e-4714-955c-fdf417432c41.pdf
+back up back 19-06-26/Uploads/be1c0d00-8a49-433d-ab4c-437119bb3cda.pdf
+back up back 19-06-26/Uploads/ca3b5641-159c-41e8-8098-4fc05ad594c7.pdf
+back up back 19-06-26/Uploads/ccc168e4-1c19-4f8c-93f0-991cf724ee61.pdf
+back up back 19-06-26/Uploads/d2c6313b-2ca7-4553-af06-6ac8c8a8463b.pdf
+back up back 19-06-26/Uploads/d36ca834-4c81-4d2d-aea5-9ef87f069c71.pdf
+back up back 19-06-26/Uploads/d4a216a3-e6fe-4920-985a-836b1749ea60.pdf
+back up back 19-06-26/Uploads/d65e8a03-aed6-409b-8922-7e03a8d4920f.pdf
+back up back 19-06-26/Uploads/d73e3d6a-682a-4908-9941-f5c61eeb8d92.pdf
+back up back 19-06-26/Uploads/dd368554-ee74-46b1-883e-30227c308342.pdf
+back up back 19-06-26/Uploads/e1ed9ae6-4180-4ffe-8090-4a212578b795.pdf
+back up back 19-06-26/Uploads/e336ec83-588f-4e4d-837d-b4e03fb823cd.pdf
+back up back 19-06-26/Uploads/e47df210-86b7-476c-94a5-9af553a5691a.pdf
+back up back 19-06-26/Uploads/e76c0505-5410-4eae-8747-1089bb04049d.pdf
+back up back 19-06-26/Uploads/eb300c7b-9272-40b0-8131-bc32693ed1c9.pdf
+back up back 19-06-26/Uploads/ef750490-e26a-44de-a891-842ca93579bb.pdf
+back up back 19-06-26/Uploads/f0a7ee65-a15c-4d05-a90c-802dac373cb3.pdf
+back up back 19-06-26/Uploads/f47ab346-dbcd-4c60-9362-83137f829997.pdf
+back up back 19-06-26/Uploads/f73fbd63-ca9e-4f74-aa9f-730996f0d628.pdf
+back up back 19-06-26/Uploads/f74403aa-5d87-47b8-80eb-58249a5e221a.pdf
+back up back 19-06-26/Uploads/fc364af5-69a6-4b9d-a552-076684a35601.pdf
+back up back 19-06-26/Uploads/templates/APO-Formulaire Etudes-Template.docx
+back up back 19-06-26/admin-service/.gitattributes
+back up back 19-06-26/admin-service/.gitignore
+back up back 19-06-26/admin-service/Dockerfile
+back up back 19-06-26/admin-service/pom.xml
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/AdminServiceApplication.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/CreateUserRequest.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/EmailNotificationDTO.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/PermissionGroupDTO.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/RoleRequest.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/UserResponse.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/DTO/UserSyncDTO.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/config/JwtAuthenticationFilter.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/config/JwtUtils.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/config/RabbitMQConfig.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/config/SecurityConfig.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/consumer/EmailConsumer.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/consumer/UserSyncListener.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/AuditController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/DashboardController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/PermissionController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/ProfileController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/RoleController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/controller/UserController.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/entity/AppUser.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/entity/DataEvent.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/entity/Permission.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/entity/Role.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/exception/AdminException.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/exception/GlobalExceptionHandler.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/repository/AppUserRepository.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/repository/DataEventRepository.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/repository/PermissionRepository.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/repository/RoleRepository.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/security/SecurityUtils.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/service/AuditService.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/service/DashboardService.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/service/RoleService.java
+back up back 19-06-26/admin-service/src/main/java/tn/rihab/adminservice/service/UserService.java
+back up back 19-06-26/admin-service/src/main/resources/application-docker.yml
+back up back 19-06-26/admin-service/src/main/resources/application.properties
+back up back 19-06-26/admin-service/src/main/resources/application.yml
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V1__create_admin_tables.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V2__seed_admin_user.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V3__seed_roles_permissions.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V4__update_permissions_structure.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V5__add_actor_email_to_data_event.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V6__add_actor_name_to_data_event.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V7__add_created_at_to_data_event.sql
+back up back 19-06-26/admin-service/src/main/resources/db/migration/V8__add_resource_to_data_event.sql
+back up back 19-06-26/admin-service/src/test/java/tn/rihab/adminservice/AdminServiceApplicationTests.java
+back up back 19-06-26/admin-service/target/admin-service-0.0.1-SNAPSHOT.jar
+back up back 19-06-26/admin-service/target/admin-service-0.0.1-SNAPSHOT.jar.original
+back up back 19-06-26/admin-service/target/classes/application-docker.yml
+back up back 19-06-26/admin-service/target/classes/application.properties
+back up back 19-06-26/admin-service/target/classes/application.yml
+back up back 19-06-26/admin-service/target/classes/db/migration/V1__create_admin_tables.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V2__seed_admin_user.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V3__seed_roles_permissions.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V4__update_permissions_structure.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V5__add_actor_email_to_data_event.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V6__add_actor_name_to_data_event.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V7__add_created_at_to_data_event.sql
+back up back 19-06-26/admin-service/target/classes/db/migration/V8__add_resource_to_data_event.sql
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/AdminServiceApplication.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/CreateUserRequest.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/EmailNotificationDTO.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/PermissionGroupDTO.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/RoleRequest.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/UserResponse$UserResponseBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/UserResponse.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/UserSyncDTO$UserSyncDTOBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/DTO/UserSyncDTO.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/config/JwtAuthenticationFilter.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/config/JwtUtils.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/config/RabbitMQConfig.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/config/SecurityConfig.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/consumer/EmailConsumer.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/consumer/UserSyncListener.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/AuditController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/DashboardController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/PermissionController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/ProfileController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/RoleController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/controller/UserController.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/AppUser$AppUserBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/AppUser.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/DataEvent$DataEventBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/DataEvent.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/Permission$PermissionBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/Permission.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/Role$RoleBuilder.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/entity/Role.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/exception/AdminException.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/exception/GlobalExceptionHandler.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/repository/AppUserRepository.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/repository/DataEventRepository.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/repository/PermissionRepository.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/repository/RoleRepository.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/security/SecurityUtils.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/service/AuditService.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/service/DashboardService.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/service/RoleService.class
+back up back 19-06-26/admin-service/target/classes/tn/rihab/adminservice/service/UserService.class
+back up back 19-06-26/admin-service/target/maven-archiver/pom.properties
+back up back 19-06-26/admin-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+back up back 19-06-26/admin-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+back up back 19-06-26/admin-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+back up back 19-06-26/admin-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+back up back 19-06-26/admin-service/target/test-classes/tn/rihab/adminservice/AdminServiceApplicationTests.class
+back up back 19-06-26/analyste-service/.gitattributes
+back up back 19-06-26/analyste-service/.gitignore
+back up back 19-06-26/analyste-service/.mvn/wrapper/maven-wrapper.properties
+back up back 19-06-26/analyste-service/Dockerfile
+back up back 19-06-26/analyste-service/mvnw
+back up back 19-06-26/analyste-service/mvnw.cmd
+back up back 19-06-26/analyste-service/pom.xml
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/AnalysteServiceApplication.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/client/IaServiceClient.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/client/ProjectServiceClient.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/config/FeignConfig.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/config/MinIOConfig.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/config/RabbitMQConfig.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/config/ScoringConfigLoader.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/AnalyseController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ApoController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ExportController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/MatchingController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ReferentielController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/controller/ScoringController.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/AuditEntryDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/DossierDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ApoGenerationContextDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ApoTextsResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/AuditContextDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/AuditReportResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChampResultDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChecklistRequestDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ChecklistResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ExtractionRequestDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/ExtractionResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MatchingContextDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MatrixResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/MethodologieResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/NoGoContextDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/NoGoReportResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RequirementsResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RiskAnalysisResponseDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/dto/ia/RiskItemDto.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/matching/MatchingEngine.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ClientMatcher.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/CompetencesMatcher.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ExpertsMatcher.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/matching/matchers/ReferencesMatcher.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/messaging/AnalysteEventConsumer.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/messaging/AnalysteEventPublisher.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/AnalyseDossier.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/ApoData.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/Competence.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/ExpertProfil.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/MatchingResult.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/NoGoReport.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/PwinScore.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/Reference.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/model/ScoringConfig.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/AnalyseDossierRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ApoDataRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/CompetenceRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ExpertProfilRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/MatchingResultRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/NoGoReportRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/PwinScoreRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ReferenceRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/repository/ScoringConfigRepository.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/ScoringConfigService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/ScoringEngine.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeConcurrenceCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeConformiteCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeFaisabiliteCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeRentabiliteCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/scoring/calculators/AxeRisquesCalculator.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/AnalyseDeepService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/ApoAssemblyService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/AuditGenerationService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/ChecklistService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/DocumentExportService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/NoGoReportService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/PackGeneratorService.java
+back up back 19-06-26/analyste-service/src/main/java/tn/rihab/analysteservice/service/PackStorageService.java
+back up back 19-06-26/analyste-service/src/main/resources/application.properties
+back up back 19-06-26/analyste-service/src/main/resources/application.yml
+back up back 19-06-26/analyste-service/src/test/java/tn/rihab/analysteservice/AnalysteServiceApplicationTests.java
+back up back 19-06-26/analyste-service/templates/APO-Formulaire Etudes-Template.docx
+back up back 19-06-26/analyste-service/templates/Methodologie-Template.docx
+back up back 19-06-26/analyste-service/templates/Rapport-Audit-Template.docx
+back up back 19-06-26/analyste-service/templates/Rapport-General-Template.docx
+back up back 19-06-26/analyste-service/uploads/templates/APO-Formulaire Etudes-Template.docx
+back up back 19-06-26/api-gateway/.gitattributes
+back up back 19-06-26/api-gateway/.gitignore
+back up back 19-06-26/api-gateway/Dockerfile
+back up back 19-06-26/api-gateway/pom.xml
+back up back 19-06-26/api-gateway/src/main/java/tn/rihab/apigateway/ApiGatewayApplication.java
+back up back 19-06-26/api-gateway/src/main/resources/application.yml
+back up back 19-06-26/api-gateway/src/test/java/tn/rihab/apigateway/ApiGatewayApplicationTests.java
+back up back 19-06-26/api-gateway/target/classes/application.yml
+back up back 19-06-26/api-gateway/target/classes/tn/rihab/apigateway/ApiGatewayApplication.class
+back up back 19-06-26/api-gateway/target/gateway-service-0.0.1-SNAPSHOT.jar
+back up back 19-06-26/api-gateway/target/gateway-service-0.0.1-SNAPSHOT.jar.original
+back up back 19-06-26/api-gateway/target/maven-archiver/pom.properties
+back up back 19-06-26/api-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+back up back 19-06-26/api-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+back up back 19-06-26/api-gateway/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+back up back 19-06-26/api-gateway/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+back up back 19-06-26/api-gateway/target/test-classes/tn/rihab/apigateway/ApiGatewayApplicationTests.class
+back up back 19-06-26/api.py
+back up back 19-06-26/auth-service/.gitattributes
+back up back 19-06-26/auth-service/.gitignore
+back up back 19-06-26/auth-service/Dockerfile
+back up back 19-06-26/auth-service/pom.xml
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/AuthServiceApplication.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/AccountResponse.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/ChangePasswordRequest.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/EmailNotificationDTO.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/LoginRequest.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/LoginResponse.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/RegisterRequest.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/ResetPasswordRequest.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/DTO/UserSyncDTO.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/config/AdminInitializer.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/config/RabbitMQConfig.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/config/SecurityConfig.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/consumer/EmailConsumer.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/controller/AuthController.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/entity/AccessEvent.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/entity/CredentialAccount.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/entity/RefreshToken.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/exception/AuthException.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/exception/GlobalExceptionHandler.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/repository/AccessEventRepository.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/repository/AccountRepository.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/repository/CredentialAccountRepository.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/repository/RefreshTokenRepository.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/security/JwtFilter.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/security/JwtService.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/service/AuditService.java
+back up back 19-06-26/auth-service/src/main/java/tn/rihab/authservice/service/AuthService.java
+back up back 19-06-26/auth-service/src/main/resources/application.properties
+back up back 19-06-26/auth-service/src/main/resources/application.yml
+back up back 19-06-26/auth-service/src/main/resources/db/migration/V1__create_auth_tables.sql
+back up back 19-06-26/auth-service/src/main/resources/db/migration/V2__seed_admin_credential.sql
+back up back 19-06-26/auth-service/src/main/resources/db/migration/V3__.sql
+back up back 19-06-26/auth-service/src/test/java/tn/rihab/authservice/AuthServiceApplicationTests.java
+back up back 19-06-26/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar
+back up back 19-06-26/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar.original
+back up back 19-06-26/auth-service/target/classes/application.properties
+back up back 19-06-26/auth-service/target/classes/application.yml
+back up back 19-06-26/auth-service/target/classes/db/migration/V1__create_auth_tables.sql
+back up back 19-06-26/auth-service/target/classes/db/migration/V2__seed_admin_credential.sql
+back up back 19-06-26/auth-service/target/classes/db/migration/V3__.sql
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/AuthServiceApplication.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/AccountResponse$AccountResponseBuilder.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/AccountResponse.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/ChangePasswordRequest.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/EmailNotificationDTO.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/LoginRequest.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/LoginResponse$LoginResponseBuilder.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/LoginResponse.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/RegisterRequest.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/ResetPasswordRequest.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/DTO/UserSyncDTO.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/config/AdminInitializer.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/config/RabbitMQConfig.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/config/SecurityConfig.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/consumer/EmailConsumer.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/controller/AuthController.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/AccessEvent$AccessEventBuilder.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/AccessEvent.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/CredentialAccount$CredentialAccountBuilder.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/CredentialAccount.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/RefreshToken$RefreshTokenBuilder.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/entity/RefreshToken.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/exception/AuthException.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/exception/GlobalExceptionHandler.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/repository/AccessEventRepository.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/repository/AccountRepository.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/repository/CredentialAccountRepository.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/repository/RefreshTokenRepository.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/security/JwtFilter.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/security/JwtService.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/service/AuditService.class
+back up back 19-06-26/auth-service/target/classes/tn/rihab/authservice/service/AuthService.class
+back up back 19-06-26/auth-service/target/maven-archiver/pom.properties
+back up back 19-06-26/auth-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+back up back 19-06-26/auth-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+back up back 19-06-26/auth-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+back up back 19-06-26/auth-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+back up back 19-06-26/auth-service/target/test-classes/tn/rihab/authservice/AuthServiceApplicationTests.class
+back up back 19-06-26/chunker.py
+back up back 19-06-26/compose.yaml
+back up back 19-06-26/discovery-server/.gitattributes
+back up back 19-06-26/discovery-server/.gitignore
+back up back 19-06-26/discovery-server/Dockerfile
+back up back 19-06-26/discovery-server/pom.xml
+back up back 19-06-26/discovery-server/src/main/java/tn/rihab/discoveryserver/DiscoveryServerApplication.java
+back up back 19-06-26/discovery-server/src/main/resources/application.properties
+back up back 19-06-26/discovery-server/src/main/resources/application.yml
+back up back 19-06-26/discovery-server/src/test/java/tn/rihab/discoveryserver/DiscoveryServerApplicationTests.java
+back up back 19-06-26/discovery-server/target/classes/application.properties
+back up back 19-06-26/discovery-server/target/classes/application.yml
+back up back 19-06-26/discovery-server/target/classes/tn/rihab/discoveryserver/DiscoveryServerApplication.class
+back up back 19-06-26/discovery-server/target/discovery-service-0.0.1-SNAPSHOT.jar
+back up back 19-06-26/discovery-server/target/discovery-service-0.0.1-SNAPSHOT.jar.original
+back up back 19-06-26/discovery-server/target/maven-archiver/pom.properties
+back up back 19-06-26/discovery-server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+back up back 19-06-26/discovery-server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+back up back 19-06-26/discovery-server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+back up back 19-06-26/discovery-server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+back up back 19-06-26/discovery-server/target/test-classes/tn/rihab/discoveryserver/DiscoveryServerApplicationTests.class
+back up back 19-06-26/docker/postgres/init/01-bootstrap.sh
+back up back 19-06-26/extraction_20260323_111646.json
+back up back 19-06-26/extraction_20260323_122732.json
+back up back 19-06-26/extraction_qwen_claude_20260323_090859.json
+back up back 19-06-26/extraction_qwen_claude_20260323_092016.json
+back up back 19-06-26/gradlew
+back up back 19-06-26/groq_claude.py
+back up back 19-06-26/groq_claude_20260323_100016.json
+back up back 19-06-26/groq_resultat.json
+back up back 19-06-26/init-db.sql
+back up back 19-06-26/main.py
+back up back 19-06-26/ollama_chunked_resultat.json
+back up back 19-06-26/ollama_resultat.json
+back up back 19-06-26/pom.xml
+back up back 19-06-26/project-service/.gitattributes
+back up back 19-06-26/project-service/.gitignore
+back up back 19-06-26/project-service/.mvn/wrapper/maven-wrapper.properties
+back up back 19-06-26/project-service/Dockerfile
+back up back 19-06-26/project-service/mvnw
+back up back 19-06-26/project-service/mvnw.cmd
+back up back 19-06-26/project-service/pom.xml
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/ProjectServiceApplication.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/client/IaServiceClient.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/config/FeignConfig.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/config/MinIOConfig.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/config/RabbitMQConfig.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/config/SecurityConfig.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/controller/AuditController.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/controller/DocumentController.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/controller/DossierController.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/controller/ExtractionController.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/controller/ValidationController.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/dto/ChampResult.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/dto/ExtractionRequestDto.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/dto/ExtractionResponseDto.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/dto/ReextractionRequestDto.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/dto/ValidateP1RequestDto.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/exception/GlobalExceptionHandler.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/messaging/EventConsumer.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/messaging/EventPublisher.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/messaging/dto/DossierEvent.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/model/DossierStatus.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/model/entity/AuditEntry.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/model/entity/Dossier.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/model/entity/ExtractionMetadata.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/model/entity/ValidationToken.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/repository/AuditEntryRepository.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/repository/DossierRepository.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/repository/ExtractionMetadataRepository.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/repository/ValidationTokenRepository.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/AuditTrailService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/DocumentParserService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/DossierService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/EmailService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/ExtractionService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/StorageService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/ValidationService.java
+back up back 19-06-26/project-service/src/main/java/tn/rihab/projectservice/service/ValidationTokenService.java
+back up back 19-06-26/project-service/src/main/resources/application.properties
+back up back 19-06-26/project-service/src/main/resources/application.yml
+back up back 19-06-26/project-service/src/main/resources/templates/APO-Formulaire Etudes-Template.docx
+back up back 19-06-26/project-service/src/test/java/tn/rihab/projectservice/ProjectServiceApplicationTests.java
+back up back 19-06-26/qwen_resultat.json
+back up back 19-06-26/requirements.txt
+back up back 19-06-26/resultat_extraction.json
+back up back 19-06-26/src/main/java/tn/rihab/projectiq/ProjectIqPfeApplication.java
+back up back 19-06-26/src/main/resources/application-docker.yml
+back up back 19-06-26/src/main/resources/application.properties
+back up back 19-06-26/src/main/resources/application.yml
+back up back 19-06-26/src/test/java/tn/rihab/projectiq/ProjectIqPfeApplicationTests.java
+back up back 19-06-26/test-3llm.py
+back up back 19-06-26/test_qwen.py
+curl_8083.txt
+curl_out.txt
+curl_projects.txt
+curl_projects2.txt
+docker_logs.txt
+docker_logs_utf8.txt
+docker_ps.txt
+docker_ps_utf8.txt
+eureka.json
+eureka2.json
+eureka3.json
+files.txt
+found.txt
+gateway_resources.txt
+ia-service/Dockerfile
+ia-service/main.py
+ia-service/models/extraction_request.py
+ia-service/models/extraction_response.py
+ia-service/models/generation_request.py
+ia-service/models/scoring_request.py
+ia-service/prompts/prompt_apo_argumentaire.txt
+ia-service/prompts/prompt_apo_resume.txt
+ia-service/prompts/prompt_diff_matrix.txt
+ia-service/prompts/prompt_extract_requirements.txt
+ia-service/prompts/prompt_methodologie.txt
+ia-service/prompts/prompt_nogo_report.txt
+ia-service/prompts/prompt_p1.txt
+ia-service/prompts/prompt_p2_fields.txt
+ia-service/prompts/prompt_points_critiques.txt
+ia-service/prompts/prompt_risk_analysis.txt
+ia-service/requirements.txt
+ia-service/routers/__init__.py
+ia-service/routers/audit_router.py
+ia-service/routers/config_router.py
+ia-service/routers/extraction_router.py
+ia-service/routers/generation_router.py
+ia-service/routers/matching_router.py
+ia-service/routers/scoring_router.py
+ia-service/services/__init__.py
+ia-service/services/apo_generation_service.py
+ia-service/services/audit_report_service.py
+ia-service/services/checklist_service.py
+ia-service/services/claude_client.py
+ia-service/services/diff_matrix_service.py
+ia-service/services/extraction_p1_service.py
+ia-service/services/extraction_p2_service.py
+ia-service/services/matching_analysis_service.py
+ia-service/services/methodologie_service.py
+ia-service/services/nogo_report_service.py
+ia-service/services/risk_analysis_service.py
+ia-service/validators/field_validators.py
+ia-service/validators/scoring_validators.py
+ia_docker_logs.txt
+ia_logs_utf8.txt
+netstat_out.txt
+proc_out.txt
+project-iq-ui/.editorconfig
+project-iq-ui/.eslintrc.json
+project-iq-ui/.gitignore
+project-iq-ui/APO-Formulaire Etudes-Template.docx
+project-iq-ui/CHANGELOG.md
+project-iq-ui/LICENSE.md
+project-iq-ui/README.md
+project-iq-ui/TODO.md
+project-iq-ui/angular.json
+project-iq-ui/cypress.config.ts
+project-iq-ui/cypress/e2e/manager-flow.cy.ts
+project-iq-ui/package-lock.json
+project-iq-ui/package.json
+project-iq-ui/proxy.conf.json
+project-iq-ui/src/app/app-routing.module.ts
+project-iq-ui/src/app/app.component.html
+project-iq-ui/src/app/app.component.ts
+project-iq-ui/src/app/app.module.ts
+project-iq-ui/src/app/demo/api/customer.ts
+project-iq-ui/src/app/demo/api/image.ts
+project-iq-ui/src/app/demo/api/product.ts
+project-iq-ui/src/app/demo/components/admin/admin-routing.module.ts
+project-iq-ui/src/app/demo/components/admin/admin.module.ts
+project-iq-ui/src/app/demo/components/admin/audit/audit.component.html
+project-iq-ui/src/app/demo/components/admin/audit/audit.component.ts
+project-iq-ui/src/app/demo/components/admin/audit/mock-audit-data.ts
+project-iq-ui/src/app/demo/components/admin/delegations/delegations-page.component.html
+project-iq-ui/src/app/demo/components/admin/delegations/delegations-page.component.scss
+project-iq-ui/src/app/demo/components/admin/delegations/delegations-page.component.ts
+project-iq-ui/src/app/demo/components/admin/dlp-config/dlp-config.component.html
+project-iq-ui/src/app/demo/components/admin/dlp-config/dlp-config.component.scss
+project-iq-ui/src/app/demo/components/admin/dlp-config/dlp-config.component.ts
+project-iq-ui/src/app/demo/components/admin/health/health.component.html
+project-iq-ui/src/app/demo/components/admin/health/health.component.ts
+project-iq-ui/src/app/demo/components/admin/matching-config-page/matching-config-page.component.html
+project-iq-ui/src/app/demo/components/admin/matching-config-page/matching-config-page.component.ts
+project-iq-ui/src/app/demo/components/admin/profile/profile.component.html
+project-iq-ui/src/app/demo/components/admin/profile/profile.component.ts
+project-iq-ui/src/app/demo/components/admin/referentiel/referentiel-page.component.html
+project-iq-ui/src/app/demo/components/admin/referentiel/referentiel-page.component.scss
+project-iq-ui/src/app/demo/components/admin/referentiel/referentiel-page.component.ts
+project-iq-ui/src/app/demo/components/admin/roles/roles.component.html
+project-iq-ui/src/app/demo/components/admin/roles/roles.component.ts
+project-iq-ui/src/app/demo/components/admin/scoring-config-page/scoring-config-page.component.html
+project-iq-ui/src/app/demo/components/admin/scoring-config-page/scoring-config-page.component.ts
+project-iq-ui/src/app/demo/components/admin/scoring-config-page/weight-sliders/weight-sliders.component.html
+project-iq-ui/src/app/demo/components/admin/scoring-config-page/weight-sliders/weight-sliders.component.ts
+project-iq-ui/src/app/demo/components/admin/system-audit/system-audit-routing.module.ts
+project-iq-ui/src/app/demo/components/admin/system-audit/system-audit.component.html
+project-iq-ui/src/app/demo/components/admin/system-audit/system-audit.component.ts
+project-iq-ui/src/app/demo/components/admin/system-audit/system-audit.module.ts
+project-iq-ui/src/app/demo/components/admin/users/users.component.html
+project-iq-ui/src/app/demo/components/admin/users/users.component.ts
+project-iq-ui/src/app/demo/components/admin/validations/mock-users.ts
+project-iq-ui/src/app/demo/components/admin/validations/validations.component.html
+project-iq-ui/src/app/demo/components/admin/validations/validations.component.ts
+project-iq-ui/src/app/demo/components/analyst/analyses-logs/analyst-analyses-logs.component.html
+project-iq-ui/src/app/demo/components/analyst/analyses-logs/analyst-analyses-logs.component.ts
+project-iq-ui/src/app/demo/components/analyst/analyses/analyst-analyses.component.html
+project-iq-ui/src/app/demo/components/analyst/analyses/analyst-analyses.component.ts
+project-iq-ui/src/app/demo/components/analyst/analyst-routing.module.ts
+project-iq-ui/src/app/demo/components/analyst/analyst.module.ts
+project-iq-ui/src/app/demo/components/analyst/apo-editor-page/apo-editor-page.component.html
+project-iq-ui/src/app/demo/components/analyst/apo-editor-page/apo-editor-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/apo-editor-page/apo-editor-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/apo-editor-page/apo-field.component.ts
+project-iq-ui/src/app/demo/components/analyst/apos/analyst-apos.component.html
+project-iq-ui/src/app/demo/components/analyst/apos/analyst-apos.component.ts
+project-iq-ui/src/app/demo/components/analyst/config-ia/analyst-config-ia.component.html
+project-iq-ui/src/app/demo/components/analyst/config-ia/analyst-config-ia.component.ts
+project-iq-ui/src/app/demo/components/analyst/config/analyst-config.component.html
+project-iq-ui/src/app/demo/components/analyst/config/analyst-config.component.ts
+project-iq-ui/src/app/demo/components/analyst/dashboard/analyst-dashboard.component.html
+project-iq-ui/src/app/demo/components/analyst/dashboard/analyst-dashboard.component.scss
+project-iq-ui/src/app/demo/components/analyst/dashboard/analyst-dashboard.component.ts
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/_deep-analysis-shared.scss
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/contract-details/contract-details.component.html
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/contract-details/contract-details.component.scss
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/contract-details/contract-details.component.ts
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/deep-analysis-page.component.html
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/deep-analysis-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/deep-analysis-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/eligibility-panel/eligibility-panel.component.html
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/eligibility-panel/eligibility-panel.component.scss
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/eligibility-panel/eligibility-panel.component.ts
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/risk-evaluator/risk-evaluator.component.html
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/risk-evaluator/risk-evaluator.component.ts
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/risk-level-selector/risk-level-selector.component.html
+project-iq-ui/src/app/demo/components/analyst/deep-analysis-page/risk-level-selector/risk-level-selector.component.ts
+project-iq-ui/src/app/demo/components/analyst/deposit/extraction-page/extraction-page.component.html
+project-iq-ui/src/app/demo/components/analyst/deposit/extraction-page/extraction-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/deposit/extraction-page/extraction-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/deposit/indexation-page/indexation-page.component.html
+project-iq-ui/src/app/demo/components/analyst/deposit/indexation-page/indexation-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/deposit/indexation-page/indexation-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/deposit/upload-page/upload-page.component.html
+project-iq-ui/src/app/demo/components/analyst/deposit/upload-page/upload-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/deposit/upload-page/upload-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/deposit/validation-p1-page/validation-p1-page.component.html
+project-iq-ui/src/app/demo/components/analyst/deposit/validation-p1-page/validation-p1-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/deposit/validation-p1-page/validation-p1-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/documents/analyst-documents.component.html
+project-iq-ui/src/app/demo/components/analyst/documents/analyst-documents.component.ts
+project-iq-ui/src/app/demo/components/analyst/dossiers/analyst-dossiers.component.html
+project-iq-ui/src/app/demo/components/analyst/dossiers/analyst-dossiers.component.scss
+project-iq-ui/src/app/demo/components/analyst/dossiers/analyst-dossiers.component.ts
+project-iq-ui/src/app/demo/components/analyst/experts/analyst-experts.component.html
+project-iq-ui/src/app/demo/components/analyst/experts/analyst-experts.component.ts
+project-iq-ui/src/app/demo/components/analyst/extraction/analyst-extraction.component.html
+project-iq-ui/src/app/demo/components/analyst/extraction/analyst-extraction.component.ts
+project-iq-ui/src/app/demo/components/analyst/lancer-analyse/analyst-lancer-analyse.component.html
+project-iq-ui/src/app/demo/components/analyst/lancer-analyse/analyst-lancer-analyse.component.scss
+project-iq-ui/src/app/demo/components/analyst/lancer-analyse/analyst-lancer-analyse.component.ts
+project-iq-ui/src/app/demo/components/analyst/lancer-analyse/load-extracted-project-from-backend-mock.txt
+project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html
+project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.scss
+project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.ts
+project-iq-ui/src/app/demo/components/analyst/methodologies/analyst-methodologies.component.html
+project-iq-ui/src/app/demo/components/analyst/methodologies/analyst-methodologies.component.ts
+project-iq-ui/src/app/demo/components/analyst/nogo-report-page/force-override-modal/force-override-modal.component.html
+project-iq-ui/src/app/demo/components/analyst/nogo-report-page/force-override-modal/force-override-modal.component.ts
+project-iq-ui/src/app/demo/components/analyst/nogo-report-page/nogo-report-page.component.html
+project-iq-ui/src/app/demo/components/analyst/nogo-report-page/nogo-report-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/nogo-reports/analyst-nogo-reports.component.html
+project-iq-ui/src/app/demo/components/analyst/nogo-reports/analyst-nogo-reports.component.ts
+project-iq-ui/src/app/demo/components/analyst/pack-ready-page/pack-ready-page.component.html
+project-iq-ui/src/app/demo/components/analyst/pack-ready-page/pack-ready-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/pack-ready-page/pack-ready-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/projects/analyst-projects.component.html
+project-iq-ui/src/app/demo/components/analyst/projects/analyst-projects.component.ts
+project-iq-ui/src/app/demo/components/analyst/rapport-final-page/rapport-final-page.component.html
+project-iq-ui/src/app/demo/components/analyst/rapport-final-page/rapport-final-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/rapport-final-page/rapport-final-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/rapports/analyst-rapports.component.html
+project-iq-ui/src/app/demo/components/analyst/rapports/analyst-rapports.component.ts
+project-iq-ui/src/app/demo/components/analyst/scoring-page/force-go-modal/force-go-modal.component.html
+project-iq-ui/src/app/demo/components/analyst/scoring-page/force-go-modal/force-go-modal.component.ts
+project-iq-ui/src/app/demo/components/analyst/scoring-page/pwin-gauge/pwin-gauge.component.html
+project-iq-ui/src/app/demo/components/analyst/scoring-page/pwin-gauge/pwin-gauge.component.ts
+project-iq-ui/src/app/demo/components/analyst/scoring-page/score-breakdown/score-breakdown.component.html
+project-iq-ui/src/app/demo/components/analyst/scoring-page/score-breakdown/score-breakdown.component.ts
+project-iq-ui/src/app/demo/components/analyst/scoring-page/scoring-page.component.html
+project-iq-ui/src/app/demo/components/analyst/scoring-page/scoring-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/scoring-page/scoring-page.component.ts
+project-iq-ui/src/app/demo/components/analyst/shared/apo-preview/apo-preview.component.html
+project-iq-ui/src/app/demo/components/analyst/shared/apo-preview/apo-preview.component.scss
+project-iq-ui/src/app/demo/components/analyst/shared/apo-preview/apo-preview.component.ts
+project-iq-ui/src/app/demo/components/analyst/shared/pipeline-stepper/pipeline-stepper.component.html
+project-iq-ui/src/app/demo/components/analyst/shared/pipeline-stepper/pipeline-stepper.component.scss
+project-iq-ui/src/app/demo/components/analyst/shared/pipeline-stepper/pipeline-stepper.component.ts
+project-iq-ui/src/app/demo/components/analyst/shared/prompt-override/prompt-override.component.html
+project-iq-ui/src/app/demo/components/analyst/shared/prompt-override/prompt-override.component.scss
+project-iq-ui/src/app/demo/components/analyst/shared/prompt-override/prompt-override.component.ts
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/_deep-analysis-shared.scss
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/contract-details/contract-details.component.html
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/contract-details/contract-details.component.scss
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/contract-details/contract-details.component.ts
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/eligibility-panel/eligibility-panel.component.html
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/eligibility-panel/eligibility-panel.component.scss
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/eligibility-panel/eligibility-panel.component.ts
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/risk-evaluator/risk-evaluator.component.html
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/risk-evaluator/risk-evaluator.component.ts
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/risk-level-selector/risk-level-selector.component.html
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/risk-level-selector/risk-level-selector.component.ts
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/validation-p2-page.component.html
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/validation-p2-page.component.scss
+project-iq-ui/src/app/demo/components/analyst/validation-p2-page/validation-p2-page.component.ts
+project-iq-ui/src/app/demo/components/auth/access/access-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/access/access.component.html
+project-iq-ui/src/app/demo/components/auth/access/access.component.ts
+project-iq-ui/src/app/demo/components/auth/access/access.module.ts
+project-iq-ui/src/app/demo/components/auth/auth-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/auth.module.ts
+project-iq-ui/src/app/demo/components/auth/error/error-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/error/error.component.html
+project-iq-ui/src/app/demo/components/auth/error/error.component.ts
+project-iq-ui/src/app/demo/components/auth/error/error.module.ts
+project-iq-ui/src/app/demo/components/auth/login/login-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/login/login.component.html
+project-iq-ui/src/app/demo/components/auth/login/login.component.ts
+project-iq-ui/src/app/demo/components/auth/login/login.module.ts
+project-iq-ui/src/app/demo/components/auth/pending/pending-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/pending/pending.component.html
+project-iq-ui/src/app/demo/components/auth/pending/pending.component.ts
+project-iq-ui/src/app/demo/components/auth/pending/pending.module.ts
+project-iq-ui/src/app/demo/components/auth/register/register-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/register/register.component.html
+project-iq-ui/src/app/demo/components/auth/register/register.component.ts
+project-iq-ui/src/app/demo/components/auth/register/register.module.ts
+project-iq-ui/src/app/demo/components/auth/reset-password/reset-password-routing.module.ts
+project-iq-ui/src/app/demo/components/auth/reset-password/reset-password.component.html
+project-iq-ui/src/app/demo/components/auth/reset-password/reset-password.component.ts
+project-iq-ui/src/app/demo/components/auth/reset-password/reset-password.module.ts
+project-iq-ui/src/app/demo/components/dashboard/dashboard-routing.module.ts
+project-iq-ui/src/app/demo/components/dashboard/dashboard.component.html
+project-iq-ui/src/app/demo/components/dashboard/dashboard.component.ts
+project-iq-ui/src/app/demo/components/dashboard/dashboard.module.ts
+project-iq-ui/src/app/demo/components/documentation/documentation-routing.module.ts
+project-iq-ui/src/app/demo/components/documentation/documentation.component.html
+project-iq-ui/src/app/demo/components/documentation/documentation.component.scss
+project-iq-ui/src/app/demo/components/documentation/documentation.component.ts
+project-iq-ui/src/app/demo/components/documentation/documentation.module.ts
+project-iq-ui/src/app/demo/components/landing/landing-routing.module.ts
+project-iq-ui/src/app/demo/components/landing/landing.component.html
+project-iq-ui/src/app/demo/components/landing/landing.component.ts
+project-iq-ui/src/app/demo/components/landing/landing.module.ts
+project-iq-ui/src/app/demo/components/manager/manager-audit/manager-audit.component.html
+project-iq-ui/src/app/demo/components/manager/manager-audit/manager-audit.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-audit/manager-audit.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-dashboard/manager-dashboard.component.html
+project-iq-ui/src/app/demo/components/manager/manager-dashboard/manager-dashboard.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-dashboard/manager-dashboard.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-forcage/manager-forcage.component.html
+project-iq-ui/src/app/demo/components/manager/manager-forcage/manager-forcage.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-forcage/manager-forcage.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-historique-decisions/manager-historique-decisions.component.html
+project-iq-ui/src/app/demo/components/manager/manager-historique-decisions/manager-historique-decisions.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-historique-decisions/manager-historique-decisions.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-historique-nogo/manager-historique-nogo.component.html
+project-iq-ui/src/app/demo/components/manager/manager-historique-nogo/manager-historique-nogo.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-historique-nogo/manager-historique-nogo.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-historique-packs/manager-historique-packs.component.html
+project-iq-ui/src/app/demo/components/manager/manager-historique-packs/manager-historique-packs.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-historique-packs/manager-historique-packs.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-no-go/manager-no-go.component.html
+project-iq-ui/src/app/demo/components/manager/manager-no-go/manager-no-go.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-no-go/manager-no-go.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-packs-suivi/manager-packs-suivi.component.html
+project-iq-ui/src/app/demo/components/manager/manager-packs-suivi/manager-packs-suivi.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-packs-suivi/manager-packs-suivi.component.ts
+project-iq-ui/src/app/demo/components/manager/manager-routing.module.ts
+project-iq-ui/src/app/demo/components/manager/manager-validations/manager-validations.component.html
+project-iq-ui/src/app/demo/components/manager/manager-validations/manager-validations.component.scss
+project-iq-ui/src/app/demo/components/manager/manager-validations/manager-validations.component.ts
+project-iq-ui/src/app/demo/components/manager/manager.module.ts
+project-iq-ui/src/app/demo/components/notfound/notfound.component.html
+project-iq-ui/src/app/demo/components/notfound/notfound.component.ts
+project-iq-ui/src/app/demo/components/pages/crud/crud-routing.module.ts
+project-iq-ui/src/app/demo/components/pages/crud/crud.component.html
+project-iq-ui/src/app/demo/components/pages/crud/crud.component.ts
+project-iq-ui/src/app/demo/components/pages/crud/crud.module.ts
+project-iq-ui/src/app/demo/components/pages/empty/emptydemo-routing.module.ts
+project-iq-ui/src/app/demo/components/pages/empty/emptydemo.component.html
+project-iq-ui/src/app/demo/components/pages/empty/emptydemo.component.ts
+project-iq-ui/src/app/demo/components/pages/empty/emptydemo.module.ts
+project-iq-ui/src/app/demo/components/pages/pages-routing.module.ts
+project-iq-ui/src/app/demo/components/pages/pages.module.ts
+project-iq-ui/src/app/demo/components/pages/timeline/timelinedemo-routing.module.ts
+project-iq-ui/src/app/demo/components/pages/timeline/timelinedemo.component.html
+project-iq-ui/src/app/demo/components/pages/timeline/timelinedemo.component.ts
+project-iq-ui/src/app/demo/components/pages/timeline/timelinedemo.module.ts
+project-iq-ui/src/app/demo/components/pages/timeline/timelinedemo.scss
+project-iq-ui/src/app/demo/components/primeblocks/blocks/blocks.component.html
+project-iq-ui/src/app/demo/components/primeblocks/blocks/blocks.component.ts
+project-iq-ui/src/app/demo/components/primeblocks/blockviewer/blockviewer.component.scss
+project-iq-ui/src/app/demo/components/primeblocks/blockviewer/blockviewer.component.ts
+project-iq-ui/src/app/demo/components/primeblocks/primeblocks-routing.module.ts
+project-iq-ui/src/app/demo/components/primeblocks/primeblocks.module.ts
+project-iq-ui/src/app/demo/components/uikit/button/buttondemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/button/buttondemo.component.html
+project-iq-ui/src/app/demo/components/uikit/button/buttondemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/button/buttondemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/charts/chartsdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/charts/chartsdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/charts/chartsdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/charts/chartsdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/file/filedemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/file/filedemo.component.html
+project-iq-ui/src/app/demo/components/uikit/file/filedemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/file/filedemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/floatlabel/floatlabeldemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/floatlabel/floatlabeldemo.component.html
+project-iq-ui/src/app/demo/components/uikit/floatlabel/floatlabeldemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/floatlabel/floatlabeldemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/formlayout/formlayoutdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/formlayout/formlayoutdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/formlayout/formlayoutdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/formlayout/formlayoutdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/input/inputdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/input/inputdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/input/inputdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/input/inputdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/invalid/invalidstatedemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/invalid/invalidstatedemo.component.html
+project-iq-ui/src/app/demo/components/uikit/invalid/invalidstatedemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/invalid/invalidstatedemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/list/listdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/list/listdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/list/listdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/list/listdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/media/mediademo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/media/mediademo.component.html
+project-iq-ui/src/app/demo/components/uikit/media/mediademo.component.ts
+project-iq-ui/src/app/demo/components/uikit/media/mediademo.module.ts
+project-iq-ui/src/app/demo/components/uikit/menus/confirmation.component.ts
+project-iq-ui/src/app/demo/components/uikit/menus/menus.component.html
+project-iq-ui/src/app/demo/components/uikit/menus/menus.component.ts
+project-iq-ui/src/app/demo/components/uikit/menus/menus.module.ts
+project-iq-ui/src/app/demo/components/uikit/menus/payment.component.ts
+project-iq-ui/src/app/demo/components/uikit/menus/personal.component.ts
+project-iq-ui/src/app/demo/components/uikit/menus/seat.component.ts
+project-iq-ui/src/app/demo/components/uikit/messages/messagesdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/messages/messagesdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/messages/messagesdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/messages/messagesdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/misc/miscdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/misc/miscdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/misc/miscdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/misc/miscdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/overlays/overlaysdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/overlays/overlaysdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/overlays/overlaysdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/overlays/overlaysdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/panels/panelsdemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/panels/panelsdemo.component.html
+project-iq-ui/src/app/demo/components/uikit/panels/panelsdemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/panels/panelsdemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/table/tabledemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/table/tabledemo.component.html
+project-iq-ui/src/app/demo/components/uikit/table/tabledemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/table/tabledemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/tree/treedemo-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/tree/treedemo.component.html
+project-iq-ui/src/app/demo/components/uikit/tree/treedemo.component.ts
+project-iq-ui/src/app/demo/components/uikit/tree/treedemo.module.ts
+project-iq-ui/src/app/demo/components/uikit/uikit-routing.module.ts
+project-iq-ui/src/app/demo/components/uikit/uikit.module.ts
+project-iq-ui/src/app/demo/components/utilities/icons/icons.component.html
+project-iq-ui/src/app/demo/components/utilities/icons/icons.component.ts
+project-iq-ui/src/app/demo/components/utilities/utilities-routing.module.ts
+project-iq-ui/src/app/demo/components/utilities/utilities.module.ts
+project-iq-ui/src/app/demo/pipe/ip.pipe.ts
+project-iq-ui/src/app/demo/service/admin.service.ts
+project-iq-ui/src/app/demo/service/ai-logs.service.ts
+project-iq-ui/src/app/demo/service/analyse.service.ts
+project-iq-ui/src/app/demo/service/analyst-projects.service.ts
+project-iq-ui/src/app/demo/service/analyst.service.ts
+project-iq-ui/src/app/demo/service/auth.guard.ts
+project-iq-ui/src/app/demo/service/auth.interceptor.ts
+project-iq-ui/src/app/demo/service/auth.service.ts
+project-iq-ui/src/app/demo/service/config-ia.service.ts
+project-iq-ui/src/app/demo/service/config.service.ts
+project-iq-ui/src/app/demo/service/country.service.ts
+project-iq-ui/src/app/demo/service/customer.service.ts
+project-iq-ui/src/app/demo/service/delegation.service.ts
+project-iq-ui/src/app/demo/service/dossier-status.guard.ts
+project-iq-ui/src/app/demo/service/dossier-status.service.ts
+project-iq-ui/src/app/demo/service/event.service.ts
+project-iq-ui/src/app/demo/service/icon.service.ts
+project-iq-ui/src/app/demo/service/manager-validation.service.ts
+project-iq-ui/src/app/demo/service/node.service.ts
+project-iq-ui/src/app/demo/service/nogo.service.ts
+project-iq-ui/src/app/demo/service/notification-state.service.ts
+project-iq-ui/src/app/demo/service/photo.service.ts
+project-iq-ui/src/app/demo/service/pipeline-tracking.service.ts
+project-iq-ui/src/app/demo/service/product.service.ts
+project-iq-ui/src/app/demo/service/project.service.ts
+project-iq-ui/src/app/demo/service/referentiel.service.ts
+project-iq-ui/src/app/demo/service/scoring.service.ts
+project-iq-ui/src/app/layout/api/menuchangeevent.ts
+project-iq-ui/src/app/layout/app.footer.component.html
+project-iq-ui/src/app/layout/app.footer.component.ts
+project-iq-ui/src/app/layout/app.layout.component.html
+project-iq-ui/src/app/layout/app.layout.component.ts
+project-iq-ui/src/app/layout/app.layout.module.ts
+project-iq-ui/src/app/layout/app.menu.component.html
+project-iq-ui/src/app/layout/app.menu.component.ts
+project-iq-ui/src/app/layout/app.menu.service.ts
+project-iq-ui/src/app/layout/app.menuitem.component.ts
+project-iq-ui/src/app/layout/app.sidebar.component.html
+project-iq-ui/src/app/layout/app.sidebar.component.ts
+project-iq-ui/src/app/layout/app.topbar.component.html
+project-iq-ui/src/app/layout/app.topbar.component.ts
+project-iq-ui/src/app/layout/config/app.config.component.html
+project-iq-ui/src/app/layout/config/app.config.component.ts
+project-iq-ui/src/app/layout/config/config.module.ts
+project-iq-ui/src/app/layout/service/app.layout.service.ts
+project-iq-ui/src/app/services/sse.service.ts
+project-iq-ui/src/assets/.gitkeep
+project-iq-ui/src/assets/APO-Formulaire Etudes-Template.docx
+project-iq-ui/src/assets/APO-Formulaire Etudes-Template.pdf
+project-iq-ui/src/assets/Methodologie-Template.docx
+project-iq-ui/src/assets/Methodologie-Template1.docx
+project-iq-ui/src/assets/Rapport-Audit-Template.docx
+project-iq-ui/src/assets/Rapport-General-Template.docx
+project-iq-ui/src/assets/Rapport-General-Template1.docx
+project-iq-ui/src/assets/Rapport-NoGo-Template.docx
+project-iq-ui/src/assets/Rapport-NoGo-Template1.docx
+project-iq-ui/src/assets/demo/data/countries.json
+project-iq-ui/src/assets/demo/data/customers-large.json
+project-iq-ui/src/assets/demo/data/customers-medium.json
+project-iq-ui/src/assets/demo/data/customers-small.json
+project-iq-ui/src/assets/demo/data/files-lazy.json
+project-iq-ui/src/assets/demo/data/files.json
+project-iq-ui/src/assets/demo/data/filesystem-lazy.json
+project-iq-ui/src/assets/demo/data/filesystem.json
+project-iq-ui/src/assets/demo/data/icons.json
+project-iq-ui/src/assets/demo/data/photos.json
+project-iq-ui/src/assets/demo/data/products-mixed.json
+project-iq-ui/src/assets/demo/data/products-orders-small.json
+project-iq-ui/src/assets/demo/data/products-orders.json
+project-iq-ui/src/assets/demo/data/products-small.json
+project-iq-ui/src/assets/demo/data/products.json
+project-iq-ui/src/assets/demo/data/scheduleevents.json
+project-iq-ui/src/assets/demo/images/access/asset-access.svg
+project-iq-ui/src/assets/demo/images/access/logo-orange.svg
+project-iq-ui/src/assets/demo/images/avatar/amyelsner.png
+project-iq-ui/src/assets/demo/images/avatar/annafali.png
+project-iq-ui/src/assets/demo/images/avatar/asiyajavayant.png
+project-iq-ui/src/assets/demo/images/avatar/bernardodominic.png
+project-iq-ui/src/assets/demo/images/avatar/elwinsharvill.png
+project-iq-ui/src/assets/demo/images/avatar/ionibowcher.png
+project-iq-ui/src/assets/demo/images/avatar/ivanmagalhaes.png
+project-iq-ui/src/assets/demo/images/avatar/onyamalimba.png
+project-iq-ui/src/assets/demo/images/avatar/profile.jpg
+project-iq-ui/src/assets/demo/images/avatar/stephenshaw.png
+project-iq-ui/src/assets/demo/images/avatar/xuxuefeng.png
+project-iq-ui/src/assets/demo/images/blocks/hero/hero-1.png
+project-iq-ui/src/assets/demo/images/blocks/logos/hyper.svg
+project-iq-ui/src/assets/demo/images/error/asset-error.svg
+project-iq-ui/src/assets/demo/images/error/logo-error.svg
+project-iq-ui/src/assets/demo/images/flag/flag_placeholder.png
+project-iq-ui/src/assets/demo/images/galleria/galleria1.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria10.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria10s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria11.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria11s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria12.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria12s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria13.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria13s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria14.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria14s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria15.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria15s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria1s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria2.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria2s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria3.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria3s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria4.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria4s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria5.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria5s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria6.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria6s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria7.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria7s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria8.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria8s.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria9.jpg
+project-iq-ui/src/assets/demo/images/galleria/galleria9s.jpg
+project-iq-ui/src/assets/demo/images/landing/enterprise.svg
+project-iq-ui/src/assets/demo/images/landing/free.svg
+project-iq-ui/src/assets/demo/images/landing/mockup-desktop.svg
+project-iq-ui/src/assets/demo/images/landing/mockup.svg
+project-iq-ui/src/assets/demo/images/landing/new-badge.svg
+project-iq-ui/src/assets/demo/images/landing/peak-logo.svg
+project-iq-ui/src/assets/demo/images/landing/screen-1.png
+project-iq-ui/src/assets/demo/images/landing/startup.svg
+project-iq-ui/src/assets/demo/images/login/avatar.png
+project-iq-ui/src/assets/demo/images/nature/nature1.jpg
+project-iq-ui/src/assets/demo/images/nature/nature10.jpg
+project-iq-ui/src/assets/demo/images/nature/nature11.jpg
+project-iq-ui/src/assets/demo/images/nature/nature12.jpg
+project-iq-ui/src/assets/demo/images/nature/nature2.jpg
+project-iq-ui/src/assets/demo/images/nature/nature3.jpg
+project-iq-ui/src/assets/demo/images/nature/nature4.jpg
+project-iq-ui/src/assets/demo/images/nature/nature5.jpg
+project-iq-ui/src/assets/demo/images/nature/nature6.jpg
+project-iq-ui/src/assets/demo/images/nature/nature7.jpg
+project-iq-ui/src/assets/demo/images/nature/nature8.jpg
+project-iq-ui/src/assets/demo/images/nature/nature9.jpg
+project-iq-ui/src/assets/demo/images/notfound/logo-blue.svg
+project-iq-ui/src/assets/demo/images/product/bamboo-watch.jpg
+project-iq-ui/src/assets/demo/images/product/black-watch.jpg
+project-iq-ui/src/assets/demo/images/product/blue-band.jpg
+project-iq-ui/src/assets/demo/images/product/blue-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/bracelet.jpg
+project-iq-ui/src/assets/demo/images/product/brown-purse.jpg
+project-iq-ui/src/assets/demo/images/product/chakra-bracelet.jpg
+project-iq-ui/src/assets/demo/images/product/galaxy-earrings.jpg
+project-iq-ui/src/assets/demo/images/product/game-controller.jpg
+project-iq-ui/src/assets/demo/images/product/gaming-set.jpg
+project-iq-ui/src/assets/demo/images/product/gold-phone-case.jpg
+project-iq-ui/src/assets/demo/images/product/green-earbuds.jpg
+project-iq-ui/src/assets/demo/images/product/green-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/grey-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/headphones.jpg
+project-iq-ui/src/assets/demo/images/product/light-green-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/lime-band.jpg
+project-iq-ui/src/assets/demo/images/product/mini-speakers.jpg
+project-iq-ui/src/assets/demo/images/product/painted-phone-case.jpg
+project-iq-ui/src/assets/demo/images/product/pink-band.jpg
+project-iq-ui/src/assets/demo/images/product/pink-purse.jpg
+project-iq-ui/src/assets/demo/images/product/product-placeholder.svg
+project-iq-ui/src/assets/demo/images/product/purple-band.jpg
+project-iq-ui/src/assets/demo/images/product/purple-gemstone-necklace.jpg
+project-iq-ui/src/assets/demo/images/product/purple-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/shoes.jpg
+project-iq-ui/src/assets/demo/images/product/sneakers.jpg
+project-iq-ui/src/assets/demo/images/product/teal-t-shirt.jpg
+project-iq-ui/src/assets/demo/images/product/yellow-earbuds.jpg
+project-iq-ui/src/assets/demo/images/product/yoga-mat.jpg
+project-iq-ui/src/assets/demo/images/product/yoga-set.jpg
+project-iq-ui/src/assets/demo/styles/badges.scss
+project-iq-ui/src/assets/demo/styles/code.css
+project-iq-ui/src/assets/demo/styles/code.scss
+project-iq-ui/src/assets/demo/styles/flags/flags.css
+project-iq-ui/src/assets/demo/styles/flags/flags_responsive.png
+project-iq-ui/src/assets/layout/images/banner-primeblocks-dark.png
+project-iq-ui/src/assets/layout/images/banner-primeblocks.png
+project-iq-ui/src/assets/layout/images/logo-dark.svg
+project-iq-ui/src/assets/layout/images/logo-white.svg
+project-iq-ui/src/assets/layout/images/themes/arya-blue.png
+project-iq-ui/src/assets/layout/images/themes/arya-green.png
+project-iq-ui/src/assets/layout/images/themes/arya-orange.png
+project-iq-ui/src/assets/layout/images/themes/arya-purple.png
+project-iq-ui/src/assets/layout/images/themes/bootstrap4-dark-blue.svg
+project-iq-ui/src/assets/layout/images/themes/bootstrap4-dark-purple.svg
+project-iq-ui/src/assets/layout/images/themes/bootstrap4-light-blue.svg
+project-iq-ui/src/assets/layout/images/themes/bootstrap4-light-purple.svg
+project-iq-ui/src/assets/layout/images/themes/fluent-light.png
+project-iq-ui/src/assets/layout/images/themes/lara-dark-blue.png
+project-iq-ui/src/assets/layout/images/themes/lara-dark-indigo.png
+project-iq-ui/src/assets/layout/images/themes/lara-dark-purple.png
+project-iq-ui/src/assets/layout/images/themes/lara-dark-teal.png
+project-iq-ui/src/assets/layout/images/themes/lara-light-blue.png
+project-iq-ui/src/assets/layout/images/themes/lara-light-indigo.png
+project-iq-ui/src/assets/layout/images/themes/lara-light-purple.png
+project-iq-ui/src/assets/layout/images/themes/lara-light-teal.png
+project-iq-ui/src/assets/layout/images/themes/luna-amber.png
+project-iq-ui/src/assets/layout/images/themes/luna-blue.png
+project-iq-ui/src/assets/layout/images/themes/luna-green.png
+project-iq-ui/src/assets/layout/images/themes/luna-pink.png
+project-iq-ui/src/assets/layout/images/themes/md-dark-deeppurple.svg
+project-iq-ui/src/assets/layout/images/themes/md-dark-indigo.svg
+project-iq-ui/src/assets/layout/images/themes/md-light-deeppurple.svg
+project-iq-ui/src/assets/layout/images/themes/md-light-indigo.svg
+project-iq-ui/src/assets/layout/images/themes/saga-blue.png
+project-iq-ui/src/assets/layout/images/themes/saga-green.png
+project-iq-ui/src/assets/layout/images/themes/saga-orange.png
+project-iq-ui/src/assets/layout/images/themes/saga-purple.png
+project-iq-ui/src/assets/layout/images/themes/tailwind-light.png
+project-iq-ui/src/assets/layout/images/themes/vela-blue.png
+project-iq-ui/src/assets/layout/images/themes/vela-green.png
+project-iq-ui/src/assets/layout/images/themes/vela-orange.png
+project-iq-ui/src/assets/layout/images/themes/vela-purple.png
+project-iq-ui/src/assets/layout/styles/layout/_config.scss
+project-iq-ui/src/assets/layout/styles/layout/_content.scss
+project-iq-ui/src/assets/layout/styles/layout/_footer.scss
+project-iq-ui/src/assets/layout/styles/layout/_main.scss
+project-iq-ui/src/assets/layout/styles/layout/_menu.scss
+project-iq-ui/src/assets/layout/styles/layout/_mixins.scss
+project-iq-ui/src/assets/layout/styles/layout/_preloading.scss
+project-iq-ui/src/assets/layout/styles/layout/_responsive.scss
+project-iq-ui/src/assets/layout/styles/layout/_topbar.scss
+project-iq-ui/src/assets/layout/styles/layout/_typography.scss
+project-iq-ui/src/assets/layout/styles/layout/_utils.scss
+project-iq-ui/src/assets/layout/styles/layout/_variables.scss
+project-iq-ui/src/assets/layout/styles/layout/layout.scss
+project-iq-ui/src/assets/layout/styles/theme/arya-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/arya-green/theme.css
+project-iq-ui/src/assets/layout/styles/theme/arya-orange/theme.css
+project-iq-ui/src/assets/layout/styles/theme/arya-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/bootstrap4-dark-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/bootstrap4-dark-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/bootstrap4-light-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/bootstrap4-light-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/fluent-light/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-dark-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-dark-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-dark-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-dark-teal/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-light-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-light-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-light-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/lara-light-teal/theme.css
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-deeppurple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-dark-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-deeppurple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/md-light-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-deeppurple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-dark-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-deeppurple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-500.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-500.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-700.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-700.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/fonts/roboto-v20-latin-ext_latin-regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/mdc-light-indigo/theme.css
+project-iq-ui/src/assets/layout/styles/theme/saga-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/saga-green/theme.css
+project-iq-ui/src/assets/layout/styles/theme/saga-orange/theme.css
+project-iq-ui/src/assets/layout/styles/theme/saga-purple/theme.css
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Bold.woff
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Bold.woff2
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Light.woff
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Light.woff2
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Medium.woff
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Medium.woff2
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Regular.woff
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-Regular.woff2
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-SemiBold.woff
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/fonts/Inter-SemiBold.woff2
+project-iq-ui/src/assets/layout/styles/theme/tailwind-light/theme.css
+project-iq-ui/src/assets/layout/styles/theme/vela-blue/theme.css
+project-iq-ui/src/assets/layout/styles/theme/vela-green/theme.css
+project-iq-ui/src/assets/layout/styles/theme/vela-orange/theme.css
+project-iq-ui/src/assets/layout/styles/theme/vela-purple/theme.css
+project-iq-ui/src/assets/logo-pro.png
+project-iq-ui/src/environments/environment.prod.ts
+project-iq-ui/src/environments/environment.ts
+project-iq-ui/src/favicon.ico
+project-iq-ui/src/favicon.svg
+project-iq-ui/src/index.html
+project-iq-ui/src/main.ts
+project-iq-ui/src/styles.scss
+project-iq-ui/src/test.ts
+project-iq-ui/tsconfig.app.json
+project-iq-ui/tsconfig.json
+project-iq-ui/tsconfig.spec.json
+project_controller_path.txt
+project_docker_logs.txt
+project_files.txt
+project_logs_utf8.txt
+project_out.txt
+project_out_utf8.txt
+project_test.txt
+real_gateway.yml
+review 03-07
+routes.json
+routes_out.txt
+routes_out2.txt
+test_api.txt
+test_project.txt
+upload_test.txt
+upload_test2.txt
+upload_test3.txt

@@ -1,0 +1,182 @@
+{
+  "informations_generales": {
+    "pays": "République Tunisienne",
+    "intitule_offre": "Suivi et documentation de l'avancement des réformes vers un système alimentaire durable, soutenues par le PADR et le PACE (contrat SUIDAR)",
+    "reference": null,
+    "client": "Ministère de l'Economie et de la Planification (MEP) – Unité de Gestion du Programme d'Appui à l'Accord d'Association (UGP3A)",
+    "resume_contexte_objectifs": "Dans le cadre des programmes d'appui budgétaire PADR et PACE financés par l'UE en Tunisie, l'UGP3A mandate un prestataire pour fournir une assistance technique au Ministère de l'Agriculture, des Ressources Hydrauliques et de la Pêche Maritime (MARHP). La mission vise à concevoir et déployer un dispositif de suivi trimestriel des réformes agricoles (SPS, traçabilité, investissement, ESS, ressources halieutiques, stratégies agricoles), incluant une base de données, un tableau de bord et un guide méthodologique. Un second volet consiste à produire et diffuser un bulletin bimensuel de veille informationnelle sur les politiques agricoles de l'UE. La supervision opérationnelle est assurée par la DGEDA du MARHP, avec un comité de suivi conjoint MARHP/UGP3A. La durée de la mission est de 6 mois à partir du 15 avril 2026 (indicatif), avec siège à Tunis.",
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": "Union Européenne (UE) – via programmes PADR et PACE",
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "texte_brut": "Non mentionné dans les TDR"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Aucune information sur une shortlist ou son équilibre dans le document"
+    },
+    "analyse_concurrence": null
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": "3 experts principaux requis sur 6 mois. Le nombre de personnes/jours par expert n'est pas renseigné dans les TDR (tableau laissé vide).",
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "La date limite de soumission n'est pas mentionnée dans le document, impossible d'évaluer le délai de préparation"
+    },
+    "duree_mission_mois": 6,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Délai de 6 mois à partir du 15/04/2026 (indicatif). Sans connaissance de la charge exacte en hommes-jours, la capacité ne peut être évaluée"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "seuil_technique": null,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": null,
+    "chef_de_file": null,
+    "roles_repartition": null
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": []
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Faible",
+      "commentaire": "La Tunisie est un pays partenaire stable dans le cadre de la coopération UE. Aucun risque sécuritaire mentionné dans les TDR. Contexte économique sous pression (inflation 9,3% en 2023, chômage) mais sans incidence opérationnelle directe signalée."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Le budget du marché n'est pas communiqué dans les TDR. Risque de sous-estimation du budget interne en l'absence d'informations sur le nombre de jours/expert et l'enveloppe disponible."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans les TDR. Référence faite aux conditions particulières (articles 19.1 et 19.2) non jointes."
+    },
+    "exigences_inacceptables": {
+      "niveau": "Faible",
+      "commentaire": "Les exigences en matière de personnel et de livrables sont claires et standards pour ce type de mission d'assistance technique."
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune caution ou garantie mentionnée dans les TDR."
+    },
+    "taille_dispersion": {
+      "niveau": "Faible",
+      "commentaire": "Mission concentrée à Tunis avec des déplacements ponctuels sur le territoire tunisien. Périmètre géographique maîtrisable."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "commentaire": "Le contractant doit fournir bureaux, équipement, support administratif et secrétariat à ses propres frais. Ces coûts indirects peuvent être significatifs sans budget connu."
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget global non communiqué dans les TDR. Risque non évaluable à ce stade."
+    },
+    "participation_locale": {
+      "niveau": "Moyen",
+      "commentaire": "Les TDR mentionnent des restrictions sur la participation de fonctionnaires publics tunisiens, ce qui peut limiter le vivier local d'experts mobilisables et compliquer la constitution de l'équipe."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune disposition fiscale mentionnée dans les TDR."
+    }
+  },
+  "decision": {
+    "recommandation": "Le projet est techniquement bien cadré, avec des livrables précis, une durée courte (6 mois) et un client institutionnel UE structuré. Cependant, l'absence du budget, des hommes-jours par expert, des critères de sélection et de la date limite de soumission empêche une évaluation financière complète. Sous réserve de disposer d'une enveloppe financière cohérente avec 3 experts seniors sur 6 mois et les frais logistiques à charge du contractant, le projet est recommandé.",
+    "go_no_go": "GO",
+    "points_critiques": [
+      "Budget du marché non communiqué dans les TDR : risque de sous-évaluation de l'offre financière",
+      "Nombre de personnes/jours par expert non renseigné dans le tableau de l'article 6.1.1 : cadrage de l'offre difficile",
+      "Coûts logistiques (bureaux, équipement, secrétariat, déplacements) entièrement à la charge du contractant, sans enveloppe indicative",
+      "Restrictions sur l'emploi de fonctionnaires tunisiens pouvant limiter le recrutement local d'experts",
+      "Date limite de soumission absente : planification interne impossible",
+      "Conditions particulières du contrat (articles 19.1 et 19.2) non jointes aux TDR"
+    ]
+  },
+  "plan_action": "1. Obtenir le dossier d'appel d'offres complet (DAO) incluant le budget indicatif, les conditions particulières et les critères de notation. 2. Identifier et pré-qualifier 3 experts principaux correspondant aux profils requis (chef d'équipe S&E, veille informationnelle, développement informatique). 3. Estimer les hommes-jours nécessaires par composante pour calibrer l'offre financière. 4. Budgéter les coûts indirects (bureaux, déplacements régionaux, secrétariat). 5. Soumettre les questions de clarification avant la date limite.",
+  "informations_manquantes": [
+    {
+      "champ": "budget_global",
+      "question": "Quel est le budget indicatif ou l'enveloppe maximale allouée à ce marché de services ?",
+      "raison": "Le budget n'est pas mentionné dans les TDR. Il est indispensable pour calibrer l'offre financière et évaluer la rentabilité de la mission.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "hommes_mois / personnes_jours_par_expert",
+      "question": "Quel est le nombre de personnes/jours attendu pour chacun des trois experts principaux (tableau de l'article 6.1.1 laissé vide) ?",
+      "raison": "Sans cette donnée, il est impossible de structurer l'offre technique et financière de manière cohérente avec les attentes du pouvoir adjudicateur.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "date_limite_soumission",
+      "question": "Quelle est la date limite de soumission des offres et la référence complète de l'avis d'appel d'offres ?",
+      "raison": "Absence totale de cette information dans les TDR, empêchant toute planification de la préparation de l'offre.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "criteres_selection",
+      "question": "Quels sont les critères d'évaluation des offres (pondération technique/financière, seuil de qualité technique, grille de notation des experts) ?",
+      "raison": "Ces informations sont absentes des TDR et sont nécessaires pour optimiser la présentation de l'offre et l'équipe proposée.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "conditions_particulieres",
+      "question": "Les conditions particulières du contrat (notamment articles 19.1 et 19.2 sur la date de commencement et la période d'exécution effectives) sont-elles disponibles ?",
+      "raison": "Les TDR y font référence explicitement mais ce document n'est pas joint. Il peut contenir des clauses contractuelles importantes (pénalités, garanties, modalités de paiement).",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Le marché est financé dans le cadre d'un contrat de subvention UE géré par l'UGP3A, ce qui implique des règles de passation de marchés PRAG (Practical Guide) de l'UE applicables.",
+      "risque": "Des exigences spécifiques PRAG (éligibilité des dépenses, nationalité des experts, règles d'origine) pourraient contraindre la composition de l'équipe ou la structuration de l'offre."
+    },
+    {
+      "hypothese": "Les 3 experts principaux travailleront à temps plein ou quasi-plein sur la durée de la mission (6 mois), compte tenu de la densité des livrables attendus.",
+      "risque": "Si le budget alloué ne correspond pas à 3 experts seniors à temps plein sur 6 mois, l'offre financière risque d'être hors enveloppe ou non compétitive."
+    },
+    {
+      "hypothese": "Le contractant devra assurer l'hébergement bureautique de ses experts à Tunis (location ou espace partagé), ce coût étant à sa charge conformément à l'article 6.2.",
+      "risque": "Sous-estimation des coûts fixes si cette charge n'est pas anticipée dans l'offre financière."
+    }
+  ]
+}

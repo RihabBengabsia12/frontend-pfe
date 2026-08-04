@@ -1,0 +1,416 @@
+<p-toast></p-toast>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- REUSABLE STEPPER COMPONENT FOR PHASE 1 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="stepper-wrapper p-4 pb-0">
+  <app-pipeline-stepper
+    mode="phase1"
+    [activeStep]="currentIndex >= 0 ? currentIndex : 0"
+    [dossierId]="dossierId"
+    context="deposit">
+  </app-pipeline-stepper>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MAIN CONTENT - Dropzone + Formulaire -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<main class="deposit-page">
+    <div class="grid">
+        <!-- ═══ DROPZONE TDR ═══ -->
+        <div class="col-12 lg:col-7">
+            <div class="card deposit-card">
+                <div class="dropzone-area dashed-border-blue"
+                     [class.drag-over]="dragOverTDR"
+                     [class.has-file]="!!fileTDR"
+                     (dragover)="onDragOver($event, 'TDR')"
+                     (dragleave)="onDragLeave($event, 'TDR')"
+                     (drop)="onDrop($event, 'TDR')">
+
+                    <input type="file" id="tdrInput" accept=".pdf,.docx" hidden (change)="onFileSelect($event, 'TDR')" />
+
+                    <!-- State 1: Empty Zone -->
+                    <ng-container *ngIf="!fileTDR && !isFileUploading && !isUploading">
+                        <div class="dropzone-content">
+                            <div class="dropzone-illustration">
+                                <i class="pi pi-cloud-upload drop-icon"></i>
+                            </div>
+                            <p class="drop-title">Glissez-déposez vos Termes de Référence (TDR) ici</p>
+                            <p class="drop-subtitle">ou</p>
+                            <label for="tdrInput" class="drop-btn">Sélectionner un fichier</label>
+                            <p class="drop-formats">PDF, DOCX uniquement (max 100 Mo)</p>
+                        </div>
+                    </ng-container>
+
+                    <!-- State 2: Uploading / Active File Card -->
+                    <ng-container *ngIf="fileTDR || isUploading">
+                        <div class="file-card-wrapper" [class.scanning]="isUploading || (isFileUploading && fileUploadProgress === 100)">
+                            <!-- Couche de Scan IA -->
+                            <div class="ai-scan-layer" *ngIf="isUploading || (isFileUploading && fileUploadProgress === 100)">
+                                <div class="laser-beam"></div>
+                                <div class="scan-particles"></div>
+                                <div class="scan-overlay"></div>
+                            </div>
+
+                            <div class="file-card">
+                                <div class="file-icon">
+                                    <i class="pi pi-file-pdf" *ngIf="fileTDR?.name?.endsWith('.pdf') || !fileTDR"></i>
+                                    <i class="pi pi-file-word text-blue-500" *ngIf="fileTDR?.name && !fileTDR.name.endsWith('.pdf')"></i>
+                                </div>
+                                <div class="file-info">
+                                    <p class="file-name">{{ fileTDR?.name || 'Document en cours d\'analyse' }}</p>
+                                    <p class="file-size">{{ fileTDR ? formatSize(fileTDR.size) : '' }}</p>
+                                </div>
+                                <button class="file-remove" (click)="clearFile('TDR')" [disabled]="isUploading">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+
+                            <!-- Texte interactif de l'IA -->
+                            <div class="ai-status-text mt-3 text-center font-bold" [ngClass]="isPrivate ? 'text-purple-600' : 'text-primary'" *ngIf="isUploading || (isFileUploading && fileUploadProgress === 100)">
+                                <i class="pi pi-spin pi-spinner mr-2"></i> 
+                                <ng-container *ngIf="isFileUploading && fileUploadProgress === 100 && !isUploading">
+                                    <span>Extraction du texte et sauvegarde (MinIO) en cours...</span>
+                                </ng-container>
+                                <ng-container *ngIf="isUploading">
+                                    <span *ngIf="!isPrivate">{{ uploadProgress < 50 ? 'Lecture du document par l\'IA...' : 'Extraction des critères (Prompt Caching) en cours...' }}</span>
+                                    <span *ngIf="isPrivate">{{ uploadProgress < 50 ? 'Analyse du document encapsulé (DLP)...' : 'Extraction sécurisée (Prompt Caching) en cours...' }}</span>
+                                </ng-container>
+                            </div>
+
+                            <!-- Fine progress-bar animating 0 to 100% -->
+                            <div class="upload-progress-container" *ngIf="isFileUploading && !isUploading && fileUploadProgress < 100">
+                                <div class="progress-bar-fine">
+                                    <div class="progress-fill-fine" [style.width.%]="fileUploadProgress" [style.background]="isPrivate ? 'linear-gradient(90deg, #9333ea, #c084fc)' : ''"></div>
+                                </div>
+                                <div class="progress-status-row">
+                                    <span class="progress-pct" [style.color]="isPrivate ? '#9333ea' : ''">{{ fileUploadProgress }}%</span>
+                                    <span class="progress-msg">
+                                        <i *ngIf="isPrivate" class="pi pi-lock text-purple-500 mr-1"></i>
+                                        {{ isPrivate ? 'Encapsulation et sécurisation des données...' : 'Importation vers le serveur...' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Success Tag when done -->
+                            <div class="upload-success-badge mt-3" *ngIf="fileUploaded && !isUploading" [style.background]="isPrivate ? '#faf5ff' : ''" [style.color]="isPrivate ? '#9333ea' : ''">
+                                <i [class]="isPrivate ? 'pi pi-lock' : 'pi pi-check-circle'"></i> 
+                                {{ isPrivate ? 'Document encapsulé et prêt pour l\'IA' : 'Document prêt pour l\'analyse IA' }}
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ PARAMÈTRES D'UPLOAD ═══ -->
+        <div class="col-12 lg:col-5">
+            <div class="card metadata-card h-full flex flex-column">
+                <div class="flex justify-content-between align-items-start mb-2">
+                    <h3 class="card-title m-0"><i class="pi pi-calendar mr-2 text-primary"></i>Configuration du dossier</h3>
+                    <button pButton icon="pi pi-sliders-h" label="Options IA" 
+                            class="p-button-outlined p-button-sm p-button-secondary border-round-3xl"
+                            (click)="openPromptConfig(dossierId!)"
+                            [disabled]="!dossierId"
+                            pTooltip="Veuillez d'abord uploader le dossier pour configurer l'IA"
+                            [tooltipDisabled]="!!dossierId"
+                            tooltipPosition="left"></button>
+                </div>
+                <p class="text-secondary mb-4" style="font-size: 0.9rem; line-height: 1.5;">Veuillez spécifier la date limite de soumission. Le système calculera automatiquement le niveau de priorité de votre dossier.</p>
+
+                <!-- Date limite + temps restant -->
+                <div class="form-field mb-auto">
+                    <label>Date limite de soumission <span class="req">*</span></label>
+                    <p-calendar [(ngModel)]="dateLimite" [showIcon]="true" dateFormat="dd/mm/yy" [minDate]="today" placeholder="Sélectionner la date limite..."></p-calendar>
+
+                    <!-- Pastille PRO calculant le temps restant -->
+                    <div class="remaining-badge-wrapper mt-3" *ngIf="dateLimite">
+                        <span class="remaining-badge" [class.urgent]="daysRemaining <= 10">
+                            <i class="pi pi-clock"></i> Soumission dans {{ daysRemaining }} jours
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 🔒 Niveau de confidentialité -->
+                <div class="form-field mt-3">
+                    <label>Niveau de confidentialité <span class="req">*</span></label>
+                    <div class="flex gap-4 mt-2">
+                        <div class="flex align-items-center">
+                            <p-radioButton name="privacy" [value]="false" [(ngModel)]="isPrivate" inputId="public"></p-radioButton>
+                            <label for="public" class="ml-2 font-medium">Public (Standard)</label>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton name="privacy" [value]="true" [(ngModel)]="isPrivate" inputId="private"></p-radioButton>
+                            <label for="private" class="ml-2 font-medium text-purple-600"><i class="pi pi-shield mr-1"></i>Privé (DLP)</label>
+                        </div>
+                    </div>
+                    <!-- Alerte DLP -->
+                    <p-messages *ngIf="isPrivate" [value]="[{severity:'info', summary:'Sécurité DLP activée', detail:'Ce dossier est marqué comme Privé. Tous les mots-clés sensibles seront remplacés (encapsulés) par des codes générés aléatoirement avant toute transmission à l\'IA.'}]" [enableService]="false" [closable]="false" styleClass="mt-3"></p-messages>
+                </div>
+
+                <!-- Boutons d'action (Télécharger / Réinitialiser) -->
+                <div class="form-actions mt-4 pt-4 border-top-1 surface-border flex gap-3">
+                    <button pButton 
+                            icon="pi pi-refresh" 
+                            label="Réinitialiser" 
+                            class="p-button-outlined p-button-secondary border-round-3xl flex-1" 
+                            (click)="cancel()" 
+                            [disabled]="isUploading">
+                    </button>
+
+                    <button pButton 
+                            [icon]="isPrivate ? 'pi pi-lock' : 'pi pi-cloud-upload'" 
+                            [label]="isPrivate ? 'Encapsuler & Uploader' : 'Uploader le Dossier'" 
+                            class="p-button-primary border-round-3xl flex-1" 
+                            [style]="isPrivate ? 'background: linear-gradient(135deg, #7e22ce, #9333ea); border: none;' : 'background: linear-gradient(135deg, #2563eb, #4f46e5); border: none;'"
+                            (click)="upload()" 
+                            [disabled]="isUploading || !fileTDR || !dateLimite">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- DASHBOARD SECTION - Stats + Dossier Priority Table -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="dashboard-section mt-4">
+
+        <!-- ── STATS CARDS ── -->
+        <div class="stats-row">
+            <div class="stat-card urgent">
+                <div class="stat-icon-wrapper">
+                    <i class="pi pi-exclamation-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ stats.urgent }}</div>
+                    <div class="stat-label">Urgents (P1)</div>
+                </div>
+            </div>
+            <div class="stat-card moderate">
+                <div class="stat-icon-wrapper">
+                    <i class="pi pi-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ stats.modere }}</div>
+                    <div class="stat-label">Modérés (P2)</div>
+                </div>
+            </div>
+            <div class="stat-card normal">
+                <div class="stat-icon-wrapper">
+                    <i class="pi pi-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ stats.normal }}</div>
+                    <div class="stat-label">Normaux (P3)</div>
+                </div>
+            </div>
+            <div class="stat-card total">
+                <div class="stat-icon-wrapper">
+                    <i class="pi pi-folder-open"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ stats.total }}</div>
+                    <div class="stat-label">Total dossiers</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TABLE TOOLBAR ── -->
+        <div class="table-section mt-3">
+            <div class="table-toolbar">
+                <div class="toolbar-left">
+                    <h3 class="table-title">
+                        <i class="pi pi-list mr-2"></i>Dossiers déposés
+                    </h3>
+                    <span class="table-count-badge">{{ sortedDossiers.length }}</span>
+                </div>
+                <div class="toolbar-right">
+                    <div class="search-wrapper">
+                        <i class="pi pi-search search-icon"></i>
+                        <input type="text"
+                               pInputText
+                               [(ngModel)]="searchValue"
+                               (input)="onGlobalFilter($event)"
+                               placeholder="Rechercher un dossier..."
+                               class="search-input" />
+                        <button class="search-clear" *ngIf="searchValue" (click)="clearSearch()">
+                            <i class="pi pi-times"></i>
+                        </button>
+                    </div>
+                    <div class="export-buttons">
+                        <button pButton 
+                                type="button" 
+                                icon="pi pi-ellipsis-v" 
+                                class="p-button-rounded p-button-text p-button-plain shadow-2 hover-lift" 
+                                (click)="menu.toggle($event)"
+                                pTooltip="Options d'exportation"
+                                tooltipPosition="top">
+                        </button>
+                        <p-menu #menu [model]="exportMenuItems" [popup]="true" styleClass="border-round-xl shadow-4"></p-menu>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── PRIORITY TABLE ── -->
+            <p-table #dt
+                     [value]="sortedDossiers"
+                     [paginator]="true"
+                     [rows]="rows"
+                     [rowsPerPageOptions]="rowsPerPageOptions"
+                     [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Affichage {first} à {last} sur {totalRecords} dossiers"
+                     [globalFilterFields]="['intituleOffre', 'status', 'id']"
+                     [tableStyle]="{'min-width': '70rem'}"
+                     styleClass="p-datatable-sm p-datatable-gridlines priority-table"
+                     [rowHover]="true"
+                     responsiveLayout="scroll"
+                     sortField="priorite"
+                     [sortOrder]="1">
+
+                <!-- Header -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">#</th>
+                        <th pSortableColumn="intituleOffre" style="min-width: 14rem">
+                            Intitulé <p-sortIcon field="intituleOffre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="createdAt" style="min-width: 8rem">
+                            Dépôt le <p-sortIcon field="createdAt"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dtLimSoum" style="min-width: 7rem">
+                            Date Limite <p-sortIcon field="dtLimSoum"></p-sortIcon>
+                        </th>
+                        <th style="width: 6rem; text-align: center">Jours</th>
+                        <th pSortableColumn="priorite" style="width: 8rem; text-align: center">
+                            Priorité <p-sortIcon field="priorite"></p-sortIcon>
+                        </th>
+                        <th style="width: 7rem; text-align: center">Sécurité</th>
+                        <th style="width: 8rem; text-align: center">Statut</th>
+                        <th style="width: 10rem; text-align: center">Action</th>
+                    </tr>
+                </ng-template>
+
+                <!-- Body -->
+                <ng-template pTemplate="body" let-dossier let-rowIndex="rowIndex">
+                    <tr [class]="getPriorityClass(getDossierPriorite(dossier))" class="dossier-row">
+                        <!-- # -->
+                        <td class="row-index">
+                            <span class="index-badge">{{ rowIndex + 1 }}</span>
+                        </td>
+
+                        <!-- Intitulé -->
+                        <td class="col-intitule">
+                            <div class="intitule-wrapper">
+                                <span class="intitule-text">{{ dossier.intituleOffre || '—' }}</span>
+                                <span class="intitule-id">{{ shortId(dossier.id) }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Date Dépôt -->
+                        <td>
+                            <span *ngIf="dossier.createdAt" class="date-cell text-500">
+                                {{ dossier.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                            </span>
+                            <span *ngIf="!dossier.createdAt">—</span>
+                        </td>
+
+                        <!-- Date Limite -->
+                        <td>
+                            <span *ngIf="dossier.dtLimSoum" class="date-cell">
+                                {{ dossier.dtLimSoum | date:'dd/MM/yyyy' }}
+                            </span>
+                            <span *ngIf="!dossier.dtLimSoum">—</span>
+                        </td>
+
+                        <!-- Jours Restants -->
+                        <td style="text-align: center">
+                            <span class="days-badge" [class]="getDaysRemainingClass(getDaysRemainingFromDate(dossier.dtLimSoum))" *ngIf="dossier.dtLimSoum">
+                                {{ getDaysRemainingFromDate(dossier.dtLimSoum) }}j
+                            </span>
+                            <span *ngIf="!dossier.dtLimSoum">—</span>
+                        </td>
+
+                        <!-- Priorité Badge Animé -->
+                        <td style="text-align: center">
+                            <div class="priority-badge-animated" [class]="'priority-p' + getDossierPriorite(dossier)">
+                                <span class="priority-dot"></span>
+                                <span class="priority-text">{{ getPriorityLabel(getDossierPriorite(dossier)) }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Sécurité DLP -->
+                        <td style="text-align: center">
+                            <p-tag [value]="dossier.isPrivate ? 'Privé' : 'Public'"
+                                   [severity]="dossier.isPrivate ? 'warning' : 'info'"
+                                   [icon]="dossier.isPrivate ? 'pi pi-lock' : 'pi pi-unlock'"
+                                   styleClass="status-tag">
+                            </p-tag>
+                        </td>
+
+                        <!-- Statut -->
+                        <td style="text-align: center">
+                            <p-tag [value]="statusLabel(dossier.status || '')"
+                                   [severity]="getStatusSeverity(dossier.status || '')"
+                                   [icon]="getStatusIcon(dossier.status || '')"
+                                   styleClass="status-tag">
+                            </p-tag>
+                        </td>
+
+                        <!-- Action -->
+                        <td style="text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
+                            <button pButton icon="pi pi-cog" 
+                                    class="p-button-rounded p-button-secondary p-button-text" 
+                                    pTooltip="Ajuster Prompts IA" tooltipPosition="left"
+                                    (click)="openPromptConfig(dossier.id)"></button>
+                            <button pButton
+                                    *ngIf="canLaunchAnalysis(dossier)"
+                                    class="action-analyze-btn"
+                                    [disabled]="analyzingDossierId === dossier.id"
+                                    (click)="launchAnalysis(dossier)"
+                                    pTooltip="Passer ce dossier en analyse IA"
+                                    tooltipPosition="left">
+                                <ng-container *ngIf="analyzingDossierId !== dossier.id">
+                                    <i class="pi pi-play mr-1"></i> Analyser
+                                </ng-container>
+                                <ng-container *ngIf="analyzingDossierId === dossier.id">
+                                    <i class="pi pi-spin pi-spinner mr-1"></i> En cours...
+                                </ng-container>
+                            </button>
+                            <button pButton
+                                    *ngIf="!canLaunchAnalysis(dossier)"
+                                    icon="pi pi-eye"
+                                    label="Consulter"
+                                    class="p-button-outlined p-button-info p-button-sm"
+                                    (click)="goToValidation(dossier)"
+                                    pTooltip="Voir les champs extraits"
+                                    tooltipPosition="left">
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <!-- Empty State -->
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <div class="empty-icon-wrapper">
+                                    <i class="pi pi-inbox"></i>
+                                </div>
+                                <h4>Aucun dossier déposé</h4>
+                                <p>Utilisez la zone de dépôt ci-dessus pour ajouter votre premier Terme de Référence (TDR).</p>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+</main>
+
+<!-- Modale de progression (Tableau - Widget non bloquant) -->
+
+
+<app-prompt-override #promptDrawer [dossierId]="selectedDossierIdForPrompt"></app-prompt-override>

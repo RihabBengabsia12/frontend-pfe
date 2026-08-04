@@ -1,0 +1,98 @@
+<p-toast></p-toast>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card border-round-2xl shadow-2 p-5 bg-white">
+            <p-tabView>
+                <!-- Onglet Prompt Engineering -->
+                <p-tabPanel header="Prompt Engineering" leftIcon="pi pi-code">
+                    <h4 class="text-900 font-bold mb-2 mt-3">Ingénierie des Prompts</h4>
+                    <p class="text-600 mb-5">
+                        Gérez dynamiquement le comportement de Claude 3.5 Sonnet. Sélectionnez le contexte d'application puis modifiez les instructions.
+                    </p>
+
+                    <div class="flex flex-column md:flex-row align-items-start md:align-items-center gap-4 mb-5 p-4 bg-indigo-50 border-round-xl border-1 border-indigo-100">
+                        <div class="flex flex-column">
+                            <span class="text-900 font-bold mb-2">Contexte d'application</span>
+                            <span class="text-600 text-sm">Choisissez si ces instructions s'appliquent à tous les dossiers ou à un dossier spécifique (Exception).</span>
+                        </div>
+                        <div class="ml-auto flex align-items-center w-full md:w-auto">
+                            <p-dropdown [options]="dossiers" [(ngModel)]="selectedDossier" optionLabel="intituleOffre" [filter]="true" filterBy="intituleOffre,id"
+                                        [showClear]="true" placeholder="Global (Par défaut)"
+                                        (onChange)="onScopeChange()"
+                                        styleClass="w-full md:w-20rem">
+                                <ng-template pTemplate="selectedItem">
+                                    <div class="flex align-items-center gap-2" *ngIf="selectedDossier">
+                                        <i class="pi pi-folder-open text-indigo-500"></i>
+                                        <div>{{ selectedDossier.intituleOffre || selectedDossier.id }}</div>
+                                    </div>
+                                </ng-template>
+                                <ng-template let-dossier pTemplate="item">
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-folder text-500"></i>
+                                        <div>
+                                            <div class="font-bold">{{ dossier.intituleOffre || 'Sans titre' }}</div>
+                                            <div class="text-xs text-500">ID: {{ dossier.id }}</div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="grid">
+                        <div class="col-12 md:col-4">
+                            <p-accordion [multiple]="true" styleClass="custom-accordion">
+                                <p-accordionTab *ngFor="let phase of phases" [header]="phase.title" [selected]="false">
+                                    <div class="flex flex-column gap-3">
+                                        <div *ngFor="let p of phase.prompts" 
+                                             class="p-3 border-round-xl cursor-pointer transition-colors transition-duration-200 border-1"
+                                             [ngClass]="{'bg-indigo-50 border-indigo-200': selectedPrompt?.filename === p.filename, 'surface-border hover:surface-hover': selectedPrompt?.filename !== p.filename}"
+                                             (click)="selectPrompt(p)">
+                                            <div class="flex align-items-center mb-2">
+                                                <i [class]="p.icon" class="text-indigo-500 mr-2 text-xl"></i>
+                                                <span class="font-bold text-800">{{ p.title }}</span>
+                                            </div>
+                                            <p class="text-600 text-sm m-0">{{ p.description }}</p>
+                                            <span class="text-xs text-400 font-mono mt-2 block"><i class="pi pi-file mr-1"></i>{{ p.filename }}</span>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+
+                        <div class="col-12 md:col-8">
+                            <div class="card bg-gray-50 border-round-xl shadow-1 p-4 h-full" *ngIf="selectedPrompt">
+                                <div class="flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <h5 class="m-0 text-900 font-bold"><i class="pi pi-code text-indigo-500 mr-2"></i>Éditeur de Consignes</h5>
+                                        <p class="text-500 text-sm m-0 mt-1">Édition du fichier : <span class="font-mono text-700 bg-white px-2 py-1 border-round">{{ selectedPrompt.filename }}</span></p>
+                                    </div>
+                                    <button pButton pRipple icon="pi pi-save" label="Sauvegarder & Appliquer" 
+                                            class="p-button-success border-round-3xl shadow-2"
+                                            [loading]="isSaving"
+                                            (click)="savePrompt()">
+                                    </button>
+                                </div>
+                                <div class="flex align-items-center p-3 surface-100 border-round-lg mb-4 border-1 surface-border">
+                                    <i class="pi pi-info-circle text-blue-500 mr-3 text-2xl"></i>
+                                    <span class="text-700 text-sm">
+                                        <strong>Attention :</strong> Ces instructions dictent le comportement de l'IA pour la phase <strong>{{ selectedPrompt.title }}</strong>. 
+                                        <ng-container *ngIf="selectedDossier">Toute modification s'appliquera <strong>uniquement à ce dossier</strong> (exception).</ng-container>
+                                        <ng-container *ngIf="!selectedDossier">Toute modification impactera <strong>tous les futurs dossiers</strong>.</ng-container>
+                                    </span>
+                                </div>
+                                <textarea [(ngModel)]="editorContent" class="prompt-editor" spellcheck="false" placeholder="Chargement du prompt..."></textarea>
+                            </div>
+                            <div class="card bg-gray-50 border-round-xl shadow-1 p-4 h-full flex flex-column align-items-center justify-content-center border-1 surface-border border-dashed" *ngIf="!selectedPrompt">
+                                <i class="pi pi-sparkles text-indigo-300 mb-3" style="font-size: 3rem;"></i>
+                                <h5 class="text-600 font-normal">Sélectionnez une étape dans le menu de gauche pour éditer son prompt.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+            </p-tabView>
+        </div>
+    </div>
+</div>

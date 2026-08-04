@@ -1,0 +1,437 @@
+ANNEXE II: TERMES DE RÉFÉRENCE
+1. INFORMATIONS GÉNÉRALES ........................................................................... 2
+1.1. Pays partenaire .............................................................................................................. 2
+1.2. Pouvoir adjudicateur ..................................................................................................... 2
+1.3. Informations utiles concernant le pays ......................................................................... 2
+1.4. Situation actuelle dans le secteur concerné ................................................................... 2
+1.5. Programmes connexes et autres activités des donateurs ............................................... 3
+2. OBJECTIFS ET PRODUITS ATTENDUS ............................................................ 4
+2.1. Objectif général ............................................................................................................ 4
+2.2. Objectif(s) spécifique(s) ............................................................................................... 4
+2.3. Produits attendus de la part du contractant ................................................................... 4
+3. HYPOTHÈSES ET RISQUES ................................................................................. 4
+3.1. Hypothèses sous-tendant le projet ................................................................................ 4
+3.2. Risques .......................................................................................................................... 4
+4. CHAMP D’INTERVENTION ................................................................................. 5
+4.1. Généralités .................................................................................................................... 5
+4.2. Activités spécifiques ..................................................................................................... 6
+4.3. Gestion du projet .......................................................................................................... 7
+5. LOGISTIQUE ET CALENDRIER ......................................................................... 7
+5.1. Lieu d'exécution ............................................................................................................ 7
+5.2. Date de commencement et période de mise en œuvre des tâches ................................. 7
+6. EXIGENCES .............................................................................................................. 8
+6.1. Personnel ...................................................................................................................... 8
+6.2. Bureaux ....................................................................................................................... 10
+6.3. Moyens à mettre à disposition par le contractant ....................................................... 10
+6.4. Équipement ................................................................................................................. 10
+7. RAPPORTS .............................................................................................................. 10
+7.1. Exigences en matière de rapports ............................................................................... 10
+7.2. Présentation et approbation des rapports .................................................................... 11
+8. SUIVI ET ÉVALUATION ...................................................................................... 11
+8.1. Définition d’indicateurs .............................................................................................. 11
+8.2. Exigences particulières ............................................................................................... 11
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 1 sur 111. INFORMATIONS GÉNÉRALES
+1.1. Pays partenaire
+La République Tunisienne.
+1.2. Pouvoir adjudicateur
+Le Ministère de l’Economie et de la Planification (MEP), représenté par l'Unité de Gestion du
+Programme d'Appui à l’Accord d’Association (UGP3A).
+1.3. Informations utiles concernant le pays
+La Tunisie, après avoir traversé une forte récession en 2020 (-8,7 %), a connu une reprise progressive
+en 2021 (+4,5 %) et 2022 (+2,8 %)1. Malgré des signes de redressement, tels que l’amélioration du
+secteur touristique et des échanges commerciaux en 2023, des ajustements économiques et
+réglementaires sont encore nécessaires pour consolider la trajectoire de croissance et faire face aux
+enjeux persistants, notamment une dette maîtrisable et une sécheresse qui affecte l’agriculture.
+L’économie affiche une résilience face aux défis, avec des efforts continus pour maîtriser l’inflation
+2023 (9.3 %)2 et faire reculer le chômage, en particulier chez les jeunes et les femmes. Le
+gouvernement tunisien mise sur des mesures ciblées et sur ses ressources propres pour renforcer la
+relance économique tout en favorisant un développement inclusif et durable.
+Dans ce contexte, le secteur de l'agriculture et la pêche demeure l’un des piliers du développement
+socioéconomique du pays. Le secteur représente en effet 10,2 % du produit intérieur brut (PIB) et
+emploie près de 16% de la population active du pays3. L’amélioration récente de sa production (olive,
+datte) a participé au développement du secteur tout en permettant au pays d’atteindre un niveau «
+d’indépendance alimentaire ».
+1.4. Situation actuelle dans le secteur concerné
+L'agriculture tunisienne est confrontée à des défis structurels tels que la sécheresse, le changement
+climatique, la faible productivité, la dégradation des sols, l'accès limité aux marchés et la migration
+rurale-urbaine. Pour garantir une croissance durable et une sécurité alimentaire à long terme, le
+gouvernement a mis en place des mesures pour promouvoir la modernisation de l'agriculture et la
+diversification des cultures, notamment en soutenant la production de fruits et légumes à haute valeur
+ajoutée, en encourageant les jeunes à s'engager dans l'agriculture, et en renforçant l'agriculture
+biologique et durable. Certaines de ces réformes sont soutenues par l'UE à travers des programmes et
+actions de coopération et notamment par les deux programmes d'appuis budgétaires suivants : le
+Programme d'Appui à la Compétitivité et aux Exportations (PACE) et le Programme d'Appui au
+Développement Rural (PADR).
+Dans le cadre de ces programmes le Ministère de l’Agriculture, des Ressources Hydrauliques et de la
+Pêche Maritime (MARHP), le Ministère de l’Economie et de la Planification (MEP) et les parties
+prenantes ont ciblé, en priorité, les réformes suivantes qui seront suivies et documentées par la
+présente action :
+1 https://www.ins.tn/ar/publication/alnmw-alaqtsady-llthlathy-althalth-lsnt-2023
+2 https://www.ins.tn/publication/indice-des-prix-la-consommation-decembre-
+2023#:~:text=Le%20taux%20d'inflation%20moyen,%25%20contre%208.3%25%20en%202022.
+3 http://www.gbo.tn/fr/pap-mission-de-lagriculture-des-ressources-hydrauliques-et-de-la-peche-maritime-2024
+Page 2 sur 11
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER- Le contrôle Sanitaire et phytosanitaire (SPS) des produits agricoles et le contrôle des produits
+biologiques sont basés sur des analyses de risque et sur la mise en œuvre de plans d’action en
+conformité avec la règlementation européenne;
+- La gestion de la traçabilité des produits biologiques et la mise en application des procédures
+d'agrément des postes de contrôle frontaliers et des unités de fabrication d'aliments pour animaux
+sont renforcées ;
+- La politique d’investissement soutient le développement durable du secteur agricole ;
+- L'environnement réglementaire et institutionnel favorise l'organisation des producteurs
+conformément aux dispositions de la Loi sur l’Economie Sociale et Solidaire (ESS) ;
+- Le suivi, le contrôle et la surveillance de l’exploitation des ressources naturelles (eaux et
+ressources halieutiques) en assurant la durabilité ;
+- Les mesures de gestion durable des ressources halieutiques exportées, sont basées sur un avis
+scientifique ;
+- Les stratégies agricoles sont mises à jour et déclinées de manière opérationnelle pour chaque
+exercice budgétaire selon la Programmation Budgétaire par Objectifs adoptée par le
+gouvernement.
+Le PADR prévoit un appui complémentaire pour soutenir le Ministère de l’Agriculture, des
+Ressources Hydrauliques et de la Pêche Maritime (MARHP) dans l’exécution des programmes PADR
+et PACE. La mise en œuvre de cet appui complémentaire a été attribuée à l'Unité de Gestion des
+Programmes d'Appui à l'Accord d'Association (UGP3A) à travers un contrat de subvention.
+Le contrat de subvention « Suivi et documentation de l’avancement des réformes vers un système
+alimentaire durable, soutenues par le PADR et le PACE » permet d’assurer le suivi de l’avancement
+des réformes à travers des activités réparties sous quatre volets :
+Volet 1 : Dialogue de politique sectorielle (DPS) ;
+Volet 2 : Appui complémentaire en support à la mise en œuvre des réformes ;
+Volet 3 : Communication sur les progrès des réformes ;
+Volet 4 : Décaissement de l’Appui Budgétaire.
+L'UGP3A, créée en 2005 et relevant du Ministère de l’Economie et de la Planification - chargé de la
+coopération internationale, a travaillé en étroite collaboration avec les services du Ministère pour gérer
+et mettre en œuvre une grande partie des appuis institutionnels de l'UE en Tunisie. En 2009, l'UGP3A
+est devenue, par décrets gouvernementaux, une Unité de Gestion par Objectif, chargée de suivre
+l'exécution du programme d'appui à la mise en œuvre de l'accord d'association (P3A).
+1.5. Programmes connexes et autres activités des donateurs
+Projet de jumelage : Appui institutionnel au Ministère de l’Agriculture, des ressources hydrauliques
+et de la pêche Maritime pour renforcer ses capacités d’élaboration et de mise en œuvre des
+politiques agricoles et rurales inclusives, participatives et de long terme (1,5 M€ - de 2016 à 2019)
+Ce projet de jumelage a pour objectif d'accompagner le Ministère dans la formalisation d'une
+démarche d'élaboration, de mise en œuvre et de suivi-évaluation de la politique agricole et rurale en
+organisant le réseau de compétences des structures, en renforçant les capacités des agents et en
+valorisant les processus de capitalisation/restitution des acquis des projets et programmes à forte
+dimension territoriale.
+Programme d’appui à la compétitivité et aux exportations (PACE)4 (90 M€ - de 2018 à 2023)
+Ce programme d’appui budgétaire vise à soutenir la croissance économique et l’emploi de qualité à
+travers une intégration accrue de l’économie tunisienne dans l’espace économique européen et
+mondial. Pour atteindre cet objectif, l’action prévoit d’améliorer la compétitivité de l’industrie et de
+l'agriculture tunisiennes, de renforcer la capacité des entreprises tunisiennes à pénétrer les marchés
+4 https://ec.europa.eu/neighbourhood-enlargement/system/files/2018-12/annual_action_programme_aap_2017_-_part_ii.pdf
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 3 sur 11européens et internationaux, de moderniser les secteurs agricole et de la pêche en s'assurant que cette
+modernisation soit fondée sur des principes d'exploitation durable des ressources et de consolider et
+accélérer le processus de rapprochement législatif/réglementaire de la Tunisie avec l’acquis de l’Union
+Européenne (UE).
+2. OBJECTIFS ET PRODUITS ATTENDUS
+2.1. Objectif général
+L’objectif général (impact) à la réalisation duquel cette action participe est le suivant: Contribuer à la
+mise en œuvre des réformes vers un système alimentaire durable.
+2.2. Objectif(s) spécifique(s)
+Les objectifs spécifiques (réalisations) du présent marché sont les suivants:
+- Objectif spécifique 1 (réalisation) : Fournir une assistance technique au MARHP pour concevoir
+et implémenter un dispositif de suivi de la mise en œuvre des réformes. Ce dispositif devrait
+permettre de fournir des informations fiables et précises aux différentes parties prenantes sur le
+niveau d’avancement desdites réformes et renforcer ainsi les capacités de suivi des programmes et
+des projets du MARHP.
+- Objectif spécifique 2 (réalisation) : Fournir régulièrement des informations sur les politiques, les
+stratégies, la législation, la réglementation et les normes relatives à l'agriculture de l'Union
+européenne et de ses États membres.
+2.3. Produits attendus de la part du contractant
+Les produits attendus du présent marché sont les suivants:
+Réalisation 1
+- Produit 1: Un rapport de suivi de l’exécution des actions de réforme élaboré et actualisé tous les
+trois mois ;
+- Produit 2:Une base de données, permettant de stocker et gérer l’ensemble des informations
+collectées, développée et opérationnelle ;
+- Produit 3:Un tableau de bord, présentant les informations de manière synthétique sous forme
+d'indicateurs pour suivre et analyser la progression des réformes, développé avec une interface
+utilisateur conviviale ;
+- Produit 4 : Un guide détaillant le dispositif et sa mise en œuvre élaboré ;
+- Produit 5 :L’équipe du MARHP est formée à l’exploitation du dispositif de suivi ;
+Réalisation 2
+- Produit 1: Un bulletin électronique de veille informationnelle bimensuelle est élaboré et diffusé.
+3. HYPOTHÈSES ET RISQUES
+3.1. Hypothèses sous-tendant le projet
+- L'implication des responsables et leur soutien à l'approche sous-jacente au dispositif de suivi;
+- La disponibilité des documents des projets/programmes et des différents livrables associés ;
+- L'adoption d'un cadre de suivi flexible et adaptable, permettant une révision constante en
+fonction des besoins et des évolutions des réformes, est essentielle pour garantir l'engagement
+à long terme, la durabilité et la pérennité du dispositif de suivi des actions de réformes.
+3.2. Risques
+- Manque d’adhésion, de participation et d’implication des départements concernés par les
+réformes;
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 4 sur 11- Difficultés de coopération et de coordination entre les départements du MARHP et avec les
+départements d’autres ministères concernés par les réformes ;
+- Absence de données fiables et nécessaires pour assurer le suivi des actions de réformes.
+Le prestataire assistera le MARHP pour gérer ces risques et proposera des outils et méthodes pour les
+atténuer.
+4. CHAMP D’INTERVENTION
+4.1. Généralités
+4.1.1. Description de la mission
+La présente mission s'inscrit dans le cadre du contrat SUIDAR, une action mise en œuvre par l'UGP3A
+sur une période de 4 ans. SUIDAR a pour finalité d’assurer le suivi de l’avancement de la mise en
+œuvre des réformes vers un système alimentaire durable, soutenues par les appuis budgétaires relevant
+des programmes PADR et PACE. Ces derniers soutiennent un processus de réformes entamé par
+le MARHP et viennent accompagner les engagements prévus dans les Programmes Annuels de
+Performance (PAP) du MARHP.
+Cette mission sera supervisé par la Direction Générale des Etudes et du Développement Agricole
+(DGEDA) du MARHP. La DGEDA a pour mission principale de contribuer à l'élaboration des
+politiques agricoles et de développement rural du pays. Elle est chargée de réaliser des études et des
+analyses sur le secteur agricole et rural, afin de proposer des politiques et des programmes de
+développement adaptés. Elle est également responsable de la coordination et de la supervision de la
+mise en œuvre de ces politiques et programmes.
+La mission vise à aider le MARHP à concevoir et déployer un dispositif de suivi de la réalisation des
+réformes qui sont soutenues par les programmes d'appui budgétaire PADR et PACE, afin de fournir
+aux parties prenantes des informations fiables et précises sur l'état d'avancement de ces réformes et
+ainsi apporter, le cas échéant, l’appui nécessaire pour accélérer leur mise en œuvre .
+Le dispositif de suivi repose sur une revue trimestrielle régulière de l'état d'avancement des réformes.
+Lors de la première revue, une liste des actions engagées, clôturées et à engager contribuant à la
+réalisation de ces réformes sera établie et mise à jour tous les trois mois. Au cours de chaque revue,
+des données et des informations sur la réalisation de ces actions seront collectées et comparées à une
+situation de référence pour déterminer les indicateurs nécessaires à la mesure du progrès dans la
+réalisation de ces actions.
+Les informations recueillies lors des différentes revues seront utilisées pour formuler des
+recommandations d'adaptation et des mesures correctives visant à résoudre les problèmes qui entravent
+l'avancement de la mise en œuvre et/ou à améliorer les programmes, projets et autres activités futures.
+Ces recommandations seront également utilisées pour soutenir les évaluations menées par le MARHP.
+Les données recueillies lors des différentes revues, ainsi que les livrables et rapports utilisés, seront
+stockés dans une base de données pour faciliter leur classement et leur consultation lors de futures
+revues et missions. Cette base de données sera également utilisée pour générer un tableau de bord de
+suivi et de communication sur les réformes en question. Ce tableau de bord présentera de manière
+synthétique les informations sur les actions de réforme sous forme d'indicateurs à définir, permettant
+de suivre et d'analyser la progression de la mise en œuvre de ces actions, ainsi que de piloter
+l'avancement de manière proactive.
+La mission dispensera une formation à l'équipe de la DGEDA et aux parties prenantes concernées sur
+les outils et le processus mis en place. Un guide détaillant les étapes à suivre sera également élaboré
+pour formaliser le processus de suivi.
+Dans le but de renforcer la surveillance prospective du MARHP concernant les réformes et de
+contribuer aux réflexions préliminaires à la planification stratégique et à la conception de politiques
+et/ou de projets de réformes, la mission produira un bulletin périodique de veille. Ces bulletins
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 5 sur 11électroniques présenteront des compilations structurées des nouvelles survenues dans le domaine de
+l'agriculture et seront diffusés. Ils résumeront de manière synthétique les informations les plus
+pertinentes, significatives et récemment publiées en matière de politiques, stratégies, législation,
+réglementation et normalisation en Europe.
+4.1.2. Zone géographique à couvrir
+Le siège de l’action est à Tunis. La zone d’intervention de l’action ainsi que celle des services du
+contractant touche l’ensemble du territoire tunisien.
+4.1.3. Groupes cibles
+Les partenaires directs : Le principal bénéficiaire est le MARHP représenté par la DGEDA en tant que
+chef de file et les différents départements et institutions sous tutelle concernés par les réformes.
+Les partenaires indirects : les autres ministères ainsi que les partenaires de la coopération
+internationale et les organisations concernées par les réformes.
+4.2. Activités spécifiques
+Pour aboutir aux résultats/produits escomptés, la mission doit couvrir les tâches ci-après :
+Composante 1 : Revue initiale, cartographie des réformes et acteurs impliqués
+• Identifier et décrire les reformes soutenues par les appuis budgétaires relevant des programmes
+PADR et PACE sur la base d’entretiens avec les parties concernées et l’étude des documents de
+planifications stratégique (PAP et RAP) ainsi que les projets/programmes et les différents livrables
+associés ;
+• Établir un inventaire des actions et des acteurs qui contribuent à la réalisation de ces réformes, en
+actualisant cette liste tous les trois mois;
+• Décrire les actions répertoriées, en tenant compte des informations recueillies ainsi que des
+documents relatifs aux projets et programmes, tels que les cadres logiques, les plans d'actions, les
+feuilles de route, les calendriers, etc.
+• Rédiger un rapport de suivi de l'exécution des actions répertoriées tous les trois mois, afin de
+présenter une mise à jour de leur progression. Ce rapport doit être concis et fournir des
+informations générales sur la progression des actions, de manière à informer toutes les parties
+concernées des délais, des prochaines étapes, des obstacles rencontrés, ainsi que des propositions
+pour surmonter ces obstacles.
+Composante 2 : Conception du dispositif de suivi
+• Définir le dispositif de suivi et les outils nécessaires à son déploiement et décrire le processus de sa
+mise en place en prenant en compte les capacités et les modes de fonctionnement des parties
+impliquées ;
+• Définir des indicateurs clés objectivement vérifiables permettant de mesurer le progrès dans la
+réalisation des actions ;
+• Concevoir et développer une base de données pour stocker, gérer et analyser les informations
+collectées. Cette base de données doit permettre de centraliser les données et de faciliter leur
+traitement pour une meilleure prise de décision ;
+• Concevoir et développer un tableau de bord adapté aux besoins du MARHP présentant de manière
+synthétique les réformes et leur état d’avancement;
+• Intégrer les indicateurs clés permettant de mesurer le progrès réaliser des actions de réformes ;
+• Elaborer un manuel d'utilisation de la base de données et du tableau de bord, incluant des
+instructions détaillées pour l'ajout, la modification, la suppression de données et leur visualisation ;
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 6 sur 11• Fournir une formation à l'équipe de la DGEDA et aux parties prenantes concernées sur l'utilisation
+de la base de données et du tableau de bord.
+Composante 3 : Veille informationnelle
+• Identifier les sources d'information qui doivent être pertinentes, fiables et variées pour garantir la
+qualité du contenu du bulletin et qui devraient porter sur les aspects politiques, stratégiques,
+législatifs, réglementaires et normatifs de l’agriculture de l’UE et de ses Etats membres;
+• Concevoir la trame du bulletin électronique qui sert à diffuser les informations recueillies et
+traitées, avec un format et un design attractifs (graphismes, couleurs, etc.) ;
+• Produire et diffuser chaque deux mois un bulletin électronique de veille informationnelle. ²
+4.3. Gestion du projet
+4.3.1. Organe responsable
+Le Ministère de l’Economie et de la Planification (MEP) représenté par l’Unité de Gestion du
+Programme d’Appui à l’Accord d’Association (UGP3A).
+4.3.2. Structure de gestion
+Le contactant travaillera sous la supervision de l’UGP3A en coordination avec la Direction Générale
+des Etudes et du Développement Agricole (DGEDA) du Ministère de l’Agriculture, des Ressources
+Hydrauliques et de la Pèche Maritime.
+Le suivi et l’évaluation des travaux de la présente mission seront assurés par un comité de suivi mis en
+place par la DGEDA et constitué de représentants du MARHP et de l’UGP3A, ainsi que toute autre
+personne dont la participation sera jugée utile.
+A cet effet, des réunions du comité de suivi avec les experts seront organisés autant que besoin jusqu’à
+l’aboutissement de la mission.
+Les commentaires et les recommandations émis lors de ses réunions seront consignés dans des
+comptes rendus établis par l’expert chef de mission et approuvés par la DGEDA et l’UGP3A par
+échange électronique.
+4.3.3. Moyens à mettre à disposition par le pouvoir adjudicateur et/ou d’autres parties
+Se référer aux points 6.2 et 6.3 de ces présents termes de références.
+5. LOGISTIQUE ET CALENDRIER
+5.1. Lieu d'exécution
+La mission aura lieu essentiellement à Tunis. Des déplacements en dehors de Tunis sont également
+prévus pour des entretiens avec les responsables régionaux concernés par les réformes. Au cours de
+cette mission, les experts se déplaceront autant que besoin sur tous les sites de travail du MARHP et de
+ses partenaires.
+5.2. Date de commencement et période de mise en œuvre des tâches
+La date de commencement prévue est fixée à titre indicatif au 15/04/2026 et la période d’exécution du
+marché sera de 06 mois à partir de cette date. Veuillez vous reporter aux articles 19.1 et 19.2 des
+conditions particulières pour la date de commencement et la période d’exécution effectives.
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 7 sur 116. EXIGENCES
+6.1. Personnel
+Veuillez noter que les fonctionnaires et autres membres du personnel de l’administration publique du
+pays partenaire ou d’organisations internationales/régionales établies dans ce pays ne seront autorisés
+à travailler en qualité d’experts que si cela est dûment justifié. La justification doit figurer dans l’offre.
+Elle doit comporter des informations relatives à la valeur ajoutée apportée par l’expert concerné ainsi
+que la preuve de son détachement ou de son congé de convenance personnelle.
+6.1.1. Experts principaux
+Trois experts principaux sont nécessaires pour l'atteinte des résultats de la présente mission.
+Personnes/jours à
+Expertise
+prévoir
+Expert principal 1 – Chef d'équipe et Expert senior en suivi-évaluation 60
+Expert principal 2 – Expert senior en Veille informationnelle 15
+90
+Expert principal 3 – Expert senior en traitement de l’information et
+15
+développement informatique
+Les experts principaux requis dans le cadre du présent marché doivent soumettre leur CV et une
+déclaration d’exclusivité et de disponibilité signée et doivent avoir le profil suivant:
+Expert principal n°1: Expert sénior en suivi-évaluation - Chef d'équipe
+L’expert en suivi-évaluation, chef d’équipe sera la personne responsable de la bonne exécution de
+l’ensemble des activités opérationnelles du marché en étroite collaboration avec le bénéficiaire tout en
+assurant la logistique et les relations avec le prestataire qu’il représente.
+Qualifications et compétences
+- Diplôme universitaire supérieur, sanctionnant un diplôme d’ingénieur universitaire en
+agroéconomie ou tout autre domaine pertinent (Economie rurale, Production agricole, Gestion
+intégrée de l’eau et agriculture durable, ….).
+- Un diplôme en master de recherche sera considéré comme un atout.
+- Bonne maîtrise des outils et pratiques de gestion de projet (Cadre logique, planification, reporting,
+etc.) et connaissance des pratiques des bailleurs de fonds, notamment l’UE.
+Expérience professionnelle générale
+- Dix (10) années d'expérience générale dont cinq (05) années dans le domaine du suivi-évaluation
+des programmes et des projets ;
+Expérience professionnelle spécifique
+- Une expertise avérée dans le suivi des réformes et des programmes de développement mis en
+œuvre par des institutions et organismes publics ;
+- Avoir déjà réalisé au moins une (01) mission semblable à la présente sera considérée comme un
+atout ;
+- Une (01) expérience dans le domaine de l’agriculture en Tunisie sera considérée comme un atout;
+- Expérience avérée en recherche, en analyse et en synthèse d'informations ;
+- Expérience en matière de veille dans les domaines de l’agriculture, des pratiques agricoles, de
+l'industrie agroalimentaire et des enjeux environnementaux sera considérée comme un atout ;
+- Maîtrise des outils informatiques usuels (logiciels de traitement de texte, tableur et de
+présentation).
+Connaissance linguistique
+- Excellente maitrise de la langue française parlée et écrite.
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 8 sur 11- Bonne maitrise de l’anglais sera considérée comme un atout.
+Expert principal n°2: Expert sénior en Veille informationnelle
+Qualifications et compétences
+- Diplôme universitaire (Bac+5 minimum) dans un domaine pertinent : sciences de l’information,
+communication, documentation, science politique, économie ou équivalent.
+- Une formation complémentaire ou certification en veille stratégique, intelligence économique ou
+communication sera considérée comme un atout.
+- Capacité démontrée à identifier, trier, analyser et synthétiser des informations issues de sources
+fiables et variées (politiques, réglementaires, stratégiques).
+- Maîtrise des outils de veille et de publication numérique (agrégateurs de contenu, outils de mise en
+page ou de diffusion).
+Expérience professionnelle générale
+- Dix (10) années d'expérience professionnelle générale.
+Expérience professionnelle spécifique
+- Au moins cinq (5) années d'expérience dans le domaine de la veille informationnelle, de la
+recherche documentaire, de la production de bulletins d’information ou de l’analyse de politiques
+publiques.
+- Expérience dans un environnement institutionnel ou dans des projets de coopération internationale
+(administrations publiques, projets de développement, etc.).
+- Réalisation d’au moins une mission de conception ou d’animation d’un dispositif de veille ou d’un
+support structuré (bulletin, newsletter, tableau de bord, etc.).
+- Une expérience avérée en veille appliquée au secteur agricole, ou une connaissance approfondie
+des politiques agricoles ou de développement rural au sein de l’UE ou de pays tiers, sera
+considérée comme un atout.
+- Maîtrise des outils informatiques usuels (traitement de texte, tableur, présentation).
+Connaissance linguistique
+- Excellente maitrise de la langue française parlée et écrite.
+- Bonne maitrise de l’anglais sera considérée comme un atout.
+Expert principal 3: Expert senior en traitement de l’information et développement informatique
+Qualifications et compétences
+- Diplôme universitaire supérieur, sanctionnant un cycle complet de 5 années d'études
+universitaires, en informatique, en traitement des données ou domaine équivalent.
+Expérience professionnelle générale
+- Cinq (05) années d'expérience dans le domaine de l’informatique.
+Expérience professionnelle spécifique
+- Deux (02) années d'expérience en matière de conception et de déploiement d’outil (solution) de
+gestion de l’information ;
+- Une expérience avérée dans la conception de base de données, tableau de bords, traitement des
+données et/visualisations personnalisées pour un appui à la prise de décision ;
+- Avoir déjà réalisé au moins1 mission semblable à la présente.
+Connaissance linguistique
+- Excellente maitrise de la langue française parlée et écrite.
+- Bonne maitrise de l’anglais sera considérée comme un atout.
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 9 sur 11Tous les experts doivent être indépendants et n’avoir aucun conflit d'intérêts dans les responsabilités
+qui leur incombent.
+6.1.2. Autres experts, personnel de soutien et appui technique
+Les termes de référence ne prévoient pas d’experts autres que les experts principaux.
+Le coût de l’appui technique et du personnel de soutien, selon les besoins, est réputé inclus dans l’offre
+financière du soumissionnaire.
+6.2. Bureaux
+Le contractant doit mettre un bureau à la disposition de chaque expert travaillant dans le cadre du
+marché.
+6.3. Moyens à mettre à disposition par le contractant
+Le contractant doit veiller à ce que les experts disposent du soutien et de l’équipement nécessaires.
+Ceux-ci doivent notamment bénéficier de services satisfaisants en matière d’administration, de
+secrétariat et d’interprétation, pour pouvoir se concentrer sur leurs tâches premières. Le contractant
+doit également transférer les fonds nécessaires au financement des activités prévues au titre du marché
+et veiller à ce que le personnel soit rémunéré régulièrement et en temps voulu.
+6.4. Équipement
+Aucun équipement ne sera acheté pour le compte du pouvoir adjudicateur / pays partenaire au titre du
+présent marché de services ni transféré au pouvoir adjudicateur / pays partenaire à la fin du marché.
+Tout équipement devant être acheté par le pays partenaire pour les besoins du présent marché fera
+l’objet d’un appel d’offres distinct, dans le cadre d’un marché de fournitures.
+7. RAPPORTS
+7.1. Exigences en matière de rapports
+En sus des produits/livrables demandés dans le cadre de cette action, le contractant soumettra les
+rapports ci-après en français sous la forme d'une copie électronique et 2 exemplaires originaux.
+ Rapport initial (maximum 12 pages) à remettre deux semaines après le début de l’exécution du
+marché. Le contractant doit indiquer dans le rapport, par exemple, les premières constatations,
+l’avancement de la collecte des données, ainsi que les difficultés rencontrées et/ou prévues, outre le
+programme de travail et les voyages du personnel. Le contractant est invité à poursuivre son travail,
+à moins que le pouvoir adjudicateur n’envoie des observations concernant le rapport initial.
+ Des rapports intérimaires trimestriels (d'un maximum de 20 pages, texte principal, annexes
+exclues) a remettre une semaine après la fin de chaque période de trois mois, puis final après
+réception des commentaires. Le contractant devra y inclure, entre autres, les constatations faites
+durant la période, l'état d'avancement de la collecte des données, les livrables réalisés ou en cours
+de réalisation, ainsi que les difficultés rencontrées ou anticipées. Le rapport devra également
+détailler le déroulement de la mission, en indiquant les étapes clés franchies et le programme de
+travail. Sauf observation contraire du pouvoir adjudicateur, le contractant est invité à poursuivre ses
+activités conformément au plan établi.
+ Projet de rapport final de maximum 30 pages (texte principal, annexes exclues). Ce rapport sera
+soumis au plus tard un mois avant la fin de la période de mise en œuvre des tâches.
+ Rapport final répondant aux mêmes spécifications que celles définies pour le projet de rapport
+final et dans lequel seront intégrées toutes les observations transmises par les parties au sujet du
+projet de rapport. Le rapport final sera fourni au plus tard 15 jours après la réception des
+observations sur le projet de rapport final. Il doit contenir une description suffisamment détaillée
+des différentes options, de manière à faciliter la prise d’une décision en connaissance de cause sur
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 10 sur 11les mesures à adopter pour améliorer l'efficacité du dispositif de suivi et accélérer la mise en œuvre
+des réformes PADR et PACE. Les analyses détaillées sous-tendant les recommandations des
+experts seront présentées dans des annexes du rapport principal. Le rapport final doit être fourni en
+même temps que la facture correspondante.
+7.2. Présentation et approbation des rapports
+Les rapports susmentionnés seront présentés au gestionnaire du projet indiqué dans le contrat.
+L'approbation de ces rapports lui incombe.
+8. SUIVI ET ÉVALUATION
+8.1. Définition d’indicateurs
+Le suivi de cette mission sera assuré par l’UGP3A. Les indicateurs quantitatifs d'évaluation consistent
+dans la réalisation et l'approbation des produits/livrables demandés dans le cadre de cette mission.
+8.2. Exigences particulières
+Non applicable.
+TERMES DE RÉFÉRENCE n° P3A/425- 501/01-2026 SER Page 11 sur 11

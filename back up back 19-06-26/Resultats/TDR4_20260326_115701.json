@@ -1,0 +1,320 @@
+{
+  "informations_generales": {
+    "pays": "Tunisie",
+    "intitule_offre": "Désignation d'un bureau d'études pour la réalisation des études du projet de réhabilitation, de réaménagement et de protection du port présidentiel du Palais de Carthage",
+    "reference": "Consultation spéciale N°03/2026",
+    "client": "Présidence de la République Tunisienne - Services Communs - Unité des Affaires Générales",
+    "resume_contexte_objectifs": [
+      "- Le port présidentiel du Palais de Carthage nécessite une réhabilitation, un réaménagement et une protection",
+      "- Objet 1 : Remise en état des infrastructures et ouvrages portuaires existants et éventuel réaménagement",
+      "- Objet 2 : Protection contre les phénomènes d'agitation et de franchissement",
+      "- Objet 3 : Protection contre le phénomène d'ensablement",
+      "- L'étude se déroule en deux phases : Phase I (expertise et études techniques) et Phase II (étude de la variante retenue, projet détaillé, dossier de consultation)",
+      "- Le maitre d'ouvrage est la Présidence de la République Tunisienne",
+      "- La procédure est une consultation spéciale sur liste restreinte à caractère confidentiel selon le décret n°2013-3767"
+    ],
+    "date_limite_soumission": "Vendredi 27 mars 2026 à 10h00 du matin",
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": null,
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "texte_brut": "Montant à compléter par le soumissionnaire dans le bordereau des prix - HTVA + TVA - Prix mixtes (unitaires et forfaitaires)"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": "Budget public tunisien (Présidence de la République) - Aucun montant global mentionné dans le document"
+    }
+  },
+  "concurrence": {
+    "shortlist": "Oui - Liste restreinte préétablie par le maître d'ouvrage conformément à l'article 02 du décret n°2013-3767 du 13 septembre 2013",
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Composition de la liste restreinte non divulguée - Procédure confidentielle"
+    },
+    "analyse_concurrence": [
+      "- Consultation spéciale à liste restreinte : seuls les bureaux d'études sélectionnés et invités par écrit peuvent soumissionner",
+      "- Les offres en groupement sont éliminées automatiquement : participation individuelle obligatoire",
+      "- Attribution au moins-disant financièrement conforme techniquement",
+      "- La commission peut élargir la concurrence en demandant des compléments de dossiers administratifs"
+    ]
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": [
+      "- Spécialiste en travaux maritimes : Ingénieur Génie Civil ou Hydraulique portuaire - 15 ans d'expérience minimum - 3 experts minimum",
+      "- Spécialiste en hydraulique maritime : Ingénieur Hydraulique ou Génie Civil - Étude sur modèle numérique - 10 ans minimum - 3 experts minimum",
+      "- Sédimentologue : Bac+4 minimum - Étude sédimentologique sur modèle numérique - 10 ans minimum - 3 experts minimum",
+      "- Écologiste : Maîtrise ou plus en écologie, sciences de la terre ou environnement - 10 ans minimum - 3 experts minimum",
+      "- Géotechnicien : Ingénieur géotechnique ou Génie Civil - Étude géotechnique portuaire - 10 ans minimum - 3 experts minimum",
+      "- Le soumissionnaire peut faire appel à tout expert externe répondant aux conditions",
+      "- Ancienneté calculée à partir de l'année d'obtention du diplôme",
+      "- Nombre total d'hommes-mois non précisé dans le document"
+    ],
+    "budget_interne_estime": {
+      "montant": null,
+      "source": "Non communiqué - Montant à proposer par le soumissionnaire"
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "Date de lancement non précisée - Délai entre publication et date limite (17 mars au 27 mars 2026) = 10 jours calendaires seulement, ce qui est très court pour préparer une offre technique complète avec CV, diplômes, agréments sous-traitants et offre financière"
+    },
+    "duree_mission_mois": "240 jours calendaires (samedis, dimanches et jours fériés inclus), soit environ 8 mois - hors délais d'approbation par le MDO (45 jours par activité)",
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Dépend de la disponibilité des experts et sous-traitants agréés - Délai d'exécution global de 240 jours avec des jalons d'approbation de 45 jours par activité et 15 jours pour dépôt des versions corrigées"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": [
+      "- Phase 1 : Vérification des pièces administratives puis classement financier croissant (montant TTC)",
+      "- Phase 2 : Vérification de la conformité technique du moins-disant financier",
+      "- Si non-conforme techniquement : passage au suivant dans l'ordre financier croissant",
+      "- Attribution au soumissionnaire le moins-disant financièrement ET conforme techniquement"
+    ],
+    "seuil_technique": "Conformité binaire (conforme / non conforme) - Pas de notation par points",
+    "poids_technique_pct": null,
+    "poids_financier_pct": "Prépondérant - Le classement est d'abord financier, la technique est un filtre de conformité minimale"
+  },
+  "partenariat": {
+    "partenaires_necessaires": [
+      "- Sous-traitants obligatoires :",
+      "  - Bureau de contrôle spécialisé agréé pour sondages carottés en béton",
+      "  - Géotechnicien spécialisé agréé pour sondages géotechniques",
+      "  - Laboratoire agréé par le Ministère de l'Équipement ou accrédité par le Conseil National d'Accréditation pour essais/analyses (étude d'impact et sédimentologique)",
+      "- Levés topo-bathymétriques assurés par le Centre Hydrographique et Océanographique de la Marine Nationale (services du MDO)",
+      "- Inspection sous-marine assurée par les services du maître d'ouvrage (plongeur)"
+    ],
+    "chef_de_file": "Le bureau d'études soumissionnaire est seul titulaire - Pas de groupement autorisé",
+    "roles_repartition": [
+      "- Bureau d'études : réalisation de toutes les études, coordination des sous-traitants, rédaction des rapports",
+      "- Sous-traitants agréés : sondages béton, géotechnique, essais laboratoire",
+      "- Marine Nationale : levés topo-bathymétriques",
+      "- Services MDO : inspection sous-marine avec plongeur"
+    ]
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "Oui",
+    "montant": [
+      "- Avance forfaitaire : 10% du montant initial du marché (caution bancaire obligatoire pour déblocage)",
+      "- Cautionnement définitif : 3% du montant initial du marché (à constituer dans les 20 jours suivant notification d'approbation)",
+      "- Caution personnelle et solidaire : mentionnée en annexe 6 - montant fixe de 5 000 dinars tunisiens prévu à l'article 113 du décret n°2014-1039"
+    ],
+    "devise": "Dinars Tunisiens (DT)",
+    "duree_validite": "Libération 4 mois après réception définitive des études sans réserves - Caution définitive libérée proportionnellement aux remboursements de l'avance"
+  },
+  "demandes_information": {
+    "date_limite_questions": "10 jours au plus tard avant la date limite de réception des offres, soit au plus tard le 17 mars 2026",
+    "clarifications": [
+      "- Les questions doivent être posées par écrit au maître d'ouvrage",
+      "- Les réponses fondées feront l'objet d'additifs envoyés 7 jours au plus tard avant la date limite",
+      "- Aucune réponse aux questions verbales",
+      "- Adresse : Bureau d'ordre des Services Communs de la Présidence de la République - 6 Rue Abou Alkacem Chebbi - 2016 Carthage"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": "Non spécifiée formellement - Le soumissionnaire déclare avoir pris connaissance des lieux et conditions de travail (Article 8 du CCS) - Visite de site implicitement requise"
+    },
+    "conference_prealable": {
+      "valeur": "Non",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Faible",
+      "commentaire": "Tunisie - Projet sur site présidentiel sensible (Palais de Carthage) - Confidentialité renforcée par décret spécial - Engagement de confidentialité obligatoire signé par le titulaire"
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Budget non communiqué - Prix proposés librement par le soumissionnaire - Variation possible de ±20% de la masse des prestations - Avance de 10% conditionnée à une caution bancaire - Délai de paiement 45 jours après remise de facture"
+    },
+    "penalites": {
+      "niveau": "Moyen",
+      "commentaire": "Pénalité journalière de 3‰ du montant total du marché en cas de retard - Plafond de 5% du montant total - Pénalité forfaitaire de 200 DT par absence à une réunion convoquée - Résiliation possible aux torts du bureau d'études après mise en demeure de 15 jours non respectée"
+    },
+    "exigences_inacceptables": {
+      "niveau": "Moyen",
+      "commentaire": "Offres en groupement éliminées automatiquement - Exclusivité des experts imposée (déclaration d'exclusivité obligatoire) - Propriété exclusive des études transférée au MDO - Obligation de confidentialité stricte et permanente - Frais d'enregistrement du marché à charge du titulaire"
+    },
+    "garanties_elevees": {
+      "niveau": "Moyen",
+      "commentaire": "Cautionnement définitif de 3% du montant du marché - Caution bancaire pour avance de 10% - Caution personnelle et solidaire de 5 000 DT - Délai de constitution de 20 jours après notification - Libération 4 mois après réception définitive sans réserves"
+    },
+    "taille_dispersion": {
+      "niveau": "Moyen",
+      "commentaire": "Étude multi-phases et multi-expertises (hydraulique, sédimentologie, géotechnique, écologie, génie civil maritime) - Sous-traitants multiples requis - Coordination avec services de la Marine Nationale et plongeurs du MDO - Durée globale 240 jours"
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "commentaire": "Frais d'enregistrement du marché à charge du titulaire - Frais de déplacement, assurances, taxes, TVA inclus dans les prix - Sondages carottés béton (20 unités), essais impact (20 unités), sédimentologie (100 unités), sondages sol (30 ml), sondages mer (40 ml) à prévoir dans l'offre"
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget non communiqué - Impossible d'évaluer le risque de sous-budgétisation"
+    },
+    "participation_locale": {
+      "niveau": "Eleve",
+      "commentaire": "Réservé aux bureaux d'études tunisiens inscrits au registre national des entreprises - Cahier des charges d'exercice de la profession conforme à l'arrêté du 09 février 2009 - Ingénieurs tunisiens devant fournir certificat d'affiliation à l'Ordre des Ingénieurs - Caution bancaire obligatoirement délivrée par une banque tunisienne agréée - Diplômes étrangers nécessitent attestation d'équivalence"
+    },
+    "fiscalite": {
+      "niveau": "Moyen",
+      "commentaire": "TVA applicable sur le montant de l'offre (taux non précisé dans le document - à indiquer par le soumissionnaire) - Droits d'enregistrement du marché à charge du titulaire selon l'article 48 de la loi de finances 2020 - Prix unitaires HTVA dans le bordereau"
+    }
+  },
+  "decision": {
+    "recommandation": [
+      "GO PRUDENT - Le projet est réalisable mais nécessite des vérifications préalables importantes avant soumission"
+    ],
+    "go_no_go": {
+      "GO": {
+        "description": "Le projet est pleinement réalisable et recommandé si :",
+        "criteres_positifs": [
+          "- Le bureau d'études dispose en interne ou via des experts exclusifs de tous les profils requis (5 spécialités, 3 experts minimum chacune)",
+          "- Le bureau d'études a déjà réalisé des études portuaires de réhabilitation et/ou d'aménagement en Tunisie",
+          "- Des sous-traitants agréés (béton, géotechnique, laboratoire accrédité ANPE) sont disponibles et confirmés",
+          "- Le bureau maîtrise les modèles numériques hydrauliques et sédimentologiques 2D",
+          "- La confidentialité et les contraintes liées à un site présidentiel sont acceptées sans réserve",
+          "- Le bureau est inscrit au registre national des entreprises tunisiennes et respecte l'arrêté du 09 février 2009",
+          "- La capacité financière permet de supporter l'avance sous caution bancaire et le cautionnement définitif de 3%"
+        ],
+        "points_critiques": [
+          "- Tous les profils disponibles et exclusifs confirmés",
+          "- Sous-traitants agréés identifiés et disponibles",
+          "- Capacité à livrer dans 240 jours un dossier complet incluant projet détaillé et dossier de consultation travaux"
+        ]
+      },
+      "GO_PRUDENT": {
+        "description": "Le projet est réalisable avec réserves si :",
+        "criteres_positifs": [
+          "- Le bureau dispose de la majorité des compétences requises mais doit mobiliser des experts externes",
+          "- Des sous-traitants potentiels sont identifiés mais pas encore formellement engagés",
+          "- Le bureau a une expérience portuaire partielle (hydraulique ou géotechnique mais pas tous les domaines)",
+          "- Le budget proposé est compétitif mais incertain sans connaissance de l'enveloppe MDO"
+        ],
+        "points_critiques": [
+          "- Budget global non communiqué : risque de sous-évaluation ou de déclassement financier",
+          "- Délai de préparation de l'offre très court (10 jours entre annonce et date limite si publication le 17 mars)",
+          "- Exclusivité des experts : risque de blocage si un expert est déjà engagé sur un autre appel d'offres",
+          "- Taux de TVA non précisé dans le document",
+          "- Liste restreinte confidentielle : nombre de concurrents inconnu",
+          "- Délais d'approbation par le MDO (45 jours par activité) non déductibles du délai contractuel : risque de pénalités"
+        ]
+      },
+      "NO_GO": {
+        "description": "Le projet ne devrait pas être soumis si :",
+        "criteres_negatifs": [
+          "- Le bureau ne dispose pas des 5 profils spécialisés requis avec 10 à 15 ans d'expérience minimum",
+          "- Aucun sous-traitant agréé pour sondages béton, géotechnique et laboratoire ANPE n'est disponible",
+          "- Le bureau n'est pas inscrit au registre national des entreprises tunisiennes",
+          "- Le bureau ne maîtrise pas les modèles mathématiques numériques hydrauliques et sédimentologiques 2D",
+          "- Les contraintes de confidentialité liées à un site présidentiel sont incompatibles avec la politique de communication du bureau",
+          "- Le bureau ne peut pas obtenir une caution bancaire auprès d'une banque tunisienne agréée",
+          "- Le bureau envisage de soumissionner en groupement (éliminatoire automatique)",
+          "- Les experts proposés ne peuvent pas signer la déclaration d'exclusivité (déjà engagés ailleurs)"
+        ]
+      }
+    },
+    "points_critiques": [
+      "- Budget global de l'étude non communiqué : impossibilité d'évaluer la rentabilité et le positionnement financier",
+      "- Délai de préparation de l'offre potentiellement très court (10 jours calendaires apparents)",
+      "- Obligation d'exclusivité des experts : contrainte forte sur la mobilisation des ressources humaines",
+      "- Groupement interdit : le bureau doit tout porter seul contractuellement",
+      "- Confidentialité totale imposée : contraintes opérationnelles et de communication importantes",
+      "- Taux TVA non précisé dans le document",
+      "- Nombre de soumissionnaires sur la liste restreinte non divulgué",
+      "- Levés topo-bathymétriques et inspection sous-marine assurés par le MDO mais coordination à gérer",
+      "- Variation de ±20% des quantités possible : impact financier potentiel"
+    ]
+  },
+  "plan_action": [
+    "- Vérifier immédiatement l'inscription et la validité du dossier au registre national des entreprises tunisiennes",
+    "- Identifier et confirmer la disponibilité exclusive de tous les experts requis (5 profils x 3 minimum)",
+    "- Contacter et confirmer les sous-traitants agréés (béton, géotechnique, laboratoire ANPE/CNA)",
+    "- Obtenir les notices techniques des modèles numériques hydrauliques et sédimentologiques 2D à joindre à l'offre",
+    "- Préparer tous les CV signés, copies diplômes, attestations d'équivalence si diplômes étrangers",
+    "- Préparer les certificats d'affiliation à l'Ordre des Ingénieurs pour les ingénieurs tunisiens",
+    "- Estimer le coût complet de l'étude (honoraires + sous-traitance + sondages selon bordereau quantitatif)",
+    "- Envoyer les questions écrites au MDO avant le 17 mars 2026 si des points restent obscurs",
+    "- Préparer toutes les annexes (1 à 9) avec signatures, tampons et dates",
+    "- Envoyer l'offre sous pli fermé au plus tard le 27 mars 2026 à 10h00 au bureau d'ordre de la Présidence"
+  ],
+  "informations_manquantes": [
+    {
+      "champ": "budget_global",
+      "question": "Quel est le budget global estimé ou l'enveloppe financière allouée par la Présidence de la République pour cette étude ?",
+      "raison": "Aucun montant indicatif n'est communiqué dans le dossier - Impossible d'évaluer la rentabilité de la mission et de calibrer l'offre financière de manière compétitive",
+      "priorite": "haute"
+    },
+    {
+      "champ": "shortlist_composition",
+      "question": "Combien de bureaux d'études ont été sélectionnés sur la liste restreinte et quels sont leurs profils ?",
+      "raison": "La liste restreinte est confidentielle - L'intensité concurrentielle et le positionnement stratégique ne peuvent pas être évalués",
+      "priorite": "haute"
+    },
+    {
+      "champ": "taux_tva",
+      "question": "Quel est le taux de TVA applicable aux prestations d'études dans le cadre de ce marché public tunisien ?",
+      "raison": "Le taux de TVA est indiqué comme (...%) dans le bordereau - À confirmer pour établir le montant TTC de l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "date_lancement_consultation",
+      "question": "À quelle date exacte les soumissionnaires ont-ils reçu l'invitation écrite à soumissionner ?",
+      "raison": "Le délai réel de préparation de l'offre ne peut être calculé - Le document mentionne le 17 mars comme date limite de questions mais la date de lancement n'est pas explicite",
+      "priorite": "haute"
+    },
+    {
+      "champ": "donnees_existantes_port",
+      "question": "Quels sont les documents techniques existants sur le port présidentiel que le MDO mettra à disposition du bureau d'études (plans, études antérieures, levés bathymétriques, etc.) ?",
+      "raison": "L'article 4 du CCAP indique que le MDO mettra à disposition les documents disponibles mais sans en préciser la nature ni la quantité - Impact direct sur l'estimation des charges d'études",
+      "priorite": "haute"
+    },
+    {
+      "champ": "coordination_marine_nationale",
+      "question": "Selon quelles modalités pratiques et quel délai les levés topo-bathymétriques seront-ils réalisés par le Centre Hydrographique et Océanographique de la Marine Nationale ?",
+      "raison": "Ces levés sont hors périmètre du bureau d'études mais critiques pour le planning - Un retard de la Marine Nationale pourrait impacter le délai contractuel du bureau",
+      "priorite": "haute"
+    },
+    {
+      "champ": "acces_site",
+      "question": "Quelles sont les conditions d'accès au port présidentiel du Palais de Carthage pour le bureau d'études et ses sous-traitants (autorisations, escortes, horaires, restrictions) ?",
+      "raison": "Site présidentiel à caractère confidentiel - Les contraintes d'accès peuvent impacter significativement le planning et l'organisation des missions de terrain",
+      "priorite": "haute"
+    },
+    {
+      "champ": "planning_jalons",
+      "question": "Quel est le planning détaillé des activités avec les jalons de remise des livrables et les délais d'approbation par activité tel que prévu à l'article 4 du CCTP mentionné mais non joint au document analysé ?",
+      "raison": "L'article 7 du CCAP fait référence au planning de l'étude indiqué à l'article 4 du CCTP mais ce détail n'est pas visible dans le document fourni - Nécessaire pour construire l'offre technique et valider la faisabilité dans les 240 jours",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Le taux de TVA applicable est de 19% (taux standard en Tunisie pour les prestations de services)",
+      "risque": "Si le taux est différent (7% ou autre taux réduit), le montant TTC de l'offre sera incorrect et pourrait entraîner une rectification par la commission d'évaluation"
+    },
+    {
+      "hypothese": "Le délai de préparation effectif est d'environ 10 jours calendaires (du 17 au 27 mars 2026)",
+      "risque": "Délai très court pour mobiliser 5 profils experts avec déclarations d'exclusivité, identifier et engager des sous-traitants agréés, préparer une offre financière détaillée et rassembler tous les documents administratifs"
+    },
+    {
+      "hypothese": "La liste restreinte comprend entre 3 et 6 bureaux d'études tunisiens spécialisés en génie maritime",
+      "risque": "Si la liste est plus restreinte (2 bureaux), la pression concurrentielle est faible - Si elle est plus large, le risque de déclassement financier augmente"
+    },
+    {
+      "hypothese": "Le budget indicatif de l'étude se situe entre 300 000 et 800 000 DT TTC compte tenu de la complexité et de la durée de la mission",
+      "risque": "Sans montant indicatif, une sous-évaluation conduit à une offre non rentable - une surévaluation conduit à un déclassement financier au profit d'un concurrent moins-disant"
+    },
+    {
+      "hypothese": "Les données techniques existantes sur le port (plans, études antérieures) sont partielles ou anciennes",
+      "risque": "Si les données disponibles sont insuffisantes, les investigations seront plus lourdes et coûteuses que prévu - La variation de ±20% des quantités ne couvre peut-être pas tous les aléas"
+    }
+  ]
+}

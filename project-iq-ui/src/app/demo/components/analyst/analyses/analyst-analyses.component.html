@@ -1,0 +1,138 @@
+<div class="grid p-4 fade-in-up">
+    <!-- Header -->
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center">
+                    <i class="pi pi-sparkles text-2xl text-blue-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-3xl m-0">Analyses IA</h1>
+                    <p class="text-blue-800 m-0 opacity-80">Liste des dossiers traités par le pipeline IA — consultez les résultats détaillés.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grille des analyses -->
+    <div class="col-12">
+        <div class="card border-round-2xl shadow-2 p-5">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <div>
+                    <h5 class="text-900 font-bold text-xl m-0 flex align-items-center gap-2">
+                        <i class="pi pi-check-circle text-green-600"></i>
+                        Analyses disponibles
+                    </h5>
+                    <p class="text-500 text-sm m-0 mt-1">{{ projects.length }} analyse(s) terminée(s)</p>
+                </div>
+                <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-outlined"
+                        pTooltip="Actualiser" (click)="loadProjects()"></button>
+            </div>
+
+            <div *ngIf="isLoading" class="text-center p-5">
+                <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+            </div>
+
+            <div *ngIf="!isLoading && projects.length === 0" class="text-center p-6">
+                <i class="pi pi-inbox" style="font-size:3rem; color:#94a3b8;"></i>
+                <p class="text-500 mt-3 mb-0">Aucune analyse IA disponible pour le moment.</p>
+                <p class="text-400 text-sm m-0">Lancez une extraction depuis le tableau de bord.</p>
+            </div>
+
+            <div *ngIf="!isLoading && projects.length > 0" class="grid">
+                <div *ngFor="let project of projects" class="col-12 md:col-6 lg:col-4">
+                    <div class="card border-round-2xl shadow-1 hover:shadow-3 transition-all transition-duration-300 p-4 mission-card h-full">
+                        <div class="flex align-items-start justify-content-between mb-3">
+                            <div class="w-3rem h-3rem card-pastel-green border-circle flex align-items-center justify-content-center">
+                                <i class="pi pi-sparkles text-green-700 text-xl"></i>
+                            </div>
+                            <p-tag value="EXTRACTED" severity="success" styleClass="status-tag-premium"></p-tag>
+                        </div>
+                        <h6 class="text-900 font-bold text-lg m-0 mb-2">{{ project.title }}</h6>
+                        <p class="text-600 text-sm line-height-3 m-0 mb-3" style="min-height:3rem;">
+                            {{ project.description || 'Aucune description.' }}
+                        </p>
+                        <div class="flex align-items-center gap-2 text-500 text-sm mb-3">
+                            <i class="pi pi-file-pdf text-blue-600"></i>
+                            <span class="text-truncate">{{ project.fileName }}</span>
+                        </div>
+                        <div class="flex gap-2 mt-auto">
+                            <button pButton icon="pi pi-eye" label="Consulter"
+                                    class="p-button-success p-button-sm border-round-3xl flex-1 status-tag-premium"
+                                    (click)="openResults(project)"></button>
+                            <button pButton icon="pi pi-download"
+                                    class="p-button-rounded p-button-text p-button-secondary"
+                                    pTooltip="Télécharger"
+                                    (click)="download(project)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal résultats IA -->
+<p-dialog header="Résultats de l'Analyse IA"
+          [(visible)]="displayResultDialog"
+          [modal]="true"
+          [style]="{width: '70vw', maxWidth: '960px'}"
+          [draggable]="false"
+          [resizable]="false"
+          (onHide)="closeResults()">
+
+    <div *ngIf="selectedProject" class="mb-3 flex align-items-center gap-3">
+        <div class="w-3rem h-3rem card-pastel-blue border-circle flex align-items-center justify-content-center">
+            <i class="pi pi-sparkles text-blue-700 text-xl"></i>
+        </div>
+        <div>
+            <h4 class="m-0 text-900 font-bold">{{ selectedProject.title }}</h4>
+            <span class="text-500 text-sm">{{ selectedProject.fileName }}</span>
+        </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div *ngIf="analysisLoading" class="text-center p-6">
+        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+        <p class="text-600 mt-3 m-0">Chargement du résultat IA…</p>
+    </div>
+
+    <div *ngIf="!analysisLoading && !analysis" class="text-center p-5 text-500">
+        <i class="pi pi-exclamation-triangle text-3xl text-orange-500 block mb-2"></i>
+        Aucun résultat d'analyse disponible.
+    </div>
+
+    <p-tabView *ngIf="!analysisLoading && analysis">
+        <p-tabPanel header="Résumé" leftIcon="pi pi-align-left">
+            <div class="p-3">
+                <p class="text-700 line-height-3 m-0" *ngIf="analysis.summary">{{ analysis.summary }}</p>
+                <p class="text-500 m-0" *ngIf="!analysis.summary">Aucun résumé identifié.</p>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Compétences" leftIcon="pi pi-star">
+            <div class="p-3 flex flex-wrap gap-2">
+                <span *ngFor="let s of analysis.skills" class="status-tag-premium"
+                      style="background:var(--blue-pastel); color:var(--blue-text); border:1px solid rgba(1,87,155,0.2);">
+                    <i class="pi pi-check-circle mr-1"></i>{{ s }}
+                </span>
+                <p class="text-500 m-0" *ngIf="!analysis.skills?.length">Aucune compétence détectée.</p>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Technologies" leftIcon="pi pi-cog">
+            <div class="p-3 flex flex-wrap gap-2">
+                <span *ngFor="let t of analysis.technologies" class="status-tag-premium"
+                      style="background:var(--green-pastel); color:var(--green-text); border:1px solid rgba(45,106,79,0.2);">
+                    <i class="pi pi-bolt mr-1"></i>{{ t }}
+                </span>
+                <p class="text-500 m-0" *ngIf="!analysis.technologies?.length">Aucune technologie détectée.</p>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Fermer" icon="pi pi-times" class="p-button-text" (click)="closeResults()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

@@ -1,0 +1,18 @@
+# TenderBolt — Dépendances Python
+# Installation : pip install -r requirements.txt
+
+# ── Phase 1 — Lecture ──────────────────────────────────────
+pymupdf          # Lecture PDF natif et conversion en images
+python-docx      # Lecture fichiers Word (.docx)
+
+# ── Phase 1 — OCR (PDF scanné) ─────────────────────────────
+easyocr          # OCR principal — supporte FR/EN/AR
+pytesseract      # OCR fallback
+Pillow           # Manipulation d'images
+numpy            # Requis par EasyOCR
+
+# ── Phase 2 — Nettoyage ────────────────────────────────────
+ftfy             # Correction encodages corrompus (FR/AR/EN)
+
+# ── Phase 3 — Extraction ───────────────────────────────────
+anthropic        # Client officiel Claude API

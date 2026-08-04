@@ -1,0 +1,49 @@
+<!-- En-tête Admin dans la sidebar -->
+<div class="sidebar-header px-3 py-4 mb-2" style="
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-700, #1a237e) 100%);
+    border-radius: 12px;
+    margin: 0.75rem;
+">
+    <div class="flex align-items-center gap-3">
+        <div style="
+            width: 42px; height: 42px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px);
+        ">
+            <i class="pi pi-shield" style="font-size:1.4rem; color:#fff;"></i>
+        </div>
+        <div>
+            <div style="color:#fff; font-weight:700; font-size:1rem; letter-spacing:0.03em;">ProjectIQ</div>
+            <div style="color:rgba(255,255,255,0.7); font-size:0.75rem;">Pipeline d'Analyse</div>
+        </div>
+    </div>
+
+    <!-- Badge Admin connecté -->
+    <div class="flex align-items-center gap-2 mt-3 pt-2" style="border-top:1px solid rgba(255,255,255,0.15);">
+        <span style="
+            width:8px; height:8px;
+            background:#69f0ae;
+            border-radius:50%;
+            animation: pulse-green 2s ease-in-out infinite;
+        "></span>
+        <span style="color:rgba(255,255,255,0.85); font-size:0.75rem;">Connecté</span>
+    </div>
+</div>
+
+<style>
+@keyframes pulse-green {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(105,240,174,0.4); }
+    50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(105,240,174,0); }
+}
+</style>
+
+<ul class="layout-menu">
+    <ng-container *ngFor="let item of model; let i = index;">
+        <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+    </ng-container>
+</ul>
+
+

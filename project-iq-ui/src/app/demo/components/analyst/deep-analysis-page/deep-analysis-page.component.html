@@ -1,0 +1,133 @@
+<p-toast></p-toast>
+
+<div class="extraction-page fade-in">
+    <!-- Pipeline Stepper -->
+    <div class="stepper-wrapper p-4 pb-0">
+        <app-pipeline-stepper
+            mode="phase2"
+            [activeStep]="0"
+            [dossierId]="dossierId"
+            context="deep-analysis">
+        </app-pipeline-stepper>
+    </div>
+
+    <main class="content-area p-4">
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoading">
+            <i class="pi pi-spin pi-spinner loading-icon"></i>
+            <p>Analyse IA en cours, extraction approfondie des clauses...</p>
+        </div>
+
+        <div class="extraction-container" *ngIf="!isLoading">
+            
+            <div class="page-header flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="page-title m-0">
+                        <i class="pi pi-search-plus text-indigo-500 mr-2"></i> Extraction Approfondie (Phase 2)
+                    </h2>
+                    <p class="text-secondary mt-2 mb-0" style="font-size: 0.95rem;">Vérification des clauses contractuelles complexes et évaluation des 10 risques majeurs.</p>
+                </div>
+                <div class="actions flex align-items-center gap-3">
+                    <span class="progress-text" style="color: #64748b; font-size: 0.9rem;">{{ validatedCount }} / {{ fields.length }} validés</span>
+                    <button pButton 
+                            class="p-button-secondary p-button-outlined border-round-3xl px-4" 
+                            (click)="toggleValidateAll()">
+                        <i class="pi mr-2" [ngClass]="validatedCount === fields.length ? 'pi-times' : 'pi-check-square'"></i>
+                        <span>{{ validatedCount === fields.length ? 'Tout dévalider' : 'Tout valider' }}</span>
+                    </button>
+                    <button pButton 
+                            label="Valider & Calculer P-Win" 
+                            icon="pi pi-calculator" 
+                            class="p-button-primary border-round-3xl shadow-2 action-validate-btn px-4" 
+                            [loading]="isSubmitting"
+                            [disabled]="!allValidated"
+                            (click)="submitValidation()">
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── Alerte Rédhibitoire ── -->
+            <div class="redhibitoire-alert mt-4 mb-4" *ngIf="hasRedhibitoire">
+                <div class="alert-icon">
+                    <i class="pi pi-exclamation-triangle"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Alerte Critique : Risque Rédhibitoire Détecté</h4>
+                    <p>L'un des risques a été qualifié de <strong>Rédhibitoire</strong>. Le score P-Win sera automatiquement forcé à 0% et une recommandation "NO GO" sera générée.<br>
+                    <em>Seul un Manager pourra forcer le GO avec une justification de plus de 100 mots.</em></p>
+                </div>
+            </div>
+
+            <!-- Sections d'extraction (Cartes) -->
+            <div class="sections-grid">
+                <div class="extraction-section card" *ngFor="let group of groupedFields" [ngClass]="'accent-' + group.color">
+                    
+                    <div class="section-header">
+                        <div class="icon-wrapper" [ngClass]="'bg-' + group.color + '-pastel'">
+                            <i class="pi" [ngClass]="[group.icon, 'text-' + group.color]"></i>
+                        </div>
+                        <h3 class="section-title">{{ group.title }}</h3>
+                    </div>
+
+                    <div class="fields-list">
+                        <div class="field-item" *ngFor="let f of group.fields" [ngClass]="{'is-validated': f.validated, 'is-editing': f.editing}">
+                            
+                            <div class="field-label-row">
+                                <div class="flex align-items-center gap-2">
+                                    <span class="field-label">{{ f.label }}</span>
+                                    <span class="badge-source" *ngIf="f.humanModified">Manuel</span>
+                                </div>
+                                <div class="flex align-items-center gap-2">
+                                    <span class="confidence-badge" *ngIf="!f.humanModified" [ngClass]="confidenceClass(f.confidence)" pTooltip="Taux de confiance IA" tooltipPosition="top">
+                                        <div class="conf-dot" [ngClass]="confidenceClass(f.confidence)"></div>
+                                        {{ f.confidence }}%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Value Box -->
+                            <div class="field-value-box mt-3 mb-3">
+                                <!-- Read-Only -->
+                                <div class="field-value" *ngIf="!f.editing" [class.empty]="!f.value">
+                                    {{ f.value || 'Non renseigné' }}
+                                </div>
+
+                                <!-- Edit Mode -->
+                                <div class="edit-mode" *ngIf="f.editing">
+                                    <select class="custom-select w-full" *ngIf="f.type === 'select'" [(ngModel)]="f.value">
+                                        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                                    </select>
+                                    <input *ngIf="f.type === 'input'" type="text" pInputText [(ngModel)]="f.value" class="custom-input w-full" />
+                                    <input *ngIf="f.type === 'number'" type="number" pInputText [(ngModel)]="f.value" class="custom-input w-full" />
+                                </div>
+                            </div>
+
+                            <!-- Actions (Pill Buttons) -->
+                            <div class="field-actions flex justify-content-end border-top-1 border-gray-100 pt-3">
+                                <ng-container *ngIf="!f.editing">
+                                    <button class="pill-btn btn-edit" pTooltip="Modifier" tooltipPosition="top" (click)="startEdit(f)">
+                                        <i class="pi pi-pencil"></i>
+                                    </button>
+                                    <button class="pill-btn btn-reextract" pTooltip="Ré-extraire" tooltipPosition="top" (click)="reextract(f)" [disabled]="f.validated">
+                                        <i class="pi pi-sync"></i>
+                                    </button>
+                                    <button class="pill-btn btn-validate" [ngClass]="{'active': f.validated}" pTooltip="Valider" tooltipPosition="top" (click)="validateField(f)">
+                                        <i class="pi" [ngClass]="f.validated ? 'pi-check-circle' : 'pi-check'"></i>
+                                        <span *ngIf="f.validated">Validé</span>
+                                    </button>
+                                </ng-container>
+
+                                <ng-container *ngIf="f.editing">
+                                    <button class="pill-btn btn-save" (click)="saveEdit(f)">
+                                        <i class="pi pi-save"></i> Enregistrer
+                                    </button>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>

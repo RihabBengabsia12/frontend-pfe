@@ -1,0 +1,160 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <!-- En-tête -->
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-4 gap-3">
+        <div>
+            <h2 class="text-900 font-bold text-3xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-user-edit text-4xl" style="color:var(--primary-color)"></i>
+                Validation des Inscriptions
+            </h2>
+        </div>
+        <div class="flex align-items-center gap-3">
+            <div class="flex align-items-center gap-2 px-3 py-2 surface-100 border-round-xl">
+                <span class="font-bold text-2xl" style="color:var(--primary-color)">{{ pendingCount }}</span>
+                <span class="text-600 font-medium">en attente</span>
+            </div>
+            <span class="p-input-icon-left w-full md:w-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." class="w-full md:w-16rem border-round-3xl" />
+            </span>
+            <div class="flex gap-2">
+                <button pButton icon="pi pi-file-pdf" label="Exp. En attente" class="p-button-outlined p-button-danger border-round-3xl text-sm" (click)="exportPendingPdf()" pTooltip="Exporter les comptes non validés" tooltipPosition="top"></button>
+                <button pButton icon="pi pi-file-pdf" label="Exp. Traités" class="p-button-outlined p-button-info border-round-3xl text-sm" (click)="exportProcessedPdf()" pTooltip="Exporter l'historique des validations" tooltipPosition="top"></button>
+            </div>
+            <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-text p-button-secondary" (click)="loadAllUsers()" pTooltip="Rafraîchir" tooltipPosition="top"></button>
+        </div>
+    </div>
+
+    <!-- Filtre Alphabet Ultra-Minimal -->
+    <div class="flex align-items-center mb-3 px-2">
+        <button pButton type="button" icon="pi pi-filter" 
+                [label]="selectedLetter ? 'Filtré par : ' + selectedLetter : 'Filtrer par lettre (A-Z)'" 
+                class="p-button-text p-button-sm p-button-secondary border-round-3xl"
+                (click)="op.toggle($event)">
+        </button>
+        <button *ngIf="selectedLetter" pButton type="button" icon="pi pi-times" 
+                class="p-button-rounded p-button-text p-button-danger p-button-sm ml-2" 
+                (click)="setFilterLetter('')" pTooltip="Effacer le filtre">
+        </button>
+    </div>
+
+    <p-overlayPanel #op [showCloseIcon]="false" styleClass="shadow-4 border-round-xl">
+        <div class="flex flex-wrap gap-2 justify-content-center" style="width: 200px;">
+            <span *ngFor="let letter of alphabet" 
+                  (click)="setFilterLetter(letter); op.hide()"
+                  [ngClass]="selectedLetter === letter ? 'bg-primary text-white border-circle' : 'text-600 hover:text-primary surface-100 border-circle'"
+                  class="cursor-pointer font-bold text-xs flex align-items-center justify-content-center transition-colors transition-duration-150"
+                  style="width: 1.8rem; height: 1.8rem;">
+                  {{letter}}
+            </span>
+        </div>
+    </p-overlayPanel>
+
+    <!-- Table -->
+    <p-table #dt2 [value]="displayedGuests" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,25,50]"
+             [globalFilterFields]="['fullName', 'email']"
+             styleClass="p-datatable-gridlines p-datatable-striped shadow-2 border-round-xl overflow-hidden">
+
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Statut</th>
+                <th>Créé le</th>
+                <th style="min-width:200px">Assigner un rôle</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user trackBy="trackById">
+            <tr [pRowToggleColumn]="false" [ngClass]="{
+                'row-rejected-pastel': getUserStatus(user) === 'REJECTED' || getUserStatus(user) === 'DELETED',
+                'row-validated-pastel': getUserStatus(user) !== 'PENDING' && getUserStatus(user) !== 'REJECTED' && getUserStatus(user) !== 'DELETED'
+            }">
+
+                <td class="font-medium">{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+
+                    <p-tag [value]="getStatusLabel(getUserStatus(user))" 
+                           [severity]="getStatusSeverity(getUserStatus(user))" 
+                           [icon]="getStatusIcon(getUserStatus(user))"
+                           styleClass="status-tag-premium">
+                    </p-tag>
+
+                </td>
+                <td>{{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+
+                    <p-dropdown [options]="roleOptions"
+                        [(ngModel)]="selectedRoles[user.id]"
+                        [ngModelOptions]="{standalone: true}"
+                        [placeholder]="user.role ? getRoleLabel(user.role) : 'Choisir un rôle...'"
+                        optionLabel="label" optionValue="value"
+                        styleClass="w-full"
+                        appendTo="body"
+                        panelStyleClass="z-20 shadow-6"
+                        [disabled]="getUserStatus(user) !== 'PENDING' || getUserStatus(user) === 'REJECTED'">
+                    </p-dropdown>
+
+                </td>
+                <td class="text-center">
+                    <div class="flex gap-2 justify-content-center">
+
+
+                        <ng-container *ngIf="getUserStatus(user) === 'PENDING'">
+                            <button pButton pRipple icon="pi pi-check" label="Valider"
+                                class="p-button-success p-button-sm"
+                                (click)="onValidateUser(user)">
+                            </button>
+
+                            <button pButton pRipple icon="pi pi-times" label="Refuser"
+                                class="p-button-danger p-button-sm"
+                                (click)="rejectAccount(user)">
+                            </button>
+                        </ng-container>
+
+                        <span *ngIf="getUserStatus(user) === 'REJECTED'" class="text-red-600 font-bold text-sm">
+                            <i class="pi pi-times-circle mr-1"></i>Refusé
+                        </span>
+
+                        <span *ngIf="getUserStatus(user) !== 'PENDING' && getUserStatus(user) !== 'REJECTED'" class="text-green-600 font-bold text-sm">
+                            <i class="pi pi-check-circle mr-1"></i>Validé
+                        </span>
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">
+
+                    <div class="text-center py-5">
+                        <i class="pi pi-users" style="font-size:3rem; color:#94a3b8;"></i>
+                        <p class="text-600 mt-3 font-medium">Aucun enregistrement trouvé.</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- 🚫 DIALOG DE REFUS AVEC MOTIF -->
+<p-dialog header="Refuser l'inscription" [(visible)]="displayRejectDialog" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-3 mt-2">
+        <p>Veuillez indiquer la raison du refus pour <b>{{ selectedUserForRejection?.fullName }}</b>. Un email de notification lui sera envoyé.</p>
+        <div class="field">
+            <label for="reason" class="block font-medium mb-2">Motif du refus</label>
+            <textarea id="reason" pInputTextarea rows="4" class="w-full" [(ngModel)]="rejectionReason" placeholder="Ex: Informations incomplètes, profil non correspondant..."></textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="displayRejectDialog = false"></button>
+        <button pButton pRipple label="Confirmer le refus" icon="pi pi-check" class="p-button-danger" [loading]="isLoading" (click)="confirmReject()"></button>
+    </ng-template>
+</p-dialog>

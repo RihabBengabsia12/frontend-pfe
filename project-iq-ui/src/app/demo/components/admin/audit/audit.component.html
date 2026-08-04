@@ -1,0 +1,215 @@
+<div class="surface-card shadow-2 border-round p-4">
+    <div class="flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="text-900 font-bold m-0 mb-1">
+                <i class="pi pi-shield mr-2" style="color: var(--primary-color)"></i>
+                Traçage des Accès
+            </h2>
+            <div class="mt-2">
+                <span class="font-bold text-primary">
+                    {{ filteredGroups.length }} utilisateurs actifs
+                </span>
+            </div>
+        </div>
+        <button pButton icon="pi pi-refresh" label="Actualiser" severity="secondary" 
+                class="p-button-outlined" size="small" (click)="loadAll()"></button>
+    </div>
+
+    <!-- Filtres -->
+    <div class="flex flex-column md:flex-row gap-3 mb-4 surface-section p-3 border-round-xl shadow-1">
+        <span class="p-input-icon-left w-full md:w-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher par nom ou email..." class="w-full md:w-16rem border-round-3xl" />
+        </span>
+        <p-dropdown [options]="actionOptions" [(ngModel)]="filterAction" 
+            optionLabel="label" optionValue="value" placeholder="Action" 
+            (onChange)="onFilter()" styleClass="w-full md:w-16rem border-round-3xl" [showClear]="true"></p-dropdown>
+        <p-calendar [(ngModel)]="dateRange" selectionMode="range" dateFormat="dd/mm/yy" 
+            placeholder="Période" (onSelect)="onFilter()" [showIcon]="true" styleClass="w-full md:w-16rem border-round-3xl"></p-calendar>
+        <button pButton icon="pi pi-filter-slash" severity="danger" class="border-round-3xl p-button-outlined"
+            label="Effacer" (click)="resetFilters()"></button>
+        <button pButton icon="pi pi-file-excel" severity="success" class="border-round-3xl p-button-outlined ml-auto"
+            label="Exporter" (click)="dt.exportCSV()"></button>
+    </div>
+
+    <p-table #dt [value]="filteredGroups" [loading]="isLoading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+             [globalFilterFields]="['actorEmail', 'actorFullName']" exportFilename="journal_audit_acces"
+             responsiveLayout="scroll" size="small" dataKey="actorId"
+             styleClass="p-datatable-gridlines p-datatable-striped shadow-2 border-round-xl overflow-hidden">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th>Utilisateur (Acteur)</th>
+                <th style="width: 250px">Dernière Activité</th>
+                <th style="width: 200px">Total des actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-group let-expanded="expanded">
+            <tr>
+                <td>
+                    <button type="button" pButton pRipple [pRowToggler]="group" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>
+                    <div class="flex flex-column">
+                        <div class="font-bold text-900 text-lg hover:text-primary transition-colors transition-duration-200" 
+                             [ngStyle]="{'cursor': (group.actorId && group.actorId.length > 20) ? 'pointer' : 'default'}"
+                             (click)="viewUserDetails(group.actorId)">
+                            <i class="pi pi-user mr-2 text-primary"></i>
+                            {{ group.actorFullName }}
+                        </div>
+                        <div class="text-xs text-500 font-medium ml-4" *ngIf="group.actorEmail && group.actorEmail !== group.actorFullName">
+                            {{ group.actorEmail }}
+                        </div>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="font-medium text-900">
+                        {{ getMomentLabel(group.lastActivity) }}
+                    </div>
+                    <div class="text-xs text-500">{{ group.lastActivity | date:'HH:mm:ss' }}</div>
+                </td>
+                <td>
+                    <p-tag [value]="group.totalEvents + ' actions'" severity="info" [rounded]="true"></p-tag>
+                </td>
+            </tr>
+        </ng-template>
+
+        <!-- Ligne d'expansion (Liste des actions de l'utilisateur) -->
+        <ng-template pTemplate="rowexpansion" let-group>
+            <tr>
+                <td colspan="4" class="p-0">
+                    <div class="p-3 surface-100">
+                        <h5 class="text-600 mb-3 mt-0 font-medium text-sm"><i class="pi pi-history mr-2"></i>Historique détaillé de {{ group.actorEmail }}</h5>
+                        
+                        <p-table [value]="group.events" size="small" dataKey="id" styleClass="p-datatable-sm shadow-1 border-round surface-card">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3rem"></th>
+                                    <th style="width: 150px">Heure</th>
+                                    <th style="width: 300px">Description de l'action</th>
+                                    <th style="width: 200px">Cible</th>
+                                    <th style="width: 150px">Statut</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-row let-subExpanded="expanded">
+                                <tr>
+                                    <td>
+                                        <button type="button" pButton pRipple [pRowToggler]="row" class="p-button-text p-button-rounded p-button-plain" [icon]="subExpanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" *ngIf="row.subEvents?.length > 0"></button>
+                                    </td>
+                                    <td>
+                                        <div class="font-medium text-900">{{ getMomentLabel(row.occurredAt) }}</div>
+                                        <div class="text-xs text-500">{{ row.occurredAt | date:'HH:mm:ss' }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="flex align-items-center gap-2">
+                                            <p-tag [severity]="getEventSeverity(row.action)" [rounded]="true">
+                                                <div class="flex align-items-center gap-1">
+                                                    <i [class]="getEventIcon(row.action)"></i>
+                                                    <span class="font-medium">{{ getActionLabel(row.action) }}</span>
+                                                </div>
+                                            </p-tag>
+                                        </div>
+                                        <div class="text-xs text-600 mt-1" *ngIf="row.details">
+                                            <i class="pi pi-info-circle mr-1" style="font-size: 0.7rem"></i>{{ row.details }}
+                                        </div>
+                                    </td>
+                                    <td class="font-medium text-900">
+                                        <span [ngClass]="{'hover:text-primary transition-colors transition-duration-200 cursor-pointer': (row.targetId && row.targetId.length > 20)}"
+                                              (click)="viewUserDetails(row.targetId!)">
+                                            {{ row.target || '—' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <p-tag [value]="getStatusLabel(row.status)" [severity]="getStatusSeverity(row.status)" [rounded]="true"></p-tag>
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                            <!-- Sous-répétitions de la même action -->
+                            <ng-template pTemplate="rowexpansion" let-row>
+                                <tr>
+                                    <td colspan="5" class="p-0">
+                                        <div class="p-2 surface-50 border-left-2 border-primary ml-4 mb-2 mt-2">
+                                            <h6 class="text-500 m-0 mb-2 font-italic text-xs">Répétitions similaires ({{ row.subEvents?.length }})</h6>
+                                            <p-table [value]="row.subEvents" size="small" styleClass="p-datatable-sm">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th>Heure exacte</th>
+                                                        <th>Adresse IP</th>
+                                                        <th>Statut</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-sub>
+                                                    <tr>
+                                                        <td class="font-medium text-xs">{{ sub.occurredAt | date:'HH:mm:ss' }}</td>
+                                                        <td class="font-code text-xs text-600">{{ sub.ipAddress || '—' }}</td>
+                                                        <td>
+                                                            <p-tag [value]="getStatusLabel(sub.status)" [severity]="getStatusSeverity(sub.status)" [rounded]="true"></p-tag>
+                                                        </td>
+                                                    </tr>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6" class="text-center py-5">
+                    <i class="pi pi-shield text-4xl text-300 mb-3"></i>
+                    <p class="m-0 text-600">Aucun événement ne correspond à vos filtres.</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- 👤 DIALOG DÉTAILS UTILISATEUR (Identique à l'annuaire pour la cohérence) -->
+<p-dialog header="Détails du Compte" [(visible)]="displayDetail" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false" styleClass="p-fluid">
+    <div *ngIf="selectedUserDetails" class="flex flex-column gap-3 mt-2">
+        <div class="flex align-items-center gap-3 mb-4 surface-100 p-3 border-round-xl">
+            <div class="bg-primary border-circle flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
+                <i class="pi pi-user text-3xl"></i>
+            </div>
+            <div>
+                <div class="text-900 font-bold text-xl">{{ selectedUserDetails.fullName }}</div>
+                <div class="text-600 text-sm">{{ selectedUserDetails.email }}</div>
+            </div>
+        </div>
+
+        <div class="grid px-2">
+            <div class="col-6 mb-3">
+                <span class="block text-500 font-medium text-xs mb-1 uppercase">Identifiant Unique</span>
+                <span class="text-900 font-bold text-sm">{{ selectedUserDetails.id }}</span>
+            </div>
+            <div class="col-6 mb-3">
+                <span class="block text-500 font-medium text-xs mb-1 uppercase">Rôle Actuel</span>
+                <p-tag [value]="selectedUserDetails.role" severity="info" [rounded]="true"></p-tag>
+            </div>
+            <div class="col-6 mb-3">
+                <span class="block text-500 font-medium text-xs mb-1 uppercase">État du Compte</span>
+                <p-tag [value]="selectedUserDetails.status === 'ACTIVE' ? 'Actif' : 'En attente'" 
+                       [severity]="selectedUserDetails.status === 'ACTIVE' ? 'success' : 'warning'" 
+                       [rounded]="true"></p-tag>
+            </div>
+            <div class="col-6 mb-3">
+                <span class="block text-500 font-medium text-xs mb-1 uppercase">Inscrit le</span>
+                <span class="text-900 font-bold text-sm">{{ selectedUserDetails.createdAt | date:'dd MMM yyyy' }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <ng-template pTemplate="footer">
+        <button pButton label="Fermer" icon="pi pi-times" (click)="displayDetail = false" class="p-button-text p-button-rounded"></button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

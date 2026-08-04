@@ -1,0 +1,106 @@
+<p-toast></p-toast>
+
+<!-- ═══ Pipeline Phase 2 — Arbitrage (étape 3) ═══ -->
+<div class="px-4 pt-4 pb-0" *ngIf="!isLoading && reportData">
+    <app-pipeline-stepper mode="phase2" [activeStep]="4" context="nogo"></app-pipeline-stepper>
+</div>
+
+<div class="grid p-4 fade-in-up" *ngIf="!isLoading && reportData">
+    <!-- Header -->
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-danger p-4 border-round-3xl shadow-2 hover-lift">
+            <div class="flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="flex align-items-center gap-3">
+                    <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
+                        <i class="pi pi-ban text-2xl text-red-700"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-midnight font-bold text-2xl m-0">Rapport d'Audit d'Opportunité (NO-GO)</h1>
+                        <p class="text-red-900 m-0 opacity-80 mt-1">Ce dossier a été identifié comme non conforme aux seuils de rentabilité ou de risque du groupe Egis.</p>
+                    </div>
+                </div>
+                <div class="status-tag-premium font-bold text-sm bg-white-alpha-60 text-red-900 border-round-2xl px-3 py-2 border-1 border-200 shadow-1 pulse-button">
+                    P-Win : {{ reportData.pwinScore }}%
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejection bullet points -->
+    <div class="col-12 mb-4 fade-in-up delay-1">
+        <div class="card border-round-3xl shadow-2 p-5 bg-white relative overflow-hidden">
+            <!-- Decoration background -->
+            <div class="absolute" style="top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, #fecdd3 0%, rgba(255,255,255,0) 70%); border-radius: 50%; z-index: 0;"></div>
+            
+            <h5 class="text-900 font-bold text-xl mb-3 flex align-items-center gap-2 relative z-1">
+                <i class="pi pi-exclamation-triangle text-red-500 text-2xl"></i>
+                Motifs Principaux de Rejet
+            </h5>
+            <p class="text-500 mb-4 text-sm relative z-1">Les clauses contractuelles suivantes bloquent la qualification de l'opportunité :</p>
+            
+            <div class="flex flex-column gap-3 relative z-1">
+                <div class="flex align-items-start gap-3 p-3 border-round-2xl bg-red-50 border-1 border-red-100 shadow-1 hover-lift transition-all" 
+                     *ngFor="let reason of reportData.reasons; let i = index">
+                    <span class="inline-flex align-items-center justify-content-center border-circle font-black text-sm bg-red-200 text-red-800 w-2rem h-2rem shadow-1">
+                        {{ i + 1 }}
+                    </span>
+                    <span class="text-sm font-semibold text-red-900 line-height-3 mt-1">
+                        {{ reason }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Report Template Preview -->
+    <div class="col-12 mb-4 fade-in-up delay-2">
+        <div class="card border-round-3xl shadow-2 p-5 bg-white relative">
+            <h5 class="text-900 font-bold text-xl mb-3 flex align-items-center gap-2">
+                <i class="pi pi-file-word text-blue-500 text-2xl"></i>
+                Aperçu du Rapport No-Go (Modèle Officiel)
+            </h5>
+            <p class="text-500 mb-4 text-sm">Ce document officiel sera généré avec les données extraites et rattaché au dossier.</p>
+            
+            <div id="docx-preview-nogo" class="border-round-2xl overflow-hidden shadow-inner w-full border-1 border-300" style="min-height: 400px; background-color: #f8fafc;">
+                <!-- DOCX Preview will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="col-12 mt-3 fade-in-up delay-3">
+        
+        <!-- Actions Analyste -->
+        <div class="flex justify-content-center align-items-center" *ngIf="isAnalyst">
+            <button pButton icon="pi pi-send" label="Générer Rapport No-Go & Notifier Manager" 
+                    class="p-button-danger border-round-3xl px-6 py-4 font-bold shadow-4 pulse-button text-lg hover-lift" 
+                    style="background: linear-gradient(90deg, #ef4444, #be123c); border: none;"
+                    (click)="generateAndNotifyManager()"></button>
+        </div>
+
+        <!-- Actions Manager -->
+        <div class="flex justify-content-between align-items-center flex-wrap gap-3" *ngIf="isManager">
+            <!-- Force bypass -->
+            <button pButton icon="pi pi-unlock" label="Forcer le passage en Matching (Go)" 
+                    class="p-button-warning border-round-3xl px-5 py-3 font-bold shadow-3 hover-lift text-lg" 
+                    style="background: linear-gradient(90deg, #f59e0b, #d97706); border: none;"
+                    (click)="onOverrideClick()"></button>
+
+            <!-- Archive / Terminate -->
+            <button pButton icon="pi pi-check-circle" label="Valider No-Go définitif & Clôturer" 
+                    class="p-button-danger p-button-outlined border-round-3xl px-5 py-3 font-bold shadow-1 hover-lift text-lg" 
+                    (click)="confirmNoGoClose()"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Override validation dialog -->
+<app-force-override-modal [(visible)]="showOverrideModal" 
+                          [projectId]="projectId" 
+                          (overrideSubmit)="onOverrideSubmitted($event)"></app-force-override-modal>
+
+<!-- Loader -->
+<div *ngIf="isLoading" class="flex flex-column align-items-center justify-content-center h-20rem">
+    <p-progressSpinner></p-progressSpinner>
+    <p class="text-600 mt-3 font-semibold text-lg animate-pulse">Génération du Rapport d'Audit Egis...</p>
+</div>

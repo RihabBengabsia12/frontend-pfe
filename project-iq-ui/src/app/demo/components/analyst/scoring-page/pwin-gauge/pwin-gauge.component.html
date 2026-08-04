@@ -1,0 +1,16 @@
+<div class="gauge-wrapper">
+    <svg class="gauge-svg" viewBox="0 0 200 200">
+        <!-- Background ring -->
+        <circle class="gauge-bg" cx="100" cy="100" r="80"></circle>
+        <!-- Dynamic colored progress ring -->
+        <circle class="gauge-fill" 
+                cx="100" cy="100" r="80" 
+                [attr.stroke]="strokeColor"
+                [attr.stroke-dasharray]="strokeDasharray"
+                [attr.stroke-dashoffset]="strokeDashoffset"></circle>
+    </svg>
+    <div class="gauge-text-container">
+        <span class="gauge-percentage">{{ score }}%</span>
+        <span class="gauge-label">Score P-Win</span>
+    </div>
+</div>

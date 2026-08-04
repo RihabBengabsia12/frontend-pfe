@@ -1,0 +1,352 @@
+{
+  "type_document": "TDR",
+  "est_template": false,
+  "reference": null,
+  "titre_document": "Termes de référence pour le recrutement du prestataire chargé d'appuyer l'UGP dans la mise à jour technologique et la mise à niveau du SIG-I pour intégrer les besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+  "acronyme_mission": "PFS-AIE SIG-I",
+  "langue": "FR",
+  "date_publication": "01/06/2023",
+  "date_limite_soumission": null,
+  "heure_limite_soumission": null,
+  "date_reunion_preparatoire": null,
+  "nb_pages": null,
+  "nb_lots": null,
+  "pays": "Cameroun",
+  "region": null,
+  "ville": "Yaoundé",
+  "zone_intervention": [
+    "Cameroun"
+  ],
+  "pouvoir_adjudicateur": {
+    "organisation": "Comité Technique de Suivi des Programmes Economiques",
+    "acronyme": "CTSP",
+    "structure": "Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire",
+    "acronyme_structure": "MINEPAT",
+    "adresse": null,
+    "telephone": null,
+    "email": null,
+    "site_web": null,
+    "contact_nom": null
+  },
+  "bailleur": "Banque Mondiale / AFD / Gouvernement du Cameroun",
+  "type_financement": "Prêt BM / Prêt concessionnel AFD / Contrepartie nationale",
+  "programme_cadre": "Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE)",
+  "contrat_cadre": null,
+  "numero_pret_credit": null,
+  "beneficiaire": {
+    "organisation": "Unité de Gestion du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+    "acronyme": "UGP",
+    "direction": "Comité Technique de Suivi des Programmes Economiques",
+    "acronyme_direction": "CTSP",
+    "pays": "Cameroun"
+  },
+  "programmes_connexes": [
+    "Projet Filets Sociaux (PFS) — lancé 2013",
+    "Stratégie Nationale de Développement 2020-2030 (SND30)",
+    "Registre Social Unifié du Cameroun (RESUC)"
+  ],
+  "secteurs": [
+    "Protection sociale",
+    "Systèmes d'information",
+    "Numérique / Technologies de l'information",
+    "Inclusion économique",
+    "Filets sociaux"
+  ],
+  "mots_cles": [
+    "SIG-I",
+    "Filets sociaux",
+    "Microservices",
+    "Spring Boot",
+    "Angular",
+    "Migration technologique",
+    "Paiement numérique",
+    "Biométrie",
+    "Déduplication",
+    "Registre social unifié",
+    "RESUC",
+    "Identifiant unique",
+    "Inclusion économique",
+    "Méthode agile",
+    "DevOps",
+    "Interopérabilité",
+    "Transferts monétaires",
+    "Ciblage",
+    "THIMO"
+  ],
+  "contexte": [
+    "Le Gouvernement du Cameroun a adopté la Stratégie Nationale de Développement 2020-2030 (SND30) visant la transformation structurelle et le développement inclusif, incluant le renforcement de la protection sociale.",
+    "Le Projet Filets Sociaux (PFS) est l'un des instruments phares de l'assistance sociale au Cameroun, financé par la Banque mondiale, l'AFD et le Gouvernement. Lancé en 2013 avec 2 000 ménages, il a atteint 375 500 ménages en 2022 soit environ 1 877 500 individus.",
+    "Un nouveau projet, le Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE), est en cours de mise en place avec la Banque mondiale, comprenant 5 composantes : (1) Filets sociaux adaptatifs, (2) Inclusion économique des jeunes et entrepreneuriat, (3) Systèmes numériques de prestation réactifs aux chocs, (4) Soutien à la gestion et coordination, (5) Composante de réponse d'urgence (CERC).",
+    "La Composante 3 comprend deux sous-composantes : SC3.1 Registre social unifié et SC3.2 Dispositif de paiement numérique.",
+    "Le SIG-I actuel gère de façon automatisée : ciblage, enregistrement, paiement et gestion des bénéficiaires, importation/partage de données, gestion des utilisateurs, production de listes et rapports, gestion THIMO, gestion des plaintes, production du PTBA, plan de décaissement, plan de passation de marché, bilan financier et statistiques.",
+    "Le SIG-I doit être mis à niveau pour intégrer : améliorations des fonctionnalités existantes, migration vers nouvelles technologies, nouvelles fonctionnalités pour les composantes nouvelles, identifiant unique harmonisé avec le RESUC, harmonisation du questionnaire CVTS avec le RESUC, gestion des déduplications, et prise en charge des nouvelles tablettes biométriques."
+  ],
+  "acronymes": {
+    "SIG-I": "Système d'Information de Gestion Intégré",
+    "PFS": "Projet Filets Sociaux",
+    "PFS-AIE": "Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+    "UGP": "Unité de Gestion du Projet",
+    "RESUC": "Registre Social Unifié du Cameroun",
+    "CTSP": "Comité Technique de Suivi des Programmes Economiques",
+    "MINEPAT": "Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire",
+    "SND30": "Stratégie Nationale de Développement 2020-2030",
+    "THIMO": "Travaux à Haute Intensité de Main d'Œuvre",
+    "PTBA": "Plan de Travail et Budget Annuel",
+    "CVTS": "Collecte des données sur les conditions de Vie pour le choix des ménages bénéficiaires des filets sociaux",
+    "TDR": "Termes de Référence",
+    "CERC": "Composante de Réponse d'Urgence (Contingency Emergency Response Component)",
+    "AFD": "Agence Française de Développement",
+    "BM": "Banque Mondiale",
+    "IT": "Information Technology (Technologie de l'Information)",
+    "SOA": "Architecture Orientée Service",
+    "REST": "Representational State Transfer",
+    "API": "Application Programming Interface",
+    "ELK": "Elasticsearch, Logstash, Kibana",
+    "HTTP": "HyperText Transfer Protocol",
+    "JMS": "Java Message Service",
+    "AMQP": "Advanced Message Queuing Protocol",
+    "JSON": "JavaScript Object Notation",
+    "SOAP": "Simple Object Access Protocol",
+    "EAI": "Enterprise Application Integration",
+    "CORBA": "Common Object Request Broker Architecture",
+    "W3C": "World Wide Web Consortium",
+    "DOM": "Document Object Model",
+    "DevOps": "Development and Operations"
+  },
+  "objectif_general": "Former l'équipe IT de l'UGP sur les nouvelles technologies de développement, faire une migration du SIG-I du PFS vers les nouvelles technologies de développement logiciel, améliorer les fonctionnalités de ce SIG-I et développer les fonctionnalités liées aux besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE).",
+  "objectifs_specifiques": [
+    "Former l'équipe IT du Projet (en vidéoconférence) sur les nouveaux cadres de développement et sur la maintenance pour lui permettre de contribuer au développement du nouveau SIG-I",
+    "Migrer le SIG-I du PFS vers une architecture Micro-services en utilisant Spring Boot (back-end) et Angular (front-end)",
+    "Développer l'identifiant unique pour les individus enregistrés dans le SIG-I dont l'unicité est garantie par les paramètres biométriques",
+    "Automatiser la gestion des déduplications (identification, contrôle/vérification et suppression des doublons)",
+    "Intégrer les besoins liés à la prise en compte de nouvelles tablettes biométriques à acquérir",
+    "Prendre en compte toutes les améliorations identifiées pendant l'exploitation du SIG-I du PFS",
+    "Ajouter les fonctionnalités relatives à la composante 2.1 (collecte de données en ligne sécurisée, scoring, formation, paiement, suivi et accompagnement des jeunes)",
+    "Ajouter les fonctionnalités relatives à la composante 2.2 (collecte de données en ligne sécurisée, scoring, formation, paiement, suivi et accompagnement des jeunes entrepreneurs)",
+    "Implémenter la prise en charge totale des paiements numériques",
+    "Implémenter des services web permettant d'assurer l'interopérabilité avec le RESUC",
+    "Développer la prise en compte du questionnaire de collecte des données avec le RESUC"
+  ],
+  "duree_mois": null,
+  "duree_jours": null,
+  "date_debut_prevue": null,
+  "date_fin_prevue": null,
+  "delai_execution_jours": null,
+  "nb_experts": null,
+  "total_hommes_jours": null,
+  "experts": [],
+  "lots": [],
+  "composantes": [
+    {
+      "numero": "1",
+      "titre": "Projet Filets Sociaux Adaptatifs",
+      "activites": [
+        "Amélioration des fonctionnalités existantes du SIG-I pour la composante 1",
+        "Migration de toutes les fonctionnalités existantes vers les nouvelles technologies",
+        "Apport de valeur ajoutée à l'utilisation du système"
+      ]
+    },
+    {
+      "numero": "2",
+      "titre": "Inclusion économique des jeunes et entrepreneuriat",
+      "activites": [
+        "Sous-composante 2.1 : collecte des données via plateforme sécurisée sur internet, scoring, formation, paiement, suivi et accompagnement des jeunes",
+        "Sous-composante 2.2 : collecte des données via plateforme sécurisée sur internet, scoring, formation, paiement, suivi et accompagnement des jeunes entrepreneurs"
+      ]
+    },
+    {
+      "numero": "3",
+      "titre": "Systèmes numériques de prestation réactifs aux chocs",
+      "activites": [
+        "Sous-composante 3.1 : Registre social unifié — Production de l'identifiant unique et harmonisation avec le RESUC, harmonisation du questionnaire CVTS avec le RESUC, gestion des déduplications",
+        "Sous-composante 3.2 : Dispositif de paiement numérique — Implémentation de la prise en charge totale des paiements numériques",
+        "Implémentation des services web d'interopérabilité avec le RESUC",
+        "Prise en compte des nouvelles tablettes biométriques"
+      ]
+    },
+    {
+      "numero": "4",
+      "titre": "Soutien à la gestion et à la coordination du Projet",
+      "activites": [
+        "Appui à l'UGP dans la supervision du prestataire",
+        "Mise à disposition de la documentation nécessaire",
+        "Suivi de la méthodologie agile (sprints mensuels, daily scrum, revues mensuelles)"
+      ]
+    },
+    {
+      "numero": "5",
+      "titre": "Composante de réponse d'urgence (CERC)",
+      "activites": [
+        "Réponse d'urgence contingente"
+      ]
+    },
+    {
+      "numero": "5.1",
+      "titre": "Module de formation — Microservices, Angular, SpringBoot et maintenance système, réseaux et sécurité",
+      "activites": [
+        "Formation de l'équipe IT sur la maintenance, Angular et SpringBoot pendant 5 jours à temps plein par vidéoconférence",
+        "Formation sur l'architecture Microservices : définition, problématiques, bénéfices, services Web interopérables, panorama outils/technologies",
+        "Formation sur l'approche traditionnelle (monolithique, EAI, CORBA, SOA, SOAP)",
+        "Formation sur les concepts Microservices : flexibilité, complexité, cohésion, couplage, dépendances, Module/Composant VS Service",
+        "Formation sur l'implémentation Microservices : principe de responsabilité unique, culture DevOps, déploiement continu, protocoles HTTP/JMS/AMQP/Websockets/JSON, API REST/GraphQL",
+        "Formation sur la gestion des logs et monitoring : métriques, health check, centralisation des logs, ELK/Graylog/Syslog",
+        "Formation sur le déploiement : Docker, Ansible, Kubernetes, Cloud computing, haute disponibilité, load balancing, scalabilité automatique",
+        "Formation sur les problématiques de mise en œuvre : complexité, performances réseaux, sécurité, déploiement, tests, nano-services",
+        "Formation Angular : maîtrise de la dernière version, développement et test complet d'une application, bonnes pratiques",
+        "Formation Angular — modules : présentation du framework, nouveautés TypeScript, moteur Ivy, outil de build Bazel, Web components (W3C), Shadow DOM, Custom Elements, HTML Imports",
+        "Formation Angular — architecture : organisation avec les modules, components et templates, Data Binding, directives, services, injection de dépendances",
+        "Formation SpringBoot (back-end)"
+      ]
+    }
+  ],
+  "produits_attendus": [
+    "SIG-I migré vers une architecture Microservices avec Spring Boot (back-end) et Angular (front-end)",
+    "Equipe IT de l'UGP formée sur les nouveaux cadres de développement Angular, SpringBoot, Microservices et maintenance",
+    "Identifiant unique biométrique pour les individus enregistrés dans le SIG-I",
+    "Système de gestion automatisée des déduplications (identification, contrôle, vérification, suppression des doublons)",
+    "Intégration des nouvelles tablettes biométriques",
+    "Fonctionnalités améliorées de la composante 1 (filets sociaux adaptatifs)",
+    "Fonctionnalités de la composante 2.1 (collecte en ligne, scoring, formation, paiement, suivi jeunes)",
+    "Fonctionnalités de la composante 2.2 (collecte en ligne, scoring, formation, paiement, suivi jeunes entrepreneurs)",
+    "Paiements numériques intégralement pris en charge",
+    "Services web d'interopérabilité avec le RESUC",
+    "Questionnaire de collecte de données harmonisé avec le RESUC"
+  ],
+  "livrables": [
+    "Livrable mensuel (à chaque fin de sprint) : version opérationnelle du SIG-I avec les fonctionnalités développées durant le mois",
+    "Documentation de formation (modules Microservices, Angular, SpringBoot, maintenance)",
+    "Rapport de revue mensuelle des activités et évaluation du livrable mensuel"
+  ],
+  "rapports": [
+    {
+      "type": "Rapport de revue mensuelle (sprint review)",
+      "delai": "A la fin de chaque mois (fin de sprint)",
+      "pages_max": null,
+      "contenu": "Revue des activités mensuelles, évaluation et tests du livrable mensuel par les parties prenantes",
+      "format": "Réunion + livrable fonctionnel"
+    },
+    {
+      "type": "Compte-rendu quotidien (daily scrum)",
+      "delai": "Chaque jour du mois",
+      "pages_max": null,
+      "contenu": "Réunion de mise au point de 15 minutes maximum (vidéoconférence) : inspection de la progression vers l'objectif du sprint et adaptation des tâches mensuelles",
+      "format": "Vidéoconférence — 15 min max"
+    }
+  ],
+  "budget_total": null,
+  "devise": null,
+  "avance_pct": null,
+  "cautionnement_pct": null,
+  "garantie_soumission_pct": null,
+  "garantie_soumission_montant": null,
+  "penalites_retard": null,
+  "modalites_paiement": null,
+  "delai_paiement_jours": null,
+  "incoterms": null,
+  "prix_ferme": null,
+  "validite_offre_jours": null,
+  "type_evaluation": null,
+  "note_eliminatoire": null,
+  "poids_technique_pct": null,
+  "poids_financier_pct": null,
+  "criteres_evaluation": [],
+  "qualification_requise": [],
+  "variantes_autorisees": null,
+  "groupements_autorises": null,
+  "nb_membres_groupement_max": null,
+  "documents_requis": [],
+  "logistique": {
+    "lieu_principal": "Cameroun (UGP — Yaoundé présumé)",
+    "destination_finale": null,
+    "deplacements": "Prestations majoritairement en vidéoconférence (formation et daily scrum)",
+    "bureaux": "Prestataire travaille sous la supervision de l'UGP ; UGP met à disposition la documentation disponible",
+    "equipement": "Nouvelles tablettes biométriques à acquérir (hors périmètre du présent TDR mais à intégrer dans le SIG-I)",
+    "sav_requis": null,
+    "formation_requise": "Oui — formation de l'équipe IT de l'UGP (5 jours à temps plein en vidéoconférence) sur Angular, SpringBoot, Microservices et maintenance"
+  },
+  "gestion_projet": {
+    "organe_responsable": "UGP (Unité de Gestion du Projet PFS-AIE)",
+    "supervision": "UGP supervise le prestataire et met à disposition la documentation nécessaire",
+    "comite_suivi": "Equipe de développement comprenant l'équipe IT de l'UGP et le prestataire",
+    "reunions": "Daily scrum quotidien (vidéoconférence, 15 min max) + réunion de revue mensuelle en fin de sprint",
+    "comptes_rendus": "Revue mensuelle des activités, évaluation et tests du livrable mensuel par les parties prenantes"
+  },
+  "risques": [
+    {
+      "risque": "Complexité de migration du SIG-I existant vers une architecture Microservices pouvant entraîner des retards ou pertes de données",
+      "mesure": "Utilisation de la méthode agile avec des sprints mensuels permettant des ajustements progressifs et des livraisons partielles opérationnelles"
+    },
+    {
+      "risque": "Dépendance à l'interopérabilité avec le RESUC dont le développement peut ne pas être synchronisé",
+      "mesure": "Développement de services web d'interopérabilité standardisés et harmonisation progressive du questionnaire CVTS"
+    },
+    {
+      "risque": "Niveau de maîtrise insuffisant de l'équipe IT de l'UGP sur les nouvelles technologies après la formation initiale de 5 jours",
+      "mesure": "Implication de l'équipe IT dans chaque sprint de développement pour une montée en compétences continue et progressive"
+    },
+    {
+      "risque": "Indisponibilité ou retard d'acquisition des nouvelles tablettes biométriques impactant les tests d'intégration",
+      "mesure": "Développement modulaire permettant une intégration ultérieure des tablettes biométriques sans bloquer les autres fonctionnalités"
+    },
+    {
+      "risque": "Risques de sécurité liés à la mise en ligne de données sensibles (bénéficiaires, données biométriques, paiements numériques)",
+      "mesure": "Formation spécifique sur la maintenance système, réseaux et sécurité ; mise en œuvre de protocoles sécurisés pour les plateformes de collecte en ligne"
+    }
+  ],
+  "hypotheses": [
+    "L'UGP mettra à disposition du prestataire toute la documentation disponible et jugée nécessaire pour l'accomplissement du travail",
+    "La méthode de développement retenue est la méthode agile avec des sprints mensuels",
+    "Les formations sont dispensées en vidéoconférence",
+    "Chaque sprint (étape de développement) a une durée d'un mois",
+    "Le daily scrum est organisé chaque jour du mois en vidéoconférence (15 minutes maximum)",
+    "A chaque fin de sprint, une réunion de revue est organisée avec les parties prenantes pour évaluation et tests du livrable mensuel",
+    "Le prestataire intégrera l'équipe IT de l'UGP dans l'équipe de développement pour permettre une reprise future en maintenance corrective et évolutive"
+  ],
+  "confiance_extraction": "moyenne",
+  "taux_remplissage_pct": 52,
+  "champs_non_trouves": [
+    "reference",
+    "date_limite_soumission",
+    "heure_limite_soumission",
+    "date_reunion_preparatoire",
+    "nb_pages",
+    "nb_lots",
+    "numero_pret_credit",
+    "duree_mois",
+    "duree_jours",
+    "date_debut_prevue",
+    "date_fin_prevue",
+    "delai_execution_jours",
+    "nb_experts",
+    "total_hommes_jours",
+    "experts",
+    "budget_total",
+    "devise",
+    "avance_pct",
+    "cautionnement_pct",
+    "garantie_soumission_pct",
+    "garantie_soumission_montant",
+    "penalites_retard",
+    "modalites_paiement",
+    "delai_paiement_jours",
+    "incoterms",
+    "prix_ferme",
+    "validite_offre_jours",
+    "type_evaluation",
+    "note_eliminatoire",
+    "poids_technique_pct",
+    "poids_financier_pct",
+    "criteres_evaluation",
+    "qualification_requise",
+    "variantes_autorisees",
+    "groupements_autorises",
+    "nb_membres_groupement_max",
+    "documents_requis",
+    "nb_lots"
+  ],
+  "incoherences": [
+    "Le document mentionne 'composante 2.1' et 'composante 2.2' dans les objectifs spécifiques alors que la description du projet (section 1) ne présente que 5 composantes principales sans subdivision explicite en 2.1 et 2.2 — possible désalignement entre la nomenclature des composantes et celle utilisée dans les objectifs spécifiques",
+    "Le document est daté 'Juin 2023' sans date précise — la date '01/06/2023' est une approximation"
+  ],
+  "notes_extracteur": "Document partiel transmis (le texte s'arrête en cours de la section 5.1 sur la formation Angular, au milieu de la liste des modules). Les sections suivantes sont absentes ou incomplètes : profil du prestataire/experts, qualifications requises, critères d'évaluation, budget, durée contractuelle, modalités administratives et financières, documents requis pour soumission. Ces absences sont normales pour un TDR transmis partiellement. Le bailleur principal est déduit comme Banque Mondiale (mentionné explicitement dans le texte) avec co-financement AFD et Gouvernement camerounais. Aucune référence de marché, numéro de prêt ou date limite de soumission n'apparaît dans la partie transmise. La ville 'Yaoundé' est déduite comme siège présumé du CTSP/MINEPAT sans confirmation explicite dans le texte. La composante 5 (CERC) est mentionnée dans le texte mais sans détail — les activités associées sont minimales par nature (réponse d'urgence contingente). La confiance est 'moyenne' en raison du document incomplet."
+}

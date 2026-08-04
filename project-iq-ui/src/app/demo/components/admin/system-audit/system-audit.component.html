@@ -1,0 +1,79 @@
+<div class="surface-card shadow-2 border-round p-4">
+    <div class="flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="text-900 font-bold m-0 mb-1">
+                <i class="pi pi-server mr-2" style="color: var(--primary-color)"></i>
+                Traçabilité Globale (Système)
+            </h2>
+            <div class="mt-2 text-600">
+                Historique des modifications de la configuration de l'IA et du référentiel par les administrateurs.
+            </div>
+        </div>
+        <button pButton icon="pi pi-refresh" label="Actualiser" severity="secondary" 
+                class="p-button-outlined" size="small" (click)="loadHistory()"></button>
+    </div>
+
+    <!-- Filtres -->
+    <div class="flex flex-column md:flex-row gap-3 mb-4 surface-section p-3 border-round-xl shadow-1">
+        <span class="p-input-icon-left w-full md:w-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher (acteur, action, détails)..." class="w-full md:w-20rem border-round-3xl" />
+        </span>
+        <button pButton icon="pi pi-file-excel" severity="success" class="border-round-3xl p-button-outlined ml-auto"
+            label="Exporter" (click)="dt.exportCSV()"></button>
+    </div>
+
+    <p-table #dt [value]="filteredHistory" [loading]="isLoading" [paginator]="true" [rows]="15" [rowsPerPageOptions]="[10, 25, 50]"
+             [globalFilterFields]="['acteur', 'action', 'details']" exportFilename="journal_audit_systeme"
+             responsiveLayout="scroll" size="small" dataKey="id"
+             styleClass="p-datatable-gridlines p-datatable-striped shadow-2 border-round-xl overflow-hidden">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 150px">Date & Heure</th>
+                <th style="width: 250px">Administrateur</th>
+                <th style="width: 250px">Action Effectuée</th>
+                <th>Détails de la configuration</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                <td>
+                    <div class="font-medium text-900">{{ row.timestamp | date:'dd MMM yyyy' }}</div>
+                    <div class="text-xs text-500">{{ row.timestamp | date:'HH:mm:ss' }}</div>
+                </td>
+                <td>
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-user-edit text-primary"></i>
+                        <span class="font-medium text-900">{{ row.acteur }}</span>
+                    </div>
+                </td>
+                <td>
+                    <p-tag [severity]="getSeverity(row.action)" [rounded]="true">
+                        <div class="flex align-items-center gap-1 px-1">
+                            <i [class]="getIcon(row.action)"></i>
+                            <span class="font-bold text-sm">{{ row.action }}</span>
+                        </div>
+                    </p-tag>
+                </td>
+                <td>
+                    <div class="text-700 bg-bluegray-50 p-2 border-round border-1 border-bluegray-100" style="font-family: monospace;">
+                        {{ row.details }}
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" class="text-center py-5">
+                    <i class="pi pi-database text-4xl text-300 mb-3"></i>
+                    <p class="m-0 text-600 font-medium">Aucun historique système trouvé.</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-toast></p-toast>

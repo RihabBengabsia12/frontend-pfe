@@ -1,0 +1,71 @@
+<p-toast></p-toast>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Configuration du Dictionnaire de Sécurité (DLP)</h5>
+            <p>Gérez ici les mots-clés qui seront remplacés (encapsulés) par un code unique avant l'envoi au service IA pour protéger la confidentialité des données.</p>
+
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="Nouveau Mot-Clé" icon="pi pi-plus" class="p-button-success mr-2" (click)="openAddDialog()"></button>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Régénérer Tous Les Codes (Force)" icon="pi pi-refresh" class="p-button-warning" (click)="forceRegenerate()" [loading]="isRegenerating"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table [value]="dictionaries" [loading]="loading" responsiveLayout="scroll" [rowHover]="true" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">ID</th>
+                        <th>Mot-Clé Original</th>
+                        <th>Code de Remplacement Actuel</th>
+                        <th>Dernière Mise à Jour</th>
+                        <th style="width: 8rem; text-align: center;">Actif</th>
+                        <th style="width: 8rem; text-align: center;">Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-dict>
+                    <tr>
+                        <td>{{ dict.id }}</td>
+                        <td class="font-bold">{{ dict.originalWord }}</td>
+                        <td>
+                            <p-tag severity="info" [value]="dict.replacementCode" *ngIf="dict.replacementCode"></p-tag>
+                            <span *ngIf="!dict.replacementCode" class="text-400">En attente de génération</span>
+                        </td>
+                        <td>{{ dict.updatedAt | date:'short' }}</td>
+                        <td style="text-align: center;">
+                            <p-inputSwitch [(ngModel)]="dict.isActive" (onChange)="toggleActive(dict)"></p-inputSwitch>
+                        </td>
+                        <td style="text-align: center;">
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" (click)="deleteWord(dict.id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6" class="text-center p-4">Aucun mot-clé dans le dictionnaire.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayAddDialog" header="Ajouter un Mot-Clé Sensible" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="word">Mot-Clé Original</label>
+            <input type="text" pInputText id="word" [(ngModel)]="newWord" required autofocus placeholder="ex: NomSociete, 256.45..." />
+            <small class="p-error" *ngIf="!newWord">Requis.</small>
+        </div>
+        <p-messages [value]="[{severity:'info', summary:'Info', detail:'Le code de remplacement sera généré automatiquement et mis à jour toutes les 24h.'}]" [enableService]="false" [closable]="false"></p-messages>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="displayAddDialog = false"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveWord()" [disabled]="!newWord"></button>
+    </ng-template>
+</p-dialog>

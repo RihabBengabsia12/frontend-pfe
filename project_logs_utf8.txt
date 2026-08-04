@@ -1,0 +1,200 @@
+﻿2026-08-04T10:14:42.892Z  INFO 1 --- [PROJECT-SERVICE] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25764 ms. Found 8 JPA repository interfaces.
+2026-08-04T10:16:22.653Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=d54b8ae8-93b6-3583-bcf2-736b08ac78e6
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2026-08-04T10:58:47.306Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : Starting ProjectServiceApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-08-04T10:58:48.159Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2026-08-04T11:57:13.414Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : Starting ProjectServiceApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-08-04T11:57:13.535Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2026-08-04T12:38:24.549Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : Starting ProjectServiceApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-08-04T12:38:24.842Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2026-08-04T12:41:15.532Z  INFO 1 --- [PROJECT-SERVICE] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-08-04T12:41:33.821Z  INFO 1 --- [PROJECT-SERVICE] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16602 ms. Found 8 JPA repository interfaces.
+2026-08-04T12:42:20.522Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=d54b8ae8-93b6-3583-bcf2-736b08ac78e6
+2026-08-04T12:44:29.574Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2026-08-04T12:44:31.352Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-04T12:44:31.512Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-08-04T12:44:35.004Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-08-04T12:44:35.081Z  INFO 1 --- [PROJECT-SERVICE] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 356631 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-08-04T12:45:10.442Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-08-04T12:45:15.920Z  INFO 1 --- [PROJECT-SERVICE] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2026-08-04T12:45:21.771Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-08-04T12:45:44.126Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-08-04T12:45:46.551Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-04T12:46:00.801Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7e7987b8
+2026-08-04T12:46:00.836Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-04T12:46:03.094Z  WARN 1 --- [PROJECT-SERVICE] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-08-04T12:46:05.785Z  INFO 1 --- [PROJECT-SERVICE] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.13
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-08-04T12:47:28.913Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-08-04T12:47:32.792Z  WARN 1 --- [PROJECT-SERVICE] [           main] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table if exists anonymization_dict alter column id set data type uuid" via JDBC [ERROR: identity column type must be smallint, integer, or bigint]
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table if exists anonymization_dict alter column id set data type uuid" via JDBC [ERROR: identity column type must be smallint, integer, or bigint]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:334) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:233) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:112) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.3.jar!/:6.2.3]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.3.jar!/:6.2.3]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.3.jar!/:6.2.3]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.3.jar!/:6.2.3]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:346) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.3.jar!/:6.2.3]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.3.jar!/:6.2.3]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.3.jar!/:6.2.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.3.jar!/:3.4.3]
+	at tn.rihab.projectservice.ProjectServiceApplication.main(ProjectServiceApplication.java:22) ~[!/:0.0.1-SNAPSHOT]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:102) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64) ~[app.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40) ~[app.jar:0.0.1-SNAPSHOT]
+Caused by: org.postgresql.util.PSQLException: ERROR: identity column type must be smallint, integer, or bigint
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:356) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:341) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:317) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:312) ~[postgresql-42.7.5.jar!/:42.7.5]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.8.Final.jar!/:6.6.8.Final]
+	... 42 common frames omitted
+
+2026-08-04T12:47:43.462Z  INFO 1 --- [PROJECT-SERVICE] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-08-04T12:48:24.272Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-08-04T12:49:49.502Z  INFO 1 --- [PROJECT-SERVICE] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2026-08-04T12:49:50.264Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-08-04T12:49:51.696Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-08-04T12:49:51.864Z  INFO 1 --- [PROJECT-SERVICE] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T12:49:52.119Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-08-04T12:49:52.120Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-08-04T12:49:52.121Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-08-04T12:49:52.122Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-08-04T12:49:52.122Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-08-04T12:49:52.136Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-08-04T12:49:52.140Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-08-04T12:50:03.190Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-08-04T12:50:03.235Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-08-04T12:50:03.359Z  INFO 1 --- [PROJECT-SERVICE] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-08-04T12:50:03.480Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1785847803476 with initial instances count: 4
+2026-08-04T12:50:03.748Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application PROJECT-SERVICE with eureka with status UP
+2026-08-04T12:50:03.766Z  INFO 1 --- [PROJECT-SERVICE] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1785847803753, current=UP, previous=STARTING]
+2026-08-04T12:50:03.794Z  INFO 1 --- [PROJECT-SERVICE] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PROJECT-SERVICE/a8f597c96711:PROJECT-SERVICE:8083: registering service...
+2026-08-04T12:50:04.652Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2026-08-04T12:50:04.773Z  INFO 1 --- [PROJECT-SERVICE] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8083
+2026-08-04T12:50:05.637Z  INFO 1 --- [PROJECT-SERVICE] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_PROJECT-SERVICE/a8f597c96711:PROJECT-SERVICE:8083 - registration status: 204
+2026-08-04T12:50:06.193Z  WARN 1 --- [PROJECT-SERVICE] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-08-04T12:50:14.079Z  INFO 1 --- [PROJECT-SERVICE] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-08-04T12:50:14.587Z  INFO 1 --- [PROJECT-SERVICE] [           main] t.r.p.ProjectServiceApplication          : Started ProjectServiceApplication in 770.103 seconds (process running for 861.199)
+2026-08-04T12:54:52.026Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T12:59:51.838Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:04:51.459Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:09:51.137Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:14:50.795Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:19:50.551Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:24:50.374Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:29:50.196Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:30:31.569Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-04T13:30:31.575Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-04T13:30:49.348Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 17763 ms
+2026-08-04T13:30:53.009Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-3] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 47be6c89-3172-440e-9c2e-53353581669d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-08-04T13:30:54.168Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-3] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+DEBUG - Initialisation MinIO avec endpoint : http://minio:9000
+2026-08-04T13:33:16.064Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.controller.DossierController       : [Upload] D├®p├┤t du fichier : B-  Annexe 2- Termes de r├®f├®rence.pdf (isPrivate=false)
+2026-08-04T13:33:54.002Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.service.StorageService             : [MinIO] Fichier upload├® : documents-originaux/tdr/2a744962-c8e0-48b4-8ec3-03ebc339c23b_B-  Annexe 2- Termes de r├®f├®rence.pdf
+2026-08-04T13:33:54.501Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.service.DocumentParserService      : [Parser] Extraction texte depuis : documents-originaux/tdr/2a744962-c8e0-48b4-8ec3-03ebc339c23b_B-  Annexe 2- Termes de r├®f├®rence.pdf
+2026-08-04T13:34:44.961Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.p.p.font.FileSystemFontProvider      : 22 new fonts found, font cache will be re-built
+2026-08-04T13:34:44.963Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.p.p.font.FileSystemFontProvider      : Building on-disk font cache, this may take a while
+2026-08-04T13:34:49.829Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:35:02.584Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.p.p.font.FileSystemFontProvider      : Finished building on-disk font cache, found 22 fonts
+2026-08-04T13:35:02.612Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Arial
+2026-08-04T13:35:02.796Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Times New Roman,Bold
+2026-08-04T13:35:02.849Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Times New Roman
+2026-08-04T13:35:03.282Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Arial,Bold
+2026-08-04T13:35:14.596Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Times New Roman,BoldItalic
+2026-08-04T13:35:14.891Z  WARN 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] o.a.pdfbox.pdmodel.font.PDTrueTypeFont   : Using fallback font LiberationSans for Times New Roman,Italic
+2026-08-04T13:35:22.330Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.service.DocumentParserService      : [Parser] PDF : 11 pages, 35288 caract├¿res
+2026-08-04T13:35:28.241Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.service.StorageService             : [MinIO] Texte upload├® : documents-texte/06a3ebfb-62b6-4b34-8347-9934a48798c7/document_full.txt (35282 chars)
+2026-08-04T13:35:29.598Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-2] t.r.p.service.DossierService             : [Parsing] Extraction termin├®e pour : 06a3ebfb-62b6-4b34-8347-9934a48798c7
+2026-08-04T13:36:14.106Z  INFO 1 --- [PROJECT-SERVICE] [nio-8083-exec-5] t.r.p.controller.DossierController       : [Analyse] Lancement manuel pour le dossier ID : 06a3ebfb-62b6-4b34-8347-9934a48798c7
+2026-08-04T13:36:17.672Z  INFO 1 --- [PROJECT-SERVICE] [onPool-worker-2] t.r.p.service.ExtractionService          : [Extraction P1] Dossier 06a3ebfb-62b6-4b34-8347-9934a48798c7 ÔÇö appel ia-service
+2026-08-04T13:38:35.511Z  INFO 1 --- [PROJECT-SERVICE] [onPool-worker-2] t.r.p.service.DossierService             : [Analyse] Analyse IA termin├®e et auto-valid├®e pour le dossier : 06a3ebfb-62b6-4b34-8347-9934a48798c7
+2026-08-04T13:38:36.483Z  INFO 1 --- [PROJECT-SERVICE] [onPool-worker-2] o.s.a.r.c.CachingConnectionFactory       : Attempting to connect to: [projectiq-rabbitmq:5672]
+2026-08-04T13:38:50.306Z  INFO 1 --- [PROJECT-SERVICE] [onPool-worker-2] o.s.a.r.c.CachingConnectionFactory       : Created new connection: rabbitConnectionFactory#7548d0d:0/SimpleConnection@3075cb42 [delegate=amqp://guest@172.18.0.5:5672/, localPort=55532]
+2026-08-04T13:38:52.741Z  INFO 1 --- [PROJECT-SERVICE] [onPool-worker-2] t.r.p.messaging.EventPublisher           : [RabbitMQ] Publi├® DOSSIER_INDEXED pour dossier 06a3ebfb-62b6-4b34-8347-9934a48798c7
+2026-08-04T13:39:49.675Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:44:49.361Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:49:49.121Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:54:48.771Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-08-04T13:59:48.402Z  INFO 1 --- [PROJECT-SERVICE] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration

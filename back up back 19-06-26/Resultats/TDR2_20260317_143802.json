@@ -1,0 +1,639 @@
+{
+  "type_document": "TDR",
+  "est_template": false,
+  "reference": null,
+  "titre_document": "Termes de référence pour le recrutement du prestataire chargé d'appuyer l'UGP dans la mise à jour technologique et la mise à niveau du SIG-I pour intégrer les besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+  "acronyme_mission": "PFS-AIE SIG-I",
+  "langue": "FR",
+  "date_publication": null,
+  "date_limite_soumission": null,
+  "heure_limite_soumission": null,
+  "date_reunion_preparatoire": null,
+  "date_visite_site": null,
+  "nb_pages": null,
+  "nb_lots": null,
+  "pays": "Cameroun",
+  "region": null,
+  "ville": "Yaoundé",
+  "zone_intervention": [
+    "Cameroun"
+  ],
+  "pouvoir_adjudicateur": {
+    "organisation": "Comité Technique de Suivi des Programmes Economiques",
+    "acronyme": "CTSP",
+    "structure": "Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire",
+    "acronyme_structure": "MINEPAT",
+    "adresse": null,
+    "telephone": null,
+    "email": null,
+    "site_web": null,
+    "contact_nom": null
+  },
+  "bailleur": "Banque Mondiale / AFD / Gouvernement du Cameroun",
+  "type_financement": "Prêt BM + Prêt concessionnel AFD + Autofinancement",
+  "programme_cadre": "Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+  "contrat_cadre": null,
+  "numero_pret_credit": null,
+  "beneficiaire": {
+    "organisation": "Unité de Gestion du Projet Filets Sociaux",
+    "acronyme": "UGP",
+    "direction": "Comité Technique de Suivi des Programmes Economiques",
+    "acronyme_direction": "CTSP",
+    "pays": "Cameroun"
+  },
+  "programmes_connexes": [
+    "PFS - Projet Filets Sociaux",
+    "SND30 - Stratégie Nationale de Développement 2020-2030"
+  ],
+  "secteurs": [
+    "Protection sociale",
+    "Systèmes d'information",
+    "Inclusion économique",
+    "Technologies numériques",
+    "Transferts monétaires"
+  ],
+  "mots_cles": [
+    "SIG-I",
+    "Microservices",
+    "Angular",
+    "SpringBoot",
+    "Filets sociaux",
+    "Inclusion économique",
+    "Paiement numérique",
+    "Biométrie",
+    "Registre social unifié",
+    "RESUC",
+    "Migration technologique",
+    "Méthode agile"
+  ],
+  "contexte": [
+    "Le Gouvernement du Cameroun s'est engagé dans sa SND30 à consolider la protection sociale pour le plus grand nombre de Camerounais.",
+    "Le Projet Filets Sociaux (PFS) est financé par la Banque mondiale, l'AFD et le Gouvernement ; lancé en 2013, il a touché 375 500 ménages (environ 1 877 500 individus) en 2022.",
+    "Un nouveau projet PFS-AIE est en cours de mise en place avec la Banque mondiale, comprenant 5 composantes dont une composante de systèmes numériques de prestation réactifs aux chocs.",
+    "Le SIG-I actuel du PFS repose sur une architecture monolithique avec les technologies propriétaires Nafkan (JSF / Java J2EE) désormais obsolètes.",
+    "La migration vers une architecture microservices (Angular + SpringBoot) est nécessaire pour répondre aux exigences d'interopérabilité avec le RESUC et aux besoins du PFS-AIE.",
+    "Le prestataire désigné est ST2i Consulting, développeur historique du SIG-I, disposant de références nationales et internationales en Angular, SpringBoot et microservices."
+  ],
+  "acronymes": {
+    "SIG-I": "Système d'Information de Gestion Intégré",
+    "PFS": "Projet Filets Sociaux",
+    "PFS-AIE": "Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+    "UGP": "Unité de Gestion du Projet",
+    "RESUC": "Registre Social Unifié du Cameroun",
+    "CTSP": "Comité Technique de Suivi des Programmes Economiques",
+    "MINEPAT": "Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire",
+    "SND30": "Stratégie Nationale de Développement 2020-2030",
+    "TMO": "Transferts Monétaires Ordinaires",
+    "TMU": "Transferts Monétaires d'Urgence",
+    "THIMO": "Travaux à Haute Intensité de Main d'Oeuvre",
+    "IEJ": "Inclusion Economique des Jeunes",
+    "CPA": "Concours de Plan d'Affaires",
+    "PMT": "Proxy Means Test",
+    "PTBA": "Plan de Travail et Budget Annuel",
+    "PAQ": "Plan d'Assurance Qualité",
+    "BI": "Business Intelligence",
+    "ODK": "Open Data Kit",
+    "LP": "Liste Principale",
+    "LA": "Liste d'Attente",
+    "INS": "Institut National de la Statistique",
+    "CVTS": "Collecte des données sur les Conditions de Vie pour la sélection",
+    "API": "Application Programming Interface",
+    "REST": "Representational State Transfer",
+    "SOA": "Architecture Orientée Services",
+    "JSF": "JavaServer Faces",
+    "J2EE": "Java 2 Enterprise Edition",
+    "TDR": "Termes de Référence",
+    "AFD": "Agence Française de Développement",
+    "BM": "Banque Mondiale",
+    "FCFA": "Franc CFA",
+    "UI": "User Interface",
+    "UX": "User Experience",
+    "PWA": "Progressive Web App",
+    "ELK": "Elasticsearch Logstash Kibana",
+    "DevOps": "Development and Operations",
+    "JPA": "Java Persistence API",
+    "MVC": "Model View Controller",
+    "CERC": "Composante de Réponse d'Urgence aux Crises",
+    "IDPs": "Internally Displaced Persons (Déplacés Internes)",
+    "ONG": "Organisation Non Gouvernementale",
+    "IT": "Information Technology"
+  },
+  "objectif_general": "Former l'équipe IT de l'UGP sur les nouvelles technologies de développement, migrer le SIG-I du PFS vers les nouvelles technologies (microservices, Angular, SpringBoot), améliorer ses fonctionnalités existantes et développer les nouvelles fonctionnalités liées aux besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE).",
+  "objectifs_specifiques": [
+    "Former l'équipe IT du Projet (en vidéoconférence) sur les nouveaux cadres de développement Angular, SpringBoot et la maintenance système/réseaux/sécurité",
+    "Migrer le SIG-I du PFS vers une architecture microservices utilisant Spring Boot (back-end) et Angular (front-end)",
+    "Développer l'identifiant unique pour les individus enregistrés dans le SIG-I, garanti par les paramètres biométriques",
+    "Automatiser la gestion des déduplications (identification, contrôle/vérification, suppression des doublons)",
+    "Intégrer les besoins liés aux nouvelles tablettes biométriques à acquérir",
+    "Intégrer toutes les améliorations identifiées pendant l'exploitation du SIG-I du PFS",
+    "Ajouter les fonctionnalités relatives à la composante 2.1 (IEJ) : inscription en ligne, scoring, formation, paiement, suivi et accompagnement des jeunes",
+    "Ajouter les fonctionnalités relatives à la composante 2.2 (CPA) : inscription en ligne, scoring, formation, paiement, suivi et accompagnement des jeunes entrepreneurs",
+    "Implémenter la prise en charge totale des paiements numériques",
+    "Implémenter des services web pour assurer l'interopérabilité avec le RESUC",
+    "Développer la prise en compte du questionnaire de collecte des données harmonisé avec le RESUC"
+  ],
+  "duree_mois": 24,
+  "duree_jours": 730,
+  "date_debut_prevue": null,
+  "date_fin_prevue": null,
+  "delai_execution_jours": 730,
+  "nb_experts": 8,
+  "total_hommes_jours": null,
+  "experts": [
+    {
+      "code": "E1",
+      "role": "Chef de mission, Expert Agile",
+      "qualifications": [
+        "Bac+5 en Informatique ou diplôme équivalent",
+        "Gestion agile des projets",
+        "Gestion des équipes",
+        "Communication et coordination client/équipe"
+      ],
+      "experience_generale_ans": 10,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Gestion de projet agile, coordination d'équipes de développement logiciel",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Coordination de projet",
+        "Résolution de conflits",
+        "Gestion des délais et de la qualité",
+        "Gestion du budget alloué"
+      ]
+    },
+    {
+      "code": "E2",
+      "role": "Expert BI (Business Intelligence)",
+      "qualifications": [
+        "Bac+5 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Mise en œuvre de requêteurs et modules de Business Intelligence",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Construction de tableaux de bord dynamiques",
+        "Requêteur et visualisation de données"
+      ]
+    },
+    {
+      "code": "E3",
+      "role": "Expert en Architecture des Systèmes d'Information",
+      "qualifications": [
+        "Bac+5 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Architecture microservices",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Conception et mise en œuvre d'architectures microservices",
+        "Interopérabilité des systèmes"
+      ]
+    },
+    {
+      "code": "E4",
+      "role": "Expert développeur Front End",
+      "qualifications": [
+        "Bac+4 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Développement Front End Angular",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Maîtrise d'Angular",
+        "Développement d'interfaces utilisateurs sophistiquées"
+      ]
+    },
+    {
+      "code": "E5",
+      "role": "Expert développeur Back End",
+      "qualifications": [
+        "Bac+4 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Développement Back End SpringBoot",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Maîtrise de SpringBoot",
+        "Développement de services REST et API",
+        "Persistance des données avec Spring Data JPA"
+      ]
+    },
+    {
+      "code": "E6",
+      "role": "Expert UI/UX",
+      "qualifications": [
+        "Bac+4 en Informatique, Communication et Multimédia ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Design d'interfaces utilisateurs, ergonomie, interfaces Homme/Machine",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Conception d'interfaces ergonomiques",
+        "Design de modèles visuels pour applications web"
+      ]
+    },
+    {
+      "code": "E7",
+      "role": "Expert qualité",
+      "qualifications": [
+        "Bac+4 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Assurance qualité logicielle et contrôle qualité",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Garant de la qualité du système",
+        "Plans d'assurance qualité (PAQ)",
+        "Tests unitaires et d'intégration"
+      ]
+    },
+    {
+      "code": "E8",
+      "role": "Ingénieur systèmes, sécurité et réseaux",
+      "qualifications": [
+        "Bac+5 en Informatique ou diplôme équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": null,
+      "domaine_specifique": "Déploiement, maintenance système/réseaux/sécurité, environnements Linux, virtualisation, Jenkins, PostgreSQL",
+      "hommes_jours": null,
+      "langue": "Français",
+      "atouts": [
+        "Déploiement continu",
+        "Maintenance corrective et évolutive",
+        "Sécurité réseau et applicative",
+        "Docker, Kubernetes, Ansible"
+      ]
+    }
+  ],
+  "lots": [],
+  "composantes": [
+    {
+      "numero": "1",
+      "titre": "Formation des équipes IT de l'UGP",
+      "activites": [
+        "Formation en vidéoconférence sur les microservices (architecture, outils, technologies)",
+        "Formation sur Angular (dernière version, bonnes pratiques, TypeScript, NgRx, PWA, RxJS)",
+        "Formation sur SpringBoot (configuration, Spring MVC, Spring Data, REST, sécurité, tests, déploiement)",
+        "Formation sur la maintenance système, réseaux et sécurité (Linux, virtualisation, Jenkins, PostgreSQL, sauvegardes, sécurité réseau et applicative)",
+        "Durée : 5 jours à temps plein par vidéoconférence"
+      ]
+    },
+    {
+      "numero": "2",
+      "titre": "Migration du SIG-I vers les nouvelles technologies (microservices, Angular, SpringBoot)",
+      "activites": [
+        "Migration de l'architecture monolithique (JSF/Java J2EE) vers une architecture microservices",
+        "Migration du module de ciblage (création programme, phase/cycle, questionnaire, sessions de dénombrement)",
+        "Migration du module d'importation des données avec journal d'erreur précis",
+        "Migration du module de paramétrage des calendriers et montants de paiement",
+        "Migration du module de scoring et répartition des bénéficiaires",
+        "Migration du module de génération des listes principales et d'attente",
+        "Déploiement progressif par module après validation"
+      ]
+    },
+    {
+      "numero": "3",
+      "titre": "Amélioration des fonctionnalités existantes du SIG-I (TMO, TMU, THIMO, TMU-Covid-19)",
+      "activites": [
+        "Harmonisation du questionnaire de collecte avec le RESUC et flexibilité de redimensionnement",
+        "Automatisation de la production des logs d'erreurs d'importation (contrôle syntaxique et sémantique)",
+        "Réalisation d'une API pour échanges de données INS/CSPro",
+        "Paramétrage des questionnaires par programme",
+        "Harmonisation de l'identifiant unique avec le RESUC",
+        "Intégration des nouvelles tablettes biométriques",
+        "Création d'un super utilisateur avec super privilèges",
+        "Ajout de programmes de transferts paramétrables",
+        "Possibilité de scoring à partir de variables retenues",
+        "Nettoyage des données erronées importées",
+        "Génération PMT réduit pour enregistrement d'urgence",
+        "Répartition des bénéficiaires par village/quartier selon modalités",
+        "Paramétrage par cuvée des calendriers et montants",
+        "Gestion des numéros de téléphones bloquants",
+        "Statut national et sexe obligatoires",
+        "Conservation des dates d'enregistrement et au moins 2 numéros de téléphone",
+        "Prévisualisation avant génération des états d'édition",
+        "Blocage des champs texte en majuscules et champs numériques en nombre",
+        "Génération de toutes les listes et états en Excel",
+        "Génération des statistiques (récapitulatifs avant/après paiement) par contrat et agence de paiement",
+        "Génération des récapitulatifs des pointages THIMO par contrat et par ONG",
+        "Tableau de bord et exportations des données agrégées",
+        "Stabilisation des remplacements et déplacements de quotas",
+        "Stabilisation des pertes de données depuis les enregistrements",
+        "Stabilisation de tous les états d'édition avec export Excel"
+      ]
+    },
+    {
+      "numero": "4",
+      "titre": "Développement des fonctionnalités pour la Composante 2.1 - Inclusion Economique des Jeunes (IEJ)",
+      "activites": [
+        "Plateforme d'inscription sécurisée en ligne avec URL externe (inscription, apurement, validation physique, présélection, chargement de documents scannés)",
+        "Collecte de données biométriques avec déduplication et identifiant unique",
+        "Calcul des scores de pauvreté et de vulnérabilité (PMT réduit)",
+        "Production de listes principales (LP) et d'attente (LA) provisoires",
+        "Collecte des métadonnées de descente sur site (LP + 30%LP de LA)",
+        "Production des listes pour enregistrement et formation (LP + 20%LP de LA)",
+        "Enregistrement des bénéficiaires avant formation et mise à jour post-formation",
+        "Suivi des formations avec pointages biométriques des présences",
+        "Gestion des remplacements avant et après paiements",
+        "Consignation des notes de sélection et gestion des paiements électroniques",
+        "Réconciliation des paiements selon avancement validé par le coach",
+        "Renseignement des indicateurs de suivi et accompagnement avec pointages terrain",
+        "Gestion des plaintes",
+        "Génération des états d'édition et statistiques avec prévisualisation et export Excel",
+        "Génération des récapitulatifs de pointages par ONG",
+        "Intégration des données de suivi collectées via ODK Collect (GPS, photos)"
+      ]
+    },
+    {
+      "numero": "5",
+      "titre": "Développement des fonctionnalités pour la Composante 2.2 - Concours Plan d'Affaires (CPA)",
+      "activites": [
+        "Plateforme d'inscription sécurisée en ligne avec URL externe (inscription, apurement, soumission notes conceptuelles, validation physique, chargement documents scannés)",
+        "Collecte de données biométriques avec déduplication et identifiant unique",
+        "Collecte des métadonnées de descente sur site",
+        "Collecte des données de garantie de non-disparition du potentiel bénéficiaire",
+        "Présélection des notes conceptuelles par scoring",
+        "Validation et production des listes principales et d'attente",
+        "Suivi des formations avec pointages biométriques",
+        "Soumission des plans d'affaires en ligne",
+        "Sélection des bénéficiaires aux financements (note plan d'affaires /70 + note interview /30)",
+        "Validation et enregistrement des bénéficiaires après formations Business Plan",
+        "Gestion des remplacements avant et après paiements",
+        "Gestion des paiements électroniques à partir du plan de décaissement de chaque plan d'affaires",
+        "Réconciliation des paiements selon avancement validé par le coach",
+        "Renseignement des indicateurs de suivi et accompagnement avec pointages terrain",
+        "Gestion des plaintes",
+        "Génération des états d'édition et statistiques avec prévisualisation et export Excel"
+      ]
+    },
+    {
+      "numero": "6",
+      "titre": "Développement des modules transversaux du SIG-I PFS-AIE",
+      "activites": [
+        "Module de génération d'identifiant unique (algorithme personnalisé, séquence numérique sur 9 chiffres, unicité garantie)",
+        "Module de vérification et contrôle des doublons (choix des variables, algorithmes de déduplication)",
+        "Module de gestion biométrique (banque d'images, archives biographiques, moteur biométrique, contrôle qualité biométrique)",
+        "Module BI/Requêteur (tableaux de bord dynamiques, choix variables/regroupements/agrégats/filtres, export Excel/CSV/graphiques/carte du Cameroun)",
+        "Module de paiements numériques (génération listes, remplacements, réconciliation, échanges via API)",
+        "Module de gestion des plaintes (enregistrement, alertes email, suivi hiérarchique, tableaux de bord)",
+        "Module d'états d'édition (prévisualisation, export Excel, filtrage par région/commune/village/bénéficiaire, impression cartes)",
+        "Module de suivi et évaluation (formulaires de collecte, états récapitulatifs)",
+        "Module Administration avec super-privilèges",
+        "Application mobile (collecte données, enregistrement, pointages THIMO et paiements, mises à jour, remplacements)"
+      ]
+    },
+    {
+      "numero": "7",
+      "titre": "Maintenance du SIG-I PFS-AIE (Mois 13 à 24)",
+      "activites": [
+        "Maintenance curative (correction des anomalies et bugs)",
+        "Maintenance évolutive (développements de nouvelles fonctionnalités si nécessaire)",
+        "Maintenance préventive (actions préventives pour garantir la stabilité et la sécurité du système)"
+      ]
+    }
+  ],
+  "produits_attendus": [
+    "SIG-I migré vers architecture microservices (Angular + SpringBoot)",
+    "12 versions mensuelles livrées avec spécifications fonctionnelles et techniques détaillées",
+    "Modules : Ciblage, Application mobile, Enregistrement, Paiement, Paiements numériques, IEJ, CPA, BI/Requêteur, Identifiant unique, Déduplication, Gestion biométrique, États d'édition, Suivi-évaluation, Gestion des plaintes, Administration",
+    "Interopérabilité avec le RESUC via services web API",
+    "12 Manuels d'installation et d'administration (versions 1 à 12)",
+    "12 Manuels d'utilisation (versions 1 à 12)",
+    "Manuels de formation technique Angular et SpringBoot",
+    "Rapport de formation",
+    "12 Plans d'assurance qualité (PAQ) mensuels",
+    "Rapports de maintenance curative, évolutive et préventive (mois 13-24)"
+  ],
+  "livrables": [
+    "Mois 1 : Manuels de formation technique Angular/SpringBoot, Rapport de formation, PAQ étape 1, Spécifications fonctionnelles et techniques étape 1, SIG-I amélioré, Version 1 du Système, Manuel installation/administration v1, Manuel utilisation v1",
+    "Mois 2 : PAQ étape 2, Spécifications fonctionnelles et techniques étape 2, Version 2 du Système, Manuels v2",
+    "Mois 3 : PAQ étape 3, Spécifications fonctionnelles et techniques étape 3, Version 3 du Système, Manuels v3",
+    "Mois 4 : PAQ étape 4, Spécifications fonctionnelles et techniques étape 4, Version 4 du Système, Manuels v4",
+    "Mois 5 : PAQ étape 5, Spécifications fonctionnelles et techniques étape 5, Version 5 du Système, Manuels v5",
+    "Mois 6 : PAQ étape 6, Spécifications fonctionnelles et techniques étape 6, Version 6 du Système, Manuels v6",
+    "Mois 7 : PAQ étape 7, Spécifications fonctionnelles et techniques étape 7, Version 7 du Système, Manuels v7",
+    "Mois 8 : PAQ étape 8, Spécifications fonctionnelles et techniques étape 8, Version 8 du Système, Manuels v8",
+    "Mois 9 : PAQ étape 9, Spécifications fonctionnelles et techniques étape 9, Version 9 du Système, Manuels v9",
+    "Mois 10 : PAQ étape 10, Spécifications fonctionnelles et techniques étape 10, Version 10 du Système, Manuels v10",
+    "Mois 11 : PAQ étape 11, Spécifications fonctionnelles et techniques étape 11, Version 11 du Système, Manuels v11",
+    "Mois 12 : PAQ étape 12, Spécifications fonctionnelles et techniques étape 12, Version 12 du Système, Manuels v12",
+    "Après 6 mois de maintenance (fin mois 12 + 6 mois) : Rapport maintenance curative, Rapport maintenance évolutive (éventuel), Rapport maintenance préventive (éventuel)",
+    "Après 6 mois de maintenance supplémentaires (fin mois 18 + 6 mois) : Rapport maintenance curative, Rapport maintenance évolutive (éventuel), Rapport maintenance préventive (éventuel)"
+  ],
+  "rapports": [
+    {
+      "type": "Rapport de formation",
+      "delai": "Fin du mois 1",
+      "pages_max": null,
+      "contenu": "Résultats de la formation des équipes IT de l'UGP sur Angular, SpringBoot, microservices et maintenance système/réseaux/sécurité",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Plan d'assurance qualité (PAQ)",
+      "delai": "Mensuel (début de chaque étape, mois 1 à 12)",
+      "pages_max": null,
+      "contenu": "Plan d'assurance qualité de chaque étape de développement",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Spécifications fonctionnelles détaillées",
+      "delai": "Mensuel (mois 1 à 12)",
+      "pages_max": null,
+      "contenu": "Spécifications fonctionnelles détaillées de chaque étape",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Spécifications techniques détaillées",
+      "delai": "Mensuel (mois 1 à 12)",
+      "pages_max": null,
+      "contenu": "Spécifications techniques détaillées de chaque étape",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Manuel d'installation et d'administration",
+      "delai": "Mensuel (versions 1 à 12)",
+      "pages_max": null,
+      "contenu": "Documentation technique d'installation et d'administration de chaque version du SIG-I",
+      "format": "Document technique"
+    },
+    {
+      "type": "Manuel d'utilisation",
+      "delai": "Mensuel (versions 1 à 12)",
+      "pages_max": null,
+      "contenu": "Documentation utilisateur de chaque version du SIG-I",
+      "format": "Document technique"
+    },
+    {
+      "type": "Rapport de maintenance curative",
+      "delai": "Après 6 mois de maintenance (fin mois 18 et fin mois 24)",
+      "pages_max": null,
+      "contenu": "Bilan des interventions correctives réalisées sur le SIG-I",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Rapport de maintenance évolutive",
+      "delai": "Après 6 mois de maintenance (éventuel, fin mois 18 et fin mois 24)",
+      "pages_max": null,
+      "contenu": "Bilan des évolutions développées sur le SIG-I",
+      "format": "Document écrit"
+    },
+    {
+      "type": "Rapport de maintenance préventive",
+      "delai": "Après 6 mois de maintenance (éventuel, fin mois 18 et fin mois 24)",
+      "pages_max": null,
+      "contenu": "Bilan des actions préventives réalisées sur le SIG-I",
+      "format": "Document écrit"
+    }
+  ],
+  "budget_total": 250000000,
+  "devise": "XAF",
+  "avance_pct": null,
+  "cautionnement_pct": null,
+  "garantie_soumission_pct": null,
+  "garantie_soumission_montant": null,
+  "penalites_retard": null,
+  "modalites_paiement": "Paiements mensuels après validation par la commission de recette technique : Mois 1 = 25 000 000 XAF ; Mois 4 = 40 000 000 XAF ; Mois 6 = 40 000 000 XAF ; Mois 8 = 40 000 000 XAF ; Mois 10 = 40 000 000 XAF ; Mois 12 = 40 000 000 XAF ; Après 6 mois de maintenance (fin mois 12+6) = 12 500 000 XAF ; Après 6 mois de maintenance (fin mois 18+6) = 12 500 000 XAF. Total déclaré = 250 000 000 XAF.",
+  "delai_paiement_jours": null,
+  "incoterms": null,
+  "prix_ferme": null,
+  "validite_offre_jours": null,
+  "type_evaluation": null,
+  "note_eliminatoire": null,
+  "poids_technique_pct": null,
+  "poids_financier_pct": null,
+  "criteres_evaluation": [],
+  "qualification_requise": [
+    {
+      "critere": "Prestataire ayant développé le SIG-I actuel du PFS",
+      "seuil": "Obligatoire (mission attribuée de gré à gré à ST2i Consulting)",
+      "documents_requis": [
+        "Références nationales et internationales en Angular, SpringBoot et microservices"
+      ]
+    },
+    {
+      "critere": "Références en systèmes de protection sociale / filets sociaux",
+      "seuil": "Requises",
+      "documents_requis": [
+        "Présentation des références"
+      ]
+    },
+    {
+      "critere": "Maîtrise des technologies Angular, SpringBoot, architecture microservices",
+      "seuil": "Obligatoire",
+      "documents_requis": [
+        "CV des experts, diplômes, expériences"
+      ]
+    }
+  ],
+  "variantes_autorisees": null,
+  "groupements_autorises": null,
+  "nb_membres_groupement_max": null,
+  "documents_requis": [],
+  "logistique": {
+    "lieu_principal": "Cameroun (Yaoundé, siège UGP)",
+    "destination_finale": null,
+    "deplacements": "Possible descentes sur site pour collecte de métadonnées",
+    "bureaux": "UGP met à disposition la documentation nécessaire",
+    "equipement": "Nouvelles tablettes biométriques à acquérir par l'UGP",
+    "sav_requis": "Oui - maintenance curative, évolutive et préventive du mois 13 au mois 24",
+    "formation_requise": "Oui - formation en vidéoconférence des équipes IT de l'UGP (5 jours à temps plein)"
+  },
+  "gestion_projet": {
+    "organe_responsable": "UGP (Unité de Gestion du Projet PFS-AIE)",
+    "supervision": "UGP supervise le prestataire ; commission de recette technique valide les livrables mensuels",
+    "comite_suivi": "Commission de recette technique",
+    "reunions": "Daily scrum quotidien en vidéoconférence (15 minutes max) + réunion de revue mensuelle des activités, évaluation et tests du livrable mensuel par les parties prenantes",
+    "comptes_rendus": "Comptes-rendus des daily scrums et des réunions de revue mensuelle"
+  },
+  "risques": [
+    {
+      "risque": "Obsolescence technologique du SIG-I actuel (JSF/Java J2EE) entraînant des risques de sécurité et manque d'expertise",
+      "mesure": "Migration vers Angular et SpringBoot en architecture microservices"
+    },
+    {
+      "risque": "Surcharge et dysfonctionnement des serveurs liés à la technologie JSF",
+      "mesure": "Adoption de l'architecture microservices permettant un déploiement progressif et une scalabilité"
+    },
+    {
+      "risque": "Perte de données pendant la migration",
+      "mesure": "Déploiement progressif module par module après validation de l'équipe de test ; sauvegardes systèmes intégrées dans la formation maintenance"
+    },
+    {
+      "risque": "Risque de fraude ou de doublons dans le registre des bénéficiaires",
+      "mesure": "Développement de modules de déduplication automatisée et de génération d'identifiant unique garanti par paramètres biométriques"
+    },
+    {
+      "risque": "Non-interopérabilité avec le RESUC",
+      "mesure": "Implémentation de services web via API et harmonisation de l'identifiant unique et du questionnaire avec le RESUC"
+    },
+    {
+      "risque": "Dépendance à un seul prestataire (ST2i Consulting)",
+      "mesure": "Formation de l'équipe IT de l'UGP pour assurer la maintenance corrective et évolutive future en interne"
+    },
+    {
+      "risque": "Délais de recette technique pouvant retarder les paiements mensuels",
+      "mesure": "Méthode agile avec validation continue ; commission de recette technique impliquée dès le début"
+    }
+  ],
+  "hypotheses": [
+    "L'UGP met à la disposition du prestataire toute la documentation disponible et jugée nécessaire pour l'accomplissement du travail.",
+    "La mission est attribuée de gré à gré à ST2i Consulting, développeur historique du SIG-I, sans mise en concurrence formelle documentée dans les TDR.",
+    "La méthode de développement retenue est la méthode agile avec des sprints mensuels.",
+    "Les nouvelles tablettes biométriques seront acquises par l'UGP/le Projet séparément.",
+    "L'algorithme de génération de l'identifiant unique sera défini conjointement avec l'UGP (personnalisé et non public pour des raisons de sécurité).",
+    "Le système de gestion des données biométriques sera acquis chez l'équipementier retenu et intégré dans le SIG-I.",
+    "Le financement du projet est assuré conjointement par la Banque mondiale, l'AFD et le Gouvernement du Cameroun."
+  ],
+  "confiance_extraction": "haute",
+  "taux_remplissage_pct": 72,
+  "champs_non_trouves": [
+    "reference",
+    "date_publication",
+    "date_limite_soumission",
+    "heure_limite_soumission",
+    "date_reunion_preparatoire",
+    "date_visite_site",
+    "nb_pages",
+    "numero_pret_credit",
+    "date_debut_prevue",
+    "date_fin_prevue",
+    "total_hommes_jours",
+    "avance_pct",
+    "cautionnement_pct",
+    "garantie_soumission_pct",
+    "garantie_soumission_montant",
+    "penalites_retard",
+    "delai_paiement_jours",
+    "validite_offre_jours",
+    "note_eliminatoire",
+    "poids_technique_pct",
+    "poids_financier_pct",
+    "incoterms",
+    "prix_ferme",
+    "type_evaluation",
+    "nb_membres_groupement_max",
+    "pouvoir_adjudicateur.adresse",
+    "pouvoir_adjudicateur.telephone",
+    "pouvoir_adjudicateur.email",
+    "pouvoir_adjudicateur.site_web",
+    "pouvoir_adjudicateur.contact_nom"
+  ],
+  "incoherences": [
+    "Le tableau de paiement ne précise pas les montants pour les mois 2, 3, 5, 7, 9, 11. En additionnant les montants explicitement mentionnés : 25M (M1) + 40M (M4) + 40M (M6) + 40M (M8) + 40M (M10) + 40M (M12) + 12.5M + 12.5M = 250M XAF, ce qui est cohérent avec le budget total déclaré. Les mois sans montant explicite sont vraisemblablement inclus dans les paiements des mois 4, 6, 8, 10, 12 (paiements groupés tous les 2 mois).",
+    "Le document mentionne une Section 8 implicitement sautée dans la numérotation (le calendrier est à la Section 7, le profil consultant à la Section 9, les modalités de paiement à la Section 10, le budget à la Section 11) - la Section 8 est absente du document fourni."
+  ],
+  "notes_extracteur": "1. TDR de gré à gré : Ce document est un TDR préattribué à ST2i Consulting (section 9 désigne explicitement le prestataire par son nom). Il ne s'agit pas d'un appel d'offres compétitif mais d'une consultation directe. 2. Budget ventilé reconstitué : Le budget total de 250M XAF est confirmé par la somme des paiements explicites (25+40+40+40+40+40+12.5+12.5 = 250M). Les mois sans montant inscrit (2, 3, 5, 7, 9, 11) sont probablement payés en consolidé avec le mois suivant. 3. Hommes-jours non précisés dans le document - il n'y a pas de tableau H/J par expert, ce qui est cohérent avec un contrat forfaitaire à livrables mensuels. 4. Juin 2023 est la date mentionnée sur la page de couverture (date probable de rédaction du document). 5. Le document ne précise pas le numéro de prêt/crédit BM ou AFD - à compléter depuis les accords de financement du PFS-AIE. 6. La Section 8 semble manquante dans le document transmis (numérotation saute de 7 à 9)."
+}

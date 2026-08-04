@@ -1,0 +1,109 @@
+# =========================
+# Angular / Node
+# =========================
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Angular build files
+dist/
+**/dist/
+.angular/
+**/.angular/
+out/
+
+# Angular cache
+.cache/
+.tmp/
+
+
+# =========================
+# Java / Spring Boot / Maven
+# =========================
+
+# Maven build files
+target/
+**/target/
+
+# Compiled files
+*.class
+*.jar
+*.war
+
+
+# =========================
+# Environment files
+# =========================
+
+.env
+.env.*
+**/.env
+
+# Angular local environments
+src/environments/*.local.ts
+**/src/environments/*.local.ts
+
+
+# =========================
+# IDE
+# =========================
+
+.vscode/
+.idea/
+*.iml
+
+
+# =========================
+# Logs
+# =========================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+
+# =========================
+# Tests / Coverage
+# =========================
+
+coverage/
+**/coverage/
+
+
+# =========================
+# Python (si scripts IA)
+# =========================
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+
+# =========================
+# Archives / exports
+# =========================
+
+*.zip
+*.rar
+*.7z
+
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp

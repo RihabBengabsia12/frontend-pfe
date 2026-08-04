@@ -1,0 +1,124 @@
+<p-toast></p-toast>
+
+<div class="extraction-page fade-in">
+    <!-- Pipeline Stepper -->
+    <div class="stepper-wrapper p-4 pb-0">
+        <app-pipeline-stepper
+            mode="phase1"
+            [activeStep]="1"
+            [dossierId]="dossierId"
+            context="deposit">
+        </app-pipeline-stepper>
+    </div>
+
+    <main class="content-area p-4">
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoading">
+            <i class="pi pi-spin pi-spinner loading-icon"></i>
+            <p>Chargement de la page...</p>
+        </div>
+
+        <div class="loading-state waiting-ai" *ngIf="isWaitingForAI && !isLoading">
+            <i class="pi pi-sparkles loading-icon text-primary mb-3" style="font-size: 3rem;"></i>
+            <h3 class="mt-0">L'IA analyse votre document</h3>
+            <p class="text-color-secondary">Veuillez patienter quelques instants, l'extraction des données financières et l'évaluation des risques sont en cours.</p>
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px', 'width': '300px', 'margin': '0 auto'}"></p-progressBar>
+        </div>
+
+        <div class="extraction-container" *ngIf="!isLoading && !isWaitingForAI">
+            
+            <div class="page-header flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="page-title m-0">
+                        <i class="pi pi-sparkles"></i> Extraction Phase 1
+                    </h2>
+                    <p class="page-subtitle m-0">Vérification des informations extraites automatiquement depuis le TDR.</p>
+                </div>
+                <div class="actions flex gap-3 align-items-center">
+                    <button class="btn-apo-toggle" 
+                            (click)="toggleApoPreview()"
+                            [pTooltip]="showApoPreview ? 'Masquer le TDR' : 'Voir le TDR original'"
+                            tooltipPosition="top">
+                        <i [class]="showApoPreview ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+                    </button>
+                    <button pButton 
+                            label="Valider les extractions" 
+                            icon="pi pi-arrow-right"
+                            iconPos="right" 
+                            class="action-validate-btn" 
+                            (click)="goToValidation()">
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── IA Confidence Alert ── -->
+            <div class="ia-alert-panel" *ngIf="lowConfidenceFields.length > 0">
+                <div class="alert-icon-wrapper">
+                    <i class="pi pi-exclamation-circle alert-icon"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Vérification recommandée</h4>
+                    <p>L'IA a extrait <strong>{{ lowConfidenceFields.length }} champ(s)</strong> avec une confiance moyenne. À vérifier :</p>
+                    <div class="alert-tags">
+                        <span *ngFor="let f of lowConfidenceFields" class="alert-tag">{{ f.label }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections d'extraction -->
+            <div class="sections-grid">
+                <div class="extraction-section card" *ngFor="let section of groupedFields" [ngClass]="'accent-' + section.color">
+                    
+                    <div class="section-header">
+                        <div class="icon-wrapper" [ngClass]="'bg-' + section.color + '-pastel'">
+                            <i class="pi" [ngClass]="[section.icon, 'text-' + section.color]"></i>
+                        </div>
+                        <h3 class="section-title">{{ section.title }}</h3>
+                    </div>
+
+                    <div class="fields-list">
+                        <div class="field-item" *ngFor="let field of section.fields">
+                            <div class="field-label-row">
+                                <div class="flex align-items-center">
+                                    <span class="field-label">{{ field.label }}</span>
+                                    <span class="source-info" [pTooltip]="field.source ? 'Source : « ' + field.source + ' »' : 'Aucune source'" tooltipPosition="top">
+                                        <i class="pi pi-info-circle"></i>
+                                    </span>
+                                </div>
+                                <div class="flex align-items-center gap-2">
+                                    <button class="btn-reextract-soft" (click)="reextract(field, $event)" pTooltip="Ré-extraire ce champ" tooltipPosition="top">
+                                        <i class="pi pi-refresh"></i>
+                                    </button>
+                                    <span class="confidence-badge" [ngClass]="getConfidenceClass(field.confidence)" pTooltip="Taux de confiance IA : {{ field.confidence * 100 | number:'1.0-0' }}%" tooltipPosition="top">
+                                        <i class="pi pi-bolt mr-1"></i> {{ field.confidence * 100 | number:'1.0-0' }}%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field-value-box">
+                                <span class="field-value" [class.empty]="!field.value || field.value === 'N/A'">
+                                    {{ field.value && field.value !== 'N/A' ? field.value : 'Non trouvé dans le TDR' }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="empty-section" *ngIf="section.fields.length === 0">
+                            <i class="pi pi-info-circle"></i> Aucun champ défini pour cette section.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- APO Template Preview en mode Extraction -->
+    <div class="apo-preview-wrapper p-4 pt-0" *ngIf="showApoPreview" style="animation: slideDown 0.4s ease-out;">
+        <app-apo-preview
+            [apoData]="apoPreviewData"
+            [confidences]="apoConfidences"
+            [validatedFields]="[]"
+            mode="extraction">
+        </app-apo-preview>
+    </div>
+
+</div>

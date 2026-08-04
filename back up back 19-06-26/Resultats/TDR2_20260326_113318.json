@@ -1,0 +1,304 @@
+{
+  "informations_generales": {
+    "pays": "Cameroun",
+    "intitule_offre": "Recrutement du prestataire chargé d'appuyer l'UGP dans la mise à jour technologique et la mise à niveau du SIG-I pour intégrer les besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+    "reference": null,
+    "client": "Comité Technique de Suivi des Programmes Economiques (CTSP) - Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire - République du Cameroun",
+    "resume_contexte_objectifs": [
+      "- Le Gouvernement du Cameroun met en oeuvre un Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE) financé par la Banque mondiale, l'AFD et le Gouvernement",
+      "- Le projet actuel (PFS) a permis de toucher 375 500 ménages (environ 1 877 500 individus) en 2022 depuis son lancement en 2013",
+      "- Le SIG-I existant repose sur une architecture monolithique et des technologies obsolètes (JSF, Java/J2EE propriétaire Nafkan) présentant des risques de sécurité et d'interopérabilité",
+      "- La mission consiste à migrer le SIG-I vers une architecture microservices (Spring Boot / Angular), former l'équipe IT de l'UGP et développer les nouvelles fonctionnalités du PFS-AIE",
+      "- Les nouvelles fonctionnalités couvrent : inclusion économique des jeunes (IEJ), concours de plans d'affaires (CPA), paiements numériques, identifiant unique, déduplication biométrique et interopérabilité avec le Registre Social Unifié du Cameroun (RESUC)",
+      "- La méthodologie retenue est la méthode agile avec des sprints mensuels, des daily scrums en visioconférence et des revues de livrables en fin de mois",
+      "- La durée totale de la mission est de 24 mois : 12 mois de développement + 12 mois de maintenance (curative, évolutive, préventive)"
+    ],
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": [
+      "- Banque mondiale",
+      "- Agence Française de Développement (AFD)",
+      "- Gouvernement du Cameroun"
+    ],
+    "budget_global": {
+      "montant": 250000000,
+      "devise": "FCFA",
+      "texte_brut": "Le budget s'élève à 250 millions de FCFA"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": null
+    },
+    "analyse_concurrence": [
+      "- Le prestataire nominalement visé est ST2i Consulting, développeur historique du SIG-I actuel (technologies Nafkan JSF/Java)",
+      "- ST2i Consulting est explicitement mentionné au section 9 comme l'entreprise ayant les références nationales et internationales requises en Angular, Spring Boot et architecture microservices",
+      "- Les TDR semblent taillés pour ST2i Consulting : connaissance intime du SIG-I existant, profils d'équipe très spécifiques, technologies nommées correspondant à leur offre actuelle",
+      "- Aucune procédure de mise en concurrence ouverte n'est décrite dans le document"
+    ]
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": [
+      "- Chef de mission / Expert Agile : Bac+5, 10 ans d'expérience, durée non précisée",
+      "- Expert BI : Bac+5, 5 ans d'expérience minimum",
+      "- Expert Architecture SI : Bac+5, 5 ans d'expérience minimum",
+      "- Expert développeur Front End (Angular) : Bac+4, 5 ans d'expérience minimum",
+      "- Expert développeur Back End (Spring Boot) : Bac+4, 5 ans d'expérience minimum",
+      "- Expert UI/UX : Bac+4, 5 ans d'expérience minimum",
+      "- Expert qualité : Bac+4, 5 ans d'expérience minimum",
+      "- Ingénieur systèmes, sécurité et réseaux : Bac+5, 5 ans d'expérience minimum",
+      "- Nombre total d'hommes-mois non chiffré dans le document"
+    ],
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "Aucune date limite de soumission mentionnée dans le document, impossible d'évaluer le délai de préparation"
+    },
+    "duree_mission_mois": 24,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Le calendrier est structuré en 12 sprints mensuels de développement + 12 mois de maintenance. La faisabilité dépend de la capacité du prestataire retenu à mobiliser l'équipe complète dès le mois 1"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "seuil_technique": null,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": null,
+    "chef_de_file": "ST2i Consulting (mentionné explicitement comme prestataire pressenti dans les TDR)",
+    "roles_repartition": null
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": []
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "Non",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "Non",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Moyen",
+      "commentaire": "Cameroun : contexte sécuritaire régional sensible (Nord-Ouest, Sud-Ouest, Extrême-Nord) mais la mission est essentiellement distancielle (visioconférence, développement logiciel). Impact opérationnel direct limité."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Budget de 250 millions FCFA (~380 000 EUR). Le calendrier de paiement est irrégulier : 25M au mois 1, rien aux mois 2-3, 40M au mois 4, rien au mois 5, etc. Risque de trésorerie pour le prestataire sur les mois sans paiement prévu."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans les TDR"
+    },
+    "exigences_inacceptables": {
+      "niveau": "Faible",
+      "commentaire": "Les exigences techniques sont précises et cohérentes avec les standards du marché (Angular, Spring Boot, microservices). Aucune clause abusive identifiée."
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune caution ou garantie financière mentionnée"
+    },
+    "taille_dispersion": {
+      "niveau": "Moyen",
+      "commentaire": "Mission nationale au Cameroun mais avec travail à distance (vidéoconférence). Coordination avec l'UGP sur 24 mois. Risque de dispersion faible si l'équipe est centralisée."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Faible",
+      "commentaire": "La mission est majoritairement en remote/visioconférence. Peu de déplacements terrain mentionnés explicitement."
+    },
+    "budget_faible": {
+      "niveau": "Moyen",
+      "commentaire": "250 millions FCFA pour 8 experts sur 24 mois (12 dev + 12 maintenance) avec livrables très denses. Le budget peut être tendu selon les taux journaliers appliqués pour une équipe qualifiée senior."
+    },
+    "participation_locale": {
+      "niveau": "Faible",
+      "commentaire": "ST2i Consulting est une entreprise locale camerounaise. La mission vise explicitement le transfert de compétences vers l'équipe IT de l'UGP."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de régime fiscal particulier, d'exonération ou de retenue à la source dans les TDR"
+    }
+  },
+  "decision": {
+    "recommandation": "GO prudent",
+    "go_no_go": {
+      "go": {
+        "titre": "GO - Conditions de réalisation pleine",
+        "criteres_positifs": [
+          "- Mission techniquement bien définie avec cahier des charges fonctionnel et technique très détaillé",
+          "- Méthodologie agile structurée avec sprints mensuels, daily scrums et revues de livrables claires",
+          "- Budget explicitement fixé à 250 millions FCFA avec un calendrier de paiement défini",
+          "- Durée de mission clairement établie : 12 mois de développement + 12 mois de maintenance",
+          "- Profils d'équipe précisément décrits (8 experts, niveaux et expériences requis)",
+          "- Technologies modernes et standards du marché (Angular, Spring Boot, microservices, Docker, Kubernetes)",
+          "- Transfert de compétences vers l'UGP intégré dès le mois 1 (formation en visioconférence)",
+          "- Prestataire historique (ST2i Consulting) connaît parfaitement le SIG-I existant, réduisant les risques de démarrage"
+        ],
+        "conditions": [
+          "- Si le prestataire est ST2i Consulting ou un acteur ayant une connaissance approfondie du SIG-I existant",
+          "- Si les modalités contractuelles (pénalités, propriété intellectuelle, SLA maintenance) sont clarifiées avant signature",
+          "- Si le budget de 250M FCFA est confirmé et disponible dès le démarrage",
+          "- Si l'UGP dispose d'une équipe IT dédiée et disponible pour les formations et les revues mensuelles"
+        ]
+      },
+      "go_prudent": {
+        "titre": "GO Prudent - Réserves et points à confirmer",
+        "criteres_positifs": [
+          "- Les TDR sont complets et la mission est réalisable techniquement",
+          "- Le budget global est mentionné mais la répartition mensuelle est incomplète (plusieurs mois sans paiement indiqué)",
+          "- Le prestataire pressenti a les références requises mais le processus de sélection n'est pas transparent"
+        ],
+        "points_critiques": [
+          "- Le calendrier de paiement est irrégulier et incomplet : montants manquants pour les mois 2, 3, 5, 7, 9, 11",
+          "- Aucun critère de sélection ni pondération technique/financière mentionné : procédure d'attribution opaque",
+          "- Aucune date limite de soumission indiquée dans le document",
+          "- Les TDR semblent orienter vers un prestataire unique (ST2i), ce qui peut poser des questions de conformité aux règles de passation de marchés Banque mondiale",
+          "- L'algorithme de génération d'identifiant unique est mentionné comme 'à définir' : risque de spécification incomplète",
+          "- L'interopérabilité avec le RESUC suppose que ce registre soit opérationnel ou en cours de développement : dépendance externe non confirmée",
+          "- La charge de 8 experts sur 24 mois pour 250M FCFA (~10,4M FCFA/mois) peut être sous-estimée pour des profils senior"
+        ]
+      },
+      "no_go": {
+        "titre": "NO-GO - Cas de non-soumission",
+        "raisons": [
+          "- Si le prestataire n'est pas ST2i Consulting ou n'a pas accès au code source et à la documentation du SIG-I existant : risque majeur de dérapage sur les délais du mois 1",
+          "- Si la procédure de passation ne respecte pas les règles de concurrence de la Banque mondiale (risk de rejet du contrat par le bailleur)",
+          "- Si les spécifications du RESUC ne sont pas disponibles : l'interopérabilité (sous-composante 3.1) ne peut être développée sans référentiel cible",
+          "- Si le budget de 250M FCFA n'est pas suffisant pour couvrir les 8 profils requis sur 24 mois aux taux du marché camerounais pour des experts seniors",
+          "- Si les tablettes biométriques (équipementier non encore retenu) ne sont pas disponibles dans les délais du sprint correspondant"
+        ]
+      }
+    },
+    "points_critiques": [
+      "- Absence de date limite de soumission dans le document",
+      "- Calendrier de paiement incomplet (montants manquants pour les mois 2, 3, 5, 7, 9, 11)",
+      "- Procédure de sélection non décrite (critères, pondération, shortlist absents)",
+      "- Prestataire quasi-nominé (ST2i Consulting) : risque de non-conformité aux règles de passation Banque mondiale",
+      "- Algorithme d'identifiant unique 'à définir' : spécification incomplète",
+      "- Dépendance à l'équipementier biométrique non encore retenu",
+      "- Dépendance à la disponibilité des spécifications du RESUC pour l'interopérabilité"
+    ]
+  },
+  "plan_action": [
+    "- Vérifier la procédure officielle de passation de marché (appel d'offres ouvert ou gré à gré sous règles Banque mondiale)",
+    "- Confirmer la date limite de soumission auprès du CTSP/UGP",
+    "- Obtenir le calendrier de paiement complet (montants pour tous les 24 mois)",
+    "- Clarifier la disponibilité du code source et de la documentation du SIG-I existant pour tout soumissionnaire",
+    "- Vérifier la disponibilité des spécifications techniques du RESUC auprès du Ministère concerné",
+    "- Identifier et confirmer l'équipementier biométrique retenu ou en cours de sélection",
+    "- Analyser la conformité de la procédure aux règles de passation Banque mondiale (PPSD, méthode de sélection)",
+    "- Etablir une estimation budgétaire interne détaillée par profil et par mois pour valider la rentabilité sur 250M FCFA"
+  ],
+  "informations_manquantes": [
+    {
+      "champ": "date_limite_soumission",
+      "question": "Quelle est la date limite officielle de soumission des offres pour cette consultation ?",
+      "raison": "Aucune date n'est mentionnée dans les TDR. Indispensable pour planifier la réponse.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "criteres_selection",
+      "question": "Quels sont les critères de sélection, leur pondération technique/financière et le seuil technique minimal requis ?",
+      "raison": "Aucun critère de notation ni pondération n'est mentionné dans les TDR. Impossible d'évaluer les chances de succès sans cette information.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "procedure_passation",
+      "question": "La procédure de passation est-elle un appel d'offres ouvert, restreint ou un gré à gré ? Est-elle conforme aux règles de passation de la Banque mondiale ?",
+      "raison": "Les TDR semblent orienter vers ST2i Consulting sans procédure concurrentielle transparente, ce qui peut poser un risque de conformité aux règles du bailleur.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "calendrier_paiement_complet",
+      "question": "Quels sont les montants prévus pour les mois 2, 3, 5, 7, 9 et 11 qui ne figurent pas dans le tableau de paiement ?",
+      "raison": "Le calendrier de paiement est incomplet. Le total visible (25M + 40M + 40M + 40M + 40M + 40M + 12.5M + 12.5M = 250M FCFA) suggère que les mois sans montant sont regroupés dans les tranches visibles, mais cela doit être confirmé.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "acces_code_source_sig_i",
+      "question": "Le code source complet, la documentation technique et les données de test du SIG-I existant seront-ils mis à disposition de tout soumissionnaire ou uniquement du prestataire historique ?",
+      "raison": "Sans accès au code source existant, tout prestataire autre que ST2i Consulting ne peut pas réaliser la migration dans les délais du mois 1.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "specifications_resuc",
+      "question": "Les spécifications techniques du Registre Social Unifié du Cameroun (RESUC) sont-elles disponibles et à quel stade de développement se trouve le RESUC ?",
+      "raison": "L'interopérabilité avec le RESUC est un livrable clé de la mission. Sans spécifications disponibles, le développement de ces fonctionnalités ne peut être planifié.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "equipementier_biometrique",
+      "question": "L'équipementier des nouvelles tablettes biométriques a-t-il été retenu ? Quelles sont les spécifications techniques des tablettes (SDK, API biométrique) ?",
+      "raison": "Le développement du module de gestion biométrique dépend directement des APIs fournies par l'équipementier. Un retard dans ce choix impacte le calendrier de développement.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "propriete_intellectuelle",
+      "question": "Qui sera propriétaire du code source développé dans le cadre de cette mission : le client (CTSP/UGP) ou le prestataire ?",
+      "raison": "La question de la propriété intellectuelle est critique pour la pérennisation du système et pour tout futur appel d'offres de maintenance ou d'évolution.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "algorithme_identifiant_unique",
+      "question": "L'algorithme de génération de l'identifiant unique a-t-il été défini ou validé par une autorité compétente ? Existe-t-il des contraintes d'harmonisation avec le RESUC déjà établies ?",
+      "raison": "Les TDR indiquent que l'algorithme est 'à définir', ce qui constitue une spécification incomplète pouvant générer des itérations et des surcoûts.",
+      "priorite": "moyenne"
+    },
+    {
+      "champ": "shortlist",
+      "question": "Y a-t-il une shortlist de prestataires présélectionnés ou la consultation est-elle ouverte à tout soumissionnaire qualifié ?",
+      "raison": "La mention nominale de ST2i Consulting dans les TDR suggère une procédure restreinte ou gré à gré, mais cela n'est pas explicitement confirmé.",
+      "priorite": "moyenne"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "La mission est attribuée de gré à gré à ST2i Consulting, qui est le seul prestataire ayant accès au code source du SIG-I existant",
+      "risque": "Non-conformité potentielle aux règles de passation de la Banque mondiale si une mise en concurrence était requise. Risque de rejet ou de suspension du financement."
+    },
+    {
+      "hypothese": "Le budget de 250M FCFA couvre l'intégralité des 24 mois (12 dev + 12 maintenance) pour une équipe de 8 experts",
+      "risque": "Budget potentiellement sous-dimensionné si les taux journaliers des profils seniors sont appliqués au marché : risque de qualité réduite ou d'équipe sous-qualifiée."
+    },
+    {
+      "hypothese": "Les montants non indiqués dans le calendrier de paiement (mois 2, 3, 5, 7, 9, 11) sont inclus dans les tranches des mois suivants",
+      "risque": "Si cette hypothèse est incorrecte, certains mois pourraient ne pas être rémunérés, créant un risque de trésorerie majeur pour le prestataire."
+    },
+    {
+      "hypothese": "Le RESUC est suffisamment avancé pour que ses spécifications techniques soient disponibles au moment du développement des modules d'interopérabilité",
+      "risque": "Si le RESUC est encore en phase de conception, les développements d'interopérabilité ne peuvent pas être finalisés dans les délais prévus."
+    },
+    {
+      "hypothese": "L'équipementier des tablettes biométriques sera retenu avant le sprint de développement du module biométrique",
+      "risque": "Un retard dans le choix de l'équipementier bloque le développement du module biométrique et décale le calendrier global."
+    }
+  ]
+}

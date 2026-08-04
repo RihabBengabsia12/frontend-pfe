@@ -1,0 +1,61 @@
+<div class="sliders-card">
+    <!-- Axe A -->
+    <div class="slider-row">
+        <div class="slider-info">
+            <div class="slider-name">Axe A : Rentabilité financière</div>
+            <div class="slider-desc">Marge brute prévisionnelle et adéquation TJM</div>
+        </div>
+        <div class="slider-control">
+            <input type="range" min="0" max="100" class="pastel-range-input" [(ngModel)]="a" (ngModelChange)="onSliderChange()" />
+            <span class="slider-val-badge">{{ a }}%</span>
+        </div>
+    </div>
+
+    <!-- Axe B -->
+    <div class="slider-row">
+        <div class="slider-info">
+            <div class="slider-name">Axe B : Risques contractuels & Pays</div>
+            <div class="slider-desc">Pénalités, garanties bancaires et stabilité pays</div>
+        </div>
+        <div class="slider-control">
+            <input type="range" min="0" max="100" class="pastel-range-input" [(ngModel)]="b" (ngModelChange)="onSliderChange()" />
+            <span class="slider-val-badge">{{ b }}%</span>
+        </div>
+    </div>
+
+    <!-- Axe C -->
+    <div class="slider-row">
+        <div class="slider-info">
+            <div class="slider-name">Axe C : Concurrence & Client</div>
+            <div class="slider-desc">Nombre de candidats et antécédents de l'acheteur</div>
+        </div>
+        <div class="slider-control">
+            <input type="range" min="0" max="100" class="pastel-range-input" [(ngModel)]="c" (ngModelChange)="onSliderChange()" />
+            <span class="slider-val-badge">{{ c }}%</span>
+        </div>
+    </div>
+
+    <!-- Axe D -->
+    <div class="slider-row">
+        <div class="slider-info">
+            <div class="slider-name">Axe D : Capacité de réalisation</div>
+            <div class="slider-desc">Ressources disponibles, profils requis et hommes-mois</div>
+        </div>
+        <div class="slider-control">
+            <input type="range" min="0" max="100" class="pastel-range-input" [(ngModel)]="d" (ngModelChange)="onSliderChange()" />
+            <span class="slider-val-badge">{{ d }}%</span>
+        </div>
+    </div>
+
+    <!-- Axe E -->
+    <div class="slider-row">
+        <div class="slider-info">
+            <div class="slider-name">Axe E : Intérêt stratégique Egis</div>
+            <div class="slider-desc">Expansion géographique, image de marque et technologies clés</div>
+        </div>
+        <div class="slider-control">
+            <input type="range" min="0" max="100" class="pastel-range-input" [(ngModel)]="e" (ngModelChange)="onSliderChange()" />
+            <span class="slider-val-badge">{{ e }}%</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="risk-selector-container">
+    <button type="button" class="risk-btn btn-faible" [class.active]="level === 'FAIBLE'" (click)="selectLevel('FAIBLE')">
+        Faible
+    </button>
+    <button type="button" class="risk-btn btn-modere" [class.active]="level === 'MODERÉ'" (click)="selectLevel('MODERÉ')">
+        Modéré
+    </button>
+    <button type="button" class="risk-btn btn-eleve" [class.active]="level === 'ÉLEVÉ'" (click)="selectLevel('ÉLEVÉ')">
+        Élevé
+    </button>
+    <button type="button" class="risk-btn btn-redhibitoire" [class.active]="level === 'RÉDHIBITOIRE'" (click)="selectLevel('RÉDHIBITOIRE')">
+        Rédhibitoire
+    </button>
+</div>

@@ -1,0 +1,5 @@
+- [ ] Restaurer `analyst-lancer-analyse.component.ts` à un état compilant (fichier actuel corrompu)
+- [ ] Remettre le bloc TEST_MODE (setTimeout + apoFormData) en syntaxe TypeScript valide
+- [ ] Confirmer que `ng build` réussit
+- [ ] Implémenter l’affichage des 5 spinners dans l’étape 2, avec le contenu exact du template APO
+- [ ] Relancer `ng build` / `ng serve`

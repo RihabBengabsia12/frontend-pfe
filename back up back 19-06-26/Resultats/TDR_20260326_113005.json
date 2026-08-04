@@ -1,0 +1,230 @@
+{
+  "informations_generales": {
+    "pays": "République Tunisienne",
+    "intitule_offre": "Assistance technique pour la conception et la mise en oeuvre d'un dispositif de suivi des réformes vers un système alimentaire durable (SUIDAR) - appui au MARHP",
+    "reference": "Contrat SUIDAR - dans le cadre du programme PADR/PACE, géré par l'UGP3A",
+    "client": "Ministère de l'Economie et de la Planification (MEP), représenté par l'Unité de Gestion du Programme d'Appui à l'Accord d'Association (UGP3A)",
+    "resume_contexte_objectifs": [
+      "- La Tunisie fait face à des défis économiques structurels (inflation 9,3% en 2023, chômage des jeunes, sécheresse) tout en engageant des réformes agricoles soutenues par l'UE",
+      "- Le secteur agricole représente 10,2% du PIB et 16% de l'emploi actif tunisien",
+      "- Les programmes PADR et PACE (appuis budgétaires UE) soutiennent des réformes agricoles ciblées : SPS, traçabilité bio, investissement, ESS, ressources halieutiques, stratégies agricoles",
+      "- L'action SUIDAR vise à assurer le suivi et la documentation de l'avancement de ces réformes sur 4 ans, confiée à l'UGP3A via contrat de subvention",
+      "- La présente mission (6 mois) est un marché de services d'assistance technique pour concevoir un dispositif de suivi (base de données, tableau de bord, rapports trimestriels) au profit du MARHP/DGEDA",
+      "- Un second objectif est la production d'un bulletin bimensuel de veille informationnelle sur les politiques agricoles UE",
+      "- La supervision opérationnelle est assurée par la DGEDA du MARHP, sous coordination de l'UGP3A"
+    ],
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": "Union Européenne (UE) - via programmes PADR et PACE",
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "texte_brut": "Budget du marché non mentionné dans les TDR. Programmes connexes mentionnés à titre de contexte : PACE (90 M€, 2018-2023), jumelage institutionnel (1,5 M€, 2016-2019)"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": "Aucune mention de contrepartie locale dans les TDR"
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Aucune information sur la shortlist dans le document"
+    },
+    "analyse_concurrence": "Aucune information sur les concurrents potentiels ou le type de procédure (appel d'offres restreint ou ouvert) dans les TDR"
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": [
+      "- 3 experts principaux requis",
+      "- Expert principal 1 : Chef d'équipe / Expert senior suivi-évaluation - nombre de jours non précisé",
+      "- Expert principal 2 : Expert senior veille informationnelle - nombre de jours non précisé",
+      "- Expert principal 3 : Expert senior traitement de l'information et développement informatique - nombre de jours non précisé",
+      "- Aucun autre expert prévu (personnel de soutien inclus dans l'offre financière)"
+    ],
+    "budget_interne_estime": {
+      "montant": null,
+      "source": "Nombre de jours par expert non mentionné dans les TDR - estimation interne impossible sans données"
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "La date limite de soumission n'est pas mentionnée dans les TDR, donc impossible d'évaluer le délai de préparation"
+    },
+    "duree_mission_mois": 6,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Délai de 6 mois à compter du 15/04/2026 (date indicative). Livrables nombreux (rapports trimestriels, base de données, tableau de bord, guide, formation, bulletins bimensuels). Faisabilité dépend du nombre de jours alloués par expert, non précisé."
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "seuil_technique": null,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": [
+      "- Partenariat non explicitement exigé dans les TDR",
+      "- Collaboration opérationnelle requise avec MARHP/DGEDA et UGP3A",
+      "- Possibilité de mobiliser des experts locaux non mentionnée mais non exclue"
+    ],
+    "chef_de_file": "Le contractant (prestataire retenu) est responsable de l'exécution de l'ensemble du marché",
+    "roles_repartition": "Aucune exigence de consortium ou de partenariat mentionnée dans les TDR"
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": []
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "Non",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Faible",
+      "commentaire": "Tunisie : contexte économique sous pression (dette, inflation, sécheresse) mais stable institutionnellement. Mission à Tunis avec déplacements régionaux ponctuels. Aucune alerte sécuritaire mentionnée."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Budget du marché non communiqué dans les TDR. Risque de sous-budgétisation si le nombre de jours/expert est insuffisant au regard des livrables attendus (base de données, tableau de bord, formation, rapports trimestriels, bulletins bimensuels sur 6 mois)."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de pénalités de retard dans les TDR. Référence faite aux conditions particulières (articles 19.1 et 19.2) non jointes."
+    },
+    "exigences_inacceptables": {
+      "niveau": "Faible",
+      "commentaire": "Exigences techniques et administratives standards pour un marché UE. Interdiction d'emploi de fonctionnaires publics du pays partenaire sauf justification."
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune garantie financière mentionnée dans les TDR"
+    },
+    "taille_dispersion": {
+      "niveau": "Faible",
+      "commentaire": "Mission concentrée à Tunis avec déplacements régionaux ponctuels. Zone d'intervention couvre tout le territoire tunisien mais sans base décentralisée requise."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "commentaire": "Le contractant doit fournir bureaux, équipements, administration, secrétariat et interprétation pour les experts. Ces coûts logistiques sont à la charge du prestataire et peuvent être significatifs sur 6 mois."
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget du marché non communiqué - impossible d'évaluer le risque de budget insuffisant"
+    },
+    "participation_locale": {
+      "niveau": "Faible",
+      "commentaire": "Pas d'exigence explicite de participation locale. Les fonctionnaires locaux peuvent participer sous conditions strictes."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de régime fiscal applicable dans les TDR"
+    }
+  },
+  "decision": {
+    "recommandation": "GO prudent - Le projet est techniquement bien défini et réalisable, mais plusieurs informations critiques sont absentes (budget, nombre de jours/expert, critères de sélection) qui conditionnent la décision finale de soumission.",
+    "go_no_go": "GO prudent",
+    "points_critiques": [
+      "- Budget du marché non communiqué : impossible de vérifier la rentabilité et d'estimer les hommes-jours appropriés",
+      "- Nombre de jours par expert non précisé : risque de sous-estimation ou sur-estimation de l'offre financière",
+      "- Critères d'évaluation des offres absents des TDR : poids technique/financier inconnus",
+      "- Date limite de soumission non mentionnée : délai de préparation non évaluable",
+      "- Conditions particulières (articles 19.1, 19.2) non jointes : dispositions contractuelles importantes non accessibles",
+      "- Livrables nombreux et ambitieux pour une durée de 6 mois : base de données, tableau de bord, guide, formation, rapports trimestriels (x2), bulletins bimensuels (x3)",
+      "- Risque opérationnel interne : manque d'adhésion des départements MARHP et difficultés de coordination inter-ministérielle explicitement identifiés dans les TDR"
+    ]
+  },
+  "plan_action": [
+    "- Obtenir le dossier d'appel d'offres complet (DAO) incluant conditions particulières, cahier des charges financier et critères d'évaluation",
+    "- Confirmer la date limite de soumission auprès de l'UGP3A",
+    "- Identifier et mobiliser les 3 experts principaux répondant aux profils requis",
+    "- Estimer le nombre de jours par expert sur la base des livrables attendus et de la durée de 6 mois",
+    "- Évaluer la faisabilité financière une fois le budget indicatif obtenu",
+    "- Vérifier les exigences administratives UE (déclarations d'exclusivité, conflit d'intérêts, statut des experts)",
+    "- Analyser les conditions particulières du contrat dès réception",
+    "- Préparer une note méthodologique solide sur le dispositif de suivi et les outils informatiques proposés"
+  ],
+  "informations_manquantes": [
+    {
+      "champ": "Budget du marché",
+      "question": "Quel est le budget maximum ou indicatif alloué à ce marché de services ?",
+      "raison": "Sans budget, il est impossible d'évaluer la rentabilité de la soumission et de calibrer correctement l'offre financière",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Nombre de jours par expert",
+      "question": "Quel est le nombre de jours prévu pour chacun des 3 experts principaux sur les 6 mois de la mission ?",
+      "raison": "Le tableau des personnes-jours dans les TDR est vide. Sans cette donnée, l'offre financière ne peut être construite de manière fiable.",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Date limite de soumission",
+      "question": "Quelle est la date limite de remise des offres pour cet appel d'offres ?",
+      "raison": "Indispensable pour planifier la préparation de l'offre et mobiliser les experts dans les délais",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Critères d'évaluation des offres",
+      "question": "Quels sont les critères techniques et financiers d'évaluation des offres, leurs pondérations respectives et le seuil technique minimum requis ?",
+      "raison": "Ces informations sont absentes des TDR et sont nécessaires pour adapter la stratégie de l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Conditions particulières du contrat",
+      "question": "Les conditions particulières du contrat (notamment articles 19.1 et 19.2 sur les dates de commencement et d'exécution) sont-elles disponibles dans le dossier complet ?",
+      "raison": "Ces conditions régissent les obligations contractuelles clés et peuvent contenir des clauses à risque (pénalités, résiliation, etc.)",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Type de procédure et shortlist",
+      "question": "S'agit-il d'un appel d'offres restreint (avec shortlist préétablie) ou ouvert ? Le soumissionnaire est-il déjà shortlisté ?",
+      "raison": "Détermine l'admissibilité du soumissionnaire et la nature de la concurrence",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Exigences de caution ou garantie",
+      "question": "Une caution de soumission ou une garantie de bonne exécution est-elle requise dans le dossier complet ?",
+      "raison": "Non mentionné dans les TDR mais peut figurer dans les conditions particulières ou le règlement de l'appel d'offres",
+      "priorite": "moyenne"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Le budget du marché est cohérent avec les livrables attendus (base de données, tableau de bord, formation, rapports, bulletins) sur 6 mois avec 3 experts seniors",
+      "risque": "Si le budget est sous-dimensionné, la mission ne pourra pas être exécutée de manière rentable avec des profils seniors expérimentés"
+    },
+    {
+      "hypothese": "Les experts principaux identifiés sont disponibles à partir du 15/04/2026",
+      "risque": "Indisponibilité d'un expert clé au moment du démarrage, entraînant un retard ou une non-conformité de l'offre"
+    },
+    {
+      "hypothese": "La DGEDA et les départements du MARHP fourniront les documents et données nécessaires au suivi des réformes dans les délais requis",
+      "risque": "Les TDR identifient explicitement le manque d'adhésion et l'absence de données fiables comme risques majeurs pouvant compromettre les livrables"
+    },
+    {
+      "hypothese": "La durée de 6 mois est suffisante pour produire l'ensemble des livrables (au moins 2 rapports trimestriels, 3 bulletins bimensuels, base de données opérationnelle, tableau de bord, guide, formation)",
+      "risque": "Calendrier potentiellement très contraint si le démarrage est retardé ou si la phase de conception du dispositif de suivi prend plus de temps que prévu"
+    },
+    {
+      "hypothese": "Le soumissionnaire dispose d'une expérience préalable en Tunisie ou dans la région pour faciliter la coordination avec les institutions publiques locales",
+      "risque": "Sans réseau local établi, les délais de coordination avec MARHP, DGEDA et autres ministères peuvent allonger significativement les phases de collecte de données"
+    }
+  ]
+}

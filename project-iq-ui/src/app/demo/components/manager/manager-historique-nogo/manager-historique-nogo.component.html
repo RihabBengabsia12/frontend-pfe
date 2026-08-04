@@ -1,0 +1,126 @@
+<div class="card bg-white shadow-1 border-round-xl border-1 surface-border">
+    <p-toast></p-toast>
+    
+    <!-- Header du Dashboard -->
+    <div class="flex flex-column md:flex-row justify-content-between md:align-items-center mb-5 pb-4 border-bottom-1 surface-border gap-4">
+        <div>
+            <h2 class="m-0 text-900 font-bold flex align-items-center gap-3">
+                <i class="pi pi-shield text-3xl text-red-500 bg-red-50 p-3 border-circle"></i>
+                Historique des Alertes No-Go
+            </h2>
+            <p class="m-0 mt-2 text-600 text-lg">Supervisez l'issue des alertes rouges levées par les analystes.</p>
+        </div>
+        <div class="p-input-icon-left w-full md:w-20rem">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Rechercher (Projet, Client)..." class="w-full border-round-3xl" />
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex flex-column align-items-center justify-content-center py-8">
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
+        <p class="mt-4 text-600 font-semibold text-lg">Chargement de l'historique...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredDossiers.length === 0" class="flex flex-column align-items-center justify-content-center py-8 text-center bg-gray-50 border-round-xl border-1 surface-border">
+        <div class="w-8rem h-8rem bg-white text-300 flex align-items-center justify-content-center border-circle mb-4 shadow-1">
+            <i class="pi pi-verified text-6xl text-green-300"></i>
+        </div>
+        <h4 class="text-900 font-bold mb-2 text-xl">Aucune Alerte No-Go</h4>
+        <p class="text-600 m-0 max-w-20rem">Aucun projet n'a fait l'objet d'un rapport de No-Go par l'IA ou l'analyste.</p>
+    </div>
+
+    <!-- Grid View (Cartes) -->
+    <div *ngIf="!loading && filteredDossiers.length > 0" class="grid">
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let dossier of filteredDossiers">
+            <div class="pastel-card-red border-round-xl border-1 surface-border p-4 h-full flex flex-column justify-content-between relative overflow-hidden animate-fade-in shadow-1 hover:shadow-3 transition-all transition-duration-200 bg-white">
+                
+                <!-- Decoration Top -->
+                <div class="absolute top-0 left-0 w-full h-1" [ngClass]="'bg-' + getStatusBadge(dossier.status).color + '-500'"></div>
+
+                <div class="mb-4">
+                    <div class="flex justify-content-between align-items-start mb-3">
+                        <p-tag [severity]="getStatusBadge(dossier.status).severity" styleClass="border-round-2xl px-3 font-semibold shadow-1">
+                            <i class="pi mr-2" [ngClass]="getStatusBadge(dossier.status).icon"></i>
+                            {{ getStatusBadge(dossier.status).label }}
+                        </p-tag>
+                    </div>
+                    
+                    <h5 class="text-900 font-bold m-0 mb-2 line-height-3 text-overflow-ellipsis overflow-hidden white-space-nowrap" [title]="dossier.intituleOffre">
+                        {{ dossier.intituleOffre }}
+                    </h5>
+                    <div class="text-600 text-sm flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-building text-red-400"></i> <span class="font-medium">{{ dossier.client }}</span>
+                    </div>
+
+                    <div class="flex align-items-center justify-content-between bg-red-50 p-2 border-round-lg border-1 border-red-100">
+                        <span class="text-red-700 text-xs font-bold">SCORE P-WIN</span>
+                        <span class="font-bold text-red-600 text-lg">
+                            {{ dossier.pwinScore ? dossier.pwinScore + '%' : 'N/A' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-auto border-top-1 surface-border pt-3">
+                    <button pButton pRipple label="Rapport No-Go" icon="pi pi-file-pdf" 
+                            class="p-button-danger p-button-outlined w-full border-round-3xl font-bold transition-colors transition-duration-200"
+                            [disabled]="!dossier.nogoReportPath"
+                            (click)="downloadReport(dossier)">
+                    </button>
+                    
+                    <!-- Explication du statut pour le superviseur -->
+                    <div class="text-center mt-3">
+                        <small class="text-500" *ngIf="dossier.status === 'NO_GO_CONFIRMED'"><i class="pi pi-info-circle"></i> Le décideur doit encore trancher.</small>
+                        <small class="text-red-600 font-medium" *ngIf="dossier.status === 'ARCHIVED'"><i class="pi pi-ban"></i> Projet définitivement clos.</small>
+                        <small class="text-green-600 font-medium" *ngIf="dossier.status !== 'NO_GO_CONFIRMED' && dossier.status !== 'ARCHIVED'"><i class="pi pi-forward"></i> Un décideur a forcé la poursuite.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog de Consultation du Rapport No-Go -->
+<p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{width: '70vw', maxWidth: '1000px'}" 
+          [draggable]="false" [resizable]="false" styleClass="p-fluid border-round-2xl overflow-hidden">
+    
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-3">
+            <div class="w-3rem h-3rem bg-red-50 text-red-500 flex align-items-center justify-content-center border-circle border-1 border-red-100">
+                <i class="pi pi-search text-xl"></i>
+            </div>
+            <div>
+                <h3 class="m-0 font-bold text-900">Consultation du Rapport No-Go</h3>
+                <p class="m-0 text-500 text-sm" *ngIf="selectedDossier">Dossier : {{ selectedDossier.intituleOffre }}</p>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Contenu de la Consultation -->
+    <div class="p-4" style="background: #f8fafc; min-height: 400px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <div *ngIf="loadingPreview" class="flex flex-column align-items-center justify-content-center h-full py-6">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
+            <p class="mt-4 font-medium text-600">Chargement du visualiseur DOCX...</p>
+        </div>
+
+        <div *ngIf="!loadingPreview && selectedDossier" class="flex flex-column align-items-center justify-content-center h-full py-6 text-center animate-fade-in">
+            <div class="w-5rem h-5rem bg-white shadow-2 border-circle flex align-items-center justify-content-center mb-4">
+                <i class="pi pi-file-word text-4xl text-blue-500"></i>
+            </div>
+            <h4 class="text-800 font-bold mb-2">Rapport généré par l'analyste / IA</h4>
+            <p class="text-600 max-w-20rem mx-auto line-height-3 mb-4">
+                Dans la version complète, le contenu du fichier Word ({{ selectedDossier.nogoReportPath }}) s'affichera directement ici grâce à <b>docx-preview</b>.
+            </p>
+            
+            <button pButton icon="pi pi-download" label="Télécharger le fichier original" 
+                    class="p-button-outlined p-button-secondary border-round-3xl"></button>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Fermer la consultation" icon="pi pi-times" 
+                class="p-button-text p-button-secondary border-round-2xl font-bold" 
+                (click)="displayDialog = false"></button>
+    </ng-template>
+</p-dialog>

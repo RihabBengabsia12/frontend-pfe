@@ -1,0 +1,240 @@
+{
+  "infos": {
+    "pays": "Tunisie",
+    "intitule": "Assistance technique pour le suivi et la documentation de l'avancement des réformes vers un système alimentaire durable (SUIDAR) - soutenues par le PADR et le PACE",
+    "ref": null,
+    "client": "Ministère de l'Economie et de la Planification (MEP) - Unité de Gestion du Programme d'Appui à l'Accord d'Association (UGP3A)",
+    "resume": [
+      "- Mission d'assistance technique pour concevoir et déployer un dispositif de suivi des réformes agricoles soutenues par les appuis budgétaires PADR et PACE",
+      "- Bénéficiaire principal : MARHP représenté par la DGEDA, superviseur opérationnel de la mission",
+      "- Composante 1 : revue initiale, cartographie des réformes et des acteurs, rapports trimestriels de suivi",
+      "- Composante 2 : conception d'une base de données, d'un tableau de bord et formation des équipes DGEDA",
+      "- Composante 3 : production et diffusion d'un bulletin électronique de veille informationnelle bimensuel sur les politiques agricoles UE",
+      "- 3 experts principaux requis : chef d'équipe/suivi-évaluation, expert veille informationnelle, expert informatique/traitement de données",
+      "- Durée d'exécution : 6 mois à compter du 15 avril 2026 (date indicative)",
+      "- Lieu d'exécution : Tunis principalement, avec déplacements sur l'ensemble du territoire tunisien"
+    ],
+    "langue": "Français",
+    "dt_limite": null
+  },
+  "fin": {
+    "bailleurs": [
+      "Union Européenne (UE)"
+    ],
+    "budget": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "local": {
+      "oui_non": "NA",
+      "detail": null
+    }
+  },
+  "concurr": {
+    "shortlist": [],
+    "sl_eq": null,
+    "sl_justif": null,
+    "analyse": "Appel d'offres ouvert probable dans le cadre des procédures UE/UGP3A ; aucune information sur shortlist ou concurrents identifiés dans le document"
+  },
+  "hm": {
+    "hm_exiges": [
+      "- Expert principal 1 : Chef d'équipe / Expert senior suivi-évaluation - 10 ans exp. générale dont 5 en suivi-évaluation - Bac+5 agroéconomie ou domaine pertinent",
+      "- Expert principal 2 : Expert senior veille informationnelle - 10 ans exp. générale dont 5 en veille/documentation/analyse politiques - Bac+5 sciences info, communication, économie ou équivalent",
+      "- Expert principal 3 : Expert senior traitement information et développement informatique - 5 ans exp. informatique dont 2 en conception/déploiement outils de gestion de l'information - Bac+5 informatique ou équivalent"
+    ],
+    "budget_int": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "source": null
+  },
+  "delais": {
+    "prep_ok": null,
+    "prep_justif": "Date limite de soumission non précisée dans le document ; évaluation de la préparation impossible sans cette information",
+    "duree_mois": 6,
+    "capacite": null,
+    "cap_justif": "Mission de 6 mois nécessitant 3 experts principaux mobilisables simultanément à partir d'avril 2026 ; vérification de disponibilité requise"
+  },
+  "selection": {
+    "notation": null,
+    "not_autre": "Les indicateurs d'évaluation mentionnés sont uniquement quantitatifs : réalisation et approbation des produits/livrables ; aucune grille de notation de l'offre n'est détaillée dans les TDR",
+    "seuil_tech": null,
+    "pond_tech": null,
+    "pond_fin": null
+  },
+  "partenariat": {
+    "partenaires": [],
+    "chef_file": null,
+    "roles": null
+  },
+  "caution": {
+    "exigee": "NA",
+    "banq_locale": null,
+    "monnaie": null,
+    "montant": null,
+    "validite": null
+  },
+  "questions": {
+    "dt_limite": null,
+    "clarifs": [
+      "- Quel est le budget total alloué au marché et la ventilation indicative entre honoraires d'experts, frais de déplacement et frais de fonctionnement ?",
+      "- Quelle est la date limite de soumission des offres et le calendrier complet de la procédure de sélection (ouverture, évaluation, notification) ?",
+      "- Le nombre de jours-expert par profil (hommes/jours) est-il fixé par le pouvoir adjudicateur ou laissé à l'appréciation du soumissionnaire ?",
+      "- Quels sont les critères précis d'évaluation des offres techniques et financières (pondération, seuil minimum technique) ?",
+      "- La mission est-elle ouverte à un soumissionnaire unique ou un groupement/consortium est-il attendu ou autorisé ?",
+      "- Les déplacements hors Tunis (régions) sont-ils remboursés sur justificatifs ou inclus dans un forfait ; quelle est la fréquence estimée ?",
+      "- Existe-t-il des obligations de transfert de compétences ou de rapports spécifiques liés à la transition vers le MARHP à la fin des 6 mois ?",
+      "- Les experts peuvent-ils être des non-résidents tunisiens ; des exigences de résidence ou de présence permanente sur site sont-elles imposées ?"
+    ]
+  },
+  "visite": {
+    "v_obl": "NA",
+    "v_date": null,
+    "c_obl": "NA",
+    "c_date": null
+  },
+  "risques": {
+    "securite": {
+      "niveau": "Faible",
+      "note": "La Tunisie présente un contexte de stabilité relative malgré des tensions socioéconomiques (chômage, inflation à 9,3 % en 2023). La mission se déroule principalement à Tunis avec des déplacements intérieurs. Aucune mention de zone d'insécurité dans les TDR. Risque sécuritaire résiduel à surveiller mais non bloquant."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "note": "Le budget du marché n'est pas communiqué dans les TDR, ce qui empêche toute validation de la rentabilité. Le contexte économique tunisien (dette, inflation, pression sur les finances publiques) peut impacter les délais de paiement. Les programmes PADR et PACE étant financés par l'UE, les procédures de paiement sont encadrées mais potentiellement longues."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "note": "Aucune clause de pénalité n'est mentionnée dans les TDR. Les conditions particulières (articles 19.1 et 19.2) sont référencées mais non jointes. Risque à évaluer à la lecture du contrat complet."
+    },
+    "tdr_inaccp": {
+      "niveau": "Faible",
+      "note": "Les TDR sont structurés et détaillés. Les produits attendus sont clairement définis (rapports trimestriels, base de données, tableau de bord, guide, formation, bulletin bimensuel). Les composantes sont cohérentes avec les objectifs. Pas d'exigences contradictoires identifiées."
+    },
+    "garanties": {
+      "niveau": "NA",
+      "note": "Aucune mention de garantie de bonne exécution ou de caution bancaire dans les TDR. À vérifier dans les conditions particulières du contrat."
+    },
+    "taille": {
+      "niveau": "Faible",
+      "note": "Mission de taille modeste (6 mois, 3 experts principaux) accessible à des cabinets de conseil de taille petite à moyenne. Le périmètre est ciblé et bien délimité. Pas de sous-traitance complexe requise."
+    },
+    "frais": {
+      "niveau": "Moyen",
+      "note": "Le contractant doit fournir bureaux, équipements et soutien administratif à ses experts. Les frais de déplacement régionaux sont à prévoir. Sans budget communiqué, le risque de sous-estimation des frais généraux est réel. Les coûts de personnel de soutien et d'appui technique sont réputés inclus dans l'offre financière."
+    },
+    "budget_hm": {
+      "niveau": "Eleve",
+      "note": "Le nombre de jours-expert (hommes/jours) par profil n'est pas indiqué dans les TDR (tableau vide). Cette absence majeure empêche toute construction fiable du budget. Le soumissionnaire doit dimensionner lui-même l'effort, avec un risque fort de sous-offre ou de sur-offre par rapport à l'enveloppe attendue par le client."
+    },
+    "local_exc": {
+      "niveau": "Faible",
+      "note": "Aucune exigence explicite d'expert local dans les TDR. Les fonctionnaires publics sont restreints sauf justification. La maîtrise du français est obligatoire pour tous les experts ; l'anglais est un atout. Une expérience en Tunisie est mentionnée comme atout uniquement pour l'EP1."
+    },
+    "fiscalite": {
+      "niveau": "Moyen",
+      "note": "La fiscalité applicable aux marchés de services financés par l'UE en Tunisie (TVA, impôts sur revenus des experts étrangers, retenues à la source) n'est pas précisée dans les TDR. Des exonérations fiscales existent généralement dans le cadre des accords UE-Tunisie mais doivent être confirmées pour ce marché spécifique."
+    }
+  },
+  "decision": {
+    "go_no_go": "GO_PRUDENT",
+    "argument": [
+      "- Mission bien définie avec des livrables clairs et un périmètre maîtrisable sur 6 mois",
+      "- Financement UE via UGP3A : cadre procédural robuste et client institutionnel fiable",
+      "- Profils d'experts requis (suivi-évaluation, veille, informatique) sont disponibles sur le marché et mobilisables",
+      "- Secteur agricole tunisien soutenu activement par l'UE : pipeline de missions potentielles et visibilité stratégique",
+      "- Absence de budget communiqué impose une construction d'offre financière à risque élevé de hors-cible",
+      "- Nombre de jours-expert non précisé : nécessite clarification urgente avant soumission",
+      "- Vérifier la disponibilité simultanée des 3 profils et l'absence de conflit d'intérêts avant engagement"
+    ],
+    "critiques": [
+      "Obtenir le budget indicatif ou l'enveloppe financière du marché avant de finaliser l'offre",
+      "Clarifier le nombre de jours-expert attendu par profil auprès de l'UGP3A",
+      "Confirmer la date limite de soumission et le règlement de la consultation"
+    ]
+  },
+  "workflow": {
+    "arrivee_bo": null,
+    "transm_dda": null,
+    "dir_pilote": null,
+    "resp_offre": null
+  },
+  "plan_action": [
+    "- Envoyer les questions de clarification à l'UGP3A (voir section clarifs) dans les meilleurs délais",
+    "- Identifier et pré-qualifier les 3 experts principaux (EP1, EP2, EP3) et vérifier leur disponibilité sur avril-octobre 2026",
+    "- Collecter les CV et déclarations d'exclusivité/disponibilité signées des experts retenus",
+    "- Construire le budget détaillé dès réception de l'enveloppe financière ou du règlement de consultation",
+    "- Rédiger la note méthodologique (approche, plan de travail, répartition des tâches par composante)",
+    "- Valider la structure juridique de soumission (soumissionnaire unique ou consortium)",
+    "- Finaliser et soumettre l'offre avant la date limite"
+  ],
+  "manquants": [
+    {
+      "champ": "dt_limite",
+      "question": "Quelle est la date limite de soumission des offres ?",
+      "raison": "Non mentionnée dans les TDR ; indispensable pour planifier la préparation de l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "fin.budget.montant",
+      "question": "Quel est le budget total alloué à ce marché de services ?",
+      "raison": "Aucun montant n'est indiqué dans les TDR ; sans cette information la construction de l'offre financière est aléatoire",
+      "priorite": "haute"
+    },
+    {
+      "champ": "hm.hm_exiges (jours-expert)",
+      "question": "Quel est le nombre de jours-expert prévu par profil (EP1, EP2, EP3) ?",
+      "raison": "Le tableau des personnes/jours est vide dans les TDR ; impossible de chiffrer l'offre sans cette donnée",
+      "priorite": "haute"
+    },
+    {
+      "champ": "selection.notation / pond_tech / pond_fin / seuil_tech",
+      "question": "Quels sont les critères d'évaluation des offres, la pondération technique/financière et le seuil minimum technique ?",
+      "raison": "Aucune grille d'évaluation des offres n'est fournie dans les TDR",
+      "priorite": "haute"
+    },
+    {
+      "champ": "ref",
+      "question": "Quelle est la référence officielle de l'appel d'offres (numéro de marché, référence SUIDAR) ?",
+      "raison": "Non précisée dans le document transmis",
+      "priorite": "haute"
+    },
+    {
+      "champ": "caution.exigee",
+      "question": "Une garantie de bonne exécution ou une caution bancaire est-elle requise pour ce marché ?",
+      "raison": "Non mentionné dans les TDR ; à vérifier dans les conditions particulières",
+      "priorite": "haute"
+    },
+    {
+      "champ": "partenariat.chef_file",
+      "question": "La soumission en groupement/consortium est-elle autorisée ou requise, et si oui quelles sont les règles applicables ?",
+      "raison": "Aucune mention dans les TDR concernant les modalités de groupement",
+      "priorite": "haute"
+    },
+    {
+      "champ": "visite.v_obl",
+      "question": "Une visite de site ou une réunion d'information préalable est-elle organisée et obligatoire ?",
+      "raison": "Non mentionnée dans les TDR",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "h": "Le budget du marché est cohérent avec les standards UE pour ce type de mission d'AT de 6 mois avec 3 experts principaux en Tunisie",
+      "risque": "Si l'enveloppe est sous-dimensionnée, l'offre sera difficile à équilibrer sans comprimer les marges ou réduire les jours-expert"
+    },
+    {
+      "h": "Les jours-expert seront précisés dans le dossier complet de l'appel d'offres (règlement de consultation) non joint aux TDR",
+      "risque": "Si le soumissionnaire doit proposer librement le volume d'expertise, un mauvais calibrage peut disqualifier l'offre"
+    },
+    {
+      "h": "La mission ne requiert pas de présence physique permanente des experts ; des missions ponctuelles depuis l'étranger pourraient être acceptées",
+      "risque": "Si une présence continue à Tunis est exigée, les coûts de déplacement et d'hébergement impacteront significativement le budget"
+    },
+    {
+      "h": "Les exonérations fiscales habituelles dans le cadre des marchés UE-Tunisie s'appliquent à ce contrat",
+      "risque": "Sans confirmation explicite, une double imposition ou des retenues à la source pourraient éroder la rentabilité"
+    }
+  ]
+}

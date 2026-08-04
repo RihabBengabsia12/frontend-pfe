@@ -1,0 +1,65 @@
+{
+  "/api/auth": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/dossiers": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/ia-config": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/ia-config": "/config"
+    },
+    "logLevel": "debug"
+  },
+  "/api/anonymization": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/analyses": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/scoring": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/scoring": "/analyste/api/scoring"
+    },
+    "logLevel": "debug"
+  },
+  "/api/config/scoring": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/config/scoring": "/analyste/api/config/scoring"
+    },
+    "logLevel": "debug"
+  },
+  "/api/matching": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

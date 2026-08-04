@@ -1,0 +1,248 @@
+{
+  "type_document": "TDR",
+  "est_template": false,
+  "reference": null,
+  "titre_document": "TERMES DE RÉFÉRENCE",
+  "acronyme_mission": "SUIDAR",
+  "langue": "fr",
+  "date_publication": null,
+  "date_limite_soumission": null,
+  "heure_limite_soumission": null,
+  "date_reunion_preparatoire": null,
+  "nb_pages": null,
+  "nb_lots": null,
+  "pays": "Tunisie",
+  "region": "Afrique du Nord",
+  "ville": "Tunis",
+  "zone_intervention": [
+    "Tunisie"
+  ],
+  "pouvoir_adjudicateur": {
+    "organisation": "Ministère de l'Economie et de la Planification",
+    "acronyme": "MEP",
+    "structure": "Unité de Gestion du Programme d'Appui à l'Accord d'Association",
+    "acronyme_structure": "UGP3A",
+    "adresse": null,
+    "telephone": null,
+    "email": null,
+    "site_web": null,
+    "contact_nom": null
+  },
+  "bailleur": "UE",
+  "type_financement": "Subvention",
+  "programme_cadre": "P3A/PADR/PACE/ENPARD",
+  "contrat_cadre": null,
+  "numero_pret_credit": null,
+  "beneficiaire": {
+    "organisation": "Ministère de l'Agriculture, des Ressources Hydrauliques et de la Pêche Maritime",
+    "acronyme": "MARHP",
+    "direction": "Direction Générale des Etudes et du Développement Agricole",
+    "acronyme_direction": "DGEDA",
+    "pays": "Tunisie"
+  },
+  "programmes_connexes": [
+    "Projet de jumelage",
+    "Programme d'appui à la compétitivité et aux exportations (PACE)"
+  ],
+  "secteurs": [
+    "Agriculture"
+  ],
+  "mots_cles": [
+    "Système alimentaire durable",
+    "Réformes",
+    "Suivi-évaluation"
+  ],
+  "contexte": [
+    "La Tunisie a connu une reprise progressive en 2021 et 2022 après une forte récession en 2020",
+    "Le gouvernement tunisien mise sur des mesures ciblées pour renforcer la relance économique"
+  ],
+  "acronymes": {
+    "TDR": "Termes de Reference",
+    "AO": "Appel d'Offres",
+    "CCAP": "Cahier Clauses Admin Particulieres",
+    "IS": "Instructions Soumissionnaires",
+    "H/J": "Hommes-Jours",
+    "HT": "Hors Taxes"
+  },
+  "objectif_general": "Contribuer à la mise en œuvre des réformes vers un système alimentaire durable",
+  "objectifs_specifiques": [
+    "Fournir une assistance technique au MARHP pour concevoir et implémenter un dispositif de suivi de la mise en œuvre des réformes",
+    "Fournir régulièrement des informations sur les politiques, les stratégies, la législation, la réglementation et les normes relatives à l'agriculture de l'Union européenne et de ses États membres"
+  ],
+  "duree_mois": 6,
+  "duree_jours": 180,
+  "date_debut_prevue": "15/04/2026",
+  "date_fin_prevue": null,
+  "delai_execution_jours": 1460,
+  "nb_experts": 3,
+  "total_hommes_jours": null,
+  "experts": [
+    {
+      "code": "EP1",
+      "role": "Chef d'équipe et Expert senior en suivi-évaluation",
+      "qualifications": [
+        "Diplôme universitaire supérieur en agroéconomie ou tout autre domaine pertinent"
+      ],
+      "experience_generale_ans": 10,
+      "experience_specifique_ans": 5,
+      "domaine_specifique": "Suivi-évaluation des programmes et des projets",
+      "hommes_jours": null,
+      "langue": "fr",
+      "atouts": [
+        "Maîtrise des outils et pratiques de gestion de projet",
+        "Connaissance des pratiques des bailleurs de fonds, notamment l'UE"
+      ]
+    },
+    {
+      "code": "EP2",
+      "role": "Expert senior en Veille informationnelle",
+      "qualifications": [
+        "Diplôme universitaire (Bac+5 minimum) dans un domaine pertinent : sciences de l'information, communication, documentation, science politique, économie ou équivalent"
+      ],
+      "experience_generale_ans": 10,
+      "experience_specifique_ans": 5,
+      "domaine_specifique": "Veille informationnelle",
+      "hommes_jours": null,
+      "langue": "fr",
+      "atouts": [
+        "Capacité démontrée à identifier, trier, analyser et synthétiser des informations issues de sources fiables et variées"
+      ]
+    },
+    {
+      "code": "EP3",
+      "role": "Expert senior en traitement de l'information et développement informatique",
+      "qualifications": [
+        "Diplôme universitaire supérieur, sanctionnant un cycle complet de 5 années d'études universitaires, en informatique, en traitement des données ou domaine équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": 2,
+      "domaine_specifique": "Traitement de l'information et développement informatique",
+      "hommes_jours": null,
+      "langue": "fr",
+      "atouts": [
+        "Expérience avérée dans la conception de base de données, tableau de bords, traitement des données et/visualisations personnalisées pour un appui à la prise de décision"
+      ]
+    }
+  ],
+  "lots": [],
+  "composantes": [
+    {
+      "numero": 1,
+      "titre": "Revue initiale, cartographie des réformes et acteurs impliqués",
+      "activites": [
+        "Identifier et décrire les reformes soutenues par les appuis budgétaires relevant des programmes PADR et PACE",
+        "Établir un inventaire des actions et des acteurs qui contribuent à la réalisation de ces réformes"
+      ]
+    },
+    {
+      "numero": 2,
+      "titre": "Conception du dispositif de suivi",
+      "activites": [
+        "Définir le dispositif de suivi et les outils nécessaires à son déploiement",
+        "Concevoir et développer une base de données pour stocker, gérer et analyser les informations collectées"
+      ]
+    },
+    {
+      "numero": 3,
+      "titre": "Veille informationnelle",
+      "activites": [
+        "Identifier les sources d'information qui doivent être pertinentes, fiables et variées pour garantir la qualité du contenu du bulletin",
+        "Concevoir la trame du bulletin électronique qui sert à diffuser les informations recueillies et traitées"
+      ]
+    }
+  ],
+  "produits_attendus": [
+    "Un rapport de suivi de l'exécution des actions de réforme élaboré et actualisé tous les trois mois",
+    "Une base de données, permettant de stocker et gérer l'ensemble des informations collectées",
+    "Un tableau de bord, présentant les informations de manière synthétique sous forme d'indicateurs pour suivre et analyser la progression des réformes"
+  ],
+  "livrables": [
+    "Un guide détaillant le dispositif et sa mise en œuvre élaboré",
+    "Un bulletin électronique de veille informationnelle bimensuelle"
+  ],
+  "rapports": [
+    {
+      "type": "Rapport initial",
+      "delai": "Deux semaines après le début de l'exécution du marché",
+      "pages_max": 12,
+      "contenu": "Les premières constatations, l'avancement de la collecte des données, ainsi que les difficultés rencontrées et/ou prévues",
+      "format": "Copie électronique et 2 exemplaires originaux"
+    },
+    {
+      "type": "Rapport intérimaire",
+      "delai": "Une semaine après la fin de chaque période de trois mois",
+      "pages_max": 20,
+      "contenu": "Les constatations faites durant la période, l'état d'avancement de la collecte des données, les livrables réalisés ou en cours de réalisation, ainsi que les difficultés rencontrées ou anticipées",
+      "format": "Copie électronique et 2 exemplaires originaux"
+    },
+    {
+      "type": "Rapport final",
+      "delai": "Un mois avant la fin de la période de mise en œuvre des tâches",
+      "pages_max": 30,
+      "contenu": "Une description suffisamment détaillée des différentes options, de manière à faciliter la prise d'une décision en connaissance de cause sur les mesures à adopter pour améliorer l'efficacité du dispositif de suivi et accélérer la mise en œuvre des réformes PADR et PACE",
+      "format": "Copie électronique et 2 exemplaires originaux"
+    }
+  ],
+  "budget_total": null,
+  "devise": null,
+  "avance_pct": null,
+  "cautionnement_pct": null,
+  "garantie_soumission_pct": null,
+  "garantie_soumission_montant": null,
+  "penalites_retard": null,
+  "modalites_paiement": null,
+  "delai_paiement_jours": null,
+  "incoterms": null,
+  "prix_ferme": null,
+  "validite_offre_jours": null,
+  "type_evaluation": null,
+  "note_eliminatoire": null,
+  "poids_technique_pct": null,
+  "poids_financier_pct": null,
+  "criteres_evaluation": [],
+  "qualification_requise": [],
+  "variantes_autorisees": null,
+  "groupements_autorises": null,
+  "nb_membres_groupement_max": null,
+  "documents_requis": [],
+  "logistique": {
+    "lieu_principal": "Tunis",
+    "destination_finale": null,
+    "deplacements": null,
+    "bureaux": null,
+    "equipement": null,
+    "sav_requis": null,
+    "formation_requise": null
+  },
+  "gestion_projet": {
+    "organe_responsable": "Ministère de l'Economie et de la Planification",
+    "supervision": null,
+    "comite_suivi": null,
+    "reunions": null,
+    "comptes_rendus": null
+  },
+  "risques": [
+    {
+      "risque": "Manque d'adhésion, de participation et d'implication des départements concernés par les réformes",
+      "mesure": "Proposer des outils et méthodes pour atténuer les risques"
+    },
+    {
+      "risque": "Difficultés de coopération et de coordination entre les départements du MARHP et avec les départements d'autres ministères concernés par les réformes",
+      "mesure": "Proposer des outils et méthodes pour atténuer les risques"
+    },
+    {
+      "risque": "Absence de données fiables et nécessaires pour assurer le suivi des actions de réformes",
+      "mesure": "Proposer des outils et méthodes pour atténuer les risques"
+    }
+  ],
+  "hypotheses": [
+    "L'implication des responsables et leur soutien à l'approche sous-jacente au dispositif de suivi",
+    "La disponibilité des documents des projets/programmes et des différents livrables associés",
+    "L'adoption d'un cadre de suivi flexible et adaptable, permettant une révision constante en fonction des besoins et des évolutions des réformes"
+  ],
+  "confiance_extraction": "faible",
+  "taux_remplissage_pct": 48,
+  "champs_non_trouves": [],
+  "incoherences": [],
+  "notes_extracteur": null
+}

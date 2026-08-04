@@ -1,0 +1,269 @@
+{
+  "informations_generales": {
+    "pays": "Madagascar",
+    "intitule_offre": "Conception et mise en place d'une plateforme numérique sur la RN12A et la RN44",
+    "reference": "PACT - P166526",
+    "client": "Ministère des Travaux Publics (MTP) / Direction Générale des Travaux Publics - Projet d'Appui à la Connectivité des Transports (PACT)",
+    "resume_contexte_objectifs": [
+      "- Le Gouvernement de Madagascar a obtenu 140 millions USD auprès de la Banque Mondiale (IDA) pour financer le projet PACT (P166526)",
+      "- Le projet vise à renforcer la connectivité routière dans les régions d'Alaotra Mangoro, Atsimo Atsinanana et Anosy",
+      "- La mission s'inscrit dans la Composante 3 du PACT : promotion de solutions numériques dans des communautés rurales ciblées",
+      "- L'objectif est de concevoir et déployer une plateforme numérique (web + mobile) proposant des services agricoles, financiers, logistiques et de marché",
+      "- Des kiosques physiques connectés seront déployés pour pallier le faible accès individuel à internet",
+      "- Les populations cibles sont des agriculteurs, éleveurs, commerçants et chefs de famille à faibles revenus, peu acculturés au numérique",
+      "- La plateforme vise à atteindre 7 500 bénéficiaires en 2028 et à former 4 000 personnes au numérique",
+      "- La mission dure 12 mois et comprend 5 phases : cadrage, design, développement V1, développement V2, maintenance et transfert de compétences"
+    ],
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": [
+      "- Association Internationale de Développement (IDA) / Banque Mondiale"
+    ],
+    "budget_global": {
+      "montant": 140000000,
+      "devise": "USD",
+      "texte_brut": "140 millions de US$ pour le projet PACT global - budget spécifique à cette mission non mentionné"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Aucune information sur une shortlist dans le document"
+    },
+    "analyse_concurrence": null
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": [
+      "- Directeur de projet / Product Owner : profil senior, 5 à 10 ans d'expérience",
+      "- Chef de projet fonctionnel : 3 à 5 ans d'expérience",
+      "- Business Analyst (consultant fonctionnel) : minimum 5 ans d'expérience",
+      "- UX/UI Designer : 3 à 5 ans d'expérience",
+      "- Lead Developer : 5 ans minimum",
+      "- Développeur d'application mobile : 3 à 5 ans d'expérience",
+      "- Le volume total en hommes-mois n'est pas chiffré dans le document"
+    ],
+    "budget_interne_estime": {
+      "montant": null,
+      "source": "Non mentionné dans le document"
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "La date limite de soumission n'est pas mentionnée dans le document, impossible d'évaluer le délai de préparation"
+    },
+    "duree_mission_mois": 12,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Dépend des ressources mobilisées par le soumissionnaire - une version bêta (MVP) est attendue à 6 mois après signature"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": [
+      "- Notation technique uniquement décrite dans le document",
+      "- Note technique minimale de qualification : 70/100",
+      "- Expérience du candidat : 10 points",
+      "- Adéquation aux spécifications techniques et fonctionnelles : 25 points",
+      "- Compréhension du besoin et gestion de projet : 40 points",
+      "- Personnel clé : 25 points"
+    ],
+    "seuil_technique": "70 / 100",
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": [
+      "- Opérateurs télécoms : Airtel, Telma, Orange (pour USSD, Mobile Money, couverture kiosques)",
+      "- Institutions de microfinance : CECAM, OTIV",
+      "- Direction de la météorologie",
+      "- Ministère de l'Agriculture et de l'Elevage / DRAE des 3 régions",
+      "- PAPRIZ et FOFIFA (recherche agricole)",
+      "- Observatoire du riz / DRICC de chaque région",
+      "- Agence des Transports Terrestres",
+      "- Association des Transporteurs et Camionneurs de Madagascar",
+      "- Economic Development Board of Madagascar (EDBM)",
+      "- Fonds régionaux de développement agricole",
+      "- Centres de service aux agriculteurs",
+      "- ONG d'appui agricole",
+      "- Acteurs logistiques : PAOMA, Colis Xpress"
+    ],
+    "chef_de_file": "Prestataire sélectionné (titulaire du marché)",
+    "roles_repartition": [
+      "- Le prestataire est responsable de la conception, du développement, de la maintenance et du transfert de compétences",
+      "- Le MTP est maître d'ouvrage pour une période de 5 ans (exploitation/maintenance système) et de 2 ans (selon section gouvernance)",
+      "- Un cabinet externe assure l'AMOA (Assistance à Maîtrise d'Ouvrage)",
+      "- Le MNDPT et l'UGD sont référents techniques en interopérabilité",
+      "- Les partenaires publics et privés fournissent les données et services intégrés à la plateforme"
+    ]
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": [
+      "- Aucune procédure de questions/réponses formelle mentionnée dans le document"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Moyen",
+      "commentaire": "Madagascar présente des défis d'enclavement, d'infrastructure et de connectivité dans les régions cibles (Alaotra Mangoro, Atsimo Atsinanana, Anosy) - zones rurales reculées avec faible couverture réseau"
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Le budget spécifique à cette mission n'est pas mentionné dans le TDR - risque de sous-estimation de l'effort financier nécessaire pour une mission aussi complexe sur 12 mois"
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans le document"
+    },
+    "exigences_inacceptables": {
+      "niveau": "Moyen",
+      "commentaire": "Exigences très élevées : conformité X-Road, WCAG, DICT, architecture micro-services, interopérabilité multi-acteurs, développement web + mobile + kiosques, en 12 mois"
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune garantie financière de soumission mentionnée"
+    },
+    "taille_dispersion": {
+      "niveau": "Eleve",
+      "commentaire": "Mission couvrant 3 régions géographiquement dispersées à Madagascar, nécessitant des déplacements terrain et des kiosques physiques dans des zones enclavées"
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "commentaire": "Déploiement de kiosques physiques, infrastructure cloud, hébergement sécurisé, formations multi-acteurs, partenariats nombreux à mobiliser"
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Le budget alloué à cette mission spécifique n'est pas indiqué dans le TDR"
+    },
+    "participation_locale": {
+      "niveau": "Eleve",
+      "commentaire": "Une connaissance du contexte institutionnel à Madagascar est explicitement valorisée - expérience locale fortement recommandée pour plusieurs profils clés"
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de régime fiscal ou d'exonération dans le document"
+    }
+  },
+  "decision": {
+    "recommandation": "GO_PRUDENT",
+    "go_no_go": "GO_PRUDENT",
+    "points_critiques": [
+      "POSITIFS :",
+      "- Financement solide : projet IDA/Banque Mondiale avec 140M USD confirmés",
+      "- TDR très détaillé avec spécifications fonctionnelles, techniques et organisationnelles complètes",
+      "- Cadre institutionnel clair : MTP en MOA, AMOA externe, gouvernance COPIL/COPROJ/COTECH définie",
+      "- Durée mission de 12 mois avec jalons de paiement échelonnés (10 jalons) réduisant le risque financier",
+      "- Critères de notation transparents et pondérés (100 points, seuil à 70)",
+      "- Forte demande avérée sur le terrain selon enquête préliminaire",
+      "- Soutien de l'UGD et du MNDPT pour l'interopérabilité",
+      "POINTS CRITIQUES / RESERVES :",
+      "- Budget de la mission non communiqué : impossible d'évaluer la rentabilité et le dimensionnement de l'offre",
+      "- Date limite de soumission absente du document transmis",
+      "- Exigences techniques très élevées : X-Road, WCAG, DICT, micro-services, SSO, cloud, réplication kiosques - nécessite une équipe senior et expérimentée",
+      "- Nombre de partenaires à mobiliser très important (15+ entités publiques et privées) avec risques de délais de coordination",
+      "- Expérience locale à Madagascar fortement valorisée - désavantage pour les candidats sans présence locale",
+      "- Contradiction dans le document : durée de maintenance MOA indiquée à 5 ans (section parties prenantes) et 2 ans (section gouvernance)",
+      "- Volume hommes-mois non précisé, rendant l'estimation de charge difficile",
+      "- Livraison MVP attendue à 6 mois : délai ambitieux compte tenu de la complexité technique"
+    ]
+  },
+  "plan_action": [
+    "- Confirmer le budget alloué à cette mission spécifique auprès du PACT/MTP",
+    "- Confirmer la date limite de soumission",
+    "- Identifier un partenaire local à Madagascar pour renforcer la crédibilité de l'offre",
+    "- Constituer une équipe complète avec tous les profils clés mentionnés (PO, CPF, BA, UX/UI, Lead Dev, Dev mobile)",
+    "- Préparer des références de plateformes avec API gouvernementales et/ou X-Road",
+    "- Préparer des références de plateformes avec services financiers intégrés",
+    "- Préparer une analyse de la compréhension du contexte local (30 points sur 100 pour ce critère)",
+    "- Proposer une méthodologie d'animation des parties prenantes (critère noté)",
+    "- Prévoir une architecture technique conforme X-Road avec démonstration de capacité",
+    "- Chiffrer l'hébergement cloud et les coûts de déploiement des kiosques",
+    "- Lever la contradiction sur la durée de maintenance (2 ans vs 5 ans) via une question officielle"
+  ],
+  "informations_manquantes": [
+    {
+      "champ": "Budget de la mission",
+      "question": "Quel est le budget alloué spécifiquement à cette mission de conception et déploiement de la plateforme numérique (hors budget global PACT de 140M USD) ?",
+      "raison": "Sans enveloppe budgétaire, il est impossible de dimensionner l'offre, d'évaluer la rentabilité et de calibrer les ressources humaines et techniques",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Date limite de soumission",
+      "question": "Quelle est la date limite de remise des offres et la date prévue de démarrage du contrat ?",
+      "raison": "Information absente du document - indispensable pour planifier la préparation de l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Durée de maintenance MOA - contradiction",
+      "question": "La durée du contrat de maintenance est-elle de 2 ans (section gouvernance) ou de 5 ans (section parties prenantes - MTP comme MOA) ? Quelle est la durée contractuelle exacte ?",
+      "raison": "Contradiction interne dans le TDR qui impacte directement le chiffrage de la mission et la charge de maintenance",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Volume hommes-mois",
+      "question": "Le tableau d'estimation de la charge de travail mentionné dans le TDR (section 'Estimation de la charge de travail du Titulaire') semble incomplet - quelle est la charge totale estimée en hommes-mois par profil ?",
+      "raison": "Sans ce tableau, l'évaluation des ressources nécessaires et le chiffrage de l'offre financière restent partiels",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Mode de sélection et poids technique/financier",
+      "question": "Quel est le mode de sélection retenu (qualité-coût, moins-disant, best-value) et quelle est la pondération entre la note technique et la note financière ?",
+      "raison": "Le TDR décrit uniquement la grille technique (100 points) sans préciser le poids relatif de l'offre financière dans la décision finale",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Nombre et localisation des kiosques",
+      "question": "Combien de kiosques physiques sont prévus, dans quelles localités, et qui prend en charge leur infrastructure physique (matériel, installation, connectivité) ?",
+      "raison": "Le TDR mentionne les kiosques comme composante centrale mais ne précise pas leur nombre exact ni la répartition des responsabilités pour leur déploiement physique",
+      "priorite": "haute"
+    },
+    {
+      "champ": "Langue de la plateforme",
+      "question": "La plateforme doit-elle être disponible uniquement en français, ou également en malagasy et/ou en langues locales des régions cibles ? Les tutoriels vidéo sont mentionnés en langue locale - quelle est la langue principale de l'interface ?",
+      "raison": "Impact direct sur les coûts de développement (interfaces multilingues) et sur la stratégie de contenu",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Le budget de la mission est compris entre 500 000 USD et 1 500 000 USD sur 12 mois, compte tenu de la complexité technique et de l'envergure de l'équipe requise",
+      "risque": "Si le budget réel est inférieur, le dimensionnement de l'équipe et la qualité des livrables seraient compromis"
+    },
+    {
+      "hypothese": "Une expérience à Madagascar ou en Afrique subsaharienne sera un avantage concurrentiel déterminant pour obtenir les 30 points liés à la compréhension du contexte local",
+      "risque": "Sans partenaire local, la note sur la compréhension du besoin (30/100) pourrait être insuffisante pour atteindre le seuil de 70"
+    },
+    {
+      "hypothese": "La durée contractuelle effective est de 12 mois pour le développement, avec une période de maintenance séparée à négocier",
+      "risque": "La contradiction 2 ans / 5 ans dans le TDR pourrait entraîner un désaccord contractuel en cours de mission"
+    },
+    {
+      "hypothese": "Le prestataire devra mobiliser ou constituer des partenariats avec les opérateurs télécom (Airtel, Telma, Orange) de manière autonome, sans accord-cadre préétabli par le PACT",
+      "risque": "Des délais de négociation avec les opérateurs pourraient retarder le développement des fonctionnalités Mobile Money et USSD"
+    }
+  ]
+}

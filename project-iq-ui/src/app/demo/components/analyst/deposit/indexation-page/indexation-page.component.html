@@ -1,0 +1,114 @@
+<div *ngIf="isLoading" class="loading-state">
+    <i class="pi pi-spin pi-cog loading-icon"></i>
+    <p>Génération du document APO et indexation...</p>
+</div>
+
+<div class="indexation-page" *ngIf="!isLoading">
+
+    <!-- Stepper -->
+    <div class="stepper-wrapper p-4 pb-0">
+        <app-pipeline-stepper mode="phase1" [activeStep]="4" [dossierId]="dossierId" context="deposit">
+        </app-pipeline-stepper>
+    </div>
+
+    <main class="content-area p-4">
+        <!-- Success Header -->
+        <div class="success-header">
+            <div class="success-icon-wrapper">
+                <i class="pi pi-check"></i>
+            </div>
+            <div class="success-text">
+                <h2 class="page-title">Dossier Indexé avec Succès</h2>
+                <p class="page-subtitle">La Phase 1 est terminée. Les données ont été propagées dans le Template APO.</p>
+            </div>
+            
+            <div class="header-actions">
+                <button pButton icon="pi pi-download" label="Télécharger APO (.docx)" class="btn-ghost" (click)="downloadApo()"></button>
+                <button pButton icon="pi pi-arrow-right" label="Passer à la Phase 2 (Scoring)" class="btn-primary" [routerLink]="['/dossiers', dossierId, 'scoring']"></button>
+            </div>
+        </div>
+
+        <div class="split-view">
+            <!-- Left Section: APO Live Preview + Champs remplis -->
+            <div class="apo-preview-section">
+                <div class="column-header">
+                    <i class="pi pi-file-pdf"></i> Aperçu du Document APO
+                </div>
+                
+                <!-- PDF compact -->
+                <div class="a4-paper-pdf-container">
+                    <object *ngIf="backendPdfUrl" [data]="backendPdfUrl" type="application/pdf" width="100%" height="100%">
+                        <div class="pdf-fallback">
+                            <i class="pi pi-file-pdf"></i>
+                            <p>Fichier PDF non trouvé.</p>
+                        </div>
+                    </object>
+                </div>
+
+                <!-- Champs APO auto-remplis depuis le backend -->
+                <div class="apo-preview-wrapper mt-3">
+                    <app-apo-preview
+                        [apoData]="apoData"
+                        [validatedFields]="apoFieldKeys"
+                        mode="indexation">
+                    </app-apo-preview>
+                </div>
+            </div>
+
+            <!-- Right Section: Premium Audit Panel -->
+            <div class="audit-side-panel">
+                <!-- Niveau 1 : Titre Principal (Cliquable) -->
+                <div class="main-history-header" (click)="showAuditLog = !showAuditLog">
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-history text-indigo-500"></i>
+                        <h3 class="m-0">Historique des actions</h3>
+                    </div>
+                    <i class="pi" [ngClass]="showAuditLog ? 'pi-angle-up' : 'pi-angle-down'"></i>
+                </div>
+
+                <!-- Contenu Niveau 1 -->
+                <div class="history-content-wrapper" *ngIf="showAuditLog">
+                    <!-- Niveau 2 : Dossier (Cliquable) -->
+                    <div class="dossier-accordion" [class.expanded]="showTimeline" (click)="showTimeline = !showTimeline">
+                        <div class="dossier-header">
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-folder-open text-orange-500"></i>
+                                <strong>Dossier : {{ dossierId }}</strong>
+                            </div>
+                            <i class="pi" [ngClass]="showTimeline ? 'pi-chevron-up' : 'pi-chevron-down'" style="font-size: 0.8rem;"></i>
+                        </div>
+
+                        <!-- Niveau 3 : Timeline -->
+                        <div class="dossier-timeline-content" *ngIf="showTimeline" (click)="$event.stopPropagation()">
+                            <div class="timeline-container">
+                                <div class="timeline-item" *ngFor="let event of timelineEvents" [class.is-last]="event.isLast">
+                                    <div class="timeline-line" *ngIf="!event.isLast"></div>
+                                    <div class="timeline-icon" [ngClass]="'accent-' + event.color">
+                                        <i class="pi" [ngClass]="event.icon"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <div class="t-top">
+                                            <span class="t-status">{{ event.status }}</span>
+                                            <span class="t-date">{{ event.date }}</span>
+                                        </div>
+                                        <p class="t-desc">{{ event.description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-return-card mt-4">
+                    <i class="pi pi-home"></i>
+                    <div style="flex-grow: 1;">
+                        <strong>Retour à l'accueil</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Consultez tous vos dossiers indexés.</p>
+                    </div>
+                    <button pButton icon="pi pi-arrow-right" class="p-button-text p-button-rounded" routerLink="/dossiers"></button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>

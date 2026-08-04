@@ -1,0 +1,42 @@
+<div class="breakdown-container">
+    <!-- 5 Axes Progress Bars -->
+    <div class="axis-row" *ngFor="let axis of axes">
+        <div class="axis-header">
+            <div class="axis-label">
+                <span class="axis-badge">Axe {{ axis.name }}</span>
+                <span>{{ axis.label }}</span>
+            </div>
+            <span class="axis-val font-bold">{{ axis.score }}% <span class="text-400 font-normal">(poids {{ axis.weight }}%)</span></span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill animate-progress"
+                 [style.width.%]="axis.score"
+                 [style.background-color]="getAxisColor(axis.score)"></div>
+        </div>
+    </div>
+
+    <!-- Impact Table (Strengths / Weaknesses) -->
+    <div class="impact-table" *ngIf="impacts">
+        <!-- Positive (Green) -->
+        <div class="impact-row bg-positive" *ngIf="impacts.positive">
+            <div class="impact-icon">
+                <i class="pi pi-plus-circle text-green-600"></i>
+            </div>
+            <div class="impact-content">
+                <div class="impact-title text-green-700">Point Fort Principal</div>
+                <div class="impact-text text-green-900 font-semibold">{{ impacts.positive }}</div>
+            </div>
+        </div>
+
+        <!-- Negative (Red) -->
+        <div class="impact-row bg-negative" *ngIf="impacts.negative">
+            <div class="impact-icon">
+                <i class="pi pi-minus-circle text-red-600"></i>
+            </div>
+            <div class="impact-content">
+                <div class="impact-title text-red-700">Point Faible Principal</div>
+                <div class="impact-text text-red-900 font-semibold">{{ impacts.negative }}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<p-toast></p-toast>
+
+<div class="px-4 pt-4 pb-0">
+    <app-pipeline-stepper mode="phase4" [activeStep]="1" context="apo-editor"></app-pipeline-stepper>
+</div>
+
+<div class="grid p-4 fade-in-up" *ngIf="!isLoading">
+    <!-- Header -->
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2 hover-lift flex justify-content-between align-items-center flex-wrap gap-4">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
+                    <i class="pi pi-file-edit text-2xl text-blue-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-2xl m-0">Éditeur APO Complet</h1>
+                    <p class="text-blue-800 m-0 opacity-80 mt-1">Validation des 65 champs avant génération du DOCX.</p>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="flex-1 max-w-20rem">
+                <div class="flex justify-content-between mb-1">
+                    <span class="text-sm font-semibold text-blue-900">Complétion Saisie Manuelle</span>
+                    <span class="text-sm font-bold text-blue-900">{{ completionPercentage }}%</span>
+                </div>
+                <p-progressBar [value]="completionPercentage" [showValue]="false" 
+                               [color]="completionPercentage === 100 ? '#22c55e' : '#f59e0b'" 
+                               styleClass="h-1rem border-round-3xl"></p-progressBar>
+            </div>
+            
+            <button pButton icon="pi pi-file-word" label="Générer DOCX APO" 
+                    class="p-button-lg border-round-3xl shadow-2 px-5 py-3 font-bold" 
+                    [ngClass]="canGenerate() ? 'p-button-success pulse-button' : 'p-button-secondary'"
+                    [disabled]="isGenerating"
+                    (click)="generateDocx()">
+                <p-progressSpinner *ngIf="isGenerating" styleClass="w-1rem h-1rem mr-2" strokeWidth="4"></p-progressSpinner>
+            </button>
+        </div>
+    </div>
+
+    <!-- Légende des couleurs -->
+    <div class="col-12 mb-3">
+        <div class="flex gap-4 p-3 bg-white border-round-2xl shadow-1">
+            <div class="flex align-items-center gap-2 text-sm font-semibold text-700">
+                <span class="w-1rem h-1rem border-circle inline-block" style="background-color: #dcfce7; border: 1px solid #166534"></span>
+                Propagé Auto
+            </div>
+            <div class="flex align-items-center gap-2 text-sm font-semibold text-700">
+                <span class="w-1rem h-1rem border-circle inline-block" style="background-color: #dbeafe; border: 1px solid #1e40af"></span>
+                Généré Claude
+            </div>
+            <div class="flex align-items-center gap-2 text-sm font-semibold text-700">
+                <span class="w-1rem h-1rem border-circle inline-block" style="background-color: #ffedd5; border: 1px solid #9a3412"></span>
+                Saisie Manuelle
+            </div>
+            <div class="flex align-items-center gap-2 text-sm font-semibold text-700">
+                <span class="w-1rem h-1rem border-circle inline-block" style="background-color: #f3f4f6; border: 1px solid #374151"></span>
+                Verrouillé
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordéon des champs -->
+    <div class="col-12 lg:col-6">
+        <div class="card bg-white p-4 border-round-2xl shadow-2">
+            <h3 class="mt-0 mb-3 text-800"><i class="pi pi-pencil mr-2 text-blue-600"></i>Saisie des champs</h3>
+            <p-accordion [multiple]="true" styleClass="apo-accordion">
+                <p-accordionTab *ngFor="let section of sections; let i = index" [selected]="i === 0">
+                    <ng-template pTemplate="header">
+                        <span class="flex align-items-center gap-2 font-bold text-lg text-800">
+                            <i [class]="section.icon"></i>
+                            {{ section.title }}
+                        </span>
+                    </ng-template>
+
+                    <div class="flex flex-column gap-2 mt-3">
+                        <app-apo-field *ngFor="let field of section.fields"
+                            [fieldName]="field.fieldName"
+                            [label]="field.label"
+                            [value]="apoData[field.fieldName]"
+                            [source]="field.source"
+                            [type]="field.type"
+                            [locked]="field.source === 'locked'"
+                            [options]="field.options"
+                            (valueChange)="onFieldChange($event)">
+                        </app-apo-field>
+                    </div>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+    </div>
+
+    <!-- Aperçu du Template Vrai DOCX -->
+    <div class="col-12 lg:col-6">
+        <div class="card bg-white p-4 border-round-2xl shadow-2 h-full">
+            <h3 class="mt-0 mb-3 text-800"><i class="pi pi-eye mr-2 text-purple-600"></i>Aperçu du Vrai Template APO</h3>
+            <p class="text-500 text-sm mb-3">Le document officiel qui sera généré avec les valeurs saisies à gauche.</p>
+            <div id="docx-preview-apo" class="border-round-xl overflow-hidden shadow-inner w-full" style="height: 600px; background-color: #f1f5f9; overflow-y: auto;">
+                <!-- docx-preview -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="text-center p-8">
+    <p-progressSpinner></p-progressSpinner>
+    <p class="text-600 mt-3 font-semibold">Chargement des données de l'APO...</p>
+</div>

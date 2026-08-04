@@ -1,0 +1,139 @@
+{
+  "type_document": null,
+  "est_template": null,
+  "reference": "P3A/425- 501/01-2026 SER",
+  "titre_document": null,
+  "acronyme_mission": null,
+  "langue": "français",
+  "date_publication": null,
+  "date_limite_soumission": null,
+  "nb_pages": 11,
+  "pays": "La République Tunisienne",
+  "ville": null,
+  "zone_intervention": [
+    "ensemble du territoire tunisien"
+  ],
+  "pouvoir_adjudicateur": {
+    "organisation": "Le Ministère de l’Economie et de la Planification (MEP)",
+    "acronyme": "UGP3A",
+    "structure": null,
+    "acronyme_structure": null
+  },
+  "bailleur": null,
+  "type_financement": null,
+  "programme_cadre": "SUIDAR",
+  "beneficiaire": {
+    "organisation": "MARHP (Maroc Agricole et Rurale du Haut-Pays)",
+    "acronyme": "MARHP",
+    "direction": null,
+    "acronyme_direction": null,
+    "pays": "La République Tunisienne"
+  },
+  "secteurs": [],
+  "mots_cles": [
+    "réformes",
+    "système alimentaire durable",
+    "réseau de suivi"
+  ],
+  "acronymes": {},
+  "objectif_general": "L'amélioration récente de la production agricole (olive, datte) a participé au développement du secteur tout en permettant au pays d'atteindre un niveau « d'indépendance alimentaire ».",
+  "objectifs_specifiques": [],
+  "duree_mois": null,
+  "duree_jours": null,
+  "date_debut_prevue": null,
+  "date_fin_prevue": null,
+  "nb_experts": null,
+  "total_hommes_jours": null,
+  "experts": [
+    {
+      "nom": "Expert principal n°2",
+      "secteur": "Veille informationnelle",
+      "qualifications": [
+        "Diplôme universitaire (Bac+5 minimum) dans un domaine pertinent : sciences de l’information, communication, documentation, science politique, économie ou équivalent.",
+        "Formation complémentaire ou certification en veille stratégique, intelligence économique ou communication.",
+        "Capacité démontrée à identifier, trier, analyser et synthétiser des informations issues de sources fiables et variées (politiques, réglementaires, stratégiques).",
+        "Maîtrise des outils de veille et de publication numérique (agrégateurs de contenu, outils de mise en page ou de diffusion)."
+      ],
+      "experience": [
+        "Dix (10) années d'expérience professionnelle générale.",
+        "Cinq (5) années d'expérience dans le domaine de la veille informationnelle, de la recherche documentaire, de la production de bulletins d’information ou de l’analyse de politiques publiques.",
+        "Expérience dans un environnement institutionnel ou dans des projets de coopération internationale (administrations publiques, projets de développement, etc.).",
+        "Réalisation d'au moins une mission de conception ou d'animation d'un dispositif de veille ou d'un support structuré (bulletin, newsletter, tableau de bord, etc.).",
+        "Maîtrise des outils informatiques usuels (traitement de texte, tableur, présentation)."
+      ],
+      "connaissance_langue": [
+        "Excellente maitrise de la langue française parlée et écrite.",
+        "Bonne maitrise de l’anglais sera considérée comme un atout."
+      ]
+    },
+    {
+      "nom": "Expert principal 3",
+      "secteur": "Traitement de l'information et développement informatique",
+      "qualifications": [
+        "Diplôme universitaire supérieur, sanctionnant un cycle complet de 5 années d'études universitaires, en informatique, en traitement des données ou domaine équivalent.",
+        "Expérience professionnelle générale dans le domaine de l'informatique (cinq (05) années).",
+        "Deux (02) années d'expérience en matière de conception et de déploiement d’outil (solution) de gestion de l’information ;",
+        "Une expérience avérée dans la conception de base de données, tableau de bords, traitement des données et/visualisations personnalisées pour un appui à la prise de décision.",
+        "Avoir déjà réalisé au moins1 mission semblable à la présente."
+      ],
+      "experience": [
+        "Cinq (05) années d'expérience dans le domaine de l'informatique.",
+        "Deux (02) années d'expérience en matière de conception et de déploiement d’outil (solution) de gestion de l’information ;",
+        "Une expérience avérée dans la conception de base de données, tableau de bords, traitement des données et/visualisations personnalisées pour un appui à la prise de décision.",
+        "Avoir déjà réalisé au moins1 mission semblable à la présente."
+      ],
+      "connaissance_langue": [
+        "Excellente maitrise de la langue française parlée et écrite.",
+        "Bonne maitrise de l’anglais sera considérée comme un atout."
+      ]
+    }
+  ],
+  "composantes": [
+    {
+      "nom_composante": "Composante 1 : Revue initiale, cartographie des réformes et acteurs impliqués",
+      "activites_specifiques": [
+        {
+          "nom_activite": "Identifier et décrire les reformes soutenues par les appuis budgétaires relevant des programmes PADR et PACE",
+          "description": null
+        },
+        {
+          "nom_activite": "Établir un inventaire des actions et des acteurs qui contribuent à la réalisation de ces réformes, en actualisant cette liste tous les trois mois",
+          "description": null
+        },
+        {
+          "nom_activite": "Décrire les actions répertoriées, en tenant compte des informations recueillies ainsi que des documents relatifs aux projets et programmes",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "rapports": [],
+  "produits_attendus": [],
+  "livrables": [],
+  "budget_total": null,
+  "devise": null,
+  "garantie_soumission_pct": null,
+  "penalites_retard": null,
+  "logistique": {
+    "lieu_principal": "La République Tunisienne",
+    "deplacements": null
+  },
+  "gestion_projet": {
+    "organe_responsable": null,
+    "supervision": null
+  },
+  "risques": [],
+  "hypotheses": [],
+  "confiance_extraction": "faible",
+  "taux_remplissage_pct": 37,
+  "notes_extracteur": [
+    "Sections 'lots', 'composantes', 'produits_attendus', 'livrables', 'rapports' et 'documents_requis' manquent car elles ne sont pas explicitement mentionnées dans le document.",
+    "La section 'secteurs' est incomplète car elle n'est pas explicitement mentionnée, mais peut être supposée en rapport avec l'agriculture et la pêche.",
+    "Sections 'type_document', 'est_template' et 'titre_document' manquent car non fournies dans le document.",
+    "La section 'secteurs' est incomplète car aucune information n'est fournie.",
+    "Les sections 'lots', 'composantes', 'produits_attendus', 'livrables', 'rapports', 'budget_total', 'devise', 'avance_pct', 'garantie_soumission_pct', 'penalites_retard', 'modalites_paiement', 'validite_offre_jours', 'type_evaluation', 'poids_technique_pct', 'poids_financier_pct', 'criteres_evaluation', 'qualification_requise', 'documents_requis', 'logistique', 'gestion_projet', 'risques', et 'hypotheses' sont vides car aucune information n'est fournie.",
+    "La section 'date_publication' est manquante, elle aurait dû être fournie au début du document.",
+    "Les sections 'nb_pages', 'nb_lots', 'pays', 'region', et 'ville' ne sont pas fournies car elles ne sont pas mentionnées dans le document.",
+    "Sections non spécifiquement mentionnées dans le document, telles que 'date_publication', 'date_limite_soumission', 'pays', 'region', 'ville', 'zone_intervention', 'bailleur', 'type_financement', 'programme_cadre', 'contrat_cadre', 'beneficiaire', 'secteurs', 'mots_cles', 'acronymes', 'objectif_general', 'objectifs_specifiques', 'duree_mois', 'duree_jours', 'date_debut_prevue', 'date_fin_prevue', 'nb_experts', 'total_hommes_jours', 'experts', 'lots', 'composantes', 'produits_attendus', et 'livrables' manquent dans le document."
+  ]
+}

@@ -1,0 +1,125 @@
+<div class="landing-bg overflow-hidden flex flex-column">
+    <!-- Formes organiques animées en fond -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    
+    <!-- Navbar -->
+    <div class="glass-header py-3 px-4 mx-0 md:px-6 lg:px-8 flex align-items-center justify-content-between fixed top-0 left-0 w-full z-5">
+        <a class="logo-link flex align-items-center cursor-pointer gap-2" routerLink="/">
+            <div class="flex align-items-center logo-img relative" style="display: inline-block; padding-right: 8px;">
+                <i class="pi pi-user" style="font-size: 2rem; color: #A78BFA;"></i>
+                <i class="pi pi-star-fill" style="font-size: 1rem; color: #FBCFE8; position: absolute; top: -4px; right: 0;"></i>
+            </div>
+            <span class="text-slate-800 font-bold text-3xl line-height-3 tracking-wide" style="font-family: 'Space Grotesk', sans-serif;">
+                Project<span class="logo-text-gradient">IQ</span>
+            </span>
+        </a>
+        
+        <div class="flex align-items-center gap-3">
+            <button pButton pRipple label="Espace Connexion" routerLink="/auth/login" class="btn-primary-saas text-white" style="padding: 0.75rem 1.5rem !important;"></button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="content-wrapper flex-grow-1 flex flex-column align-items-center justify-content-center px-4" style="margin-top: 120px; min-height: 60vh;">
+        <div class="text-center max-w-6xl">
+            <div class="reveal-text stagger-1 mb-4">
+                <span class="pro-badge">
+                    <i class="pi pi-star-fill sparkle-icon"></i>
+                    <span class="badge-text-animated">L'IA au service de vos marchés</span>
+                </span>
+            </div>
+            <h1 class="hero-title-pro mb-4 reveal-text stagger-2">
+                Transformez vos dossiers en <br/>
+                <span class="hero-highlight">opportunités gagnantes</span>
+            </h1>
+            <p class="text-secondary mb-6 max-w-4xl mx-auto reveal-text stagger-3">
+                Simplifiez l'analyse de vos dossiers de consultation et générez instantanément des méthodologies pertinentes pour remporter vos marchés.
+            </p>
+            
+            <div class="flex flex-column sm:flex-row justify-content-center gap-4 mt-5 reveal-text stagger-4">
+                <button pButton pRipple label="Créer un compte" icon="pi pi-user-plus" iconPos="right" routerLink="/auth/register" class="btn-primary-saas"></button>
+                <button pButton pRipple label="Découvrir" icon="pi pi-arrow-down" (click)="router.navigate(['/landing'], {fragment: 'features'})" class="btn-secondary-saas" style="background-color: #F5F3FF !important; border-color: #C4B5FD !important; color: #7C3AED !important; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.05) !important;"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animated Marquee Section -->
+    <div class="marquee-container fade-in-up delay-1">
+        <div class="marquee-content">
+            <!-- On duplique le contenu pour créer l'effet infini -->
+            <ng-container *ngFor="let i of [1, 2]">
+                <div class="marquee-pill"><i class="pi pi-check-circle marquee-icon"></i>Sécurisé</div>
+                <div class="marquee-pill"><i class="pi pi-bolt marquee-icon"></i>Rapide</div>
+                <div class="marquee-pill"><i class="pi pi-star-fill marquee-icon"></i>Intelligence Artificielle</div>
+                <div class="marquee-pill"><i class="pi pi-compass marquee-icon"></i>Stratégique</div>
+                <div class="marquee-pill"><i class="pi pi-clock marquee-icon"></i>Gain de temps</div>
+                <div class="marquee-pill"><i class="pi pi-chart-line marquee-icon"></i>Performance</div>
+                <div class="marquee-pill"><i class="pi pi-users marquee-icon"></i>Collaboratif</div>
+                <div class="marquee-pill"><i class="pi pi-shield marquee-icon"></i>Conformité</div>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="content-wrapper px-4 md:px-6 lg:px-8 mx-auto w-full max-w-screen-xl" style="padding-top: 120px; padding-bottom: 120px;">
+        <div class="text-center mb-7 fade-in-up delay-1">
+            <h2 class="text-4xl font-bold mb-3 text-slate-800">Conçu pour votre réussite</h2>
+            <p class="text-slate-500 text-lg max-w-3xl mx-auto">Une interface intuitive et fluide pensée pour optimiser le travail des jurys d'évaluation et des entreprises soumissionnaires.</p>
+        </div>
+
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-3 p-3 fade-in-up delay-1">
+                <div class="glass-card p-4 h-full flex flex-column align-items-center text-center">
+                    <div class="flex align-items-center justify-content-center bg-blue-50 border-circle mb-4 shadow-1" style="width: 70px; height: 70px;">
+                        <i class="pi pi-search text-3xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Analyse Stratégique</h3>
+                    <p class="text-slate-600 line-height-3 m-0">Compréhension rapide et synthèse des exigences complexes des cahiers des charges.</p>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-3 p-3 fade-in-up delay-2">
+                <div class="glass-card p-4 h-full flex flex-column align-items-center text-center">
+                    <div class="flex align-items-center justify-content-center bg-purple-50 border-circle mb-4 shadow-1" style="width: 70px; height: 70px;">
+                        <i class="pi pi-file-edit text-3xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Génération Rapide</h3>
+                    <p class="text-slate-600 line-height-3 m-0">Création automatique de trames de réponse et de méthodologies sur mesure.</p>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-3 p-3 fade-in-up delay-3">
+                <div class="glass-card p-4 h-full flex flex-column align-items-center text-center">
+                    <div class="flex align-items-center justify-content-center bg-pink-50 border-circle mb-4 shadow-1" style="width: 70px; height: 70px;">
+                        <i class="pi pi-clock text-3xl text-pink-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Gain de Temps</h3>
+                    <p class="text-slate-600 line-height-3 m-0">Divisez par trois le temps de préparation de vos dossiers et focalisez-vous sur l'essentiel.</p>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-3 p-3 fade-in-up delay-3">
+                <div class="glass-card p-4 h-full flex flex-column align-items-center text-center">
+                    <div class="flex align-items-center justify-content-center bg-teal-50 border-circle mb-4 shadow-1" style="width: 70px; height: 70px;">
+                        <i class="pi pi-check-circle text-3xl text-teal-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Suivi Centralisé</h3>
+                    <p class="text-slate-600 line-height-3 m-0">Un espace de travail unique et collaboratif pour piloter l'ensemble de vos projets en cours.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-top-1 border-gray-300 py-4 mt-auto">
+        <div class="flex flex-column md:flex-row align-items-center justify-content-center gap-3 text-center">
+            <div class="flex align-items-center text-slate-500">
+                <i class="pi pi-bolt mr-2 text-indigo-400"></i>
+                <span class="font-bold mr-2 text-slate-600">ProjectIQ</span>
+                <span>© 2026. La solution élégante pour vos marchés.</span>
+            </div>
+        </div>
+    </div>
+</div>

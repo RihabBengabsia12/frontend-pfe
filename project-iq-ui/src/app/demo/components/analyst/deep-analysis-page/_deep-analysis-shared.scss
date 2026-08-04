@@ -1,0 +1,103 @@
+$pastel-success: #b7e4c7;
+$pastel-success-text: #2d6a4f;
+$pastel-success-bg: #e2f3eb;
+$pastel-amber: #ffe5b4;
+$pastel-amber-text: #b5822f;
+$pastel-amber-bg: #fff8e7;
+$pastel-danger: #ffccd5;
+$pastel-danger-text: #a12b39;
+$pastel-danger-bg: #ffeef0;
+
+.validation-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.validation-card {
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-left: 5px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    &.conf-high { border-left-color: $pastel-success; }
+    &.conf-med  { border-left-color: $pastel-amber; }
+    &.conf-low  { border-left-color: $pastel-danger; }
+
+    &.validated-card {
+        background-color: #fafdfb;
+        border-left-color: #52b788;
+    }
+
+    &.active-card {
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.35);
+    }
+
+    .field-info {
+        flex: 1;
+        min-width: 120px;
+
+        .field-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .field-value-container {
+            display: flex;
+            align-items: center;
+            min-height: 2rem;
+        }
+
+        .field-text-value {
+            font-size: 0.9rem;
+        }
+    }
+
+    .confidence-pill {
+        display: inline-flex;
+        padding: 0.2rem 0.45rem;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        white-space: nowrap;
+
+        &.pill-high { background: $pastel-success-bg; color: $pastel-success-text; }
+        &.pill-med  { background: $pastel-amber-bg;   color: $pastel-amber-text; }
+        &.pill-low  { background: $pastel-danger-bg;  color: $pastel-danger-text; }
+    }
+
+    .status-badge  { font-size: 1rem; flex-shrink: 0; }
+    .field-actions { flex-shrink: 0; }
+}
+
+.gap-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+
+    &.gap-ok   { background: #DCFCE7; color: #166534; }
+    &.gap-warn { background: #FEF3C7; color: #92400E; }
+    &.gap-ko   { background: #FEE2E2; color: #991B1B; }
+}

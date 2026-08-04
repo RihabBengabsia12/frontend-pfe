@@ -1,0 +1,386 @@
+{
+  "type_document": "TDR",
+  "est_template": false,
+  "reference": null,
+  "titre_document": "Termes de Référence – Suivi et documentation de l'avancement des réformes vers un système alimentaire durable, soutenues par le PADR et le PACE",
+  "acronyme_mission": "SUIDAR",
+  "langue": "FR",
+  "date_publication": null,
+  "date_limite_soumission": null,
+  "heure_limite_soumission": null,
+  "date_reunion_preparatoire": null,
+  "date_visite_site": null,
+  "nb_pages": null,
+  "nb_lots": null,
+  "pays": "Tunisie",
+  "region": null,
+  "ville": "Tunis",
+  "zone_intervention": [
+    "Ensemble du territoire tunisien",
+    "Tunis (siège principal)",
+    "Régions (déplacements prévus)"
+  ],
+  "pouvoir_adjudicateur": {
+    "organisation": "Ministère de l'Economie et de la Planification",
+    "acronyme": "MEP",
+    "structure": "Unité de Gestion du Programme d'Appui à l'Accord d'Association",
+    "acronyme_structure": "UGP3A",
+    "adresse": null,
+    "telephone": null,
+    "email": null,
+    "site_web": null,
+    "contact_nom": null
+  },
+  "bailleur": "Union Européenne",
+  "type_financement": "Subvention",
+  "programme_cadre": "P3A – Programme d'Appui à la mise en œuvre de l'Accord d'Association",
+  "contrat_cadre": "Contrat de subvention SUIDAR",
+  "numero_pret_credit": null,
+  "beneficiaire": {
+    "organisation": "Ministère de l'Agriculture, des Ressources Hydrauliques et de la Pêche Maritime",
+    "acronyme": "MARHP",
+    "direction": "Direction Générale des Etudes et du Développement Agricole",
+    "acronyme_direction": "DGEDA",
+    "pays": "Tunisie"
+  },
+  "programmes_connexes": [
+    "PADR – Programme d'Appui au Développement Rural",
+    "PACE – Programme d'Appui à la Compétitivité et aux Exportations (90 M€, 2018-2023)",
+    "Projet de jumelage – Appui institutionnel au MARHP (1,5 M€, 2016-2019)"
+  ],
+  "secteurs": [
+    "Agriculture",
+    "Développement rural",
+    "Pêche maritime",
+    "Suivi-évaluation des réformes",
+    "Systèmes alimentaires durables",
+    "Coopération internationale"
+  ],
+  "mots_cles": [
+    "suivi-évaluation",
+    "réformes agricoles",
+    "système alimentaire durable",
+    "appui budgétaire",
+    "veille informationnelle",
+    "base de données",
+    "tableau de bord",
+    "PADR",
+    "PACE",
+    "MARHP",
+    "DGEDA",
+    "UGP3A",
+    "dispositif de suivi",
+    "indicateurs",
+    "Tunisie",
+    "UE"
+  ],
+  "contexte": [
+    "La Tunisie a traversé une forte récession en 2020 (-8,7%) suivie d'une reprise progressive en 2021 (+4,5%) et 2022 (+2,8%)",
+    "Taux d'inflation 2023 : 9,3%",
+    "Le secteur agriculture et pêche représente 10,2% du PIB et emploie 16% de la population active",
+    "L'agriculture tunisienne est confrontée à des défis structurels : sécheresse, changement climatique, faible productivité, dégradation des sols, accès limité aux marchés, migration rurale-urbaine",
+    "Le gouvernement tunisien promeut la modernisation agricole, la diversification des cultures, l'agriculture biologique et l'engagement des jeunes dans le secteur",
+    "L'UE soutient des réformes à travers les programmes PACE et PADR",
+    "L'UGP3A est une Unité de Gestion par Objectif créée en 2005 et formalisée par décrets gouvernementaux en 2009, relevant du MEP",
+    "Le contrat SUIDAR est mis en œuvre par l'UGP3A sur une période de 4 ans pour assurer le suivi de l'avancement des réformes soutenues par PADR et PACE"
+  ],
+  "acronymes": {
+    "MEP": "Ministère de l'Economie et de la Planification",
+    "UGP3A": "Unité de Gestion du Programme d'Appui à l'Accord d'Association",
+    "MARHP": "Ministère de l'Agriculture, des Ressources Hydrauliques et de la Pêche Maritime",
+    "DGEDA": "Direction Générale des Etudes et du Développement Agricole",
+    "P3A": "Programme d'Appui à la mise en œuvre de l'Accord d'Association",
+    "PADR": "Programme d'Appui au Développement Rural",
+    "PACE": "Programme d'Appui à la Compétitivité et aux Exportations",
+    "SUIDAR": "Suivi et documentation de l'avancement des réformes (nom du contrat/action)",
+    "TDR": "Termes de Référence",
+    "UE": "Union Européenne",
+    "PIB": "Produit Intérieur Brut",
+    "PAP": "Programmes Annuels de Performance",
+    "RAP": "Rapport Annuel de Performance",
+    "SPS": "Sanitaire et Phytosanitaire",
+    "ESS": "Economie Sociale et Solidaire",
+    "DPS": "Dialogue de Politique Sectorielle",
+    "H/J": "Hommes-Jours",
+    "CV": "Curriculum Vitae"
+  },
+  "objectif_general": "Contribuer à la mise en œuvre des réformes vers un système alimentaire durable.",
+  "objectifs_specifiques": [
+    "Objectif spécifique 1 : Fournir une assistance technique au MARHP pour concevoir et implémenter un dispositif de suivi de la mise en œuvre des réformes, permettant de fournir des informations fiables et précises aux parties prenantes sur l'avancement des réformes et renforcer les capacités de suivi des programmes et projets du MARHP.",
+    "Objectif spécifique 2 : Fournir régulièrement des informations sur les politiques, stratégies, législation, réglementation et normes relatives à l'agriculture de l'Union européenne et de ses États membres."
+  ],
+  "duree_mois": 6,
+  "duree_jours": 180,
+  "date_debut_prevue": "15/04/2026",
+  "date_fin_prevue": "15/10/2026",
+  "delai_execution_jours": 180,
+  "nb_experts": 3,
+  "total_hommes_jours": null,
+  "experts": [
+    {
+      "code": "EP1",
+      "role": "Expert principal n°1 – Chef d'équipe et Expert sénior en suivi-évaluation",
+      "qualifications": [
+        "Diplôme universitaire supérieur d'ingénieur en agroéconomie ou domaine pertinent (Economie rurale, Production agricole, Gestion intégrée de l'eau et agriculture durable)",
+        "Diplôme en master de recherche considéré comme atout",
+        "Bonne maîtrise des outils et pratiques de gestion de projet (Cadre logique, planification, reporting)",
+        "Connaissance des pratiques des bailleurs de fonds notamment l'UE"
+      ],
+      "experience_generale_ans": 10,
+      "experience_specifique_ans": 5,
+      "domaine_specifique": "Suivi-évaluation des programmes et projets de développement",
+      "hommes_jours": null,
+      "langue": [
+        "Français (excellent, parlé et écrit)",
+        "Anglais (atout)"
+      ],
+      "atouts": [
+        "Master de recherche",
+        "Au moins une mission similaire déjà réalisée",
+        "Expérience dans le domaine de l'agriculture en Tunisie",
+        "Expérience en veille dans les domaines de l'agriculture, pratiques agricoles, industrie agroalimentaire et enjeux environnementaux",
+        "Maîtrise des outils informatiques usuels (traitement de texte, tableur, présentation)",
+        "Bonne maîtrise de l'anglais"
+      ]
+    },
+    {
+      "code": "EP2",
+      "role": "Expert principal n°2 – Expert sénior en Veille informationnelle",
+      "qualifications": [
+        "Diplôme universitaire Bac+5 minimum dans un domaine pertinent : sciences de l'information, communication, documentation, science politique, économie ou équivalent",
+        "Formation complémentaire ou certification en veille stratégique, intelligence économique ou communication considérée comme atout",
+        "Capacité démontrée à identifier, trier, analyser et synthétiser des informations issues de sources fiables et variées",
+        "Maîtrise des outils de veille et de publication numérique (agrégateurs de contenu, outils de mise en page ou de diffusion)"
+      ],
+      "experience_generale_ans": 10,
+      "experience_specifique_ans": 5,
+      "domaine_specifique": "Veille informationnelle, recherche documentaire, production de bulletins d'information, analyse de politiques publiques",
+      "hommes_jours": null,
+      "langue": [
+        "Français (excellent, parlé et écrit)",
+        "Anglais (atout)"
+      ],
+      "atouts": [
+        "Formation complémentaire en veille stratégique ou intelligence économique",
+        "Expérience dans un environnement institutionnel ou projets de coopération internationale",
+        "Réalisation d'au moins une mission de conception ou d'animation d'un dispositif de veille ou support structuré (bulletin, newsletter, tableau de bord)",
+        "Expérience avérée en veille appliquée au secteur agricole ou connaissance des politiques agricoles UE ou pays tiers",
+        "Maîtrise des outils informatiques usuels",
+        "Bonne maîtrise de l'anglais"
+      ]
+    },
+    {
+      "code": "EP3",
+      "role": "Expert principal n°3 – Expert sénior en traitement de l'information et développement informatique",
+      "qualifications": [
+        "Diplôme universitaire supérieur sanctionnant un cycle complet de 5 années d'études en informatique, traitement des données ou domaine équivalent"
+      ],
+      "experience_generale_ans": 5,
+      "experience_specifique_ans": 2,
+      "domaine_specifique": "Conception et déploiement d'outils de gestion de l'information, bases de données, tableaux de bord, visualisation de données",
+      "hommes_jours": null,
+      "langue": [
+        "Français (excellent, parlé et écrit)",
+        "Anglais (atout)"
+      ],
+      "atouts": [
+        "Expérience avérée dans la conception de bases de données et tableaux de bord pour appui à la prise de décision",
+        "Au moins une mission similaire déjà réalisée",
+        "Bonne maîtrise de l'anglais"
+      ]
+    }
+  ],
+  "lots": [],
+  "composantes": [
+    {
+      "numero": 1,
+      "titre": "Revue initiale, cartographie des réformes et acteurs impliqués",
+      "activites": [
+        "Identifier et décrire les réformes soutenues par les appuis budgétaires PADR et PACE sur la base d'entretiens avec les parties concernées et l'étude des documents de planification stratégique (PAP et RAP) ainsi que les projets/programmes et livrables associés",
+        "Établir un inventaire des actions et des acteurs qui contribuent à la réalisation de ces réformes, en actualisant cette liste tous les trois mois",
+        "Décrire les actions répertoriées en tenant compte des informations recueillies et des documents relatifs aux projets et programmes (cadres logiques, plans d'actions, feuilles de route, calendriers, etc.)",
+        "Rédiger un rapport de suivi de l'exécution des actions répertoriées tous les trois mois, présentant une mise à jour de leur progression (délais, prochaines étapes, obstacles, propositions pour surmonter les obstacles)"
+      ]
+    },
+    {
+      "numero": 2,
+      "titre": "Conception du dispositif de suivi",
+      "activites": [
+        "Définir le dispositif de suivi et les outils nécessaires à son déploiement et décrire le processus de sa mise en place en prenant en compte les capacités et modes de fonctionnement des parties impliquées",
+        "Définir des indicateurs clés objectivement vérifiables permettant de mesurer le progrès dans la réalisation des actions",
+        "Concevoir et développer une base de données pour stocker, gérer et analyser les informations collectées afin de centraliser les données et faciliter leur traitement pour une meilleure prise de décision",
+        "Concevoir et développer un tableau de bord adapté aux besoins du MARHP présentant de manière synthétique les réformes et leur état d'avancement",
+        "Intégrer les indicateurs clés permettant de mesurer le progrès dans la réalisation des actions de réformes",
+        "Élaborer un manuel d'utilisation de la base de données et du tableau de bord incluant des instructions détaillées pour l'ajout, la modification, la suppression de données et leur visualisation",
+        "Fournir une formation à l'équipe de la DGEDA et aux parties prenantes concernées sur l'utilisation de la base de données et du tableau de bord"
+      ]
+    },
+    {
+      "numero": 3,
+      "titre": "Veille informationnelle",
+      "activites": [
+        "Identifier les sources d'information pertinentes, fiables et variées portant sur les aspects politiques, stratégiques, législatifs, réglementaires et normatifs de l'agriculture de l'UE et de ses États membres",
+        "Concevoir la trame du bulletin électronique avec un format et un design attractifs (graphismes, couleurs, etc.)",
+        "Produire et diffuser chaque deux mois un bulletin électronique de veille informationnelle"
+      ]
+    }
+  ],
+  "produits_attendus": [
+    "Réalisation 1 – Produit 1 : Un rapport de suivi de l'exécution des actions de réforme élaboré et actualisé tous les trois mois",
+    "Réalisation 1 – Produit 2 : Une base de données permettant de stocker et gérer l'ensemble des informations collectées, développée et opérationnelle",
+    "Réalisation 1 – Produit 3 : Un tableau de bord présentant les informations de manière synthétique sous forme d'indicateurs pour suivre et analyser la progression des réformes, développé avec une interface utilisateur conviviale",
+    "Réalisation 1 – Produit 4 : Un guide détaillant le dispositif et sa mise en œuvre élaboré",
+    "Réalisation 1 – Produit 5 : L'équipe du MARHP est formée à l'exploitation du dispositif de suivi",
+    "Réalisation 2 – Produit 1 : Un bulletin électronique de veille informationnelle bimensuelle élaboré et diffusé"
+  ],
+  "livrables": [
+    "Rapport de suivi trimestriel des actions de réforme",
+    "Base de données opérationnelle",
+    "Tableau de bord avec interface utilisateur",
+    "Guide/manuel d'utilisation du dispositif de suivi",
+    "Formation de l'équipe DGEDA",
+    "Bulletin électronique bimensuel de veille informationnelle",
+    "Rapport initial",
+    "Rapports intérimaires trimestriels",
+    "Projet de rapport final",
+    "Rapport final"
+  ],
+  "rapports": [
+    {
+      "type": "Rapport initial",
+      "delai": "2 semaines après le début de l'exécution du marché",
+      "pages_max": 12,
+      "contenu": "Premières constatations, avancement de la collecte des données, difficultés rencontrées et/ou prévues, programme de travail et voyages du personnel",
+      "format": "Copie électronique + 2 exemplaires originaux en français"
+    },
+    {
+      "type": "Rapport intérimaire trimestriel",
+      "delai": "Une semaine après la fin de chaque période de trois mois, puis version finale après réception des commentaires",
+      "pages_max": 20,
+      "contenu": "Constatations de la période, état d'avancement de la collecte des données, livrables réalisés ou en cours, difficultés rencontrées ou anticipées, déroulement de la mission, étapes clés franchies, programme de travail",
+      "format": "Copie électronique + 2 exemplaires originaux en français (texte principal, annexes exclues)"
+    },
+    {
+      "type": "Projet de rapport final",
+      "delai": "Au plus tard un mois avant la fin de la période de mise en œuvre",
+      "pages_max": 30,
+      "contenu": "Description détaillée des différentes options pour améliorer l'efficacité du dispositif de suivi et accélérer la mise en œuvre des réformes PADR et PACE",
+      "format": "Copie électronique + 2 exemplaires originaux en français (texte principal, annexes exclues)"
+    },
+    {
+      "type": "Rapport final",
+      "delai": "Au plus tard 15 jours après la réception des observations sur le projet de rapport final ; fourni en même temps que la facture correspondante",
+      "pages_max": 30,
+      "contenu": "Intègre toutes les observations des parties sur le projet de rapport final ; description détaillée des options pour améliorer l'efficacité du dispositif de suivi et accélérer la mise en œuvre des réformes ; analyses détaillées présentées en annexes",
+      "format": "Copie électronique + 2 exemplaires originaux en français (texte principal, annexes exclues)"
+    }
+  ],
+  "budget_total": null,
+  "devise": null,
+  "avance_pct": null,
+  "cautionnement_pct": null,
+  "garantie_soumission_pct": null,
+  "garantie_soumission_montant": null,
+  "penalites_retard": null,
+  "modalites_paiement": null,
+  "delai_paiement_jours": null,
+  "incoterms": null,
+  "prix_ferme": null,
+  "validite_offre_jours": null,
+  "type_evaluation": null,
+  "note_eliminatoire": null,
+  "poids_technique_pct": null,
+  "poids_financier_pct": null,
+  "criteres_evaluation": [],
+  "qualification_requise": [
+    {
+      "critere": "Indépendance des experts",
+      "seuil": "Tous les experts doivent être indépendants et n'avoir aucun conflit d'intérêts",
+      "documents_requis": [
+        "CV",
+        "Déclaration d'exclusivité et de disponibilité signée"
+      ]
+    },
+    {
+      "critere": "Fonctionnaires et agents publics",
+      "seuil": "Autorisés uniquement si dûment justifié avec preuve de détachement ou congé de convenance personnelle",
+      "documents_requis": [
+        "Justification dans l'offre",
+        "Valeur ajoutée de l'expert",
+        "Preuve de détachement ou congé"
+      ]
+    }
+  ],
+  "variantes_autorisees": null,
+  "groupements_autorises": null,
+  "nb_membres_groupement_max": null,
+  "documents_requis": [
+    "CV de chaque expert principal",
+    "Déclaration d'exclusivité et de disponibilité signée pour chaque expert principal",
+    "Offre financière incluant le coût du personnel de soutien et d'appui technique",
+    "Justification pour tout expert fonctionnaire/agent public avec preuve de détachement ou congé"
+  ],
+  "logistique": {
+    "lieu_principal": "Tunis",
+    "destination_finale": null,
+    "deplacements": "Déplacements prévus en dehors de Tunis pour des entretiens avec les responsables régionaux concernés par les réformes ; déplacements sur tous les sites de travail du MARHP et de ses partenaires selon les besoins",
+    "bureaux": "Le contractant doit mettre un bureau à la disposition de chaque expert travaillant dans le cadre du marché",
+    "equipement": "Aucun équipement ne sera acheté pour le compte du pouvoir adjudicateur ni transféré à la fin du marché ; tout équipement nécessaire fera l'objet d'un appel d'offres distinct (marché de fournitures) ; le contractant doit veiller à ce que les experts disposent de l'équipement nécessaire",
+    "sav_requis": null,
+    "formation_requise": "Formation de l'équipe DGEDA et des parties prenantes concernées sur l'utilisation de la base de données et du tableau de bord"
+  },
+  "gestion_projet": {
+    "organe_responsable": "MEP représenté par l'UGP3A",
+    "supervision": "UGP3A en coordination avec la DGEDA du MARHP ; suivi de la mission supervisé par la DGEDA",
+    "comite_suivi": "Comité de suivi mis en place par la DGEDA, constitué de représentants du MARHP et de l'UGP3A ainsi que de toute autre personne dont la participation sera jugée utile",
+    "reunions": "Réunions du comité de suivi avec les experts organisées autant que besoin jusqu'à l'aboutissement de la mission",
+    "comptes_rendus": "Comptes rendus des réunions établis par l'expert chef de mission et approuvés par la DGEDA et l'UGP3A par échange électronique"
+  },
+  "risques": [
+    {
+      "risque": "Manque d'adhésion, de participation et d'implication des départements concernés par les réformes",
+      "mesure": "Le prestataire assistera le MARHP pour gérer ce risque et proposera des outils et méthodes pour l'atténuer"
+    },
+    {
+      "risque": "Difficultés de coopération et de coordination entre les départements du MARHP et avec les départements d'autres ministères concernés par les réformes",
+      "mesure": "Le prestataire assistera le MARHP pour gérer ce risque et proposera des outils et méthodes pour l'atténuer"
+    },
+    {
+      "risque": "Absence de données fiables et nécessaires pour assurer le suivi des actions de réformes",
+      "mesure": "Le prestataire assistera le MARHP pour gérer ce risque et proposera des outils et méthodes pour l'atténuer"
+    }
+  ],
+  "hypotheses": [
+    "L'implication des responsables et leur soutien à l'approche sous-jacente au dispositif de suivi",
+    "La disponibilité des documents des projets/programmes et des différents livrables associés",
+    "L'adoption d'un cadre de suivi flexible et adaptable, permettant une révision constante en fonction des besoins et des évolutions des réformes, est essentielle pour garantir l'engagement à long terme, la durabilité et la pérennité du dispositif de suivi des actions de réformes"
+  ],
+  "confiance_extraction": "haute",
+  "taux_remplissage_pct": 62,
+  "champs_non_trouves": [
+    "budget_total",
+    "devise",
+    "total_hommes_jours",
+    "hommes_jours par expert",
+    "avance_pct",
+    "cautionnement_pct",
+    "garantie_soumission_pct",
+    "garantie_soumission_montant",
+    "penalites_retard",
+    "modalites_paiement",
+    "delai_paiement_jours",
+    "prix_ferme",
+    "validite_offre_jours",
+    "note_eliminatoire",
+    "poids_technique_pct",
+    "poids_financier_pct",
+    "date_publication",
+    "date_limite_soumission",
+    "reference",
+    "nb_pages"
+  ],
+  "incoherences": [
+    "La durée du contrat SUIDAR est mentionnée comme étant de 4 ans dans la description générale de l'action, mais la durée d'exécution du présent marché de services est de 6 mois : le TDR couvre probablement une phase ou un lot de la mission globale SUIDAR de 4 ans."
+  ],
+  "notes_extracteur": "Document de type ANNEXE II (TDR seul, sans CCAP ni DAO) : budget, garanties, pénalités, modalités de paiement et critères d'évaluation sont absents de ce document — ils figurent normalement dans les Conditions Particulières et le dossier d'appel d'offres associé. La table des experts ne précise pas les H/J pour chacun des trois experts principaux (colonne 'Personnes/jours à prévoir' laissée vide dans le document source). Le programme PACE est financé par l'UE à hauteur de 90 M€ (2018-2023) ; le programme de jumelage connexe à hauteur de 1,5 M€ (2016-2019) — ces montants concernent les programmes connexes, non le budget de la présente mission. La date de début indicative du 15/04/2026 et la durée de 6 mois permettent de déduire la date de fin au 15/10/2026. Le bulletin de veille est qualifié de 'bimensuel' dans les produits attendus et 'chaque deux mois' dans les activités : ces deux termes sont cohérents (toutes les 2 semaines vs tous les 2 mois sont deux interprétations possibles de 'bimensuel' ; le contexte 'chaque deux mois' confirme une périodicité bimestrielle, soit environ 3 bulletins sur 6 mois)."
+}

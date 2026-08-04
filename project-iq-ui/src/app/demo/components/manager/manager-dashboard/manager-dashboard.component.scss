@@ -1,0 +1,47 @@
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    opacity: 0; /* Default invisible before animation */
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.pulse-danger {
+    animation: pulseRed 2s infinite;
+}
+
+/* Spin Hover Effect */
+.pi-spin-hover {
+    transition: transform 0.5s ease;
+}
+.kpi-card:hover .pi-spin-hover {
+    transform: rotate(180deg);
+}
+
+/* Card Styling */
+.kpi-card {
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+}
+.kpi-card:hover {
+    transform: translateY(-4px);
+}
+
+.surface-hover {
+    transition: background-color 0.2s ease;
+}
+.surface-hover:hover {
+    background-color: var(--surface-hover);
+    border-radius: 8px;
+    cursor: pointer;
+}

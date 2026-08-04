@@ -1,0 +1,270 @@
+<div class="grid">
+    <!-- Sidebar: Roles List with Search -->
+    <div class="col-12 md:col-4">
+        <div class="surface-card p-0 shadow-1 border-round-xl overflow-hidden border-1 surface-border">
+            <div class="p-4 border-bottom-1 surface-border surface-50">
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0 font-bold text-900">Rôles Système</h5>
+                    <p-badge [value]="filteredRoles.length.toString()" severity="secondary"></p-badge>
+                </div>
+                <span class="p-input-icon-left w-full">
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText placeholder="Rechercher un rôle..." [(ngModel)]="searchTerm"
+                        class="w-full p-inputtext-sm border-round-3xl" />
+                </span>
+            </div>
+
+            <div class="flex flex-column" style="max-height: 600px; overflow-y: auto;">
+                <div *ngFor="let role of filteredRoles" (click)="selectRole(role)"
+                    class="p-4 cursor-pointer transition-colors transition-duration-150 border-bottom-1 surface-border flex align-items-center justify-content-between"
+                    [ngClass]="selectedRole?.id === role.id ? 'surface-100 border-left-3 border-primary' : 'hover:surface-hover'">
+                    <div class="flex align-items-center gap-3">
+                        <div class="w-3rem h-3rem flex align-items-center justify-content-center border-circle"
+                            [ngClass]="selectedRole?.id === role.id ? 'bg-primary text-white shadow-2' : 'surface-200 text-600'">
+                            <i class="pi pi-shield text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-900">{{ role.label }}</span>
+                            <small class="text-500 uppercase">{{ role.code }}</small>
+                        </div>
+                    </div>
+                    <i class="pi pi-chevron-right text-400" *ngIf="selectedRole?.id !== role.id"></i>
+                    <p-tag [severity]="role.active ? 'success' : 'danger'" [value]="role.active ? 'Actif' : 'Inactif'"
+                        [rounded]="true" class="scalein animation-duration-200">
+                    </p-tag>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Role Details -->
+    <div class="col-12 md:col-8">
+        <div class="surface-card shadow-1 border-round-xl border-1 surface-border p-5" *ngIf="selectedRole">
+            <!-- Header -->
+            <div
+                class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-5 gap-4 border-bottom-1 surface-border pb-4">
+                <div class="flex align-items-center gap-3">
+                    <div
+                        class="w-4rem h-4rem bg-primary-100 text-primary flex align-items-center justify-content-center border-circle border-1 border-primary-50">
+                        <i class="pi pi-id-card text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="m-0 font-bold text-900 flex align-items-center gap-3">
+                            {{ selectedRole.label }}
+                            <p-tag [severity]="selectedRole.active ? 'success' : 'danger'"
+                                [value]="selectedRole.active ? 'Profil Actif' : 'Profil Inactif'"
+                                [icon]="selectedRole.active ? 'pi pi-check-circle' : 'pi pi-ban'"
+                                styleClass="status-tag-premium">
+                            </p-tag>
+                        </h3>
+                    </div>
+                </div>
+                <div class="flex align-items-center gap-4">
+                    <div class="text-right hidden md:block">
+                        <div class="text-xs text-500 uppercase font-bold mb-2">Statut du Rôle</div>
+                        <p-inputSwitch [(ngModel)]="selectedRole.active" (onChange)="onStatusChange()"></p-inputSwitch>
+                    </div>
+                    <p-tieredMenu #menu [model]="roleMenuItems" [popup]="true"></p-tieredMenu>
+                    <button pButton icon="pi pi-cog" (click)="menu.toggle($event)"
+                        class="p-button-rounded p-button-text p-button-secondary surface-100 hover:surface-200"
+                        pTooltip="Options du rôle" tooltipPosition="left"></button>
+                </div>
+            </div>
+
+            <!-- Dialog for Duplication -->
+            <p-dialog header="Dupliquer le rôle" [(visible)]="displayDuplicateDialog" [modal]="true"
+                [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+                <div class="flex flex-column gap-3 mt-2">
+                    <p class="m-0 text-600">Vous allez créer une copie exacte des permissions de
+                        <strong>{{selectedRole?.label}}</strong>.</p>
+                    <div class="flex flex-column gap-2">
+                        <label for="newRole" class="font-bold text-700">Nom du nouveau rôle</label>
+                        <input pInputText id="newRole" [(ngModel)]="newRoleName" class="w-full"
+                            placeholder="Ex: MANAGER_V2" />
+                    </div>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton label="Annuler" icon="pi pi-times" class="p-button-text"
+                        (click)="displayDuplicateDialog = false"></button>
+                    <button pButton label="Confirmer la copie" icon="pi pi-check" class="p-button-primary"
+                        (click)="confirmDuplicate()"></button>
+                </ng-template>
+            </p-dialog>
+
+            <!-- Permissions with Checkboxes -->
+            <div class="position-relative" style="position: relative;">
+                <!-- Overlay de chargement Premium -->
+                <div *ngIf="saveLoading"
+                    class="absolute top-0 left-0 w-full h-full border-round-xl flex align-items-center justify-content-center"
+                    style="background: rgba(255,255,255,0.7); z-index: 10; backdrop-filter: blur(2px);">
+                    <div class="text-center">
+                        <i class="pi pi-spin pi-spinner text-primary text-4xl mb-3"></i>
+                        <div class="text-primary font-bold text-lg">Synchronisation sécurisée...</div>
+                    </div>
+                </div>
+
+                <div
+                    class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-4 gap-3">
+                    <h5 class="text-900 font-bold m-0 flex align-items-center gap-2">
+                        <i class="pi pi-lock text-700"></i>
+                        Configuration des Accès (Paramètres)
+                    </h5>
+                    <div class="flex flex-wrap gap-2">
+                        <button pButton label="Tout cocher" icon="pi pi-check-square" (click)="selectAllPermissions()"
+                            [disabled]="saveLoading"
+                            class="p-button-sm p-button-text p-button-secondary bg-gray-50 border-1 surface-border"></button>
+                        <button pButton label="Tout décocher" icon="pi pi-stop" (click)="deselectAllPermissions()"
+                            [disabled]="saveLoading"
+                            class="p-button-sm p-button-text p-button-danger bg-red-50 border-1 border-red-100"></button>
+                        <button pButton [label]="saveLoading ? 'Enregistrement...' : 'Enregistrer'"
+                            [icon]="saveLoading ? 'pi pi-spin pi-spinner' : 'pi pi-save'" class="p-button-sm ml-2"
+                            [ngClass]="{'p-button-success': saveSuccess}" (click)="savePermissions()"
+                            [disabled]="saveLoading"></button>
+                    </div>
+                </div>
+
+                <!-- Message de succès persistant -->
+                <p-messages [(value)]="successMessages" [enableService]="false" [closable]="true"></p-messages>
+
+                <div *ngIf="detailsLoading">
+                    <div class="flex gap-4 mb-3"><p-skeleton width="30%" height="15rem"></p-skeleton><p-skeleton
+                            width="30%" height="15rem"></p-skeleton><p-skeleton width="30%" height="15rem"></p-skeleton>
+                    </div>
+                </div>
+
+                <div *ngIf="!detailsLoading" class="grid mt-2">
+                    <!-- Bloc 1: Intelligence Documentaire -->
+                    <div class="col-12 lg:col-4">
+                        <div
+                            class="surface-card p-4 border-round-xl border-1 surface-border h-full shadow-none hover:shadow-1 transition-all">
+                            <div
+                                class="text-sm font-bold uppercase text-700 mb-3 flex align-items-center gap-2 border-bottom-1 surface-border pb-3">
+                                <i class="pi pi-file-pdf text-500 text-lg"></i>
+                                Documentaire
+                            </div>
+                            <div class="flex flex-column">
+                                <div *ngFor="let p of categorized.intelligence"
+                                    class="flex align-items-center justify-content-between py-2 border-bottom-1 surface-border last-of-type:border-none">
+                                    <label [for]="p.id" class="text-700 text-sm cursor-pointer select-none flex-1">{{
+                                        p.label || p.code }}</label>
+                                    <p-checkbox [name]="'groupA'" [value]="p.id" [(ngModel)]="selectedPermissionIds"
+                                        [inputId]="p.id"></p-checkbox>
+                                </div>
+                                <span *ngIf="categorized.intelligence.length === 0"
+                                    class="text-xs text-400 italic py-2">Aucune permission assignée</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 2: Gouvernance & Verdict -->
+                    <div class="col-12 lg:col-4">
+                        <div
+                            class="surface-card p-4 border-round-xl border-1 surface-border h-full shadow-none hover:shadow-1 transition-all">
+                            <div
+                                class="text-sm font-bold uppercase text-700 mb-3 flex align-items-center gap-2 border-bottom-1 surface-border pb-3">
+                                <i class="pi pi-verified text-500 text-lg"></i>
+                                Gouvernance
+                            </div>
+                            <div class="flex flex-column">
+                                <div *ngFor="let p of categorized.governance"
+                                    class="flex align-items-center justify-content-between py-2 border-bottom-1 surface-border last-of-type:border-none">
+                                    <label [for]="p.id" class="text-700 text-sm cursor-pointer select-none flex-1">{{
+                                        p.label || p.code }}</label>
+                                    <p-checkbox [name]="'groupB'" [value]="p.id" [(ngModel)]="selectedPermissionIds"
+                                        [inputId]="p.id"></p-checkbox>
+                                </div>
+                                <span *ngIf="categorized.governance.length === 0"
+                                    class="text-xs text-400 italic py-2">Aucune permission assignée</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloc 3: Administration Système -->
+                    <div class="col-12 lg:col-4">
+                        <div
+                            class="surface-card p-4 border-round-xl border-1 surface-border h-full shadow-none hover:shadow-1 transition-all">
+                            <div
+                                class="text-sm font-bold uppercase text-700 mb-3 flex align-items-center gap-2 border-bottom-1 surface-border pb-3">
+                                <i class="pi pi-cog text-500 text-lg"></i>
+                                Gestion Système
+                            </div>
+                            <div class="flex flex-column">
+                                <div *ngFor="let p of categorized.admin"
+                                    class="flex align-items-center justify-content-between py-2 border-bottom-1 surface-border last-of-type:border-none">
+                                    <label [for]="p.id" class="text-700 text-sm cursor-pointer select-none flex-1">{{
+                                        p.label || p.code }}</label>
+                                    <p-checkbox [name]="'groupC'" [value]="p.id" [(ngModel)]="selectedPermissionIds"
+                                        [inputId]="p.id"></p-checkbox>
+                                </div>
+                                <span *ngIf="categorized.admin.length === 0" class="text-xs text-400 italic py-2">Aucune
+                                    permission assignée</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrated Audit Timeline -->
+            <div class="mt-6 pt-5 border-top-1 surface-border">
+                <div class="flex justify-content-between align-items-center mb-4">
+                    <h5 class="text-900 font-bold m-0 flex align-items-center gap-2">
+                        <i class="pi pi-history text-500"></i>
+                        Traçabilité des Modifications
+                    </h5>
+                </div>
+
+                <p-skeleton *ngIf="auditLoading" width="100%" height="100px"></p-skeleton>
+
+                <p-timeline *ngIf="!auditLoading && roleAuditTrail.length > 0" [value]="roleAuditTrail" align="left">
+                    <ng-template pTemplate="content" let-event>
+                        <div
+                            class="flex flex-column p-3 surface-50 border-round-lg mb-3 border-1 surface-border hover:shadow-1 transition-all">
+                            <div class="flex justify-content-between align-items-center mb-2">
+                                <span class="font-bold text-900 text-sm">{{ formatAction(event.action) }}</span>
+                                <small
+                                    class="text-500 font-medium bg-white px-2 py-1 border-round border-1 surface-border">{{
+                                    event.occurredAt | date:'dd/MM/yyyy HH:mm' }}</small>
+                            </div>
+                            <div class="text-xs text-700 flex align-items-center gap-2 mt-1">
+                                <i class="pi pi-user text-500"></i>
+                                <span>Modifié par <span class="font-bold">{{ getActorName(event.actorUserId)
+                                        }}</span></span>
+                            </div>
+                            <div class="text-xs text-600 mt-2 p-2 bg-white border-round border-1 surface-border font-code"
+                                *ngIf="event.newData">
+                                {{ event.newData }}
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="marker" let-event>
+                        <span
+                            class="flex w-2rem h-2rem align-items-center justify-content-center border-circle bg-white border-2 surface-border text-500">
+                            <i class="pi pi-clock text-xs"></i>
+                        </span>
+                    </ng-template>
+                </p-timeline>
+
+                <div *ngIf="!auditLoading && roleAuditTrail.length === 0"
+                    class="text-center py-5 surface-50 border-round-xl border-1 surface-border">
+                    <i class="pi pi-file text-300 text-4xl mb-3"></i>
+                    <div class="text-600 font-medium">Aucun historique de modification.</div>
+                    <small class="text-500">Le journal d'audit est vierge pour ce rôle.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="surface-card shadow-1 border-round-xl border-1 surface-border flex align-items-center justify-content-center"
+            *ngIf="!selectedRole" style="height: 500px">
+            <div class="text-center max-w-sm">
+                <div
+                    class="w-5rem h-5rem surface-100 border-circle flex align-items-center justify-content-center mx-auto mb-4 border-1 surface-border">
+                    <i class="pi pi-cog text-4xl text-400"></i>
+                </div>
+                <h3 class="text-900 font-bold m-0 mb-2">Configuration Système</h3>
+                <p class="text-600 m-0 line-height-3">Sélectionnez un rôle dans le panneau latéral pour visualiser et
+                    modifier ses paramètres d'accès.</p>
+            </div>
+        </div>
+    </div>
+</div>

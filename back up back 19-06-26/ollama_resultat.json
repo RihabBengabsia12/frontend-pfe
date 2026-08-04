@@ -1,0 +1,92 @@
+{
+  "type_document": null,
+  "est_template": null,
+  "reference": null,
+  "titre_document": null,
+  "acronyme_mission": null,
+  "langue": null,
+  "date_publication": null,
+  "date_limite_soumission": null,
+  "nb_pages": null,
+  "pays": "La République Tunisienne",
+  "ville": null,
+  "zone_intervention": [],
+  "pouvoir_adjudicateur": {
+    "organisation": "Le Ministère de l'Economie et de la Planification (MEP)",
+    "acronyme": null,
+    "structure": null,
+    "acronyme_structure": null
+  },
+  "bailleur": [
+    {
+      "code": "P3A",
+      "role": "Subvention",
+      "qualifications": null,
+      "experience_generale_ans": null,
+      "hommes_jours": null,
+      "langue": null,
+      "atouts": null
+    },
+    {
+      "code": "IDA",
+      "role": "IDB/Pret",
+      "qualifications": null,
+      "experience_generale_ans": null,
+      "hommes_jours": null,
+      "langue": null,
+      "atouts": null
+    },
+    {
+      "code": "AFD",
+      "role": "Pret",
+      "qualifications": null,
+      "experience_generale_ans": null,
+      "hommes_jours": null,
+      "langue": null,
+      "atouts": null
+    },
+    {
+      "code": "BAD",
+      "role": "Pret",
+      "qualifications": null,
+      "experience_generale_ans": null,
+      "hommes_jours": null,
+      "langue": null,
+      "atouts": null
+    }
+  ],
+  "secteurs": [],
+  "mots_cles": [],
+  "acronymes": {},
+  "objectif_general": "Promouvoir la modernisation de l'agriculture et la diversification des cultures en soutenant la production de fruits et légumes à haute valeur ajoutée, encourager les jeunes à s'engager dans l'agriculture, renforcer l'agriculture biologique et durable.",
+  "objectifs_specifiques": [],
+  "duree_mois": null,
+  "duree_jours": null,
+  "date_debut_prevue": null,
+  "date_fin_prevue": null,
+  "nb_experts": null,
+  "total_hommes_jours": null,
+  "experts": [],
+  "composantes": [
+    {
+      "numero": null,
+      "titre": null,
+      "activites": []
+    }
+  ],
+  "rapports": [],
+  "produits_attendus": [],
+  "livrables": [],
+  "logistique": {
+    "lieu_principal": null
+  },
+  "gestion_projet": {
+    "organe_responsable": null,
+    "supervision": null
+  },
+  "risques": [],
+  "hypotheses": [],
+  "confiance_extraction": "faible",
+  "taux_remplissage_pct": 18,
+  "notes_extracteur": null
+}

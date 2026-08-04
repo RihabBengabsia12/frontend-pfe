@@ -1,0 +1,44 @@
+{
+  "type_document": null,
+  "reference": null,
+  "titre_document": null,
+  "pays": "La République Tunisienne",
+  "Pouvoir_adjudicateur": {
+    "organisation": "Le Ministère de l'Economie et de la Planification (MEP)",
+    "acronyme": "UGP3A"
+  },
+  "beneficiaire": {
+    "organisation": null,
+    "acronyme": null
+  },
+  "bailleur": [
+    {
+      "UE/P3A": {
+        "subvention": null
+      },
+      "BIRD/IDA": {
+        "pret": null
+      },
+      "AFD": {
+        "pret": null
+      },
+      "BAD": {
+        "pret": null
+      }
+    }
+  ],
+  "type_financement": null,
+  "programme_cadre": null,
+  "duree_mois": null,
+  "duree_jours": null,
+  "date_debut_prevue": null,
+  "date_fin_prevue": null,
+  "nb_experts": null,
+  "total_hommes_jours": null,
+  "objectif_general": "Contribuer à la réalisation des réformes vers un système alimentaire durable",
+  "secteurs": [],
+  "risques": [],
+  "confiance_extraction": null,
+  "taux_remplissage_pct": null,
+  "notes_extracteur": null
+}

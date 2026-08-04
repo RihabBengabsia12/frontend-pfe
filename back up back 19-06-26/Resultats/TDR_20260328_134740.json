@@ -1,0 +1,226 @@
+{
+  "informations_generales": {
+    "pays": "Tunisie",
+    "intitule_offre": "Assistance technique - Suivi réformes système alimentaire durable (SUIDAR)",
+    "numero_reference": null,
+    "client": "MEP / UGP3A - Ministère de l'Economie et de la Planification",
+    "resume_contexte_objectifs": [
+      "- Tunisie : récession 2020 (-8,7%), reprise progressive 2021-2022",
+      "- Agriculture : 10,2% PIB, 16% emploi actif",
+      "- Réformes agricoles soutenues par PADR et PACE (appuis budgétaires UE)",
+      "- Mission SUIDAR : suivi avancement réformes système alimentaire durable",
+      "- OS1 : concevoir dispositif de suivi des réformes pour MARHP/DGEDA",
+      "- OS2 : veille informationnelle bimensuelle sur politiques agricoles UE",
+      "- Livrables : rapports trimestriels, base de données, tableau de bord, bulletins"
+    ],
+    "langue": "Français",
+    "date_limite_soumission": null
+  },
+  "financement": {
+    "bailleurs": [
+      "Union Européenne"
+    ],
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "financement_local": {
+      "oui_non": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": [],
+    "shortlist_equilibree": null,
+    "justif_shortlist": null,
+    "analyse_concurrence": null
+  },
+  "hommes_mois_budget": {
+    "hm_exiges_ou_estimes": "3 experts principaux, durée 6 mois - nombre j/h non précisé",
+    "budget_interne_estime": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "source_budget_interne": null
+  },
+  "delais": {
+    "delai_preparation_suffisant": null,
+    "justif_delai_preparation": "Date limite soumission non mentionnée dans le document",
+    "delai_global_mission_mois": 6,
+    "capacite_respect_delai": null,
+    "justif_capacite_delai": "Démarrage indicatif 2026-04-15, durée 6 mois"
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "mode_notation_autre": null,
+    "note_minimale_tech": null,
+    "ponderation_technique": null,
+    "ponderation_financiere": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": [
+      "Expert SR suivi-évaluation chef d'équipe",
+      "Expert SR veille informationnelle",
+      "Expert SR traitement information et développement informatique"
+    ],
+    "chef_de_file": null,
+    "roles_et_repartition": "3 experts principaux requis, pas d'autres experts prévus aux TDR"
+  },
+  "caution_soumission": {
+    "exigee": null,
+    "banque_locale_exigee": null,
+    "monnaie": null,
+    "montant": null,
+    "duree_validite": null
+  },
+  "demandes_information_client": {
+    "date_limite_questions": null,
+    "liste_clarifications": [
+      "Quel est le numéro de référence officiel du marché ?",
+      "Quelle est la date limite de soumission des offres ?",
+      "Quel est le budget global estimé ou l'enveloppe financière du marché ?",
+      "Quel est le nombre de jours/hommes exigés par expert principal ?",
+      "Quels sont les critères de notation technique et financière (pondérations) ?",
+      "Existe-t-il une shortlist de soumissionnaires pré-qualifiés ?",
+      "Une caution de soumission est-elle exigée ?"
+    ]
+  },
+  "visite_site_conference": {
+    "visite_obligatoire": null,
+    "visite_date": null,
+    "conference_obligatoire": null,
+    "conference_date": null
+  },
+  "risques_non_maitrisables": {
+    "risque_pays_securite": {
+      "niveau": "Faible",
+      "note": "Tunisie stable ; contexte économique sous tension mais opérable"
+    },
+    "risques_financiers": {
+      "niveau": "Moyen",
+      "note": "Budget non communiqué ; risque sous-évaluation H/M"
+    },
+    "penalites": {
+      "niveau": "NA",
+      "note": "Pénalités non mentionnées dans les TDR"
+    },
+    "exigences_tdr_inacceptables": {
+      "niveau": "Faible",
+      "note": "TDR clairs ; exigences cohérentes avec la mission"
+    },
+    "garanties_assurances_elevees": {
+      "niveau": "NA",
+      "note": "Non mentionné dans les TDR"
+    },
+    "taille_dispersion_projet": {
+      "niveau": "Faible",
+      "note": "Mission centrée Tunis ; déplacements régionaux ponctuels"
+    },
+    "frais_divers_eleves": {
+      "niveau": "Faible",
+      "note": "Bureaux à charge contractant ; équipement exclu du marché"
+    },
+    "budget_faible_hm_limites": {
+      "niveau": "Moyen",
+      "note": "Nombre de j/h non précisé ; risque d'inadéquation charge/budget"
+    },
+    "participation_locale_excessive": {
+      "niveau": "Faible",
+      "note": "Fonctionnaires publics autorisés sous conditions justifiées"
+    },
+    "fiscalite_non_maitrisee": {
+      "niveau": "Moyen",
+      "note": "Régime fiscal applicable en Tunisie non précisé dans les TDR"
+    }
+  },
+  "decision": {
+    "recommandation_go_no_go": "GO_PRUDENT",
+    "argumentaire": [
+      "- Mission claire et bien définie : 3 composantes structurées",
+      "- Client institutionnel solide : MEP/UGP3A, expérience UE avérée",
+      "- Durée courte (6 mois) : risque d'exécution limité",
+      "- Budget et j/h non communiqués : évaluation financière impossible",
+      "- Critères de sélection absents : stratégie d'offre non optimisable",
+      "- Risque de coordination inter-ministérielle identifié dans les TDR",
+      "- Profils experts exigeants mais standards pour ce type de mission UE"
+    ],
+    "points_critiques": [
+      "Budget global non communiqué",
+      "Nombre de jours/hommes par expert non précisé",
+      "Critères notation technique/financière absents",
+      "Date limite soumission inconnue",
+      "Régime fiscal applicable non précisé"
+    ]
+  },
+  "workflow": {
+    "arrivee_bo": null,
+    "transmission_dda": null,
+    "direction_pilote": null,
+    "responsable_offre": null
+  },
+  "plan_action": null,
+  "missing_information": [
+    {
+      "champ": "budget_global",
+      "question": "Quel est le montant total alloué au marché ?",
+      "raison": "Aucun budget mentionné dans les TDR ; indispensable pour chiffrer l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "hm_exiges_ou_estimes",
+      "question": "Quel est le nombre de jours/hommes prévu par expert principal ?",
+      "raison": "Tableau des j/h présent dans les TDR mais non renseigné",
+      "priorite": "haute"
+    },
+    {
+      "champ": "date_limite_soumission",
+      "question": "Quelle est la date limite de remise des offres ?",
+      "raison": "Non mentionnée dans le document transmis",
+      "priorite": "haute"
+    },
+    {
+      "champ": "criteres_selection",
+      "question": "Quelles sont les pondérations technique/financière et la note minimale ?",
+      "raison": "Critères absents des TDR ; nécessaires pour stratégie d'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "numero_reference",
+      "question": "Quel est le numéro de référence officiel du marché/appel d'offres ?",
+      "raison": "Absent du document ; requis pour identification administrative",
+      "priorite": "haute"
+    },
+    {
+      "champ": "concurrence.shortlist",
+      "question": "S'agit-il d'un AO ouvert ou restreint ? Liste des soumissionnaires shortlistés ?",
+      "raison": "Aucune information sur le mode de passation du marché",
+      "priorite": "haute"
+    },
+    {
+      "champ": "fiscalite_non_maitrisee",
+      "question": "Quel est le régime fiscal applicable au contractant étranger en Tunisie ?",
+      "raison": "Non précisé ; impact direct sur la marge et le budget offre",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Mission financée UE via contrat de subvention UGP3A",
+      "risque": "Règles de passation UE standard applicables ; à confirmer"
+    },
+    {
+      "hypothese": "Démarrage effectif : 2026-04-15 (indicatif)",
+      "risque": "Délai peut être repoussé selon procédure contractuelle"
+    },
+    {
+      "hypothese": "3 experts principaux = ressources minimales requises",
+      "risque": "Sous-estimation charge si j/h réels non confirmés avant soumission"
+    },
+    {
+      "hypothese": "Bureaux à charge exclusivement du contractant",
+      "risque": "Coût logistique Tunis à intégrer dans l'offre financière"
+    }
+  ]
+}

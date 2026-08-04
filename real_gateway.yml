@@ -1,0 +1,67 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 3000
+        response-timeout: 1200s
+      globalcors:
+        add-to-chain: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+              - "http://127.0.0.1:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+            # Force aussi la réponse CORS sur le preflight
+            # (sinon certains setups ne renvoient pas les headers)
+            maxAge: 3600
+      routes:
+        - id: auth-service-route
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/**
+                        # ◄── AJOUTÉ : Enlève le "/api" pour l'Auth Service
+
+        - id: admin-service-route
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/api/admin/**
+
+
+        - id: project-service-route
+          uri: lb://PROJECT-SERVICE
+          predicates:
+            - Path=/api/projects/**
+            - Path=/api/projects
+            - Path=/api/dossiers/**
+            - Path=/api/dossiers
+
+
+        - id: analyste-service-route
+          uri: lb://ANALYSTE-SERVICE
+          predicates:
+            - Path=/api/analyses/**
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}

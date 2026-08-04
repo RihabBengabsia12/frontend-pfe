@@ -1,0 +1,101 @@
+<div class="rapports-page grid p-4 fade-in-up">
+    <!-- Header with KPIs -->
+    <div class="col-12 mb-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-900 m-0 flex align-items-center gap-2">
+                    <i class="pi pi-file-word text-blue-500"></i>
+                    Registre des APO Finales
+                </h1>
+                <p class="text-500 m-0 mt-1">Gérez, visualisez et téléchargez les APO finaux générés pour chaque dossier.</p>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="kpi-card card-pastel-blue p-3 border-round-xl shadow-1 flex align-items-center justify-content-between hover-lift transition-all fade-in-up">
+                    <div>
+                        <span class="block text-blue-700 font-medium text-sm mb-1">Total des APO</span>
+                        <div class="text-2xl font-bold text-900">{{ totalApos }}</div>
+                    </div>
+                    <div class="w-2rem h-2rem flex align-items-center justify-content-center bg-white-alpha-50 border-circle">
+                        <i class="pi pi-file-word text-lg text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="col-12">
+        <div class="card border-round-2xl shadow-2 p-0 bg-white overflow-hidden fade-in-up delay-1">
+            <p-table #dt [value]="reports" [loading]="isLoading" responsiveLayout="scroll" 
+                     [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,25,50]"
+                     [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+                     [globalFilterFields]="['intituleOffre','client','bailleurs','status']"
+                     exportFilename="Registre_APO_Final"
+                     styleClass="p-datatable-striped custom-table-premium">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
+                        <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des APO</h5>
+                        <div class="flex gap-2 mt-2 md:mt-0">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="searchQuery" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher (Client, Offre...)" class="border-round-2xl" />
+                            </span>
+                            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                            <p-menu #menu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr class="bg-gray-50 text-700">
+                        <th pSortableColumn="intituleOffre" class="p-3">Dossier & Client <p-sortIcon field="intituleOffre"></p-sortIcon></th>
+                        <th pSortableColumn="status" class="p-3 text-center">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt" class="p-3 text-center">Date de création <p-sortIcon field="createdAt"></p-sortIcon></th>
+                        <th class="p-3 text-right">Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-report>
+                    <tr class="transition-colors hover:surface-hover">
+                        <td class="p-3">
+                            <div class="font-bold text-900 text-lg mb-1">{{ report.intituleOffre }}</div>
+                            <div class="text-500 text-sm flex align-items-center gap-2">
+                                <i class="pi pi-building text-xs"></i> {{ report.client }}
+                                <span *ngIf="report.bailleurs"> • {{ report.bailleurs }}</span>
+                            </div>
+                        </td>
+                        <td class="p-3 text-center">
+                            <p-tag [value]="report.status" [severity]="statusSeverity(report.status)" styleClass="border-round-2xl px-3 py-1 font-bold text-sm shadow-1"></p-tag>
+                        </td>
+                        <td class="p-3 text-center text-600 font-medium">
+                            <i class="pi pi-calendar mr-1 text-400"></i> {{ report.createdAt | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="p-3 text-right">
+                            <div class="flex justify-content-end gap-2">
+                                <button pButton icon="pi pi-external-link" class="p-button-rounded p-button-text p-button-secondary transition-all hover:bg-gray-200" pTooltip="Ouvrir le Pack du dossier" tooltipPosition="top" (click)="openDossier(report)"></button>
+                                <button pButton icon="pi pi-download" class="p-button-rounded p-button-info shadow-1 transition-all hover:-translate-y-1" pTooltip="Télécharger APO (.docx)" tooltipPosition="top" (click)="downloadWord(report)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4" class="text-center p-5">
+                            <div class="flex flex-column align-items-center justify-content-center opacity-50">
+                                <i class="pi pi-inbox text-6xl mb-3"></i>
+                                <span class="text-xl font-medium">Aucun APO trouvé.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-toast position="top-right"></p-toast>

@@ -1,0 +1,67 @@
+<p-dialog header="Forcer le passage en Phase 3 (Bypass du No-Go)" 
+          [(visible)]="visible" 
+          [modal]="true" 
+          [style]="{width: '500px'}" 
+          [closable]="true"
+          [draggable]="false"
+          [resizable]="false"
+          styleClass="p-fluid border-round-2xl shadow-6"
+          (onHide)="close()">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+            <div class="w-2rem h-2rem bg-orange-100 border-circle flex align-items-center justify-content-center">
+                <i class="pi pi-unlock text-orange-600"></i>
+            </div>
+            <span class="font-bold text-xl text-800">Forçage vers Matching (Go)</span>
+        </div>
+    </ng-template>
+
+    <div class="modal-body p-2">
+        <div class="bg-red-50 border-round-2xl border-1 border-red-100 p-4 flex align-items-start gap-3 shadow-1 mb-4 hover-lift">
+            <i class="pi pi-exclamation-circle text-red-500 text-3xl mt-1"></i>
+            <div class="text-sm text-red-900 line-height-3">
+                <strong>Action Stratégique Manager :</strong> Vous êtes sur le point de forcer un dossier disqualifié. 
+                Une justification managériale d'au moins <span class="font-bold bg-red-200 px-1 border-round">100 mots</span> est obligatoire pour l'audit.
+            </div>
+        </div>
+
+        <!-- Bypass reason selection -->
+        <div class="field flex flex-column gap-2 mb-4">
+            <label for="overrideReason" class="font-bold text-700 text-sm">Catégorie de Forçage</label>
+            <p-dropdown id="overrideReason" [options]="reasons" [(ngModel)]="selectedReason" 
+                        optionLabel="label" optionValue="value" placeholder="Sélectionnez le motif stratégique..."
+                        appendTo="body" styleClass="w-full pastel-input shadow-1"></p-dropdown>
+        </div>
+
+        <!-- Text area and Word count validation -->
+        <div class="field flex flex-column gap-2">
+            <div class="flex justify-content-between align-items-center mb-1">
+                <label for="overrideJustif" class="font-bold text-700 text-sm flex align-items-center gap-2">
+                    <i class="pi pi-align-left text-blue-500"></i>
+                    Justification Détaillée
+                </label>
+                <span class="counter-badge shadow-1 transition-all" [class.bg-red-count]="getWordCount() < 100" [class.bg-green-count]="getWordCount() >= 100">
+                    <i class="pi" [ngClass]="getWordCount() >= 100 ? 'pi-check text-green-700' : 'pi-pencil text-red-700'"></i> 
+                    {{ getWordCount() }} / 100 mots
+                </span>
+            </div>
+            <textarea id="overrideJustif" rows="7" pInputTextarea class="pastel-input shadow-1 border-round-xl w-full"
+                      [(ngModel)]="justification" 
+                      placeholder="Décrivez précisément les arguments commerciaux, opérationnels ou contractuels qui justifient de passer outre l'algorithme..."></textarea>
+            
+            <!-- Progress bar visual indicator for words -->
+            <p-progressBar [value]="(getWordCount() / 100) * 100" [showValue]="false" 
+                          [styleClass]="getWordCount() >= 100 ? 'mt-2 h-1rem custom-progress-green' : 'mt-2 h-1rem custom-progress-red'"></p-progressBar>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex gap-3 justify-content-end mt-4 p-2 border-top-1 border-200 pt-4">
+            <button pButton label="Annuler" class="p-button-text p-button-secondary border-round-3xl font-bold" (click)="close()"></button>
+            <button pButton label="Confirmer le Forçage" icon="pi pi-check" 
+                    class="p-button-warning border-round-3xl font-bold px-4 shadow-2 pulse-button" 
+                    [disabled]="!isValid()" (click)="submit()"
+                    style="background: linear-gradient(90deg, #f59e0b, #d97706); border: none;"></button>
+        </div>
+    </ng-template>
+</p-dialog>

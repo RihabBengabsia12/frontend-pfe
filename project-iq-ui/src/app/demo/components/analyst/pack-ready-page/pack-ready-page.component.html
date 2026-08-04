@@ -1,0 +1,56 @@
+<p-toast></p-toast>
+
+<div class="px-4 pt-4 pb-0">
+    <app-pipeline-stepper mode="phase4" [activeStep]="2" context="pack-ready"></app-pipeline-stepper>
+</div>
+
+<div class="grid p-4 fade-in-up">
+    <!-- Header Celebration -->
+    <div class="col-12 mb-4 text-center fade-in-up delay-1">
+        <div class="inline-block bg-green-100 border-circle p-3 mb-3 floating shadow-2">
+            <i class="pi pi-check text-5xl text-green-600"></i>
+        </div>
+        <h1 class="text-midnight font-bold text-3xl mb-2">Pack Soumission Finalisé</h1>
+        <p class="text-600 text-lg w-full md:w-6 m-auto line-height-3">
+            Tous les livrables du dossier ont été compilés avec succès. 
+            Vous pouvez télécharger l'archive ZIP contenant les fichiers finaux pour la soumission.
+        </p>
+    </div>
+
+    <!-- Cards for Documents -->
+    <div class="col-12 lg:col-8 lg:offset-2 fade-in-up delay-2">
+        <div class="grid">
+            <div class="col-12 md:col-6" *ngFor="let doc of documents">
+                <div class="card bg-white p-4 border-round-2xl shadow-1 hover-lift flex align-items-center justify-content-between mb-3 border-1 border-50">
+                    <div class="flex align-items-center gap-3">
+                        <div class="w-3rem h-3rem border-circle flex align-items-center justify-content-center" [ngClass]="doc.bg">
+                            <i [class]="doc.icon" class="text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-700 text-md">{{ doc.name }}</div>
+                            <div class="text-500 text-xs mt-1">{{ doc.size }} • Compilé avec succès</div>
+                        </div>
+                    </div>
+                    <div class="text-green-500 font-bold text-lg">
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Action -->
+        <div class="text-center mt-5">
+            <button pButton icon="pi pi-download" label="Télécharger Pack ZIP complet" 
+                    class="p-button-lg border-round-3xl px-6 py-4 font-bold shadow-3" 
+                    [ngClass]="isDownloading ? 'p-button-secondary' : 'p-button-success pulse-button'"
+                    [disabled]="isDownloading"
+                    (click)="downloadPack()">
+                <p-progressSpinner *ngIf="isDownloading" styleClass="w-1rem h-1rem mr-2" strokeWidth="4"></p-progressSpinner>
+            </button>
+            <div class="mt-3 text-sm font-semibold text-500 flex align-items-center justify-content-center gap-2">
+                <i class="pi pi-info-circle"></i>
+                Le dossier sera marqué comme terminé et archivé.
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<p-toast></p-toast>
+
+<p-sidebar [(visible)]="visible" position="right" [baseZIndex]="10000" styleClass="p-sidebar-md w-full md:w-30rem custom-pastel-sidebar" (onShow)="loadData()">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2 text-primary font-bold text-xl">
+            <i class="pi pi-sliders-v text-2xl"></i>
+            <span>Ajustement IA du Dossier</span>
+        </div>
+    </ng-template>
+
+    <div class="sidebar-content mt-3 fade-in-up" *ngIf="!loading">
+        <p class="text-600 mb-4 line-height-3 text-sm">
+            Vous pouvez surcharger (override) les consignes (prompts) envoyées à l'IA spécifiquement pour ce dossier. Les modifications n'affecteront pas les autres dossiers.
+        </p>
+
+        <div class="field mb-4">
+            <label class="font-bold text-700 block mb-2">Choisir l'étape à ajuster :</label>
+            <p-dropdown [options]="promptsList" [(ngModel)]="selectedPromptFilename" (onChange)="onPromptChange()" 
+                        optionLabel="label" optionValue="value" styleClass="w-full bg-blue-50 border-blue-200">
+            </p-dropdown>
+        </div>
+
+        <div class="field mb-4 relative" *ngIf="selectedPromptFilename">
+            <div class="flex justify-content-between align-items-center mb-2">
+                <label class="font-bold text-700 m-0">
+                    Consignes IA (Prompt)
+                </label>
+                <p-tag [severity]="isOverridden ? 'warning' : 'info'" 
+                       [value]="isOverridden ? 'Surchargé (Personnalisé)' : 'Par défaut (Global)'"
+                       [rounded]="true">
+                </p-tag>
+            </div>
+            
+            <textarea pInputTextarea [(ngModel)]="currentContent" rows="18" 
+                      class="w-full custom-textarea" 
+                      placeholder="Saisissez vos consignes pour ce dossier..."></textarea>
+        </div>
+    </div>
+    
+    <div class="flex justify-content-center mt-5" *ngIf="loading">
+        <p-progressSpinner styleClass="w-3rem h-3rem" strokeWidth="4" animationDuration=".5s"></p-progressSpinner>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-between pt-3 border-top-1 border-200" *ngIf="!loading && selectedPromptFilename">
+            <button pButton pRipple icon="pi pi-refresh" label="Rétablir global" 
+                    class="p-button-text p-button-secondary p-button-sm" 
+                    [disabled]="!isOverridden || saving"
+                    (click)="resetToGlobal()">
+            </button>
+            <button pButton pRipple icon="pi pi-check" label="Sauvegarder" 
+                    class="p-button-primary p-button-sm border-round-3xl px-4 shadow-2"
+                    [loading]="saving"
+                    (click)="saveOverride()">
+            </button>
+        </div>
+    </ng-template>
+</p-sidebar>

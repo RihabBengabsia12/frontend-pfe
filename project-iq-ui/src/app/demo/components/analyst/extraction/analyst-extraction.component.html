@@ -1,0 +1,46 @@
+<div class="grid p-4 fade-in-up">
+    <div class="col-12 mb-4">
+        <div class="card card-pastel-orange p-5 border-round-3xl shadow-2">
+            <div class="flex align-items-center gap-3">
+                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center">
+                    <i class="pi pi-upload text-2xl text-orange-700"></i>
+                </div>
+                <div>
+                    <h1 class="text-midnight font-bold text-3xl m-0">Nouvelle Extraction</h1>
+                    <p class="text-orange-800 m-0 opacity-80">Importez un CV — déclenche POST /api/analysts/extract</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6">
+        <div class="card shadow-3 border-round-2xl p-5"
+             [class.border-primary]="dragOver"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave()"
+             (drop)="onDrop($event)"
+             style="border: 2px dashed #bbdefb; min-height: 280px;">
+            <div class="flex flex-column align-items-center justify-content-center gap-4 text-center h-full">
+                <i class="pi pi-cloud-upload text-6xl text-blue-400"></i>
+                <div>
+                    <h3 class="text-900 font-bold m-0">Glissez-déposez le CV ici</h3>
+                    <p class="text-500 mt-2">PDF, DOC ou DOCX — parsing automatique vers JSON</p>
+                </div>
+                <label class="cursor-pointer">
+                    <input type="file" accept=".pdf,.doc,.docx" class="hidden" (change)="onFileSelect($event)" />
+                    <span pButton label="Parcourir les fichiers" icon="pi pi-folder-open" class="p-button-outlined"></span>
+                </label>
+                <p-progressSpinner *ngIf="isUploading"></p-progressSpinner>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6" *ngIf="lastExtracted">
+        <div class="card shadow-3 border-round-2xl p-5 card-pastel-green">
+            <h5 class="text-900 font-bold mb-3">Aperçu JSON extrait</h5>
+            <pre class="text-sm overflow-auto border-round p-3 surface-100" style="max-height: 220px;">{{ lastExtracted | json }}</pre>
+            <a routerLink="/analyst/profiles" pButton label="Corriger le profil" icon="pi pi-pencil" class="mt-3 p-button-success"></a>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

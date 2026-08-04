@@ -1,0 +1,669 @@
+<p-toast></p-toast>
+
+<div class="grid p-4 fade-in-up">
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <!-- Page Header                                                    -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div class="col-12 mb-3">
+        <div class="page-header-deposit">
+            <div class="flex align-items-center gap-3 flex-wrap">
+                <div class="header-icon-wrap">
+                    <i class="pi pi-cloud-upload text-2xl" style="color: #5b7fdb;"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex align-items-center gap-2 mb-1">
+                        <h1 class="header-title">Nouveau dossier AO</h1>
+                        <span class="header-badge">Phase 1</span>
+                    </div>
+                    <p class="header-subtitle">Upload TDR â†’ extraction Claude IA â†’ validation humaine â†’ auto-remplissage APO â†’ calcul prioritÃ© â†’ IndexÃ©</p>
+                </div>
+                <div *ngIf="currentStatus" class="header-badge" style="background: linear-gradient(135deg, #e2f3eb, #eaf7ee); color: #1e6b3e;">
+                    <i class="pi pi-circle-fill" style="font-size: 6px;"></i>
+                    {{ currentStatus }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <!-- Horizontal Stepper (6 Steps)                                   -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div class="col-12 mb-4">
+        <div class="card border-round-2xl shadow-1 p-4 bg-white">
+            <div class="custom-stepper">
+                <div class="step-progress-line" [style.width.%]="(activeIndex / 5) * 100"></div>
+
+                <div class="step-item" [class.active]="activeIndex === 0" [class.completed]="activeIndex > 0" (click)="navigateToStep(0)">
+                    <div class="step-circle">
+                        <i class="pi pi-cloud-upload" *ngIf="activeIndex <= 0"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 0"></i>
+                    </div>
+                    <div class="step-label">DÃ©pÃ´t</div>
+                </div>
+
+                <div class="step-item" [class.active]="activeIndex === 1" [class.completed]="activeIndex > 1" (click)="navigateToStep(1)">
+                    <div class="step-circle">
+                        <i class="pi pi-cog" *ngIf="activeIndex <= 1"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 1"></i>
+                    </div>
+                    <div class="step-label">Extraction</div>
+                </div>
+
+                <div class="step-item" [class.active]="activeIndex === 2" [class.completed]="activeIndex > 2" (click)="navigateToStep(2)">
+                    <div class="step-circle">
+                        <i class="pi pi-verified" *ngIf="activeIndex <= 2"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 2"></i>
+                    </div>
+                    <div class="step-label">Validation</div>
+                </div>
+
+                <div class="step-item" [class.active]="activeIndex === 3" [class.completed]="activeIndex > 3" (click)="navigateToStep(3)">
+                    <div class="step-circle">
+                        <i class="pi pi-file-word" *ngIf="activeIndex <= 3"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 3"></i>
+                    </div>
+                    <div class="step-label">APO</div>
+                </div>
+
+                <div class="step-item" [class.active]="activeIndex === 4" [class.completed]="activeIndex > 4" (click)="navigateToStep(4)">
+                    <div class="step-circle">
+                        <i class="pi pi-list" *ngIf="activeIndex <= 4"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 4"></i>
+                    </div>
+                    <div class="step-label">PrioritÃ©</div>
+                </div>
+
+                <div class="step-item" [class.active]="activeIndex === 5" [class.completed]="activeIndex > 5" (click)="navigateToStep(5)">
+                    <div class="step-circle">
+                        <i class="pi pi-server" *ngIf="activeIndex <= 5"></i>
+                        <i class="pi pi-check" *ngIf="activeIndex > 5"></i>
+                    </div>
+                    <div class="step-label">IndexÃ©</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <!-- Stepper Content Panels                                         -->
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div class="col-12">
+        <div class="card border-round-2xl shadow-2 p-4 md:p-5 bg-white">
+
+            <div [ngSwitch]="activeIndex">
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 0 : DÃ©pÃ´t â€” TDR uniquement                   -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="0" class="fade-in-up">
+                    <h4 class="text-900 font-bold mb-1">ðŸ“¤ DÃ©pÃ´t du dossier AO</h4>
+                    <p class="text-500 mb-4">DÃ©posez les Termes de RÃ©fÃ©rence (TDR) au format PDF ou DOCX. L'analyse IA sera lancÃ©e automatiquement.</p>
+
+                    <div class="grid">
+                        <!-- Titre du dossier -->
+                        <div class="col-12 mb-2">
+                            <label class="font-bold text-700 block mb-2">IntitulÃ© du dossier / Projet d'offre</label>
+                            <input pInputText class="w-full pastel-input" placeholder="Ex. AO Eau Potable â€” ONEE Maroc"
+                                   [(ngModel)]="projectTitle" />
+                        </div>
+
+                        <!-- Single Dropzone TDR -->
+                        <div class="col-12 mb-3">
+                            <div class="upload-section-title">
+                                <i class="pi pi-paperclip"></i>
+                                Document Ã  dÃ©poser
+                            </div>
+
+                            <div class="dropzone-tdr"
+                                 [class.drag-over]="dragOverTDR"
+                                 [class.file-loaded]="!!fileTDR"
+                                 (dragover)="onDragOver($event, 'TDR')"
+                                 (dragleave)="onDragLeave($event, 'TDR')"
+                                 (drop)="onDrop($event, 'TDR')">
+                                <input type="file" id="fileTDRInput" accept=".pdf,.doc,.docx" hidden (change)="onFileSelect($event, 'TDR')" />
+
+                                <!-- Empty state -->
+                                <ng-container *ngIf="!fileTDR">
+                                    <div class="dropzone-icon">
+                                        <i class="pi pi-file"></i>
+                                    </div>
+                                    <div class="dropzone-title">Termes de RÃ©fÃ©rence (TDR)</div>
+                                    <div class="dropzone-hint">PDF / DOCX Â· Glissez-dÃ©posez ou cliquez</div>
+                                    <label for="fileTDRInput" class="p-button p-button-outlined p-button-sm cursor-pointer" style="border-radius: 28px;">
+                                        <i class="pi pi-folder-open mr-2"></i> Choisir fichier
+                                    </label>
+                                </ng-container>
+
+                                <!-- File loaded state -->
+                                <ng-container *ngIf="fileTDR">
+                                    <div class="dropzone-checkmark">
+                                        <i class="pi pi-check"></i>
+                                    </div>
+                                    <div class="dropzone-file-info">
+                                        <div class="file-icon-wrap">
+                                            <i class="pi pi-file-pdf"></i>
+                                        </div>
+                                        <div class="file-details">
+                                            <div class="file-name">{{ fileTDR.name }}</div>
+                                            <div class="file-size">{{ formatFileSize(fileTDR.size) }}</div>
+                                        </div>
+                                        <button pButton icon="pi pi-times" class="p-button-rounded p-button-text p-button-danger p-button-sm" (click)="clearFile('TDR'); $event.stopPropagation()"></button>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <!-- Upload Progress Bar -->
+                            <div class="upload-progress-container" *ngIf="uploadProgress > 0 && uploadProgress < 100">
+                                <div class="upload-progress-header">
+                                    <span class="progress-label">
+                                        <i class="pi pi-spin pi-spinner"></i>
+                                        Upload en coursâ€¦
+                                    </span>
+                                    <span class="progress-percent">{{ uploadProgress }}%</span>
+                                </div>
+                                <div class="upload-progress-track">
+                                    <div class="upload-progress-fill" [style.width.%]="uploadProgress"></div>
+                                </div>
+                                <div class="upload-progress-detail">Transmission sÃ©curisÃ©e vers le serveur</div>
+                            </div>
+                        </div>
+
+                        <!-- Date limite -->
+                        <div class="col-12 md:col-6 mb-3">
+                            <label class="font-bold text-700 block mb-2">
+                                <i class="pi pi-calendar mr-1 text-blue-600"></i>
+                                Date limite de soumission <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" pInputText class="w-full pastel-input"
+                                   [(ngModel)]="dateLimiteSaisie" />
+                            <small class="text-500 mt-1 block">Sert au calcul de prioritÃ© automatique</small>
+                        </div>
+
+                        <!-- Jours restants preview -->
+                        <div class="col-12 md:col-6 mb-3" *ngIf="dateLimiteSaisie">
+                            <label class="font-bold text-700 block mb-2">
+                                <i class="pi pi-clock mr-1" style="color: #a16b1e;"></i>
+                                Jours restants
+                            </label>
+                            <div class="flex align-items-center gap-2 mt-2">
+                                <span class="inline-flex align-items-center gap-1 px-3 py-2 border-round-2xl font-bold text-sm"
+                                      [style.background]="joursRestants < 10 ? '#fef0f0' : (joursRestants < 20 ? '#fef8ec' : '#eaf7ee')"
+                                      [style.color]="joursRestants < 10 ? '#932020' : (joursRestants < 20 ? '#a16b1e' : '#1e6b3e')">
+                                    â° {{ joursRestants }}j
+                                </span>
+                                <span class="text-500 text-sm" *ngIf="joursRestants < 10">âš  DÃ©lai critique !</span>
+                                <span class="text-500 text-sm" *ngIf="joursRestants >= 10 && joursRestants < 20">DÃ©lai modÃ©rÃ©</span>
+                                <span class="text-500 text-sm" *ngIf="joursRestants >= 20">DÃ©lai confortable</span>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="col-12">
+                            <div class="cta-section">
+                                <button pButton label="Annuler" icon="pi pi-times"
+                                        class="btn-cta-secondary"
+                                        (click)="resetWorkflow()"></button>
+                                <button pButton [icon]="isUploading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'" [label]="isUploading ? 'Telechargement...' : 'Telecharger'"
+                                        class="btn-cta-primary"
+                                        [disabled]="!fileTDR || !dateLimiteSaisie || isUploading"
+                                        [pTooltip]="!fileTDR ? 'TDR manquant' : (!dateLimiteSaisie ? 'Date limite requise' : '')"
+                                        tooltipPosition="top"
+                                        (click)="launchUploadAndAnalysis()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 1 : Extraction IA                             -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="1" class="fade-in-up">
+                    <div class="extraction-hero">
+                        <div class="spinner-orbit">
+                            <i class="pi pi-cog"></i>
+                        </div>
+                        <h4 class="text-900 font-bold mb-2">Claude IA extrait et parse les documentsâ€¦</h4>
+                        <p class="text-600 mb-5 max-w-28rem mx-auto">Veuillez patienter pendant que le pipeline traite les clauses juridiques, financiÃ¨res et techniques du dossier.</p>
+
+                        <div class="max-w-30rem mx-auto">
+                            <div class="vertical-stepper">
+                                <div class="vertical-step" *ngFor="let step of verticalSteps; let idx = index"
+                                     [class.waiting]="verticalStepStates[idx] === 'waiting'"
+                                     [class.running]="verticalStepStates[idx] === 'running'"
+                                     [class.completed]="verticalStepStates[idx] === 'completed'">
+                                    <div class="v-step-circle"></div>
+                                    <div class="v-step-content">
+                                        <div class="v-step-title">{{ step.title }}</div>
+                                        <div class="v-step-desc">{{ step.desc }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 2 : Validation P1 (12 champs)                -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="2" class="fade-in-up">
+                    <!-- Validation Header -->
+                    <div class="validation-header">
+                        <div>
+                            <h4 class="text-900 font-bold m-0">Validation extraction â€” Phase 1</h4>
+                            <p class="text-500 m-0 mt-1">VÃ©rifiez les donnÃ©es extraites par l'IA. Cliquez âœŽ pour corriger.</p>
+                        </div>
+                        <div class="validation-meta">
+                            <span class="status-chip">
+                                <i class="pi pi-circle-fill" style="font-size: 5px;"></i>
+                                CORRECTION_LOOP
+                            </span>
+                            <span class="days-badge" [class.urgent]="joursRestants < 10" *ngIf="dateLimiteSaisie">
+                                â° {{ joursRestants }}j restants
+                            </span>
+                            <span class="validated-counter">
+                                âœ… {{ getValidatedCount() }}/12
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- TJM Calculator -->
+                    <div class="tjm-calculator" *ngIf="computedTjm > 0"
+                         [class.tjm-danger]="computedTjm < 300 || computedTjm > 5000">
+                        <div class="tjm-icon"><i class="pi pi-chart-line"></i></div>
+                        <div class="tjm-formula">
+                            <span class="tjm-label">ðŸ“Š TJM implicite : </span>
+                            <span class="tjm-value">{{ getBudgetValue() | number:'1.0-0' }} Ã· {{ getHMValue() }} Ã· 20 = {{ computedTjm | number:'1.0-0' }} â‚¬/j</span>
+                            <span *ngIf="computedTjm < 300 || computedTjm > 5000" class="ml-2">âš  Hors plage â€” vÃ©rifier budget</span>
+                        </div>
+                    </div>
+
+                    <!-- Alerts panel -->
+                    <div class="alerts-list" *ngIf="alerts.length > 0">
+                        <div class="alert-item" *ngFor="let alert of alerts"
+                             [class.alert-critical]="alert.includes('critique') || alert.includes('Attention')"
+                             [class.alert-warning]="!alert.includes('critique') && !alert.includes('Planification')"
+                             [class.alert-info]="alert.includes('Planification')">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            <div>{{ alert }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Validation Grid -->
+                    <div class="validation-grid">
+                        <div class="validation-card" *ngFor="let field of fields; let i = index"
+                             [class.validated-card]="field.validated"
+                             [class.conf-high]="!field.validated && field.confidence >= 80"
+                             [class.conf-med]="!field.validated && field.confidence >= 50 && field.confidence < 80"
+                             [class.conf-low]="!field.validated && field.confidence < 50"
+                             [class.active-card]="selectedFieldId === field.id"
+                             [class.urgence-visite]="isUrgenceVisite(field)"
+                             (click)="selectField(field.id)"
+                             [style.animation-delay]="i * 0.05 + 's'">
+
+                            <div class="field-info">
+                                <div class="field-label">{{ field.label }}</div>
+                                <div class="field-value-container">
+                                    <!-- Standard display -->
+                                    <ng-container *ngIf="!field.editing">
+                                        <span class="field-text-value" (dblclick)="startEditingField(field)">
+                                            {{ field.value === true ? 'Oui' : (field.value === false ? 'Non' : (field.value || 'Non renseignÃ©')) }}
+                                        </span>
+                                        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-secondary p-button-sm ml-1"
+                                                (click)="startEditingField(field)" pTooltip="Modifier"></button>
+                                    </ng-container>
+
+                                    <!-- In-line editor: referential select -->
+                                    <ng-container *ngIf="field.editing">
+                                        <ng-container *ngIf="field.type === 'select' && field.id !== 'VISITE_OBL' && field.id !== 'CONF_OBL'">
+                                            <select class="pastel-input p-2 py-1 w-full text-sm" [(ngModel)]="field.value" (change)="saveEditedField(field)">
+                                                <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+                                            </select>
+                                        </ng-container>
+
+                                        <!-- Binary select -->
+                                        <ng-container *ngIf="field.type === 'select' && (field.id === 'VISITE_OBL' || field.id === 'CONF_OBL')">
+                                            <select class="pastel-input p-2 py-1 w-full text-sm" [(ngModel)]="field.value" (change)="saveEditedField(field)">
+                                                <option value="Oui">Oui</option>
+                                                <option value="Non">Non</option>
+                                            </select>
+                                        </ng-container>
+
+                                        <!-- Date -->
+                                        <ng-container *ngIf="field.type === 'date'">
+                                            <input type="date" class="pastel-input p-2 py-1 w-full text-sm" [(ngModel)]="field.value" (blur)="saveEditedField(field)" />
+                                        </ng-container>
+
+                                        <!-- Text -->
+                                        <ng-container *ngIf="field.type === 'input'">
+                                            <input type="text" class="pastel-input p-2 py-1 w-full text-sm" [(ngModel)]="field.value" (blur)="saveEditedField(field)" />
+                                        </ng-container>
+
+                                        <!-- Number -->
+                                        <ng-container *ngIf="field.type === 'number'">
+                                            <input type="number" step="0.1" class="pastel-input p-2 py-1 w-full text-sm" [(ngModel)]="field.value" (blur)="saveEditedField(field)" />
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <!-- IA vs Human badge -->
+                            <div class="status-badge" [title]="field.status === 'ia' ? 'Extrait par l\'IA' : 'CorrigÃ© par l\'humain'">
+                                <span *ngIf="field.status === 'ia'">ðŸ¤–</span>
+                                <span *ngIf="field.status === 'human'" class="text-blue-500">âœï¸</span>
+                            </div>
+
+                            <!-- Confidence -->
+                            <div class="confidence-pill"
+                                 [class.pill-high]="field.confidence >= 80"
+                                 [class.pill-med]="field.confidence >= 50 && field.confidence < 80"
+                                 [class.pill-low]="field.confidence < 50">
+                                {{ field.confidence }}%
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="field-actions">
+                                <div>
+                                    <button pButton icon="pi pi-refresh"
+                                            class="p-button-rounded p-button-text p-button-secondary p-button-sm"
+                                            [pTooltip]="getReextractTooltip(field)"
+                                            [disabled]="(reextractCounts[field.id] || 0) >= 2"
+                                            (click)="reExtractField(field, $event)"></button>
+                                    <span class="reextract-count" *ngIf="reextractCounts[field.id]">{{ reextractCounts[field.id] }}/2</span>
+                                </div>
+
+                                <button pButton icon="pi pi-check"
+                                        class="p-button-rounded border-circle p-button-sm"
+                                        [class.p-button-success]="field.validated"
+                                        [class.p-button-outlined]="!field.validated"
+                                        [class.p-button-secondary]="!field.validated"
+                                        pTooltip="Valider la valeur"
+                                        (click)="validateField(field, $event)"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk actions -->
+                    <div class="cta-section">
+                        <button pButton icon="pi pi-refresh" label="â†» Tout rÃ©-extraire"
+                                class="btn-cta-secondary"
+                                (click)="reExtractAllFields()"></button>
+
+                        <button pButton
+                                [icon]="isAllFieldsValidated() ? 'pi pi-undo' : 'pi pi-check-double'"
+                                [label]="isAllFieldsValidated() ? 'Annuler tout' : 'âœ“ Valider tous les champs'"
+                                class="btn-cta-secondary"
+                                (click)="toggleValidateAllFields()"></button>
+
+                        <button pButton icon="pi pi-check-circle" label="Valider et remplir APO"
+                                class="btn-cta-primary"
+                                [class.pulse-button]="isAllFieldsValidated()"
+                                [disabled]="!isAllFieldsValidated()"
+                                [loading]="isSubmittingValidation"
+                                (click)="submitValidation()"></button>
+                    </div>
+                </div>
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 3 : Remplissage APO                          -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="3" class="fade-in-up">
+                    <div class="flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                        <div>
+                            <h4 class="text-900 font-bold m-0">ðŸ“‹ Extraction et GÃ©nÃ©ration APO</h4>
+                            <p class="text-500 m-0 mt-1">Veuillez patienter pendant que Claude extrait les donnÃ©es de la Phase 2, calcule le P-Win et gÃ©nÃ¨re les documents.</p>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="mb-4">
+                        <div class="progress-stats-container">
+                            <span>ExÃ©cution du Pipeline d'Intelligence Artificielle</span>
+                            <span>{{ apoProgress }}% terminÃ©</span>
+                        </div>
+                        <p-progressBar [value]="apoProgress" [showValue]="false" styleClass="border-round-2xl"></p-progressBar>
+                    </div>
+
+                    <!-- Split Screen Preview -->
+                    <div class="split-screen-container">
+                        <!-- Left: Read only fields -->
+                        <div class="left-panel">
+                            <div class="font-bold text-700 text-sm mb-3">Champs SÃ©curisÃ©s (Lecture seule)</div>
+                            <div class="validation-grid">
+                                <div class="validation-card readonly-lock" *ngFor="let field of fields">
+                                    <div class="field-info">
+                                        <div class="field-label">{{ field.label }}</div>
+                                        <div class="field-text-value">
+                                            {{ field.value === true ? 'Oui' : (field.value === false ? 'Non' : (field.value || 'Non renseignÃ©')) }}
+                                        </div>
+                                    </div>
+                                    <div class="text-500 font-bold">
+                                        <i class="pi pi-lock text-sm text-green-500 mr-1"></i> ValidÃ©
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Live Document Preview -->
+                        <div class="right-panel">
+                            <div class="font-bold text-700 text-sm mb-3">
+                                <i class="pi pi-file-word text-blue-500 mr-2"></i>AperÃ§u : APO-Formulaire Template
+                            </div>
+
+                            <div class="live-preview-mockup">
+                                <div class="doc-page-mock">
+                                    <div class="doc-watermark">CONFIDENTIEL</div>
+                                    <div class="doc-header">
+                                        <span class="logo-text">PROJECTIQ - OPPORTUNITE</span>
+                                        <span class="text-500 text-xs">Doc Ref: APO-TEMP-2026</span>
+                                    </div>
+
+                                    <div class="doc-content">
+                                        <div class="doc-section">
+                                            <div class="section-title">I. Informations Administratives</div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Pays :</span>
+                                                <span class="value filled">{{ fields[0].value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Client :</span>
+                                                <span class="value filled">{{ fields[1].value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">IntitulÃ© :</span>
+                                                <span class="value filled">{{ fields[8]?.value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Langue :</span>
+                                                <span class="value filled">{{ fields[3].value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Date Soumission :</span>
+                                                <span class="value filled">{{ fields[9]?.value }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="doc-section">
+                                            <div class="section-title">II. Cadrage Financier</div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Bailleur :</span>
+                                                <span class="value filled">{{ fields[2].value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Budget Global :</span>
+                                                <span class="value filled">{{ fields[10]?.value }}</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Volume d'effort :</span>
+                                                <span class="value filled">{{ fields[11]?.value }} HM</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="doc-section">
+                                            <div class="section-title">III. Evaluation des Enjeux</div>
+                                            <div class="doc-field-line">
+                                                <span class="label">P-Win :</span>
+                                                <span class="value placeholder">[[CALCUL_P_WIN]]</span>
+                                            </div>
+                                            <div class="doc-field-line">
+                                                <span class="label">Risques :</span>
+                                                <span class="value placeholder">[[RISQUE_ZONE_R1]]</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-section">
+                        <button pButton icon="pi pi-arrow-right" label="DÃ©finir la prioritÃ©"
+                                class="btn-cta-primary"
+                                (click)="navigateToStep(4)"></button>
+                    </div>
+                </div>
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 4 : Priorisation                              -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="4" class="fade-in-up">
+                    <h4 class="text-900 font-bold mb-2">ðŸ·ï¸ Classification de la PrioritÃ©</h4>
+                    <p class="text-500 mb-4">PrioritÃ© calculÃ©e automatiquement. ForÃ§age manuel possible.</p>
+
+                    <div class="grid">
+                        <div class="col-12 md:col-6 mb-4">
+                            <div class="card bg-gray-50 border-round-2xl border-1 border-200 p-4">
+                                <div class="text-center py-3">
+                                    <div class="text-700 font-bold text-lg mb-3">Classement Actuel</div>
+                                    <div class="priority-badge-xl"
+                                         [style.background]="manualPriority === 1 ? '#fef0f0' : (manualPriority === 2 ? '#fef8ec' : '#eef3ff')"
+                                         [style.color]="manualPriority === 1 ? '#932020' : (manualPriority === 2 ? '#a16b1e' : '#3b6bd6')">
+                                        P{{ manualPriority }}
+                                    </div>
+                                    <div class="text-500 text-sm mb-4">
+                                        <span *ngIf="!priorityOverride">AttribuÃ©e automatiquement (P{{ autoPriority }})</span>
+                                        <span *ngIf="priorityOverride" class="text-orange-500 font-bold">âœï¸ ForcÃ©e manuellement</span>
+                                    </div>
+                                </div>
+
+                                <p-divider></p-divider>
+
+                                <div class="mt-3">
+                                    <label class="font-bold text-700 block mb-2">Forcer la prioritÃ© Ã  :</label>
+                                    <select class="pastel-input p-2 w-full text-sm" [(ngModel)]="manualPriority" (change)="updateManualPriority()">
+                                        <option [ngValue]="1">P1 - Critique (Soumission imminente)</option>
+                                        <option [ngValue]="2">P2 - Haute (Soumission moyenne)</option>
+                                        <option [ngValue]="3">P3 - ModÃ©rÃ©e (DÃ©lai confortable)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-6 mb-4">
+                            <div class="card border-round-2xl border-1 border-200 p-4">
+                                <div class="font-bold text-700 mb-3"><i class="pi pi-history mr-2"></i>Journal d'Audit</div>
+                                <div class="overflow-y-auto" style="max-height: 250px;">
+                                    <table class="audit-log-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Auteur</th>
+                                                <th>Action</th>
+                                                <th>DÃ©tails</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let log of auditLog">
+                                                <td class="text-500 white-space-nowrap">{{ log.date | date:'HH:mm:ss' }}</td>
+                                                <td class="font-bold">{{ log.author }}</td>
+                                                <td><span class="text-blue-500 font-medium">{{ log.action }}</span></td>
+                                                <td class="text-600">{{ log.details }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="cta-section">
+                                <button pButton icon="pi pi-arrow-right" label="Finaliser l'indexation"
+                                        class="btn-cta-primary"
+                                        (click)="navigateToStep(5)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <!-- Ã‰TAPE 5 : IndexÃ© (Final)                            -->
+                <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+                <div *ngSwitchCase="5" class="fade-in-up">
+                    <div class="success-hero">
+                        <div class="success-circle">
+                            <i class="pi pi-check-circle"></i>
+                        </div>
+                        <h3 class="text-900 font-bold mb-2">Phase 1 TerminÃ©e avec SuccÃ¨s !</h3>
+                        <p class="text-600 mb-4 max-w-30rem mx-auto">Le dossier est validÃ©, la fiche APO est prÃ©-remplie, et la prioritÃ© est enregistrÃ©e. Le projet est indexÃ© et prÃªt pour l'analyse approfondie.</p>
+
+                        <div class="checklist-box">
+                            <div class="check-item">
+                                <i class="pi pi-check"></i>
+                                <span>Fichier TDR tÃ©lÃ©versÃ©</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="pi pi-check"></i>
+                                <span>12 champs consolidÃ©s et validÃ©s</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="pi pi-check"></i>
+                                <span>Template APO initialisÃ©</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="pi pi-check"></i>
+                                <span>PrioritÃ© P{{ manualPriority }} enregistrÃ©e</span>
+                            </div>
+                            <div class="check-item">
+                                <i class="pi pi-check"></i>
+                                <span>Notification RabbitMQ envoyÃ©e</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap justify-content-center gap-3">
+                            <button pButton icon="pi pi-file-word" label="TÃ©lÃ©charger APO (.docx)"
+                                    class="btn-cta-primary"
+                                    (click)="exportDocx()"></button>
+
+                            <button pButton icon="pi pi-file-pdf" label="Exporter rÃ©sumÃ© PDF"
+                                    class="btn-cta-secondary"
+                                    (click)="exportPdfSummary()"></button>
+
+                            <button pButton icon="pi pi-sync" label="Analyser un autre dossier"
+                                    class="btn-cta-secondary"
+                                    (click)="resetWorkflow()"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Ajout Dynamique RÃ©fÃ©rentiel -->
+<p-dialog [(visible)]="showAddValueModal"
+          [modal]="true"
+          [header]="'Ajouter une valeur Ã  ' + modalFieldType"
+          [style]="{width: '380px'}"
+          [closable]="true"
+          styleClass="p-fluid border-round-2xl">
+    <div class="pt-3">
+        <label class="font-bold text-700 block mb-2">Nouvelle valeur pour le rÃ©fÃ©rentiel :</label>
+        <input pInputText type="text" [(ngModel)]="newValueInput" placeholder="Ex. Banque Africaine de DÃ©veloppement" class="pastel-input w-full mb-4" />
+
+        <div class="flex gap-2 justify-content-end">
+            <button pButton label="Annuler" class="btn-cta-secondary" (click)="closeAddValueModal()"></button>
+            <button pButton label="Ajouter" icon="pi pi-plus" class="btn-cta-primary" [disabled]="!newValueInput.trim()" (click)="submitNewReferentielValue()"></button>
+        </div>
+    </div>
+</p-dialog>

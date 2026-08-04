@@ -1,0 +1,47 @@
+::ng-deep .custom-pastel-sidebar {
+    background: #f8fafc;
+    border-left: 1px solid #e2e8f0;
+
+    .p-sidebar-header {
+        background: #ffffff;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 1.5rem;
+    }
+
+    .p-sidebar-content {
+        padding: 1.5rem;
+    }
+}
+
+.custom-textarea {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+    resize: vertical;
+
+    &:focus {
+        border-color: #3b82f6;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

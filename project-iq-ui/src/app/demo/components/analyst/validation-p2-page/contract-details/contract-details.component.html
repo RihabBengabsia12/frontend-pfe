@@ -1,0 +1,28 @@
+<div class="validation-grid">
+    <div class="validation-card" *ngFor="let field of fields" [class.validated-card]="field.validated" [class.active-card]="selectedFieldId === field.id" (click)="selectField(field.id)">
+        <div class="field-info">
+            <div class="field-label">{{ field.label }}</div>
+            <div class="field-value-container">
+                <ng-container *ngIf="field.validated">
+                    <span class="field-text-value font-bold">{{ field.value }}</span>
+                </ng-container>
+                <ng-container *ngIf="!field.validated">
+                    <input *ngIf="field.type === 'input'" pInputText [(ngModel)]="field.value" (ngModelChange)="onEdit(field)" class="w-full" />
+                    <select *ngIf="field.type === 'select'" [(ngModel)]="field.value" (change)="onEdit(field)" class="w-full">
+                        <option value="">--</option>
+                        <option value="OUI">OUI</option>
+                        <option value="NON">NON</option>
+                    </select>
+                </ng-container>
+            </div>
+        </div>
+        <div class="status-badge">
+            <span *ngIf="field.status === 'ia'">IA</span>
+            <span *ngIf="field.status === 'human'">HM</span>
+        </div>
+        <div class="confidence-pill">{{ field.confidence }}%</div>
+        <div class="field-actions">
+            <button pButton icon="pi pi-check" class="p-button-rounded" (click)="onValidate(field, $event)"></button>
+        </div>
+    </div>
+</div>

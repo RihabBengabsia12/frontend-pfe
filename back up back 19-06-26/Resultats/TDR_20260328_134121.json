@@ -1,0 +1,222 @@
+{
+  "informations_generales": {
+    "pays": "Tunisie",
+    "intitule_offre": "Assistance technique suivi réformes système alimentaire durable (SUIDAR)",
+    "numero_reference": null,
+    "client": "Ministère de l'Economie et de la Planification (MEP) / UGP3A",
+    "resume_contexte_objectifs": [
+      "- Tunisie : économie en reprise post-récession 2020 (-8,7%)",
+      "- Agriculture représente 10,2% PIB et 16% emploi actif tunisien",
+      "- Réformes agricoles soutenues par programmes UE PADR et PACE",
+      "- Contrat SUIDAR : suivi avancement réformes système alimentaire durable",
+      "- OS1 : concevoir dispositif de suivi des réformes pour MARHP/DGEDA",
+      "- OS2 : fournir veille informationnelle bimensuelle sur politiques agricoles UE",
+      "- Mission supervisée par DGEDA, coordonnée avec UGP3A",
+      "- Zone d'intervention : ensemble du territoire tunisien, siège à Tunis"
+    ],
+    "langue": "Français",
+    "date_limite_soumission": null
+  },
+  "financement": {
+    "bailleurs": [
+      "Union Européenne (via PADR et PACE)"
+    ],
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "financement_local": {
+      "oui_non": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": [],
+    "shortlist_equilibree": null,
+    "justif_shortlist": null,
+    "analyse_concurrence": null
+  },
+  "hommes_mois_budget": {
+    "hm_exiges_ou_estimes": "3 experts principaux / durée 6 mois — jours/expert non précisés",
+    "budget_interne_estime": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "source_budget_interne": null
+  },
+  "delais": {
+    "delai_preparation_suffisant": null,
+    "justif_delai_preparation": "Date limite soumission non mentionnée dans le document",
+    "delai_global_mission_mois": 6,
+    "capacite_respect_delai": null,
+    "justif_capacite_delai": "Démarrage indicatif 2026-04-15 ; durée 6 mois à confirmer"
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "mode_notation_autre": "Indicateurs = réalisation et approbation des livrables",
+    "note_minimale_tech": null,
+    "ponderation_technique": null,
+    "ponderation_financiere": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": [
+      "Expert senior suivi-évaluation / chef d'équipe (EP1)",
+      "Expert senior veille informationnelle (EP2)",
+      "Expert senior traitement information et développement informatique (EP3)"
+    ],
+    "chef_de_file": null,
+    "roles_et_repartition": "EP1 pilote mission et suivi-évaluation ; EP2 bulletins veille bimensuels ; EP3 base de données et tableau de bord"
+  },
+  "caution_soumission": {
+    "exigee": null,
+    "banque_locale_exigee": null,
+    "monnaie": null,
+    "montant": null,
+    "duree_validite": null
+  },
+  "demandes_information_client": {
+    "date_limite_questions": null,
+    "liste_clarifications": [
+      "Quel est le budget global alloué au marché ?",
+      "Quel est le nombre de jours/hommes prévu par expert principal ?",
+      "Quelle est la date limite de soumission des offres ?",
+      "Quel est le numéro de référence de l'appel d'offres ?",
+      "Quels sont les critères de notation technique et financière ?",
+      "Une shortlist de prestataires est-elle déjà établie ?",
+      "Une visite de site ou conférence des soumissionnaires est-elle prévue ?"
+    ]
+  },
+  "visite_site_conference": {
+    "visite_obligatoire": null,
+    "visite_date": null,
+    "conference_obligatoire": null,
+    "conference_date": null
+  },
+  "risques_non_maitrisables": {
+    "risque_pays_securite": {
+      "niveau": "Faible",
+      "note": "Tunisie stable ; contexte économique sous tension mais maîtrisé"
+    },
+    "risques_financiers": {
+      "niveau": "Moyen",
+      "note": "Budget non communiqué ; risque de sous-budgétisation"
+    },
+    "penalites": {
+      "niveau": "NA",
+      "note": "Conditions particulières non fournies dans ce document"
+    },
+    "exigences_tdr_inacceptables": {
+      "niveau": "Faible",
+      "note": "TDR clairs ; exigences techniques proportionnées à la mission"
+    },
+    "garanties_assurances_elevees": {
+      "niveau": "NA",
+      "note": "Non mentionné dans le document"
+    },
+    "taille_dispersion_projet": {
+      "niveau": "Faible",
+      "note": "Mission centrée à Tunis ; déplacements ponctuels en régions"
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "note": "Bureaux, équipements et soutien admin à charge du contractant"
+    },
+    "budget_faible_hm_limites": {
+      "niveau": "Moyen",
+      "note": "Jours/expert non précisés ; budget global absent"
+    },
+    "participation_locale_excessive": {
+      "niveau": "Faible",
+      "note": "Pas d'exigence explicite de participation locale"
+    },
+    "fiscalite_non_maitrisee": {
+      "niveau": "Moyen",
+      "note": "Fiscalité applicable en Tunisie non précisée dans les TDR"
+    }
+  },
+  "decision": {
+    "recommandation_go_no_go": "GO_PRUDENT",
+    "argumentaire": [
+      "- Mission bien définie avec livrables clairs et calendrier précis",
+      "- Expertise requise accessible : S&E, veille, informatique",
+      "- Durée courte (6 mois) limitant l'exposition au risque",
+      "- Budget global absent : risque de rentabilité non évalué",
+      "- Nombre de jours/expert non précisé : chiffrage interne impossible",
+      "- Client institutionnel fiable (MEP/UGP3A, financement UE)",
+      "- Frais logistiques à charge contractant à bien budgétiser"
+    ],
+    "points_critiques": [
+      "Budget global non communiqué",
+      "Jours/hommes par expert non définis dans les TDR",
+      "Critères de sélection et pondération technique/financière absents",
+      "Date limite de soumission non mentionnée"
+    ]
+  },
+  "workflow": {
+    "arrivee_bo": null,
+    "transmission_dda": null,
+    "direction_pilote": null,
+    "responsable_offre": null
+  },
+  "plan_action": null,
+  "missing_information": [
+    {
+      "champ": "budget_global",
+      "question": "Quel est le montant total du marché prévu ?",
+      "raison": "Absent du document ; indispensable pour chiffrer l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "hommes_mois_budget.hm_exiges_ou_estimes",
+      "question": "Combien de jours/homme sont prévus par expert principal ?",
+      "raison": "Tableau expertise sans valeurs chiffrées dans les TDR",
+      "priorite": "haute"
+    },
+    {
+      "champ": "date_limite_soumission",
+      "question": "Quelle est la date limite de remise des offres ?",
+      "raison": "Non mentionnée dans le document fourni",
+      "priorite": "haute"
+    },
+    {
+      "champ": "numero_reference",
+      "question": "Quel est le numéro de référence officiel du marché ?",
+      "raison": "Absent du document ; requis pour identification et soumission",
+      "priorite": "haute"
+    },
+    {
+      "champ": "criteres_selection",
+      "question": "Quels sont les critères et pondérations technique/financière ?",
+      "raison": "Grille d'évaluation absente des TDR fournis",
+      "priorite": "haute"
+    },
+    {
+      "champ": "concurrence.shortlist",
+      "question": "Une shortlist de candidats a-t-elle été établie ?",
+      "raison": "Procédure de mise en concurrence non précisée",
+      "priorite": "moyenne"
+    },
+    {
+      "champ": "caution_soumission",
+      "question": "Une caution de soumission ou garantie bancaire est-elle exigée ?",
+      "raison": "Non mentionné dans les TDR ; à vérifier dans le dossier complet",
+      "priorite": "moyenne"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Budget estimé sur base de missions similaires UE/Tunisie",
+      "risque": "Sous-estimation si enveloppe réelle inférieure au marché"
+    },
+    {
+      "hypothese": "Procédure ouverte ou restreinte non confirmée",
+      "risque": "Stratégie de partenariat à adapter selon type de procédure"
+    },
+    {
+      "hypothese": "Démarrage effectif au 2026-04-15 comme indiqué",
+      "risque": "Retard fréquent dans ce type de marché institutionnel tunisien"
+    }
+  ]
+}

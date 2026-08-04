@@ -1,0 +1,373 @@
+<div class="layout-topbar">
+
+    <!-- Logo ProjectIQ -->
+    <a class="layout-topbar-logo" [routerLink]="logoRoute">
+        <i class="pi pi-shield" style="font-size:1.6rem; color: var(--primary-color);"></i>
+        <span style="font-weight:800; letter-spacing:0.04em;">ProjectIQ</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <!-- Notification Bell -->
+        <button *ngIf="isManager || isAnalyst" class="p-link layout-topbar-button custom-notification-btn mr-3" title="Notifications" (click)="onNotificationClick($event, notifPanel)">
+            <i class="pi pi-bell bell-icon"></i>
+            <span class="pastel-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+        </button>
+
+        <p-overlayPanel #notifPanel [showCloseIcon]="true" [style]="{width: '350px'}">
+            <ng-template pTemplate>
+                <div class="flex flex-column gap-3">
+                    <div class="flex align-items-center justify-content-between mb-2">
+                        <span class="font-bold text-900" style="font-size: 1.1rem;">Notifications</span>
+                        <p-badge [value]="notifications.length.toString()" severity="info"></p-badge>
+                    </div>
+                    
+                    <div *ngIf="notifications.length === 0" class="text-500 text-center p-3">
+                        Aucune notification
+                    </div>
+
+                    <div *ngFor="let notif of notifications" 
+                         class="p-3 border-round-xl mb-2 surface-ground" 
+                         [ngClass]="{'border-left-3 border-primary': notif.type === 'info', 'border-left-3 border-green-500': notif.type === 'success', 'cursor-pointer hover:surface-hover transition-colors transition-duration-200': notif.link}"
+                         (click)="notif.link ? onNotificationItemClick(notif.link, notifPanel) : null">
+                        <div class="flex align-items-center justify-content-between mb-2">
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi" [ngClass]="{'pi-check-circle text-green-500': notif.type === 'success', 'pi-info-circle text-primary': notif.type === 'info', 'pi-exclamation-triangle text-orange-500': notif.type === 'warning'}"></i>
+                                <span class="font-semibold text-900">{{ notif.title }}</span>
+                            </div>
+                            <i *ngIf="notif.link" class="pi pi-chevron-right text-500 text-xs"></i>
+                        </div>
+                        <p class="m-0 text-700 text-sm line-height-3">{{ notif.message }}</p>
+                        <span class="text-xs text-500 mt-2 block">{{ notif.time | date:'shortTime' }}</span>
+                    </div>
+                </div>
+            </ng-template>
+        </p-overlayPanel>
+
+        <!-- Profil Utilisateur Avancé (Analyste / Manager) -->
+        <div *ngIf="isAnalyst || isManager" class="flex align-items-center gap-3 mr-3" style="cursor:default; padding: 0.5rem;">
+            <div class="flex flex-column text-right">
+                <span class="font-bold text-900" style="font-size:0.95rem;">{{ userDisplayName }}</span>
+                <span class="text-500" style="font-size:0.75rem;">{{ displayRole }}</span>
+            </div>
+            <div class="relative">
+                <div class="flex align-items-center justify-content-center border-circle"
+                     style="width: 40px; height: 40px; background: #e0e7ff; color: #3730a3; font-weight: bold; font-size: 1.1rem;">
+                    {{ userInitials }}
+                </div>
+                <span class="border-circle bg-green-500 border-white"
+                      style="width: 12px; height: 12px; position: absolute; bottom: 0; right: 0; border: 2px solid #fff; animation: pulse-green 2s ease-in-out infinite;">
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="!isAnalyst && !isManager" class="p-link layout-topbar-button flex align-items-center gap-2" style="cursor:default;">
+            <i class="pi pi-user"></i>
+            <span style="font-size:0.8rem;">{{ userDisplayName }}</span>
+        </div>
+
+        <style>
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(105,240,174,0.4); }
+            50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(105,240,174,0); }
+        }
+
+        /* Premium Notification Styling */
+        .custom-notification-btn {
+            position: relative;
+            background: linear-gradient(145deg, #ffffff, #f3f4f6);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1);
+            border: 1px solid rgba(255,255,255,0.8);
+            z-index: 1;
+        }
+        
+        /* Glowing ring effect around the button */
+        .custom-notification-btn::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #a78bfa, #f472b6, #fb7185);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+        }
+
+        .custom-notification-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .custom-notification-btn:hover::before {
+            opacity: 0.6;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        .custom-notification-btn:hover .bell-icon {
+            animation: ring-bell 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
+            color: #ec4899; /* Vibrant pink */
+        }
+        
+        .bell-icon {
+            font-size: 1.4rem;
+            color: #8b5cf6; /* Vibrant pastel purple */
+            transition: color 0.4s;
+            filter: drop-shadow(0 2px 3px rgba(139, 92, 246, 0.3));
+        }
+        
+        .pastel-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* Pastel pink/peach gradient */
+            color: #831843; /* Dark pink text */
+            font-size: 0.75rem;
+            font-weight: 900;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(244,114,182,0.6);
+            animation: badge-pop 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: blur(6px); opacity: 0.4; }
+            100% { filter: blur(12px); opacity: 0.8; }
+        }
+
+        @keyframes ring-bell {
+            0% { transform: rotate(0); }
+            15% { transform: rotate(20deg); }
+            30% { transform: rotate(-20deg); }
+            45% { transform: rotate(15deg); }
+            60% { transform: rotate(-15deg); }
+            75% { transform: rotate(5deg); }
+            85% { transform: rotate(-5deg); }
+            100% { transform: rotate(0); }
+        }
+        
+        @keyframes badge-pop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15) translateY(-2px); box-shadow: 0 6px 14px rgba(244,114,182,0.9); }
+        }
+        </style>
+<div class="layout-topbar">
+
+    <!-- Logo ProjectIQ -->
+    <a class="layout-topbar-logo" [routerLink]="logoRoute">
+        <i class="pi pi-shield" style="font-size:1.6rem; color: var(--primary-color);"></i>
+        <span style="font-weight:800; letter-spacing:0.04em;">ProjectIQ</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <!-- Notification Bell -->
+        <button *ngIf="isManager || isAnalyst" class="p-link layout-topbar-button custom-notification-btn mr-3" title="Notifications" (click)="onNotificationClick($event, notifPanel)">
+            <i class="pi pi-bell bell-icon"></i>
+            <span class="pastel-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+        </button>
+
+        <p-overlayPanel #notifPanel [showCloseIcon]="true" [style]="{width: '350px'}">
+            <ng-template pTemplate>
+                <div class="flex flex-column gap-3">
+                    <div class="flex align-items-center justify-content-between mb-2">
+                        <span class="font-bold text-900" style="font-size: 1.1rem;">Notifications</span>
+                        <p-badge [value]="notifications.length.toString()" severity="info"></p-badge>
+                    </div>
+                    
+                    <div *ngIf="notifications.length === 0" class="text-500 text-center p-3">
+                        Aucune notification
+                    </div>
+
+                    <div *ngFor="let notif of notifications" 
+                         class="p-3 border-round-xl mb-2 surface-ground" 
+                         [ngClass]="{'border-left-3 border-primary': notif.type === 'info', 'border-left-3 border-green-500': notif.type === 'success', 'cursor-pointer hover:surface-hover transition-colors transition-duration-200': notif.link}"
+                         (click)="notif.link ? onNotificationItemClick(notif.link, notifPanel) : null">
+                        <div class="flex align-items-center justify-content-between mb-2">
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi" [ngClass]="{'pi-check-circle text-green-500': notif.type === 'success', 'pi-info-circle text-primary': notif.type === 'info', 'pi-exclamation-triangle text-orange-500': notif.type === 'warning'}"></i>
+                                <span class="font-semibold text-900">{{ notif.title }}</span>
+                            </div>
+                            <i *ngIf="notif.link" class="pi pi-chevron-right text-500 text-xs"></i>
+                        </div>
+                        <p class="m-0 text-700 text-sm line-height-3">{{ notif.message }}</p>
+                        <span class="text-xs text-500 mt-2 block">{{ notif.time | date:'shortTime' }}</span>
+                    </div>
+                </div>
+            </ng-template>
+        </p-overlayPanel>
+
+        <!-- Profil Utilisateur Avancé (Analyste / Manager) -->
+        <div *ngIf="isAnalyst || isManager" class="flex align-items-center gap-3 mr-3" style="cursor:default; padding: 0.5rem;">
+            <div class="flex flex-column text-right">
+                <span class="font-bold text-900" style="font-size:0.95rem;">{{ userDisplayName }}</span>
+                <span class="text-500" style="font-size:0.75rem;">{{ displayRole }}</span>
+            </div>
+            <div class="relative">
+                <div class="flex align-items-center justify-content-center border-circle"
+                     style="width: 40px; height: 40px; background: #e0e7ff; color: #3730a3; font-weight: bold; font-size: 1.1rem;">
+                    {{ userInitials }}
+                </div>
+                <span class="border-circle bg-green-500 border-white"
+                      style="width: 12px; height: 12px; position: absolute; bottom: 0; right: 0; border: 2px solid #fff; animation: pulse-green 2s ease-in-out infinite;">
+                </span>
+            </div>
+        </div>
+
+        <div *ngIf="!isAnalyst && !isManager" class="p-link layout-topbar-button flex align-items-center gap-2" style="cursor:default;">
+            <i class="pi pi-user"></i>
+            <span style="font-size:0.8rem;">{{ userDisplayName }}</span>
+        </div>
+
+        <style>
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(105,240,174,0.4); }
+            50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(105,240,174,0); }
+        }
+
+        /* Premium Notification Styling */
+        .custom-notification-btn {
+            position: relative;
+            background: linear-gradient(145deg, #ffffff, #f3f4f6);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1);
+            border: 1px solid rgba(255,255,255,0.8);
+            z-index: 1;
+        }
+        
+        /* Glowing ring effect around the button */
+        .custom-notification-btn::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #a78bfa, #f472b6, #fb7185);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+        }
+
+        .custom-notification-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .custom-notification-btn:hover::before {
+            opacity: 0.6;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        .custom-notification-btn:hover .bell-icon {
+            animation: ring-bell 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
+            color: #ec4899; /* Vibrant pink */
+        }
+        
+        .bell-icon {
+            font-size: 1.4rem;
+            color: #8b5cf6; /* Vibrant pastel purple */
+            transition: color 0.4s;
+            filter: drop-shadow(0 2px 3px rgba(139, 92, 246, 0.3));
+        }
+        
+        .pastel-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* Pastel pink/peach gradient */
+            color: #831843; /* Dark pink text */
+            font-size: 0.75rem;
+            font-weight: 900;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(244,114,182,0.6);
+            animation: badge-pop 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: blur(6px); opacity: 0.4; }
+            100% { filter: blur(12px); opacity: 0.8; }
+        }
+
+        @keyframes ring-bell {
+            0% { transform: rotate(0); }
+            15% { transform: rotate(20deg); }
+            30% { transform: rotate(-20deg); }
+            45% { transform: rotate(15deg); }
+            60% { transform: rotate(-15deg); }
+            75% { transform: rotate(5deg); }
+            85% { transform: rotate(-5deg); }
+            100% { transform: rotate(0); }
+        }
+        
+        @keyframes badge-pop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15) translateY(-2px); box-shadow: 0 6px 14px rgba(244,114,182,0.9); }
+        }
+        </style>
+
+        <!-- Bouton déconnexion -->
+        <button class="p-link layout-topbar-button" (click)="onLogout()" title="Déconnexion">
+            <i class="pi pi-sign-out"></i>
+            <span>Déconnexion</span>
+        </button>
+    </div>
+</div>
+
+<p-dialog [visible]="(pipelineTrackingService.state$ | async)?.isModalVisible" [modal]="false" position="bottom-right" [closable]="true" (onHide)="pipelineTrackingService.closeModal()" [draggable]="false" [resizable]="false" [style]="{width: '400px', 'margin': '1.5rem'}" styleClass="analysis-modal border-round-2xl overflow-hidden shadow-6">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center justify-content-between w-full pt-2">
+            <div class="flex align-items-center gap-2">
+                <div class="surface-100 p-2 border-circle flex align-items-center justify-content-center">
+                    <i class="pi pi-sparkles text-primary text-2xl"></i>
+                </div>
+                <span class="font-bold text-xl text-900">{{ (pipelineTrackingService.state$ | async)?.dossierTitle || 'Analyse IA en cours' }}</span>
+            </div>
+        </div>
+    </ng-template>
+    
+    <div class="flex flex-column align-items-center py-4 px-3" *ngIf="pipelineTrackingService.state$ | async as state">
+        <div class="pulse-ring mb-4 relative flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="pi pi-spin pi-spinner text-primary absolute z-1" style="font-size: 3rem" *ngIf="!state.hasError"></i>
+            <i class="pi pi-times-circle text-red-500 absolute z-1" style="font-size: 3.5rem" *ngIf="state.hasError"></i>
+            <div class="surface-100 border-circle absolute w-full h-full opacity-50" [style.animation]="state.hasError ? 'none' : 'pulse 2s infinite'"></div>
+        </div>
+        
+        <div class="w-full mb-3" *ngIf="!state.hasError">
+            <p-progressBar [value]="state.progress" [showValue]="true" [style]="{'height': '12px'}" styleClass="border-round-xl"></p-progressBar>
+        </div>
+        
+        <div class="text-center">
+            <p class="font-semibold text-700 m-0" [ngClass]="{'text-red-500': state.hasError}">{{ state.statusLabel }}</p>
+        </div>
+    </div>
+</p-dialog>

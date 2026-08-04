@@ -1,0 +1,68 @@
+/* Kanban Container */
+.kanban-board {
+    min-height: 650px;
+}
+
+/* Colonnes */
+.kanban-column {
+    transition: all 0.3s ease;
+}
+
+/* Cartes (Dossiers) */
+.kanban-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+}
+.kanban-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Animations de chargement / IA */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes loadingBar {
+    0% { width: 10%; }
+    50% { width: 90%; }
+    100% { width: 10%; }
+}
+
+.animate-width {
+    animation: loadingBar 3s ease-in-out infinite;
+}
+
+/* Effet brillant pour les colonnes actives */
+.pulse-border {
+    position: relative;
+}
+.pulse-border::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
+    animation: shadowPulse 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes shadowPulse {
+    0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+}

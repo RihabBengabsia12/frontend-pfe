@@ -1,0 +1,76 @@
+<div class="login-bg flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden relative">
+    <!-- Blobs pastel -->
+    <div style="position:absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, #C4B5FD 0%, transparent 70%); top: -10%; left: -10%; filter: blur(80px); opacity: 0.3; z-index: 0;"></div>
+    <div style="position:absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, #FBCFE8 0%, transparent 70%); bottom: -20%; right: -10%; filter: blur(80px); opacity: 0.3; z-index: 0;"></div>
+
+    <div class="flex flex-column align-items-center justify-content-center" style="z-index: 1;">
+
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(135deg, #A78BFA, #FBCFE8, #93C5FD);">
+            <div class="w-full glass-panel py-8 px-5 sm:px-8">
+
+                <!-- ✅ ÉCRAN DE CONFIRMATION POST-INSCRIPTION -->
+                <div *ngIf="registrationSuccess" class="confirmation-screen text-center" style="min-width:22rem; max-width:30rem;">
+                    <div class="hourglass-icon mb-4">
+                        <i class="pi pi-hourglass" style="font-size:4rem; color: #8B5CF6;"></i>
+                    </div>
+                    <div class="text-900 text-2xl font-bold mb-3">Inscription enregistrée !</div>
+                    <div class="pending-badge mb-4">
+                        <span class="badge-dot"></span>
+                        <span class="text-sm font-medium">Compte en attente de validation</span>
+                    </div>
+                    <div class="text-600 line-height-3 mb-4" style="font-size:0.95rem;">
+                        Votre profil <strong class="text-primary">{{ registeredEmail }}</strong> a été créé
+                        avec le statut <span class="role-chip">EN ATTENTE</span>.<br><br>
+                        Nos administrateurs vérifient actuellement vos informations.
+                        Vous recevrez un accès complet dès validation de votre dossier.
+                    </div>
+                    <div class="progress-bar-container mb-5">
+                        <div class="progress-bar-animated"></div>
+                    </div>
+                    <button pButton pRipple label="Aller à la connexion" icon="pi pi-arrow-right" iconPos="right"
+                        class="w-full text-lg btn-primary-saas" (click)="goToLogin()"></button>
+                </div>
+
+                <!-- 📝 FORMULAIRE D'INSCRIPTION -->
+                <div *ngIf="!registrationSuccess">
+                    <div class="text-center mb-5">
+                        <div class="text-900 text-3xl font-medium mb-3">Créez votre compte</div>
+                        <span class="text-600 font-medium">Vous avez déjà un compte ? </span>
+                        <a class="font-medium no-underline ml-1 cursor-pointer" style="color: #8B5CF6" [routerLink]="['/auth/login']">Se connecter</a>
+                    </div>
+
+                    <label for="fullName" class="block text-900 text-xl font-medium mb-2">Nom Complet <span class="text-red-500">*</span></label>
+                    <input id="fullName" pInputText type="text" placeholder="Votre nom complet" 
+                        class="w-full md:w-30rem mb-5" [class.ng-dirty]="errorMessage && !fullName" 
+                        style="padding:1rem" [(ngModel)]="fullName">
+
+                    <label for="email" class="block text-900 text-xl font-medium mb-2">Adresse Email <span class="text-red-500">*</span></label>
+                    <input id="email" pInputText type="email" placeholder="votre@email.com" 
+                        class="w-full md:w-30rem mb-5" [class.ng-dirty]="errorMessage && !email" 
+                        style="padding:1rem" [(ngModel)]="email">
+
+                    <label for="password" class="block text-900 font-medium text-xl mb-2">Mot de passe <span class="text-red-500">*</span></label>
+                    <p-password id="password" [(ngModel)]="password" placeholder="Votre mot de passe" 
+                        [toggleMask]="true" styleClass="mb-5" [style]="{'width':'100%'}"
+                        [inputStyleClass]="'w-full p-3 md:w-30rem ' + (errorMessage && !password ? 'ng-dirty' : '')" 
+                        [feedback]="true"></p-password>
+
+                    <div *ngIf="errorMessage" class="error-alert mb-4 shadow-1 flex-column align-items-start">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-exclamation-circle text-2xl"></i>
+                            <span class="font-bold">{{ errorMessage }}</span>
+                        </div>
+                        <div *ngIf="technicalError" class="mt-2 text-sm opacity-80 ml-7 border-top-1 pt-2 border-red-100 w-full">
+                            <i class="pi pi-info-circle mr-1 text-xs"></i>
+                            {{ technicalError }}
+                        </div>
+                    </div>
+
+                    <button pButton pRipple label="Créer un compte" class="w-full text-xl btn-primary-saas"
+                        [loading]="isLoading" (click)="onRegister()"></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

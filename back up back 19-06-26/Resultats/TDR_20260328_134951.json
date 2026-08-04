@@ -1,0 +1,229 @@
+{
+  "informations_generales": {
+    "pays": "Tunisie",
+    "intitule_offre": "Assistance technique suivi réformes système alimentaire durable PADR/PACE",
+    "numero_reference": null,
+    "client": "Ministère de l'Economie et de la Planification (MEP) / UGP3A",
+    "resume_contexte_objectifs": [
+      "- Tunisie : reprise post-récession 2020, défis agricoles structurels persistants",
+      "- Agriculture : 10,2% PIB, 16% population active",
+      "- Programmes UE PADR et PACE soutiennent réformes secteur agricole/pêche",
+      "- Mission SUIDAR : suivi avancement réformes système alimentaire durable",
+      "- Concevoir dispositif de suivi trimestriel des réformes pour MARHP/DGEDA",
+      "- Développer base de données et tableau de bord de suivi des réformes",
+      "- Produire bulletin bimestriel de veille informationnelle agriculture UE",
+      "- Renforcer capacités DGEDA en suivi-évaluation et gestion de l'information"
+    ],
+    "langue": "Français",
+    "date_limite_soumission": null
+  },
+  "financement": {
+    "bailleurs": [
+      "Union Européenne"
+    ],
+    "budget_global": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "financement_local": {
+      "oui_non": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": [],
+    "shortlist_equilibree": null,
+    "justif_shortlist": null,
+    "analyse_concurrence": null
+  },
+  "hommes_mois_budget": {
+    "hm_exiges_ou_estimes": "Non spécifié dans le TDR (tableau H/J vide)",
+    "budget_interne_estime": {
+      "montant": null,
+      "devise": null,
+      "brut": null
+    },
+    "source_budget_interne": null
+  },
+  "delais": {
+    "delai_preparation_suffisant": null,
+    "justif_delai_preparation": "Date limite soumission non mentionnée dans le TDR",
+    "delai_global_mission_mois": 6,
+    "capacite_respect_delai": null,
+    "justif_capacite_delai": "Mission 6 mois à partir du 2026-04-15 (indicatif)"
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "mode_notation_autre": null,
+    "note_minimale_tech": null,
+    "ponderation_technique": null,
+    "ponderation_financiere": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": [],
+    "chef_de_file": null,
+    "roles_et_repartition": null
+  },
+  "caution_soumission": {
+    "exigee": null,
+    "banque_locale_exigee": null,
+    "monnaie": null,
+    "montant": null,
+    "duree_validite": null
+  },
+  "demandes_information_client": {
+    "date_limite_questions": null,
+    "liste_clarifications": [
+      "Quel est le numéro de référence de l'appel d'offres ?",
+      "Quelle est la date limite de soumission des offres ?",
+      "Quel est le budget global alloué au marché ?",
+      "Quel est le nombre de jours/hommes prévus par expert principal ?",
+      "Quels sont les critères et la pondération d'évaluation des offres ?",
+      "Une caution de soumission est-elle exigée ?",
+      "Un dossier d'appel d'offres complet (RPDC, CC, CP) est-il disponible ?"
+    ]
+  },
+  "visite_site_conference": {
+    "visite_obligatoire": null,
+    "visite_date": null,
+    "conference_obligatoire": null,
+    "conference_date": null
+  },
+  "risques_non_maitrisables": {
+    "risque_pays_securite": {
+      "niveau": "Faible",
+      "note": "Tunisie stable ; contexte économique sous pression mais maitrisable"
+    },
+    "risques_financiers": {
+      "niveau": "Moyen",
+      "note": "Budget non communiqué ; enveloppe H/J inconnue"
+    },
+    "penalites": {
+      "niveau": "NA",
+      "note": "Conditions particulières non fournies dans ce TDR"
+    },
+    "exigences_tdr_inacceptables": {
+      "niveau": "Faible",
+      "note": "Exigences techniques classiques pour mission AT UE"
+    },
+    "garanties_assurances_elevees": {
+      "niveau": "NA",
+      "note": "Non mentionné dans le TDR"
+    },
+    "taille_dispersion_projet": {
+      "niveau": "Faible",
+      "note": "Mission essentiellement à Tunis, déplacements nationaux ponctuels"
+    },
+    "frais_divers_eleves": {
+      "niveau": "Faible",
+      "note": "Bureaux et équipements à charge contractant ; périmètre limité"
+    },
+    "budget_faible_hm_limites": {
+      "niveau": "Moyen",
+      "note": "H/J non renseignés ; risque de sous-calibrage de l'offre"
+    },
+    "participation_locale_excessive": {
+      "niveau": "NA",
+      "note": "Pas de quote-part locale obligatoire mentionnée"
+    },
+    "fiscalite_non_maitrisee": {
+      "niveau": "Moyen",
+      "note": "Régime fiscal applicable en Tunisie à vérifier"
+    }
+  },
+  "decision": {
+    "recommandation_go_no_go": "GO_PRUDENT",
+    "argumentaire": [
+      "- Mission AT UE standard ; profil technique maîtrisable par un bureau spécialisé",
+      "- Durée courte (6 mois) ; 3 experts principaux identifiés",
+      "- Client UGP3A fiable ; financement UE sécurisé",
+      "- Budget et H/J non communiqués : calibrage de l'offre impossible à ce stade",
+      "- Critères d'évaluation inconnus : stratégie de prix non définissable",
+      "- Risque de concurrence locale forte sur profil suivi-évaluation agricole Tunisie",
+      "- Nécessité absolue d'obtenir le dossier AO complet avant décision finale"
+    ],
+    "points_critiques": [
+      "Budget global et H/J non renseignés dans le TDR",
+      "Critères et pondération d'évaluation absents",
+      "Date limite soumission inconnue",
+      "Numéro de référence AO manquant",
+      "Conditions particulières et financières non transmises"
+    ]
+  },
+  "workflow": {
+    "arrivee_bo": null,
+    "transmission_dda": null,
+    "direction_pilote": null,
+    "responsable_offre": null
+  },
+  "plan_action": null,
+  "missing_information": [
+    {
+      "champ": "numero_reference",
+      "question": "Quel est le numéro de référence officiel de l'AO ?",
+      "raison": "Indispensable pour suivi administratif et soumission",
+      "priorite": "haute"
+    },
+    {
+      "champ": "date_limite_soumission",
+      "question": "Quelle est la date limite de remise des offres ?",
+      "raison": "Nécessaire pour planifier la préparation de l'offre",
+      "priorite": "haute"
+    },
+    {
+      "champ": "budget_global",
+      "question": "Quel est le budget maximum alloué à ce marché de services ?",
+      "raison": "Impossible de calibrer l'offre financière sans cette information",
+      "priorite": "haute"
+    },
+    {
+      "champ": "hm_exiges_ou_estimes",
+      "question": "Quel est le nombre de jours/hommes prévus par expert principal ?",
+      "raison": "Le tableau H/J est vide dans le TDR ; impossible de chiffrer",
+      "priorite": "haute"
+    },
+    {
+      "champ": "criteres_selection",
+      "question": "Quels sont les critères et pondérations d'évaluation technique/financière ?",
+      "raison": "Pondération inconnue ; stratégie de réponse non définissable",
+      "priorite": "haute"
+    },
+    {
+      "champ": "caution_soumission",
+      "question": "Une garantie de soumission est-elle exigée et pour quel montant ?",
+      "raison": "Non mentionné dans le TDR ; à vérifier dans le dossier AO",
+      "priorite": "haute"
+    },
+    {
+      "champ": "shortlist",
+      "question": "S'agit-il d'un AO restreint avec shortlist ou d'un AO ouvert ?",
+      "raison": "Procédure de passation non précisée dans le TDR",
+      "priorite": "haute"
+    },
+    {
+      "champ": "financement_local",
+      "question": "Une participation locale obligatoire (sous-traitant tunisien) est-elle requise ?",
+      "raison": "Non mentionné ; impacte la stratégie de partenariat",
+      "priorite": "haute"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothese": "Financement UE via PADR/PACE ; procédure PRAG probablement applicable",
+      "risque": "Si procédure différente, critères et formulaires peuvent changer"
+    },
+    {
+      "hypothese": "H/J non renseignés = enveloppe à définir par soumissionnaire",
+      "risque": "Risque de sous-estimation ou sur-offre par rapport à enveloppe client"
+    },
+    {
+      "hypothese": "Démarrage indicatif 2026-04-15 ; AO probablement lancé fin 2025",
+      "risque": "Délai de préparation offre potentiellement court"
+    },
+    {
+      "hypothese": "3 experts principaux profils disponibles en Tunisie ou diaspora",
+      "risque": "Pénurie de profils combinant suivi-évaluation et agriculture UE"
+    }
+  ]
+}

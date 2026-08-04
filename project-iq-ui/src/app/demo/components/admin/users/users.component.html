@@ -1,0 +1,221 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-4 gap-3">
+        <div>
+            <h2 class="text-900 font-bold text-3xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-users text-4xl" style="color:var(--primary-color)"></i>
+                Annuaire des Utilisateurs
+            </h2>
+            <p class="text-500 mt-2 mb-0">{{ totalRecords }} utilisateurs</p>
+        </div>
+        <div class="flex align-items-center gap-2">
+            <span class="p-input-icon-left w-full md:w-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher par nom ou email..." class="w-full md:w-20rem border-round-3xl" />
+            </span>
+            <button pButton icon="pi pi-file-pdf" label="Exporter" class="p-button-danger border-round-3xl" (click)="exportPdf()" pTooltip="Exporter en PDF" tooltipPosition="top"></button>
+            <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-text p-button-secondary" (click)="loadUsers(0)" pTooltip="Rafraîchir" tooltipPosition="top"></button>
+        </div>
+    </div>
+
+    <!-- Filtre Alphabet Ultra-Minimal -->
+    <div class="flex align-items-center mb-3 px-2">
+        <button pButton type="button" icon="pi pi-filter" 
+                [label]="selectedLetter ? 'Filtré par : ' + selectedLetter : 'Filtrer par lettre (A-Z)'" 
+                class="p-button-text p-button-sm p-button-secondary border-round-3xl"
+                (click)="op.toggle($event)">
+        </button>
+        <button *ngIf="selectedLetter" pButton type="button" icon="pi pi-times" 
+                class="p-button-rounded p-button-text p-button-danger p-button-sm ml-2" 
+                (click)="setFilterLetter('')" pTooltip="Effacer le filtre">
+        </button>
+    </div>
+
+    <p-overlayPanel #op [showCloseIcon]="false" styleClass="shadow-4 border-round-xl">
+        <div class="flex flex-wrap gap-2 justify-content-center" style="width: 200px;">
+            <span *ngFor="let letter of alphabet" 
+                  (click)="setFilterLetter(letter); op.hide()"
+                  [ngClass]="selectedLetter === letter ? 'bg-primary text-white border-circle' : 'text-600 hover:text-primary surface-100 border-circle'"
+                  class="cursor-pointer font-bold text-xs flex align-items-center justify-content-center transition-colors transition-duration-150"
+                  style="width: 1.8rem; height: 1.8rem;">
+                  {{letter}}
+            </span>
+        </div>
+    </p-overlayPanel>
+
+    <p-table #dt1 [value]="displayedUsers" [loading]="isLoading" responsiveLayout="scroll"
+             [globalFilterFields]="['fullName', 'email', 'role', 'status']"
+             [paginator]="true" [rows]="rows" [lazy]="false"
+             styleClass="p-datatable-gridlines p-datatable-striped shadow-2 border-round-xl overflow-hidden">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Statut</th>
+                <th>Créé le</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+            <tr [ngClass]="{
+                'row-rejected-pastel': getUserStatus(user) === 'DELETED' || getUserStatus(user) === 'REJECTED',
+                'row-validated-pastel': getUserStatus(user) === 'ACTIVE' || getUserStatus(user) === 'DISABLED'
+            }">
+                <td class="font-medium">{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <p-tag [value]="user.role" [styleClass]="getRoleClass(user.role)"></p-tag>
+                </td>
+                <td>
+                    <p-tag [value]="getStatusLabel(getUserStatus(user))" 
+                           [severity]="getStatusSeverity(getUserStatus(user))" 
+                           [icon]="getStatusIcon(getUserStatus(user))"
+                           [styleClass]="getUserStatus(user) === 'DELETED' ? 'status-tag-deleted' : 'status-tag-premium'">
+                    </p-tag>
+                </td>
+                <td>{{ user.createdAt | date:'dd/MM/yyyy' }}</td>
+                <td>
+                    <div class="flex gap-2 align-items-center">
+                        <button pButton pRipple icon="pi pi-search"
+                            class="p-button-info p-button-sm p-button-outlined"
+                            title="Voir Détails" (click)="viewDetails(user)"
+                            [disabled]="getUserStatus(user) === 'DELETED'">
+                        </button>
+                        
+                        <button *ngIf="user.role === 'ANALYST' || user.role === 'MANAGER'" pButton pRipple icon="pi pi-sliders-h"
+                            class="p-button-help p-button-sm p-button-outlined"
+                            title="Droits Spécifiques" (click)="openFeatures(user)"
+                            [disabled]="getUserStatus(user) === 'DELETED'">
+                        </button>
+
+                        <ng-container *ngIf="getUserStatus(user) !== 'REJECTED'">
+                            <button pButton pRipple
+                                [icon]="getUserStatus(user) === 'ACTIVE' ? 'pi pi-ban' : 'pi pi-check'"
+                                [class]="getUserStatus(user) === 'ACTIVE' ? 'p-button-warning p-button-sm p-button-outlined' : 'p-button-success p-button-sm p-button-outlined'"
+                                [title]="getUserStatus(user) === 'ACTIVE' ? 'Désactiver' : 'Activer'"
+                                (click)="toggleStatus(user)"
+                                [disabled]="getUserStatus(user) === 'DELETED'">
+                            </button>
+                        </ng-container>
+
+                        <span *ngIf="getUserStatus(user) === 'REJECTED'" class="text-red-400 font-bold text-xs">
+                            <i class="pi pi-times-circle mr-1"></i>Refusé
+                        </span>
+
+                        <button pButton pRipple icon="pi pi-trash"
+                            class="p-button-danger p-button-sm p-button-outlined"
+                            title="Supprimer" (click)="confirmDelete(user)"
+                            [disabled]="user.status === 'DELETED'">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <i class="pi pi-inbox" style="font-size:2.5rem; color:#94a3b8;"></i>
+                    <p class="text-500 mt-2">Aucun utilisateur trouvé.</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- User Detail Dialog -->
+<p-dialog header="Détails de l'utilisateur" [(visible)]="displayDetail" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">
+    <div *ngIf="selectedUserDetails" class="flex flex-column gap-3">
+        <div class="flex justify-content-between border-bottom-1 surface-border pb-2">
+            <span class="text-600">Identifiant</span>
+            <span class="font-bold text-xs">{{ selectedUserDetails.id }}</span>
+        </div>
+        <div class="flex justify-content-between border-bottom-1 surface-border pb-2">
+            <span class="text-600">Nom Complet</span>
+            <span class="font-bold">{{ selectedUserDetails.fullName }}</span>
+        </div>
+        <div class="flex justify-content-between border-bottom-1 surface-border pb-2">
+            <span class="text-600">Email</span>
+            <span class="font-bold">{{ selectedUserDetails.email }}</span>
+        </div>
+        <div class="flex justify-content-between border-bottom-1 surface-border pb-2">
+            <span class="text-600">Rôle</span>
+            <p-tag [value]="selectedUserDetails.role" [styleClass]="getRoleClass(selectedUserDetails.role)"></p-tag>
+        </div>
+        <div class="flex justify-content-between border-bottom-1 surface-border pb-2">
+            <span class="text-600">Statut Compte</span>
+            <p-tag [value]="getStatusLabel(selectedUserDetails.status)" 
+                   [severity]="getStatusSeverity(selectedUserDetails.status)" 
+                   [icon]="getStatusIcon(selectedUserDetails.status)"
+                   styleClass="status-tag-premium">
+            </p-tag>
+        </div>
+        <div class="flex justify-content-between pb-2">
+            <span class="text-600">Date d'inscription</span>
+            <span class="font-bold">{{ selectedUserDetails.createdAt | date:'dd MMMM yyyy, HH:mm' }}</span>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton label="Fermer" icon="pi pi-times" (click)="displayDetail = false" class="p-button-text"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- User Features Dialog -->
+<p-dialog [header]="'Droits Spécifiques - ' + (selectedUserForFeatures?.role === 'MANAGER' ? 'Manager' : 'Analyste')" [(visible)]="displayFeatures" [modal]="true" [style]="{width: '500px'}">
+    <div *ngIf="selectedUserForFeatures">
+        <p class="text-500 mb-4">Gérez les permissions personnalisées pour l'utilisateur <strong>{{selectedUserForFeatures.email}}</strong>.</p>
+        
+        <ng-container *ngIf="selectedUserForFeatures.role === 'ANALYST'">
+            <div class="flex align-items-center justify-content-between py-3 border-bottom-1 surface-border">
+                <div>
+                    <span class="block font-bold text-lg mb-1">Espace Analyste</span>
+                    <span class="text-500 text-sm">Upload, Extraction IA, et Matching</span>
+                </div>
+                <p-inputSwitch [(ngModel)]="userFeatures['ESPACE_ANALYSTE']"></p-inputSwitch>
+            </div>
+
+            <div class="flex align-items-center justify-content-between py-3 border-bottom-1 surface-border">
+                <div>
+                    <span class="block font-bold text-lg mb-1">Livrables & Historique</span>
+                    <span class="text-500 text-sm">Consultation des rapports générés et APO</span>
+                </div>
+                <p-inputSwitch [(ngModel)]="userFeatures['LIVRABLES']"></p-inputSwitch>
+            </div>
+
+            <div class="flex align-items-center justify-content-between py-3">
+                <div>
+                    <span class="block font-bold text-lg mb-1">Logs & IA</span>
+                    <span class="text-500 text-sm">Traçabilité des prompts et des réponses IA</span>
+                </div>
+                <p-inputSwitch [(ngModel)]="userFeatures['LOGS_IA']"></p-inputSwitch>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="selectedUserForFeatures.role === 'MANAGER'">
+            <div class="flex align-items-center justify-content-between py-3 border-bottom-1 surface-border">
+                <div>
+                    <span class="block font-bold text-lg mb-1">Espace Décision (VIP)</span>
+                    <span class="text-500 text-sm">Validation finale (Go/No-Go) et rapports d'audit</span>
+                </div>
+                <p-inputSwitch [(ngModel)]="userFeatures['ESPACE_DECISION']"></p-inputSwitch>
+            </div>
+
+            <div class="flex align-items-center justify-content-between py-3">
+                <div>
+                    <span class="block font-bold text-lg mb-1">Espace Supervision</span>
+                    <span class="text-500 text-sm">Tableaux de bord globaux et suivi des dossiers</span>
+                </div>
+                <p-inputSwitch [(ngModel)]="userFeatures['ESPACE_SUPERVISION']"></p-inputSwitch>
+            </div>
+        </ng-container>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton label="Annuler" icon="pi pi-times" (click)="displayFeatures = false" class="p-button-text"></button>
+        <button pButton label="Sauvegarder" icon="pi pi-check" (click)="saveUserFeatures()" class="p-button-primary"></button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,142 @@
+{
+  "informations_generales": {
+    "pays": "Cameroun",
+    "intitule_offre": "Recrutement du prestataire chargé d'appuyer l'UGP dans la mise à jour technologique et la mise à niveau du SIG-I pour intégrer les besoins du Projet Filets Sociaux Adaptatifs et d'Inclusion Economique",
+    "reference": null,
+    "client": "Ministère de l'Economie, de la Planification et de l'Aménagement du Territoire – Comité Technique de Suivi des Programmes Economiques (CTSP) / Unité de Gestion du Projet (UGP)",
+    "resume_contexte_objectifs": "Dans le cadre de la Stratégie Nationale de Développement 2020-2030, le Gouvernement camerounais met en œuvre un nouveau Projet Filets Sociaux Adaptatifs et d'Inclusion Economique (PFS-AIE), financé par la Banque mondiale. Ce projet succède au Projet Filets Sociaux existant qui a couvert 375 500 ménages en 2022. L'UGP dispose d'un Système d'Information de Gestion Intégré (SIG-I) développé en technologies obsolètes (JSF/J2EE) qu'il convient de migrer vers une architecture microservices (Angular/SpringBoot). La prestation vise à former l'équipe IT, migrer et améliorer le SIG-I existant, et développer de nouvelles fonctionnalités couvrant le ciblage, l'enregistrement, les paiements numériques, l'inclusion économique des jeunes, le concours de plans d'affaires, la gestion biométrique et l'interopérabilité avec le Registre Social Unifié du Cameroun (RESUC). Le prestataire désigné dans les TDR est ST2i Consulting, développeur initial du SIG-I.",
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": "Banque mondiale, Agence Française de Développement (AFD), Gouvernement du Cameroun",
+    "budget_global": {
+      "montant": 250000000,
+      "devise": "FCFA",
+      "raw_text": "Le budget s'élève à 250 millions de FCFA."
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": "Le prestataire est nominativement désigné dans les TDR : ST2i Consulting. Il s'agit d'une consultation de gré à gré ou à prestataire unique identifié.",
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Pas de shortlist compétitive ; prestataire unique nommément désigné dans les TDR."
+    },
+    "analyse_concurrence": "Aucune mise en concurrence apparente. ST2i Consulting est explicitement nommé comme le prestataire retenu, en tant que développeur originel du SIG-I. La section 9 'Profil du Consultant' désigne directement la société."
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": "8 experts identifiés pour une durée de 24 mois (12 mois de développement + 12 mois de maintenance). Profils : Chef de mission/Expert Agile (Bac+5, 10 ans exp.), Expert BI (Bac+5, 5 ans exp.), Expert Architecture SI (Bac+5, 5 ans exp.), Expert développeur Front End Angular (Bac+4, 5 ans exp.), Expert développeur Back End SpringBoot (Bac+4, 5 ans exp.), Expert UI/UX (Bac+4, 5 ans exp.), Expert qualité (Bac+4, 5 ans exp.), Ingénieur systèmes/sécurité/réseaux (Bac+5, 5 ans exp.).",
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "Aucune date limite de soumission mentionnée dans le document. Impossible d'évaluer le délai de préparation."
+    },
+    "duree_mission_mois": 24,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "La durée est de 24 mois (12 mois de développement agile avec livraisons mensuelles + 12 mois de maintenance). Le calendrier est détaillé mois par mois. La capacité à respecter ce délai dépend des ressources internes du prestataire, non évaluable ici."
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": null,
+    "seuil_technique": null,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": "Non mentionné",
+    "chef_de_file": "ST2i Consulting (désigné nominativement dans les TDR)",
+    "roles_repartition": null
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": [
+      "Le document désigne nommément ST2i Consulting comme prestataire (section 9) : s'agit-il d'un marché de gré à gré ou d'un appel d'offres ouvert/restreint ? La procédure de passation de marché applicable (règles Banque mondiale ?) n'est pas précisée.",
+      "Le budget global est de 250 millions FCFA mais le calendrier de paiement ne totalise que 250 millions (25M + 40M + 40M + 40M + 40M + 40M + 12,5M + 12,5M = 250M) : les paiements des mois 2, 3, 5, 7, 9, 11 ne sont pas chiffrés individuellement — quelle est la répartition exacte de ces tranches non renseignées ?",
+      "La date limite de soumission de l'offre n'est pas mentionnée dans les TDR (document daté juin 2023) : quelle est la deadline officielle de remise des offres et la date prévisionnelle de démarrage de la mission ?",
+      "Les critères d'évaluation technique et financière (pondération, seuil de qualification) ne sont pas indiqués : quels sont les critères de sélection applicables et le mode de notation retenu ?",
+      "Les TDR évoquent l'intégration de nouvelles tablettes biométriques à acquérir mais ne précisent pas qui finance cette acquisition ni si elle est incluse dans le budget de 250M FCFA : le périmètre budgétaire inclut-il le matériel biométrique ?"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Moyen",
+      "commentaire": "Cameroun : contexte sécuritaire avec zones de tensions (régions anglophones, Extrême-Nord). Le projet couvre l'ensemble du territoire national. Aucune mention spécifique dans les TDR."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Paiements mensuels après validation par commission de recette technique. Risque de retard de paiement lié aux procédures administratives publiques camerounaises. Plusieurs tranches bimensuelles non chiffrées dans le tableau de paiement."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans les TDR."
+    },
+    "exigences_inacceptables": {
+      "niveau": "Moyen",
+      "commentaire": "Le prestataire est nommément désigné dans les TDR (ST2i Consulting), ce qui suggère une procédure non compétitive. Cela peut poser un risque de conformité aux règles de passation de marchés de la Banque mondiale."
+    },
+    "garanties_elevees": {
+      "niveau": "NA",
+      "commentaire": "Aucune garantie bancaire ou caution mentionnée dans les TDR."
+    },
+    "taille_dispersion": {
+      "niveau": "Moyen",
+      "commentaire": "Mission de 24 mois sur l'ensemble du territoire camerounais avec 8 experts mobilisés. Périmètre fonctionnel très large (migration technologique complète + nouveaux modules + maintenance)."
+    },
+    "frais_divers_eleves": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de frais de soumission, de voyage ou autres frais divers dans les TDR."
+    },
+    "budget_faible": {
+      "niveau": "Moyen",
+      "commentaire": "250 millions FCFA (~380 000 EUR) pour 24 mois avec 8 experts, une migration technologique complète et le développement de nombreux modules nouveaux. Le ratio budget/charge apparente peut être tendu."
+    },
+    "participation_locale": {
+      "niveau": "NA",
+      "commentaire": "Aucune exigence de participation locale ou de joint-venture mentionnée."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de régime fiscal applicable ou d'exonérations dans les TDR."
+    }
+  },
+  "decision": {
+    "recommandation": "Le document est un TDR à prestataire unique nommément désigné (ST2i Consulting). Il ne s'agit pas d'un appel d'offres compétitif classique. Avant tout engagement, il convient de clarifier la procédure de passation de marché applicable (conformité règles Banque mondiale), la répartition complète des paiements, et les conditions contractuelles détaillées absentes des TDR. Le périmètre technique est très vaste et bien documenté. Le budget de 250M FCFA sur 24 mois mérite une analyse de rentabilité approfondie.",
+    "go_no_go": "GO",
+    "points_critiques": [
+      "Prestataire nommément désigné (ST2i Consulting) : risque procédural de gré à gré sans mise en concurrence — à vérifier conformément aux règles de passation Banque mondiale.",
+      "Calendrier de paiement incomplet : montants manquants pour les mois 2, 3, 5, 7, 9, 11.",
+      "Absence de critères de sélection/évaluation et de date limite de soumission.",
+      "Périmètre fonctionnel très étendu (migration + 10+ nouveaux modules) à réaliser en 12 mois de développement : risque de dépassement de planning.",
+      "Budget de 250M FCFA à analyser au regard de la charge réelle (8 experts × 24 mois + infrastructure).",
+      "Aucune clause contractuelle, pénalité ou garantie précisée dans les TDR."
+    ]
+  },
+  "plan_action": "1. Vérifier la procédure de passation de marché applicable et la conformité aux règles Banque mondiale. 2. Demander clarification sur la répartition des tranches de paiement non renseignées. 3. Confirmer la date limite de soumission et la date de démarrage. 4. Analyser la rentabilité : ratio budget/charge avec 8 experts sur 24 mois. 5. Identifier les risques techniques liés à la migration (disponibilité du code source JSF/Nafkan, documentation existante). 6. Préparer une offre technique détaillée avec planning agile sprint par sprint si consultation confirmée comme compétitive."
+}

@@ -1,0 +1,372 @@
+<div class="dashboard-container fade-in-up">
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- HEADER                                                                -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div class="grid">
+        <div class="col-12">
+            <div class="dashboard-header">
+                <div class="flex align-items-center gap-3">
+                    <div class="header-icon">
+                        <i class="pi pi-chart-bar"></i>
+                    </div>
+                    <div>
+                        <h1 class="m-0">Tableau de Bord Analyste</h1>
+                        <p class="m-0 mt-1 header-subtitle">
+                            Monitoring temps réel · Dernière MAJ {{ lastRefresh | date:'HH:mm:ss' }}
+                        </p>
+                    </div>
+                </div>
+                <button pButton icon="pi pi-refresh" label="Actualiser"
+                        class="p-button-outlined p-button-sm refresh-btn"
+                        [loading]="isLoading" (click)="refreshDashboard()"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 1 — KPI CARDS (6 cards)                                           -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div class="grid mt-2">
+        <!-- Total Dossiers -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card kpi-blue">
+                <div class="kpi-icon-wrap kpi-icon-blue"><i class="pi pi-folder-open"></i></div>
+                <div class="kpi-value">{{ totalDossiers }}</div>
+                <div class="kpi-label">Total Dossiers</div>
+                <div class="kpi-sub">{{ dossiersActifs }} actifs</div>
+            </div>
+        </div>
+        <!-- Score P-Win Moyen -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card kpi-purple">
+                <div class="kpi-icon-wrap kpi-icon-purple"><i class="pi pi-chart-line"></i></div>
+                <div class="kpi-value" [style.color]="pwinColor(avgPwinScore)">{{ avgPwinScore }}%</div>
+                <div class="kpi-label">Score P-Win Moyen</div>
+                <div class="kpi-sub">Axe faible : {{ axeLabel }}</div>
+            </div>
+        </div>
+        <!-- Décisions GO -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card kpi-green">
+                <div class="kpi-icon-wrap kpi-icon-green"><i class="pi pi-check-circle"></i></div>
+                <div class="kpi-value">{{ goCount }}</div>
+                <div class="kpi-label">Décisions GO</div>
+                <div class="kpi-sub text-green-600">Taux {{ tauxReussite }}%</div>
+            </div>
+        </div>
+        <!-- Décisions NO-GO -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card kpi-red">
+                <div class="kpi-icon-wrap kpi-icon-red"><i class="pi pi-times-circle"></i></div>
+                <div class="kpi-value">{{ noGoCount }}</div>
+                <div class="kpi-label">Décisions NO-GO</div>
+                <div class="kpi-sub" *ngIf="redhibitoireCount > 0">
+                    <i class="pi pi-exclamation-triangle text-red-500 mr-1"></i>{{ redhibitoireCount }} rédhibitoire(s)
+                </div>
+            </div>
+        </div>
+        <!-- Interventions Manuelles -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card kpi-amber">
+                <div class="kpi-icon-wrap kpi-icon-amber"><i class="pi pi-exclamation-circle"></i></div>
+                <div class="kpi-value">{{ manualCount }}</div>
+                <div class="kpi-label">Interventions</div>
+                <div class="kpi-sub" *ngIf="forceGoCount > 0">{{ forceGoCount }} force-go</div>
+            </div>
+        </div>
+        <!-- Urgents -->
+        <div class="col-12 md:col-6 lg:col-4 xl:col-2">
+            <div class="kpi-card" [ngClass]="dossiersUrgents > 0 ? 'kpi-danger-pulse' : 'kpi-slate'">
+                <div class="kpi-icon-wrap" [ngClass]="dossiersUrgents > 0 ? 'kpi-icon-danger' : 'kpi-icon-slate'">
+                    <i class="pi pi-bolt"></i>
+                </div>
+                <div class="kpi-value">{{ dossiersUrgents }}</div>
+                <div class="kpi-label">Urgents (P1)</div>
+                <div class="kpi-sub" *ngIf="dossiersProchesDeadline > 0">
+                    <span class="text-red-500 font-semibold">{{ dossiersProchesDeadline }} &lt; 7j deadline</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 2 — CHARTS (Donut + Radar + P-Win Distribution)                   -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div class="grid mt-2">
+        <!-- Donut Décisions -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Répartition des Décisions</h3>
+                    <p-tag [value]="totalDossiers + ' dossiers'" severity="info" styleClass="text-xs"></p-tag>
+                </div>
+                <div class="chart-body donut-container" *ngIf="decisionDonutData">
+                    <p-chart type="doughnut" [data]="decisionDonutData" [options]="decisionDonutOptions"
+                             [style]="{'width': '100%', 'height': '220px'}"></p-chart>
+                </div>
+                <div class="donut-footer">
+                    <div class="donut-stat">
+                        <span class="donut-stat-value text-green-600">{{ tauxReussite }}%</span>
+                        <span class="donut-stat-label">Taux GO</span>
+                    </div>
+                    <div class="donut-stat">
+                        <span class="donut-stat-value text-red-500">{{ totalDossiers > 0 ? ((noGoCount / totalDossiers) * 100).toFixed(0) : 0 }}%</span>
+                        <span class="donut-stat-label">Taux NO-GO</span>
+                    </div>
+                    <div class="donut-stat">
+                        <span class="donut-stat-value text-amber-500">{{ forceGoCount }}</span>
+                        <span class="donut-stat-label">Force-Go</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radar 5 Axes -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Performance par Axe P-Win</h3>
+                    <p-tag value="5 axes" severity="info" styleClass="text-xs"></p-tag>
+                </div>
+                <div class="chart-body" *ngIf="radarData">
+                    <p-chart type="radar" [data]="radarData" [options]="radarOptions"
+                             [style]="{'width': '100%', 'height': '250px'}"></p-chart>
+                </div>
+                <div class="radar-legend">
+                    <span><b>A</b> Faisabilité {{ (avgScoreA * 100).toFixed(0) }}%</span>
+                    <span><b>B</b> Rentabilité {{ (avgScoreB * 100).toFixed(0) }}%</span>
+                    <span><b>C</b> Risques {{ (avgScoreC * 100).toFixed(0) }}%</span>
+                    <span><b>D</b> Concurrence {{ (avgScoreD * 100).toFixed(0) }}%</span>
+                    <span><b>E</b> Conformité {{ (avgScoreE * 100).toFixed(0) }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- P-Win Distribution -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Distribution P-Win</h3>
+                    <p-tag value="Histogramme" severity="info" styleClass="text-xs"></p-tag>
+                </div>
+                <div class="chart-body" *ngIf="pwinBarData">
+                    <p-chart type="bar" [data]="pwinBarData" [options]="pwinBarOptions"
+                             [style]="{'width': '100%', 'height': '250px'}"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 3 — MATCHING + RISKS + DOCUMENTS                                  -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div class="grid mt-2">
+        <!-- Matching Performance -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Performance Matching</h3>
+                    <p-tag [value]="totalMatching + ' analyses'" severity="info" styleClass="text-xs"></p-tag>
+                </div>
+                <div class="matching-section">
+                    <!-- Compétences -->
+                    <div class="matching-item">
+                        <div class="matching-item-header">
+                            <span class="matching-label"><i class="pi pi-cog mr-2"></i>Couverture Compétences</span>
+                            <span class="matching-value" [ngClass]="{
+                                'text-green-600': avgCompetences >= 0.7,
+                                'text-amber-500': avgCompetences >= 0.5 && avgCompetences < 0.7,
+                                'text-red-500': avgCompetences < 0.5
+                            }">{{ (avgCompetences * 100).toFixed(0) }}%</span>
+                        </div>
+                        <p-progressBar [value]="avgCompetences * 100" [showValue]="false" styleClass="matching-bar"
+                                       [style]="{'height': '8px', 'border-radius': '4px'}"></p-progressBar>
+                    </div>
+                    <!-- Experts -->
+                    <div class="matching-item">
+                        <div class="matching-item-header">
+                            <span class="matching-label"><i class="pi pi-users mr-2"></i>Couverture Experts</span>
+                            <span class="matching-value" [ngClass]="{
+                                'text-green-600': avgExperts >= 0.7,
+                                'text-amber-500': avgExperts >= 0.5 && avgExperts < 0.7,
+                                'text-red-500': avgExperts < 0.5
+                            }">{{ (avgExperts * 100).toFixed(0) }}%</span>
+                        </div>
+                        <p-progressBar [value]="avgExperts * 100" [showValue]="false" styleClass="matching-bar"
+                                       [style]="{'height': '8px', 'border-radius': '4px'}"></p-progressBar>
+                    </div>
+                    <!-- Relation Client -->
+                    <div class="matching-item">
+                        <div class="matching-item-header">
+                            <span class="matching-label"><i class="pi pi-heart mr-2"></i>Relation Client</span>
+                            <span class="matching-value text-blue-600">{{ avgRelationClient }}/5</span>
+                        </div>
+                        <div class="star-rating">
+                            <i *ngFor="let star of [1,2,3,4,5]"
+                               class="pi"
+                               [ngClass]="star <= avgRelationClient ? 'pi-star-fill text-amber-400' : 'pi-star text-300'"
+                               style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                    <!-- Compatible Méthodologie -->
+                    <div class="matching-item mt-3">
+                        <div class="flex align-items-center justify-content-between">
+                            <span class="matching-label"><i class="pi pi-verified mr-2"></i>Compatibles Méthodologie</span>
+                            <p-tag [value]="compatibleCount + '/' + totalMatching"
+                                   [severity]="compatibleCount >= totalMatching ? 'success' : 'warning'"
+                                   styleClass="text-xs"></p-tag>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Risques -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Top Risques Critiques</h3>
+                    <p-tag [value]="redhibitoireCount + ' rédhibitoire(s)'" severity="danger" styleClass="text-xs"></p-tag>
+                </div>
+                <div class="chart-body" *ngIf="riskBarData">
+                    <p-chart type="bar" [data]="riskBarData" [options]="riskBarOptions"
+                             [style]="{'width': '100%', 'height': '230px'}"></p-chart>
+                </div>
+                <div *ngIf="!riskBarData" class="empty-state">
+                    <i class="pi pi-shield text-3xl text-green-300"></i>
+                    <p>Aucun risque élevé détecté</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Production Documentaire -->
+        <div class="col-12 lg:col-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Production & Livrables</h3>
+                </div>
+                <div class="doc-grid">
+                    <div class="doc-item">
+                        <div class="doc-icon bg-blue-50"><i class="pi pi-file-edit text-blue-600"></i></div>
+                        <div>
+                            <div class="doc-value">{{ totalAnalyses }}</div>
+                            <div class="doc-label">Analyses P2</div>
+                        </div>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-icon bg-green-50"><i class="pi pi-check-square text-green-600"></i></div>
+                        <div>
+                            <div class="doc-value">{{ totalMatching }}</div>
+                            <div class="doc-label">Matchings P3</div>
+                        </div>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-icon bg-purple-50"><i class="pi pi-file-pdf text-purple-600"></i></div>
+                        <div>
+                            <div class="doc-value">{{ noGoReportsCount }}</div>
+                            <div class="doc-label">Rapports No-Go</div>
+                        </div>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-icon bg-amber-50"><i class="pi pi-star text-amber-600"></i></div>
+                        <div>
+                            <div class="doc-value">{{ forceGoCount }}</div>
+                            <div class="doc-label">Forçages Go</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ROW 4 — TABLE DES DERNIERS DOSSIERS                                   -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div class="grid mt-2">
+        <div class="col-12">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="pi pi-list mr-2"></i>Derniers Dossiers</h3>
+                    <button pButton icon="pi pi-external-link" label="Voir tout"
+                            class="p-button-text p-button-sm"
+                            routerLink="/dossiers"></button>
+                </div>
+
+                <div *ngIf="isLoading" class="text-center p-5">
+                    <p-progressSpinner strokeWidth="4" styleClass="w-3rem h-3rem"></p-progressSpinner>
+                </div>
+
+                <p-table [value]="latestDossiers" *ngIf="!isLoading && latestDossiers.length > 0"
+                         responsiveLayout="scroll" styleClass="p-datatable-sm dossier-table"
+                         [rows]="8" [paginator]="false">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="min-width: 250px;">Intitulé</th>
+                            <th>Pays</th>
+                            <th>Client</th>
+                            <th class="text-center">P-Win</th>
+                            <th class="text-center">Priorité</th>
+                            <th class="text-center">Statut</th>
+                            <th class="text-center">Deadline</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-d>
+                        <tr class="dossier-row">
+                            <td>
+                                <span class="font-semibold text-900">{{ d.intituleOffre || d.id }}</span>
+                            </td>
+                            <td>
+                                <span class="text-600">{{ d.pays || '—' }}</span>
+                            </td>
+                            <td>
+                                <span class="text-600">{{ d.client || '—' }}</span>
+                            </td>
+                            <td class="text-center">
+                                <span *ngIf="d.pwinScore" class="pwin-badge" [style.background]="pwinColor(d.pwinScore) + '20'" [style.color]="pwinColor(d.pwinScore)">
+                                    {{ d.pwinScore }}%
+                                </span>
+                                <span *ngIf="!d.pwinScore" class="text-400">—</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="priority-badge" [ngClass]="{
+                                    'priority-1': d.priorite === 1,
+                                    'priority-2': d.priorite === 2,
+                                    'priority-3': d.priorite === 3
+                                }">P{{ d.priorite || 2 }}</span>
+                            </td>
+                            <td class="text-center">
+                                <p-tag [value]="statusLabel(d.status)"
+                                       [severity]="statusSeverity(d.status)"
+                                       styleClass="text-xs"></p-tag>
+                            </td>
+                            <td class="text-center">
+                                <span *ngIf="d.dtLimSoum" class="text-600 text-sm"
+                                      [ngClass]="{'text-red-500 font-bold': d.joursOuvrables != null && d.joursOuvrables <= 7}">
+                                    {{ d.dtLimSoum }}
+                                </span>
+                                <span *ngIf="!d.dtLimSoum" class="text-400">—</span>
+                            </td>
+                            <td class="text-center">
+                                <button pButton icon="pi pi-arrow-right"
+                                        class="p-button-rounded p-button-text p-button-sm"
+                                        (click)="openDossier(d)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8" class="text-center p-4 text-500">
+                                <i class="pi pi-inbox text-3xl text-300 block mb-2"></i>
+                                Aucun dossier enregistré
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

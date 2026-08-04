@@ -1,0 +1,79 @@
+<div class="card bg-white shadow-1 border-round-xl border-1 surface-border">
+    <p-toast></p-toast>
+    
+    <!-- Header du Dashboard -->
+    <div class="flex flex-column md:flex-row justify-content-between md:align-items-center mb-5 pb-4 border-bottom-1 surface-border gap-4">
+        <div>
+            <h2 class="m-0 text-900 font-bold flex align-items-center gap-3">
+                <i class="pi pi-box text-3xl text-primary bg-blue-50 p-3 border-circle"></i>
+                Suivi Global & Historique des Packs
+            </h2>
+            <p class="m-0 mt-2 text-600 text-lg">Supervisez la production et téléchargez les packs générés par les analystes.</p>
+        </div>
+        <div class="p-input-icon-left w-full md:w-20rem">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Rechercher (Projet, Client)..." class="w-full border-round-3xl" />
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex flex-column align-items-center justify-content-center py-8">
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
+        <p class="mt-4 text-600 font-semibold text-lg">Chargement de l'historique...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && filteredPacks.length === 0" class="flex flex-column align-items-center justify-content-center py-8 text-center bg-gray-50 border-round-xl border-1 surface-border">
+        <div class="w-8rem h-8rem bg-white text-300 flex align-items-center justify-content-center border-circle mb-4 shadow-1">
+            <i class="pi pi-inbox text-6xl"></i>
+        </div>
+        <h4 class="text-900 font-bold mb-2 text-xl">Aucun Pack trouvé</h4>
+        <p class="text-600 m-0 max-w-20rem">Il n'y a actuellement aucun dossier ayant atteint l'étape de génération de pack.</p>
+    </div>
+
+    <!-- Grid View (Cartes) -->
+    <div *ngIf="!loading && filteredPacks.length > 0" class="grid">
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3" *ngFor="let pack of filteredPacks">
+            <div class="pastel-card border-round-xl border-1 surface-border p-4 h-full flex flex-column justify-content-between relative overflow-hidden animate-fade-in shadow-1 hover:shadow-3 transition-all transition-duration-200 bg-white">
+                
+                <!-- Decoration Top -->
+                <div class="absolute top-0 left-0 w-full h-1" [ngClass]="'bg-' + getStatusBadge(pack.status).color + '-500'"></div>
+
+                <div class="mb-4">
+                    <div class="flex justify-content-between align-items-start mb-3">
+                        <p-tag [severity]="getStatusBadge(pack.status).severity" styleClass="border-round-2xl px-3 font-semibold shadow-1">
+                            <i class="pi mr-2" [ngClass]="getStatusBadge(pack.status).icon"></i>
+                            {{ getStatusBadge(pack.status).label }}
+                        </p-tag>
+                    </div>
+                    
+                    <h5 class="text-900 font-bold m-0 mb-2 line-height-3 text-overflow-ellipsis overflow-hidden white-space-nowrap" [title]="pack.intituleOffre">
+                        {{ pack.intituleOffre }}
+                    </h5>
+                    <div class="text-600 text-sm flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-building text-primary"></i> <span class="font-medium">{{ pack.client }}</span>
+                    </div>
+
+                    <div class="flex align-items-center justify-content-between bg-gray-50 p-2 border-round-lg border-1 surface-border">
+                        <span class="text-500 text-xs font-semibold">SCORE P-WIN</span>
+                        <span class="font-bold" [ngClass]="getScoreColor(pack.pwinScore)">
+                            {{ pack.pwinScore ? pack.pwinScore + '%' : 'N/A' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-auto border-top-1 surface-border pt-3">
+                    <button pButton pRipple label="Télécharger le ZIP" icon="pi pi-cloud-download" 
+                            class="p-button-outlined w-full border-round-3xl font-bold transition-colors transition-duration-200"
+                            [ngClass]="pack.packGlobalPath ? 'p-button-primary' : 'p-button-secondary'"
+                            [disabled]="!pack.packGlobalPath"
+                            (click)="downloadPack(pack)">
+                    </button>
+                    <p class="text-xs text-center text-500 mt-2 m-0" *ngIf="!pack.packGlobalPath">
+                        <i class="pi pi-exclamation-circle mr-1"></i>ZIP non rattaché
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

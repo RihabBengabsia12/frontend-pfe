@@ -1,0 +1,122 @@
+<div class="grid p-4 fade-in-up">
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-orange p-4 border-round-3xl shadow-2">
+            <h1 class="text-midnight font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-sliders-h text-orange-700"></i>
+                EXTRACTION & ADÉQUATION
+            </h1>
+            <p class="text-700 m-0 mt-2 opacity-80">Upload CV, correction des profils JSON et matrice de matching projet ↔ expert.</p>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card shadow-2 border-round-2xl p-0 overflow-hidden">
+            <p-tabView [(activeIndex)]="activeTab">
+                <!-- Nouvelle Extraction -->
+                <p-tabPanel header="Nouvelle Extraction (CV)">
+                    <div class="p-4">
+                        <div class="upload-zone border-round-2xl p-5 text-center cursor-pointer transition-all"
+                             [class.upload-zone-active]="dragOver"
+                             (drop)="onDrop($event)"
+                             (dragover)="onDragOver($event)"
+                             (dragleave)="onDragLeave()">
+                            <i class="pi pi-cloud-upload text-5xl text-primary mb-3"></i>
+                            <h3 class="text-900 font-bold m-0">Glissez-déposez un CV (PDF / DOCX)</h3>
+                            <p class="text-600 mt-2 mb-4">POST /api/analysts/extract — conversion en données structurées</p>
+                            <input type="file" #fileInput hidden accept=".pdf,.doc,.docx" (change)="onFileSelected($event)" />
+                            <button pButton label="Parcourir les fichiers" icon="pi pi-folder-open"
+                                    class="p-button-raised border-round-3xl"
+                                    [loading]="isExtracting"
+                                    (click)="fileInput.click()"></button>
+                        </div>
+                        <div *ngIf="isExtracting" class="flex align-items-center justify-content-center gap-2 mt-4">
+                            <p-progressSpinner strokeWidth="4" [style]="{width:'32px', height:'32px'}"></p-progressSpinner>
+                            <span class="text-600">Extraction en cours…</span>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+                <!-- Profils extraits -->
+                <p-tabPanel header="Profils Extraits (JSON)">
+                    <div class="p-4 grid">
+                        <div class="col-12 lg:col-4">
+                            <h5 class="font-bold text-900 mb-3">Experts en base</h5>
+                            <p-table [value]="experts" [loading]="profilesLoading" [rows]="8" [paginator]="true"
+                                     selectionMode="single" [(selection)]="selectedExpert"
+                                     (onRowSelect)="selectExpert($event.data || $event)"
+                                     styleClass="p-datatable-sm p-datatable-striped">
+                                <ng-template pTemplate="body" let-e>
+                                    <tr [pSelectableRow]="e">
+                                        <td class="font-medium">{{ expertLabel(e) }}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr><td class="text-center text-500 p-3">Aucun profil — extrayez un CV d'abord.</td></tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="col-12 lg:col-8">
+                            <h5 class="font-bold text-900 mb-3">Formulaire modifiable</h5>
+                            <div class="flex flex-column gap-3">
+                                <div class="field">
+                                    <label class="font-bold text-700">Nom complet</label>
+                                    <input pInputText class="w-full" [(ngModel)]="profileForm.fullName" />
+                                </div>
+                                <div class="field">
+                                    <label class="font-bold text-700">Compétences (séparées par virgule)</label>
+                                    <textarea pInputTextarea rows="3" class="w-full" [(ngModel)]="profileForm.skills"></textarea>
+                                </div>
+                                <div class="field">
+                                    <label class="font-bold text-700">Expériences</label>
+                                    <textarea pInputTextarea rows="4" class="w-full" [(ngModel)]="profileForm.experience"></textarea>
+                                </div>
+                                <button pButton label="Enregistrer (PUT /profile)" icon="pi pi-save"
+                                        class="p-button-success border-round-3xl align-self-start"
+                                        [loading]="isSavingProfile" (click)="saveProfile()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+                <!-- Matrice matching -->
+                <p-tabPanel header="Matrice d'Adéquation">
+                    <div class="p-4">
+                        <div class="grid">
+                            <div class="col-12 md:col-5 field">
+                                <label class="font-bold text-700 block mb-2">Projet (project-service)</label>
+                                <p-dropdown [options]="projects" [(ngModel)]="selectedProjectId"
+                                            optionLabel="title" optionValue="id" placeholder="Choisir un projet"
+                                            styleClass="w-full" appendTo="body"></p-dropdown>
+                            </div>
+                            <div class="col-12 md:col-5 field">
+                                <label class="font-bold text-700 block mb-2">Expert (analyste-service)</label>
+                                <p-dropdown [options]="experts" [(ngModel)]="selectedExpertId"
+                                            optionValue="id" placeholder="Choisir un expert"
+                                            styleClass="w-full" appendTo="body">
+                                    <ng-template let-e pTemplate="selectedItem">
+                                        <span *ngIf="e">{{ expertLabel(e) }}</span>
+                                    </ng-template>
+                                    <ng-template let-e pTemplate="item">
+                                        <span>{{ expertLabel(e) }}</span>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <div class="col-12 md:col-2 flex align-items-end">
+                                <button pButton label="Calculer" icon="pi pi-percentage" class="w-full border-round-3xl"
+                                        [loading]="matchLoading" (click)="computeMatch()"></button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="matchScore !== null" class="mt-5 card card-pastel-green p-4 border-round-2xl text-center">
+                            <span class="text-600 font-medium block mb-2">Score de correspondance</span>
+                            <div class="text-6xl font-bold text-green-800">{{ matchScore }}%</div>
+                            <p-progressBar [value]="matchScore" class="mt-3" [showValue]="false"></p-progressBar>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

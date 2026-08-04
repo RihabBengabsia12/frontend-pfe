@@ -1,0 +1,195 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+
+    <!-- ── Stepper ── -->
+    <div class="stepper-wrapper p-4 pb-0">
+        <app-pipeline-stepper mode="phase2" [activeStep]="1" [dossierId]="dossierId" context="deep-analysis">
+        </app-pipeline-stepper>
+    </div>
+    
+    <!-- ── Header ── -->
+    <header class="page-header">
+        <div class="header-left">
+            <h1 class="page-title">
+                <i class="pi pi-search-plus" style="color: #6366f1;"></i>
+                Analyse Approfondie (Phase 2)
+            </h1>
+            <p class="page-subtitle">Extraction IA des clauses complexes & évaluation des risques</p>
+        </div>
+        <div class="header-right">
+            <div class="status-badge status-progress">
+                <i class="pi pi-spin pi-spinner" *ngIf="isLoading"></i>
+                <i class="pi pi-check-circle" *ngIf="!isLoading"></i>
+                <span>{{ isLoading ? 'Extraction en cours...' : 'Extraction terminée' }}</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Alerte Rédhibitoire ── -->
+    <div class="redhibitoire-alert mt-4" *ngIf="hasRedhibitoire">
+        <div class="alert-icon">
+            <i class="pi pi-exclamation-triangle"></i>
+        </div>
+        <div class="alert-content">
+            <h4>Alerte Critique : Risque Rédhibitoire Détecté</h4>
+            <p>L'un des risques a été qualifié de <strong>Rédhibitoire</strong>. Le score P-Win sera automatiquement forcé à 0% et une recommandation "NO GO" sera générée.<br>
+            <em>Seul un Manager pourra forcer le GO avec une justification de plus de 100 mots.</em></p>
+            
+            <div class="mt-3 flex gap-3 align-items-center" *ngIf="!generatedNoGoPath">
+                <button pButton icon="pi pi-file-pdf" label="Générer Rapport NO-GO" 
+                        class="p-button-danger p-button-sm" 
+                        [loading]="isGeneratingNoGo"
+                        (click)="generateNoGoReport()"></button>
+            </div>
+            
+            <div class="mt-3 flex gap-3 align-items-center" *ngIf="generatedNoGoPath">
+                <div class="text-green-600 font-medium flex align-items-center gap-2">
+                    <i class="pi pi-check-circle"></i> Rapport généré avec succès
+                </div>
+                <button pButton icon="pi pi-download" label="Télécharger le Rapport" 
+                        class="p-button-outlined p-button-success p-button-sm" 
+                        (click)="downloadNoGoReport()"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main Content ── -->
+    <main class="main-content" *ngIf="!isLoading">
+        
+        <div class="validation-layout">
+            
+            <!-- ── Left Column: Champs extraits ── -->
+            <div class="left-col">
+                <div class="validation-panel">
+                    <div class="panel-header">
+                        <div class="header-title">
+                            <i class="pi pi-list"></i>
+                            <span>Vérification des Champs (P2)</span>
+                        </div>
+                        <div class="header-actions">
+                            <span class="progress-text">{{ validatedCount }} / {{ fields.length }} validés</span>
+                            <button pButton class="btn-validate-all" (click)="toggleValidateAll()">
+                                <i class="pi" [ngClass]="validatedCount === fields.length ? 'pi-times' : 'pi-check-square'"></i>
+                                <span>{{ validatedCount === fields.length ? 'Tout dévalider' : 'Tout valider' }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- Itération sur les groupes (Sections D, E, F) -->
+                        <div class="field-group" *ngFor="let group of groupedFields">
+                            <div class="group-header" [ngClass]="'group-' + group.color">
+                                <i class="pi" [ngClass]="group.icon"></i>
+                                <span>{{ group.title }}</span>
+                            </div>
+
+                            <div class="fields-list">
+                                <div class="field-row" *ngFor="let f of group.fields" [ngClass]="{'is-validated': f.validated, 'is-editing': f.editing}">
+                                    
+                                    <!-- Field Info -->
+                                    <div class="field-info">
+                                        <div class="field-label-wrapper">
+                                            <span class="field-label">{{ f.label }}</span>
+                                            <span class="badge-source" *ngIf="f.humanModified">Manuel</span>
+                                            <span class="badge-source ai" *ngIf="!f.humanModified">IA Claude</span>
+                                        </div>
+                                        <div class="field-confidence" *ngIf="!f.humanModified">
+                                            <div class="conf-dot" [ngClass]="confidenceClass(f.confidence)"></div>
+                                            <span>Confiance {{ f.confidence }}%</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field Value & Controls -->
+                                    <div class="field-controls">
+                                        <!-- Affichage Read-Only -->
+                                        <div class="value-display" *ngIf="!f.editing" [ngClass]="{'empty-val': !f.value}">
+                                            {{ f.value || 'Non renseigné' }}
+                                        </div>
+
+                                        <!-- Mode Édition -->
+                                        <div class="edit-mode" *ngIf="f.editing">
+                                            <!-- Select Dropdown -->
+                                            <select class="p-inputtext p-component custom-select" *ngIf="f.type === 'select'" [(ngModel)]="f.value">
+                                                <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                                            </select>
+                                            
+                                            <!-- Text Input -->
+                                            <input *ngIf="f.type === 'input'" type="text" pInputText [(ngModel)]="f.value" class="custom-input" />
+                                            
+                                            <!-- Number Input -->
+                                            <input *ngIf="f.type === 'number'" type="number" pInputText [(ngModel)]="f.value" class="custom-input" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="field-actions">
+                                        <!-- Actions en Read-Only -->
+                                        <ng-container *ngIf="!f.editing">
+                                            <button class="pill-btn btn-edit" pTooltip="Modifier" (click)="startEdit(f)">
+                                                <i class="pi pi-pencil"></i>
+                                            </button>
+                                            <button class="pill-btn btn-reextract" pTooltip="Ré-extraire via IA" (click)="reextract(f)" [disabled]="f.validated">
+                                                <i class="pi pi-sync"></i>
+                                            </button>
+                                            <button class="pill-btn btn-validate" [ngClass]="{'active': f.validated}" pTooltip="Valider ce champ" (click)="validateField(f)">
+                                                <i class="pi" [ngClass]="f.validated ? 'pi-check-circle' : 'pi-check'"></i>
+                                            </button>
+                                        </ng-container>
+
+                                        <!-- Actions en Mode Édition -->
+                                        <ng-container *ngIf="f.editing">
+                                            <button class="pill-btn btn-save" (click)="saveEdit(f)">
+                                                <i class="pi pi-save"></i> Enregistrer
+                                            </button>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Right Column: Infos & Context ── -->
+            <div class="right-col">
+                <div class="info-card">
+                    <div class="card-icon"><i class="pi pi-info-circle"></i></div>
+                    <div class="card-content">
+                        <h4>Instructions</h4>
+                        <p>Vérifiez attentivement les 10 risques identifiés par l'IA.</p>
+                        <ul class="instruction-list">
+                            <li><i class="pi pi-circle-fill text-green-500"></i> Risque Faible/Modéré : P-Win normal</li>
+                            <li><i class="pi pi-circle-fill text-orange-500"></i> Risque Élevé : Malus sur le P-Win</li>
+                            <li><i class="pi pi-circle-fill text-red-500"></i> Risque Rédhibitoire : P-Win forcé à 0%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── APO Template Preview (En bas de page) ── -->
+        <div class="apo-preview-wrapper mt-4">
+            <app-apo-preview
+                [apoData]="apoPreviewData"
+                [confidences]="apoConfidences"
+                [validatedFields]="validatedFieldIds"
+                mode="validation">
+            </app-apo-preview>
+        </div>
+
+        <!-- ── Footer ── -->
+        <div class="page-footer">
+            <button pButton icon="pi pi-arrow-left" label="Retour" class="btn-ghost" routerLink="/dossiers"></button>
+            <button pButton icon="pi pi-calculator" 
+                    label="Valider & Calculer P-Win" 
+                    class="btn-submit" 
+                    [loading]="isSubmitting"
+                    [disabled]="!allValidated"
+                    (click)="submitValidation()">
+            </button>
+        </div>
+
+    </main>
+</div>

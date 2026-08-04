@@ -1,0 +1,34 @@
+<div class="pipeline-wrapper">
+
+  <!-- ── Header Banner ── -->
+  <div class="pipeline-header">
+    <div class="pipeline-left">
+      <div class="pipeline-icon-badge" [style.background]="'linear-gradient(135deg,' + _ctx.iconColor + '22,' + _ctx.iconColor + '44)'">
+        <i [class]="_ctx.icon" [style.color]="_ctx.iconColor"></i>
+      </div>
+      <div class="pipeline-titles">
+        <div class="pipeline-phase-tag">{{ _ctx.phaseTag }}</div>
+        <div class="pipeline-title">{{ _ctx.title }}</div>
+      </div>
+    </div>
+    <span class="pipeline-subtitle">{{ _ctx.subtitle }}</span>
+  </div>
+
+  <!-- ═══ Chevron Pipeline Stepper ═══ -->
+  <div class="chevron-stepper-container">
+    <nav class="chevron-pipeline">
+      <div *ngFor="let step of steps; let i = index" 
+           class="chevron-step" 
+           [class.active]="isActive(i)" 
+           [class.done]="isCompleted(i)" 
+           [class.disabled]="!isCompleted(i) && !isActive(i)"
+           (click)="onStepClick(i)">
+        <span class="chevron-num">{{ i + 1 }}</span>
+        <span class="chevron-label">{{ step.label }}</span>
+      </div>
+    </nav>
+    <div class="progress-underbar">
+      <div class="progress-fill" [style.width.%]="progressWidth"></div>
+    </div>
+  </div>
+</div>

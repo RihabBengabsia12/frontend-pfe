@@ -1,0 +1,145 @@
+{
+  "informations_generales": {
+    "pays": "Madagascar",
+    "intitule_offre": "Conception et mise en place d'une plateforme numérique sur la RN12A et la RN44",
+    "reference": "PACT – P166526 / Composante 3",
+    "client": "Ministère des Travaux Publics (MTP) – Direction Générale des Travaux Publics / Projet d'Appui à la Connectivité des Transports (PACT)",
+    "resume_contexte_objectifs": "Dans le cadre du Projet d'Appui à la Connectivité des Transports (PACT – P166526), financé par la Banque Mondiale (IDA, 140 M USD), la composante 3 vise à développer une plateforme numérique (site web + application mobile) au service des populations rurales des régions Alaotra Mangoro, Atsimo Atsinanana et Anosy, le long des axes RN12A et RN44. La mission couvre la conception, le développement (V1 et V2), le déploiement de kiosques numériques physiques et la maintenance sur 12 mois. Les services ciblés incluent informations/conseils métier, services financiers, marketplace, logistique et agenda événementiel, avec un fort accent sur l'accessibilité pour des populations peu alphabétisées numériquement. L'objectif est d'atteindre 7 500 bénéficiaires en 2028 et de former 4 000 personnes au numérique.",
+    "date_limite_soumission": null,
+    "langue": "Français"
+  },
+  "financement": {
+    "bailleurs": "Association Internationale de Développement (IDA) / Banque Mondiale",
+    "budget_global": {
+      "montant": 140000000,
+      "devise": "USD",
+      "raw_text": "140 millions de US$ auprès de l'Association Internationale de Développement (IDA) / Banque Mondiale (budget global du projet PACT, pas uniquement de cette mission)"
+    },
+    "financement_local": {
+      "valeur": "NA",
+      "detail": null
+    }
+  },
+  "concurrence": {
+    "shortlist": null,
+    "shortlist_equilibree": {
+      "valeur": "NA",
+      "justification": "Aucune mention d'une shortlist ou d'équilibre géographique dans le document"
+    },
+    "analyse_concurrence": null
+  },
+  "hommes_mois": {
+    "exiges_ou_estimes": "Non précisé dans le document (section 'Estimation de la charge de travail du Titulaire' mentionnée mais sans données chiffrées renseignées)",
+    "budget_interne_estime": {
+      "montant": null,
+      "source": null
+    }
+  },
+  "delais": {
+    "delai_preparation_suffisant": {
+      "valeur": "NA",
+      "justification": "Date limite de soumission non mentionnée dans le document, impossible d'évaluer"
+    },
+    "duree_mission_mois": 12,
+    "capacite_respecter_delai": {
+      "valeur": "NA",
+      "justification": "Calendrier serré : rapport de cadrage sous 2 semaines, V1 à 4 mois, V2 à 9 mois, MVP (version bêta) à 6 mois, livraison finale à 12 mois. Faisabilité à évaluer selon composition de l'équipe"
+    }
+  },
+  "criteres_selection": {
+    "mode_notation": "Notation technique sur 100 points avec seuil minimum de qualification à 70/100. Critères : Expérience du candidat (10 pts), Adéquation aux spécifications techniques et fonctionnelles (25 pts), Compréhension du besoin et gestion de projet (40 pts), Personnel clé (25 pts). Modalités financières non précisées dans le document.",
+    "seuil_technique": 70,
+    "poids_technique_pct": null,
+    "poids_financier_pct": null
+  },
+  "partenariat": {
+    "partenaires_necessaires": "Oui – le document indique explicitement que les candidats doivent démontrer leur capacité à mobiliser des partenaires pour couvrir les différentes fonctionnalités (opérateurs mobiles Airtel/Telma/Orange, institutions de microfinance CECAM/OTIV, acteurs logistiques PAOMA/Colis Xpress, associations agricoles, ONG, Direction de la météorologie, Agence des Transports Terrestres, PAPRIZ, FOFIFA, Observatoire du riz, DRICC, EDBM, etc.)",
+    "chef_de_file": null,
+    "roles_repartition": "Non définis dans le document pour le groupement soumissionnaire. Les rôles des parties prenantes institutionnelles sont décrits (MTP = MOA, cabinet externe = AMOA, MNDPT/UGD = référents interopérabilité)"
+  },
+  "caution_soumission": {
+    "exigee": "NA",
+    "banque_locale_exigee": "NA",
+    "montant": null,
+    "devise": null,
+    "duree_validite": null
+  },
+  "demandes_information": {
+    "date_limite_questions": null,
+    "clarifications": [
+      "Quel est le budget alloué spécifiquement à cette mission de conception et déploiement de la plateforme numérique (distinct du budget global PACT de 140 M USD) ?",
+      "Quelle est la date limite de soumission des offres et y a-t-il une date limite pour poser des questions/demandes de clarification ?",
+      "La pondération entre note technique et note financière n'est pas précisée : quelle est la répartition technique/financier pour la sélection finale (ex. 80/20, 70/30) ?",
+      "La section 'Estimation de la charge de travail du Titulaire' est mentionnée mais vide dans le document : quels sont les hommes-mois estimés par profil et par phase ?",
+      "Le contrat est présenté comme d'une durée de 12 mois en phase de développement, mais le MTP est indiqué comme maître d'ouvrage pour une période de 5 ans (exploitation/maintenance) dans un paragraphe et de 2 ans dans un autre : quelle est la durée contractuelle exacte et les modalités de maintenance post-déploiement ?"
+    ]
+  },
+  "visite_site": {
+    "visite_obligatoire": {
+      "valeur": "NA",
+      "date": null
+    },
+    "conference_prealable": {
+      "valeur": "NA",
+      "date": null
+    }
+  },
+  "risques": {
+    "pays_securite": {
+      "niveau": "Moyen",
+      "commentaire": "Mission dans des zones rurales enclavées de Madagascar (régions Alaotra Mangoro, Atsimo Atsinanana, Anosy) avec des déplacements terrain nécessaires pour les kiosques. Contexte socio-économique fragile mais pas de mention explicite d'insécurité."
+    },
+    "financiers": {
+      "niveau": "Moyen",
+      "commentaire": "Budget global de la mission non précisé. Paiements échelonnés sur 10 jalons livrables (5% à 15% par livrable) sur 12 mois, avec risque de trésorerie si retards de validation MOA. Dépendance à de nombreux partenaires externes pour l'alimentation des données."
+    },
+    "penalites": {
+      "niveau": "NA",
+      "commentaire": "Aucune clause de pénalité mentionnée dans le document"
+    },
+    "exigences_inacceptables": {
+      "niveau": "Faible",
+      "commentaire": "Exigences techniques élevées (X-Road, DICT, WCAG, SSO, architecture microservices, cloud) mais standards du marché. Obligation de conformité à la loi malgache N°2014-038 sur la protection des données."
+    },
+    "garanties_elevees": {
+      "niveau": "Faible",
+      "commentaire": "Aucune caution de soumission ou garantie bancaire mentionnée dans le document"
+    },
+    "taille_dispersion": {
+      "niveau": "Moyen",
+      "commentaire": "Mission multi-sites couvrant 3 régions géographiquement dispersées à Madagascar avec déploiement de kiosques physiques dans des zones enclavées, nécessitant une présence terrain significative."
+    },
+    "frais_divers_eleves": {
+      "niveau": "Moyen",
+      "commentaire": "Frais de déplacement potentiellement élevés pour les interventions terrain dans les 3 régions enclavées. Coûts d'hébergement cloud, de licences et de partenariats multiples à anticiper."
+    },
+    "budget_faible": {
+      "niveau": "NA",
+      "commentaire": "Budget spécifique à la mission non communiqué, impossible d'évaluer"
+    },
+    "participation_locale": {
+      "niveau": "Moyen",
+      "commentaire": "Forte attente de connaissance du contexte institutionnel malgache et d'expérience locale (mise en place de projet informatique au sein d'une administration à Madagascar valorisée). La maîtrise du malgache (Malagasy) est requise pour le chef de projet fonctionnel."
+    },
+    "fiscalite": {
+      "niveau": "NA",
+      "commentaire": "Aucune mention de régime fiscal applicable au contrat dans le document"
+    }
+  },
+  "decision": {
+    "recommandation": "Projet structurant, bien documenté techniquement, avec un bailleur solide (Banque Mondiale/IDA) et un client clairement identifié (MTP/PACT). Forte cohérence entre les TDR et les besoins terrain. Cependant, plusieurs informations critiques sont manquantes (budget mission, date limite, pondération technique/financier, charge en hommes-mois). La complexité technique est élevée (X-Road, multi-partenaires, kiosques physiques en zones enclavées) et le calendrier est serré (V1 à 4 mois, MVP à 6 mois). Recommandation conditionnelle GO sous réserve de confirmation du budget, de la pondération et de la capacité à mobiliser une équipe locale compétente.",
+    "go_no_go": "GO",
+    "points_critiques": [
+      "Budget spécifique à la mission non communiqué : risque de sous-évaluation de l'offre financière",
+      "Date limite de soumission absente : urgence et délai de préparation inconnus",
+      "Pondération technique/financier non précisée : stratégie de prix impossible à optimiser",
+      "Hommes-mois estimés non renseignés dans la section dédiée du document",
+      "Incohérence dans la durée du contrat de maintenance (5 ans vs 2 ans selon les paragraphes)",
+      "Exigence de conformité X-Road obligatoire : nécessite expertise spécifique rare",
+      "Multiplicité des partenaires institutionnels et privés à mobiliser (15+) : risque de coordination et de délais",
+      "Déploiement de kiosques physiques dans zones enclavées : coûts terrain et logistique à budgéter",
+      "Exigence de MVP fonctionnel à 6 mois : calendrier très contraignant pour une plateforme multi-services"
+    ]
+  },
+  "plan_action": "1. Envoyer demande de clarification sur budget mission, date limite, pondération et hommes-mois estimés. 2. Identifier un partenaire local malgache (SSII ou cabinet) maîtrisant le contexte institutionnel et le malgasy. 3. Vérifier expertise X-Road disponible en interne ou via sous-traitant. 4. Cartographier les partenaires données clés (météo, agriculture, IMF, transporteurs) et évaluer faisabilité des API. 5. Préparer architecture technique cloud et proposition d'hébergement conforme UGD. 6. Constituer l'équipe clé (PO, Chef projet fonctionnel, Business Analyst, UX/UI, Lead Dev, Dev mobile) avec CVs et références projets similaires. 7. Élaborer le mémoire technique en mettant en avant la compréhension du contexte local (30 pts sur 100)."
+}

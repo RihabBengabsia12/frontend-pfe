@@ -1,0 +1,21 @@
+<div class="risk-grid">
+    <div class="risk-card" *ngFor="let risk of risks" [class.red-alert-card]="risk.level === 'RÉDHIBITOIRE'">
+        <div class="risk-header">
+            <h6 class="risk-title">{{ risk.title }}</h6>
+            <span *ngIf="risk.level === 'RÉDHIBITOIRE'" class="warning-blinking">
+                <i class="pi pi-exclamation-triangle"></i>
+                P-Win forcé à 0%
+            </span>
+        </div>
+
+        <app-risk-level-selector [level]="risk.level" (levelChange)="onLevelChange(risk, $event)"></app-risk-level-selector>
+
+        <textarea rows="3" class="risk-justif-area" [(ngModel)]="risk.justification" 
+                  (ngModelChange)="onJustificationChange()"
+                  placeholder="Saisissez la justification de ce niveau de risque..."></textarea>
+
+        <div *ngIf="risk.level === 'RÉDHIBITOIRE'" class="text-xs text-red-600 font-bold mt-1">
+            ⚠️ Un critère rédhibitoire bloque l'opportunité et forcera le P-Win à 0%
+        </div>
+    </div>
+</div>

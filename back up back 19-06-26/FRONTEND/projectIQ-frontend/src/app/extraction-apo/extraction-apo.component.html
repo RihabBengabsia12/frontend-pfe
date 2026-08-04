@@ -1,0 +1,69 @@
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary">ProjectIQ </h1>
+    <p class="text-muted">Système intelligent d'extraction de données </p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      
+      <div class="card shadow border-0 mb-4">
+        <div class="card-body p-4">
+          <h5 class="card-title mb-4">  Charger le document</h5>
+          
+          <div class="mb-4">
+            <input type="file" class="form-control form-control-lg" (change)="onFileSelected($event)" accept=".pdf">
+            
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-primary btn-lg fw-bold shadow-sm" 
+                    (click)="onExtract()" 
+                    [disabled]="!selectedFile || status === 'extracting'">
+              <span *ngIf="status === 'extracting'" class="spinner-border spinner-border-sm me-2"></span>
+              {{ status === 'extracting' ? 'IA en cours d\'analyse...' : ' Lancer l\'Extraction' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="status === 'success'" class="fade-in">
+        <div class="card border-success shadow-sm">
+          <div class="card-header bg-success text-white fw-bold">
+             Analyse Terminée avec Succès
+          </div>
+          <div class="card-body">
+            
+            <div class="mb-4 p-3 bg-light rounded border">
+              <h6 class="text-uppercase fw-bold text-secondary mb-3" style="font-size: 0.8rem;">Données extraites :</h6>
+              <p class="mb-1"><strong> Pays :</strong> {{ extractionData?.informations_generales?.pays || 'N/A' }}</p>
+              <p class="mb-1"><strong> Projet :</strong> {{ extractionData?.informations_generales?.intitule_offre || 'N/A' }}</p>
+              <p class="mb-0"><strong> Décision :</strong> 
+                <span class="badge bg-primary">{{ extractionData?.decision_go_no_go?.decision || 'Analyse finie' }}</span>
+              </p>
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md-6">
+                <button class="btn btn-outline-dark w-100 py-2" (click)="onDownloadDocx()">
+                   Télécharger le Word (.docx)
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-outline-secondary w-100 py-2" (click)="onDownloadJson()">
+                   Voir le JSON brut
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="status === 'error'" class="alert alert-danger mt-3 shadow-sm">
+         <strong>Erreur :</strong> Impossible de contacter le serveur Python. Vérifiez que Uvicorn est lancé.
+      </div>
+
+    </div>
+  </div>
+</div>

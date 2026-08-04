@@ -1,0 +1,303 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+/* Analyst Interface Premium Styles */
+.analyst-theme {
+    --primary-color: #1e293b; /* Midnight Blue */
+    --primary-light: #f8fafc;
+}
+
+.card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #f1f5f9;
+}
+
+.btn-premium {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border: none;
+    box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+}
+
+.btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(30, 41, 59, 0.3);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.text-midnight {
+    color: #1e293b;
+}
+
+.bg-midnight {
+    background-color: #1e293b;
+}
+
+.border-analyst {
+    border: 1px solid #e2e8f0;
+}
+
+/* Animations */
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Analyst layout : utilise désormais la même sidebar que l'admin */
+
+
+/* Premium Pastel Design System */
+.card-pastel-green { background: #e8f5e9; border: 1px solid #c8e6c9; }
+.card-pastel-blue { background: #e3f2fd; border: 1px solid #bbdefb; }
+.card-pastel-orange { background: #fff3e0; border: 1px solid #ffe0b2; }
+.card-pastel-danger { background: #FEE2E2; border: 1px solid #FECACA; }
+
+/* Phase 2 Command & Control — fond principal */
+.layout-main-container {
+    background-color: #F8FAFC;
+}
+
+.mission-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mission-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-premium {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-premium:hover {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Transitions */
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.premium-drop-zone {
+    background: #f8fafc;
+    border: 3px dashed #cbd5e1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.premium-drop-zone:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+
+/* PrimeNG Custom Overrides */
+.p-knob-text {
+    font-weight: bold !important;
+    font-size: 1.5rem !important;
+}
+
+.p-slider .p-slider-handle {
+    background: #1e293b !important;
+    border: 2px solid white !important;
+}
+
+.p-slider .p-slider-range {
+    background: #3b82f6 !important;
+}
+
+/* Premium Executive Pastel Palette - Pro & Remarkable */
+:root {
+    --primary-color: #4A90E2 !important; /* Professional Blue */
+    --primary-color-text: #ffffff !important;
+    
+    /* Subtle & Sophisticated Pastels */
+    --green-pastel: #E2F3EB;  /* Emerald Sage */
+    --green-text: #2D6A4F;
+    
+    --yellow-pastel: #FFF4E0; /* Muted Champagne */
+    --yellow-text: #B5838D;
+    
+    --red-pastel: #FDE8E8;    /* Dusty Rose */
+    --red-text: #9B1C1C;
+    
+    --blue-pastel: #E1F5FE;   /* Arctic Sky */
+    --blue-text: #01579B;
+
+    --green-500: var(--green-pastel) !important;
+    --red-500: var(--red-pastel) !important;
+    --yellow-500: var(--yellow-pastel) !important;
+    --blue-500: var(--blue-pastel) !important;
+}
+
+.p-tag.p-tag-success { 
+    background-color: var(--green-pastel) !important; 
+    color: var(--green-text) !important; 
+    border: 1px solid rgba(45, 106, 79, 0.2) !important;
+}
+.p-tag.p-tag-danger { 
+    background-color: var(--red-pastel) !important; 
+    color: var(--red-text) !important; 
+    border: 1px solid rgba(155, 28, 28, 0.2) !important;
+}
+.p-tag.p-tag-warning { 
+    background-color: var(--yellow-pastel) !important; 
+    color: var(--yellow-text) !important; 
+    border: 1px solid rgba(181, 131, 141, 0.2) !important;
+}
+.p-tag.p-tag-info { 
+    background-color: var(--blue-pastel) !important; 
+    color: var(--blue-text) !important; 
+    border: 1px solid rgba(1, 87, 155, 0.2) !important;
+}
+
+.p-button.p-button-success { background-color: var(--green-pastel) !important; color: var(--green-text) !important; border: none !important; font-weight: 600; }
+.p-button.p-button-danger { background-color: var(--red-pastel) !important; color: var(--red-text) !important; border: none !important; font-weight: 600; }
+.p-button.p-button-warning { background-color: var(--yellow-pastel) !important; color: var(--yellow-text) !important; border: none !important; font-weight: 600; }
+
+.status-tag-premium {
+    padding: 0.5rem 1rem !important;
+    border-radius: 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+    text-transform: none !important;
+}
+
+.p-button:not(.p-button-secondary):not(.p-button-success):not(.p-button-danger):not(.p-button-warning):not(.p-button-info):not(.p-button-plain) {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color-text) !important;
+}
+.p-button:hover { filter: brightness(0.95); }
+
+/* Premium Status Tags */
+.status-tag-premium {
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+.status-tag-premium:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* New Status Deleted Styles */
+.status-tag-deleted {
+    @extend .status-tag-premium;
+    background-color: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.grayscale {
+    filter: grayscale(100%);
+}
+
+.opacity-60 {
+    opacity: 0.6;
+}
+
+/* Premium Role Tags - Executive Style */
+.role-tag-premium {
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.role-tag-admin { @extend .role-tag-premium; background-color: #FEE2E2 !important; color: #991B1B !important; border: 1px solid #FECACA !important; }
+.role-tag-manager { @extend .role-tag-premium; background-color: #E0E7FF !important; color: #3730A3 !important; border: 1px solid #C7D2FE !important; }
+.role-tag-analyst { @extend .role-tag-premium; background-color: var(--green-pastel) !important; color: var(--green-text) !important; border: 1px solid rgba(45, 106, 79, 0.2) !important; }
+.role-tag-guest { @extend .role-tag-premium; background-color: var(--yellow-pastel) !important; color: var(--yellow-text) !important; border: 1px solid rgba(181, 131, 141, 0.2) !important; }
+
+/* Premium Pastel Row Styles */
+.row-rejected-pastel {
+    background-color: #fff1f0 !important;
+    border-left: 4px solid var(--red-text) !important;
+    transition: all 0.3s ease;
+}
+.row-validated-pastel {
+    background-color: #f6ffed !important;
+    border-left: 4px solid var(--green-text) !important;
+    transition: all 0.3s ease;
+}
+.row-rejected-pastel:hover { background-color: #ffccc7 !important; transform: scale(1.001); }
+.row-validated-pastel:hover { background-color: #d9f7be !important; transform: scale(1.001); }
+
+/* Analyst Workspace Pastel Styles */
+.pastel-input {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 0.8rem 1rem !important;
+    transition: all 0.3s ease;
+}
+
+.pastel-input:focus {
+    background-color: #ffffff !important;
+    border-color: #818cf8 !important;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2) !important;
+}
+
+.pastel-drop-zone {
+    background-color: #f0fdfa;
+    border: 2px dashed #99f6e4;
+    transition: all 0.3s ease;
+}
+
+.pastel-drop-zone:hover, .pastel-drop-zone.drop-zone-active {
+    background-color: #ccfbf1;
+    border-color: #14b8a6;
+    transform: translateY(-2px);
+}
+
+
+

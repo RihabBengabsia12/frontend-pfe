@@ -1,0 +1,459 @@
+// ═══════════════════════════════════════════════════════
+// DEEP ANALYSIS P2 — Design identique au Dépôt (Extraction P1)
+// Calme, Fin, Pastel — avec boutons Modifier/Ré-extraire/Valider
+// ═══════════════════════════════════════════════════════
+
+// Variables Ultra-Minimalistes, Calmes et Pastel
+$bg-body: #fafcff;
+$surface: #ffffff;
+
+$text-main: #334155;
+$text-muted: #64748b;
+$text-light: #94a3b8;
+
+$pastel-blue: #f8fbff;
+$pastel-orange: #fffcf8;
+$pastel-green: #f8fffb;
+$pastel-red: #fff8f8;
+
+$accent-blue: #60a5fa;
+$accent-orange: #fbbf24;
+$accent-green: #34d399;
+$accent-red: #f87171;
+
+.extraction-page {
+    background-color: $bg-body;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    animation: fade 0.8s ease-out;
+}
+
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkPop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+// ── Header ──
+.page-header {
+    margin-bottom: 2rem;
+
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: $text-main;
+        letter-spacing: -0.01em;
+
+        i {
+            color: $accent-blue;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+    }
+
+    p {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: $text-muted;
+        margin-top: 0.5rem;
+    }
+
+    .progress-text {
+        font-size: 0.85rem;
+        color: $text-muted;
+    }
+}
+
+// Bouton style "Ghost/Soft"
+.action-validate-btn {
+    background: $surface !important;
+    color: $text-main !important;
+    border: 1px solid #e2e8f0 !important;
+    font-weight: 400 !important;
+    padding: 10px 24px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02) !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.02em !important;
+
+    &:hover {
+        background: #f8fafc !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.04) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    &:disabled {
+        opacity: 0.4 !important;
+        cursor: not-allowed !important;
+    }
+
+    &:not(:disabled) {
+        color: $accent-green !important;
+        border-color: rgba(52, 211, 153, 0.2) !important;
+    }
+}
+
+// ── Alerte Rédhibitoire ──
+.redhibitoire-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #ef4444;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    animation: slideDown 0.5s ease-out;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.05);
+
+    .alert-icon i {
+        font-size: 1.8rem;
+        color: #ef4444;
+    }
+
+    .alert-content {
+        h4 {
+            margin: 0 0 0.5rem 0;
+            color: #991b1b;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        p {
+            margin: 0;
+            color: #b91c1c;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+    }
+}
+
+// ── Grid System ──
+.sections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+
+@media (max-width: 1200px) {
+    .sections-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .sections-grid { grid-template-columns: 1fr; }
+}
+
+// ── Section Cards (Identique au Dépôt) ──
+.extraction-section {
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(0,0,0,0.01);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.015);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    animation: slideUp 0.6s ease-out both;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+    }
+
+    &.accent-blue { background: $pastel-blue; }
+    &.accent-orange { background: $pastel-orange; }
+    &.accent-green { background: $pastel-green; }
+    &.accent-red { background: $pastel-red; }
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+
+    .icon-wrapper {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $surface;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+
+        i { font-size: 1.1rem; }
+    }
+
+    .section-title {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: $text-main;
+        letter-spacing: 0.03em;
+    }
+}
+
+.accent-blue .icon-wrapper i { color: $accent-blue; }
+.accent-orange .icon-wrapper i { color: $accent-orange; }
+.accent-green .icon-wrapper i { color: $accent-green; }
+.accent-red .icon-wrapper i { color: $accent-red; }
+
+// ── Fields List ──
+.fields-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.field-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: all 0.4s ease;
+
+    &:hover {
+        background: rgba(255,255,255,0.7);
+        border-color: rgba(0,0,0,0.04);
+    }
+
+    &.is-validated {
+        border-color: rgba(52, 211, 153, 0.15);
+        background: rgba(255,255,255,0.6);
+    }
+
+    &.is-editing {
+        background: $surface;
+        border-color: rgba(96, 165, 250, 0.15);
+        box-shadow: 0 4px 16px rgba(96, 165, 250, 0.06);
+    }
+}
+
+.field-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .field-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #4f46e5;
+        background: #e0e7ff;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 6px 14px;
+        border-radius: 8px;
+        display: inline-block;
+        box-shadow: 0 2px 4px rgba(79, 70, 229, 0.05);
+    }
+}
+
+// ── Badge Source ──
+.badge-source {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #fef3c7;
+    color: #d97706;
+
+    &.ai {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+}
+
+// ── Confidence ──
+.confidence-badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: $text-light;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.02em;
+
+    .conf-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    &.conf-high, &.conf-high .conf-dot { color: $accent-green; background: $accent-green; }
+    &.conf-mid, &.conf-mid .conf-dot { color: $accent-orange; background: $accent-orange; }
+    &.conf-low, &.conf-low .conf-dot { color: $accent-red; background: $accent-red; }
+
+    // Only the dot should have background
+    &.conf-high, &.conf-mid, &.conf-low { background: transparent; }
+}
+
+// ── Field Value Box ──
+.field-value-box {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+
+    .field-value {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #1e293b;
+        line-height: 1.6;
+
+        &.empty {
+            color: $text-light;
+            font-style: italic;
+            font-weight: 400;
+        }
+    }
+}
+
+// ── Edit Mode ──
+.edit-mode {
+    .custom-select, .custom-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: $text-main;
+        background: $surface;
+        outline: none;
+        transition: border-color 0.3s ease;
+        font-family: inherit;
+
+        &:focus {
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+    }
+}
+
+// ── Pill Buttons ──
+.field-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.72rem;
+    font-weight: 500;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+    i { font-size: 0.75rem; transition: transform 0.3s ease; }
+    span { line-height: 1; }
+
+    &:hover {
+        transform: translateY(-2px);
+        i { transform: scale(1.15); }
+    }
+
+    &:active {
+        transform: translateY(0) scale(0.97);
+    }
+
+    // ── Modifier ──
+    &.btn-edit {
+        background: #eff6ff;
+        color: #3b82f6;
+
+        &:hover {
+            background: #dbeafe;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.12);
+        }
+    }
+
+    // ── Ré-extraire ──
+    &.btn-reextract {
+        background: #fef3c7;
+        color: #d97706;
+
+        &:hover {
+            background: #fde68a;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.12);
+            i { transform: scale(1.15) rotate(180deg); }
+        }
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            &:hover { transform: none; box-shadow: none; }
+        }
+    }
+
+    // ── Valider ──
+    &.btn-validate {
+        background: #f1f5f9;
+        color: $text-muted;
+
+        &:hover {
+            background: #e2e8f0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        }
+
+        &.active {
+            background: #dcfce7;
+            color: #16a34a;
+            animation: checkPop 0.4s ease-out;
+
+            &:hover {
+                background: #bbf7d0;
+                box-shadow: 0 4px 14px rgba(22, 163, 74, 0.12);
+            }
+        }
+    }
+
+    // ── Enregistrer ──
+    &.btn-save {
+        background: #dcfce7;
+        color: #16a34a;
+
+        &:hover {
+            background: #bbf7d0;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.12);
+        }
+    }
+}
+
+// ── Loading ──
+.loading-state {
+    text-align: center;
+    padding: 6rem 0;
+
+    .loading-icon {
+        font-size: 2.5rem;
+        color: $text-light;
+        margin-bottom: 1.5rem;
+    }
+
+    p {
+        color: $text-muted;
+        font-weight: 400;
+        font-size: 1.05rem;
+    }
+}

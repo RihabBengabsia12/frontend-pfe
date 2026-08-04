@@ -1,0 +1,134 @@
+<div class="grid">
+    <p-toast></p-toast>
+    
+    <!-- Sidebar: Liste des Projets (Master) -->
+    <div class="col-12 md:col-4">
+        <div class="surface-card p-0 shadow-1 border-round-xl overflow-hidden border-1 surface-border h-full flex flex-column">
+            
+            <div class="p-4 border-bottom-1 surface-border bg-blue-50">
+                <h5 class="m-0 font-bold text-blue-900 flex align-items-center mb-3">
+                    <i class="pi pi-list mr-2"></i> Projets Évalués
+                </h5>
+                <span class="p-input-icon-left w-full">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Chercher un projet..." class="w-full border-round-2xl p-inputtext-sm" />
+                </span>
+            </div>
+
+            <div *ngIf="loading" class="flex justify-content-center my-5">
+                <p-progressSpinner styleClass="w-3rem h-3rem"></p-progressSpinner>
+            </div>
+
+            <div *ngIf="!loading && filteredDossiers.length === 0" class="p-5 text-center text-500">
+                <p>Aucun projet trouvé.</p>
+            </div>
+
+            <div *ngIf="!loading" class="flex-1" style="overflow-y: auto; max-height: 650px;">
+                <div *ngFor="let d of filteredDossiers" (click)="selectDossier(d)"
+                    class="p-4 cursor-pointer transition-colors transition-duration-150 border-bottom-1 surface-border flex flex-column gap-2"
+                    [ngClass]="selectedDossier?.id === d.id ? 'surface-100 border-left-3 border-blue-500' : 'hover:surface-hover'">
+                    
+                    <div class="flex justify-content-between align-items-start">
+                        <span class="font-bold text-900 truncate-text" style="max-width: 200px;" [title]="d.intituleOffre">{{ d.intituleOffre }}</span>
+                    </div>
+                    <div class="flex align-items-center gap-2 text-sm text-600 mt-1">
+                        <i class="pi pi-building"></i> <span class="truncate-text" style="max-width: 150px;">{{ d.client }}</span>
+                    </div>
+                    
+                    <!-- Progress Bar Simulation -->
+                    <div class="mt-2 w-full bg-gray-200 border-round-xl h-1rem overflow-hidden relative">
+                        <div class="h-full" 
+                             [ngClass]="d.status === 'SUBMITTED' || d.status === 'ARCHIVED' || d.status === 'AUDIT' ? 'bg-green-400' : 'bg-orange-400'"
+                             [style.width]="d.status === 'SUBMITTED' || d.status === 'ARCHIVED' || d.status === 'AUDIT' ? '100%' : '50%'">
+                        </div>
+                    </div>
+                    <div class="text-xs text-500 text-right mt-1">
+                        {{ d.status === 'SUBMITTED' || d.status === 'ARCHIVED' || d.status === 'AUDIT' ? 'Validations terminées' : 'En cours...' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Détails & Timeline (Detail) -->
+    <div class="col-12 md:col-8">
+        <div class="surface-card shadow-1 border-round-xl border-1 surface-border p-5 h-full relative animate-fade-in" *ngIf="selectedDossier">
+            
+            <div *ngIf="loadingTimeline" class="absolute top-0 left-0 w-full h-full border-round-xl flex align-items-center justify-content-center glass-overlay"
+                 style="z-index: 10;">
+                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
+            </div>
+
+            <!-- Header Dossier -->
+            <div class="flex justify-content-between align-items-center mb-5 pb-4 border-bottom-1 surface-border">
+                <div class="flex align-items-center gap-3">
+                    <div class="w-4rem h-4rem bg-blue-50 text-blue-500 flex align-items-center justify-content-center border-circle border-1 border-blue-100 flex-shrink-0">
+                        <i class="pi pi-users text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="m-0 font-bold text-900">{{ selectedDossier.intituleOffre }}</h3>
+                        <p class="m-0 mt-1 text-600">Client : {{ selectedDossier.client }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Titre Section -->
+            <h5 class="font-bold text-800 mb-5"><i class="pi pi-history mr-2 text-primary"></i> Chronologie des Décisions</h5>
+
+            <!-- Timeline -->
+            <div *ngIf="timelineEvents.length === 0 && !loadingTimeline" class="text-center p-5 bg-gray-50 border-round-xl">
+                <i class="pi pi-info-circle text-4xl text-500 mb-3"></i>
+                <p class="text-600 m-0">Aucun historique de décision trouvé pour ce projet.</p>
+            </div>
+
+            <div class="px-4" *ngIf="timelineEvents.length > 0">
+                <p-timeline [value]="timelineEvents" align="left" styleClass="customized-timeline">
+                    <!-- Marqueur Visuel -->
+                    <ng-template pTemplate="marker" let-event>
+                        <span class="custom-marker shadow-2 border-circle flex align-items-center justify-content-center w-2rem h-2rem text-white z-1" 
+                              [style.backgroundColor]="event.color">
+                            <i [class]="event.icon"></i>
+                        </span>
+                    </ng-template>
+
+                    <!-- Contenu de la Timeline -->
+                    <ng-template pTemplate="content" let-event>
+                        <div class="mb-5 ml-4 animate-fade-in" style="animation-delay: 0.1s;">
+                            <!-- Header Info -->
+                            <div class="flex align-items-center justify-content-between mb-2">
+                                <div>
+                                    <span class="font-bold text-900 text-lg mr-2">{{ event.role }}</span>
+                                    <span class="text-600 text-sm" *ngIf="event.nom">- {{ event.nom }}</span>
+                                </div>
+                                <span class="text-sm text-500" *ngIf="event.date">{{ event.date | date:'dd/MM/yyyy HH:mm' }}</span>
+                            </div>
+                            
+                            <!-- Badges Status -->
+                            <div class="mb-3">
+                                <p-tag *ngIf="event.status === 'APPROVED'" severity="success" value="Approuvé"></p-tag>
+                                <p-tag *ngIf="event.status === 'REJECTED'" severity="danger" value="Rejeté"></p-tag>
+                                <p-tag *ngIf="event.status === 'PENDING'" severity="warning" value="En attente de décision"></p-tag>
+                            </div>
+
+                            <!-- Commentaire Glassmorphism -->
+                            <div *ngIf="event.commentaire" class="glass-comment p-3 border-round-lg relative">
+                                <i class="pi pi-comment absolute text-300" style="top: -10px; left: -10px; font-size: 1.5rem; background: white; border-radius: 50%;"></i>
+                                <p class="m-0 text-700 font-italic line-height-3 ml-2">"{{ event.commentaire }}"</p>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-timeline>
+            </div>
+
+        </div>
+
+        <!-- Empty State Master -->
+        <div class="surface-card shadow-1 border-round-xl border-1 surface-border p-5 h-full flex flex-column align-items-center justify-content-center text-center" *ngIf="!selectedDossier && !loading">
+            <div class="w-6rem h-6rem bg-blue-50 text-blue-500 flex align-items-center justify-content-center border-circle mb-4">
+                <i class="pi pi-users text-5xl"></i>
+            </div>
+            <h4 class="text-900 font-bold mb-2">Sélectionnez un projet</h4>
+            <p class="text-600 m-0">Cliquez sur un projet à gauche pour consulter l'historique complet des validations de chaque manager.</p>
+        </div>
+    </div>
+</div>

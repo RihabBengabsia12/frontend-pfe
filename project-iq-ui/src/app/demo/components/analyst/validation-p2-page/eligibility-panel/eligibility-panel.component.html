@@ -1,0 +1,13 @@
+<div class="validation-grid">
+<div class="validation-card" *ngFor="let field of fields">
+<div class="field-label">{{ field.label }}</div>
+<div class="field-value">
+<input *ngIf="field.type === 'input'" pInputText [(ngModel)]="field.value" />
+<select *ngIf="field.type === 'select'" [(ngModel)]="field.value">
+<option value="">--</option>
+<option value="Oui">Oui</option>
+<option value="Non">Non</option>
+</select>
+</div>
+</div>
+</div>

@@ -1,0 +1,40 @@
+<p-dialog header="Forcer le passage en GO (Algorithme Overruled)" 
+          [(visible)]="visible" 
+          [modal]="true" 
+          [style]="{width: '450px'}" 
+          [closable]="true"
+          [draggable]="false"
+          [resizable]="false"
+          styleClass="p-fluid border-round-2xl shadow-6"
+          (onHide)="close()">
+    
+    <div class="modal-body">
+        <div class="bg-orange-50 border-round-xl border-1 border-200 p-3 flex align-items-start gap-2">
+            <i class="pi pi-exclamation-triangle text-orange-600 text-xl mt-1"></i>
+            <div class="text-xs text-orange-800 line-height-3">
+                <strong>Attention :</strong> Vous allez outrepasser la décision automatique de l'algorithme d'Egis. Cette action sera logguée et nécessite une signature officielle ainsi qu'une justification managériale.
+            </div>
+        </div>
+
+        <div class="field flex flex-column gap-1">
+            <label for="mgrSig" class="font-bold text-700 text-sm">Initiales / Signature du Manager</label>
+            <input id="mgrSig" type="text" pInputText class="signature-input pastel-input" 
+                   [(ngModel)]="signature" placeholder="Ex. JS" maxlength="6" />
+        </div>
+
+        <div class="field flex flex-column gap-1">
+            <label for="mgrComment" class="font-bold text-700 text-sm">Raison / Justification Commerciale</label>
+            <textarea id="mgrComment" rows="4" pInputTextarea class="pastel-input"
+                      [(ngModel)]="comment" placeholder="Saisissez la justification détaillée pour ce forçage..."></textarea>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex gap-2 justify-content-end mt-2">
+            <button pButton label="Annuler" class="p-button-text p-button-secondary border-round-3xl" (click)="close()"></button>
+            <button pButton label="Confirmer le Forçage" icon="pi pi-check" 
+                    class="p-button-warning border-round-3xl" 
+                    [disabled]="!signature.trim() || !comment.trim()" (click)="confirm()"></button>
+        </div>
+    </ng-template>
+</p-dialog>

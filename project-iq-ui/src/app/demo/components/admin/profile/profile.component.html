@@ -1,0 +1,60 @@
+<div class="grid justify-content-center">
+    <div class="col-12 md:col-8 lg:col-6">
+        <div class="card border-round-xl shadow-2 p-5 border-top-3 border-blue-200">
+            <div class="flex align-items-center gap-3 mb-5">
+                <div class="w-4rem h-4rem bg-blue-50 border-circle flex align-items-center justify-content-center shadow-1">
+                    <i class="pi pi-user text-blue-500 text-3xl"></i>
+                </div>
+                <div>
+                    <h5 class="m-0 font-bold text-900">Mon Profil Administrateur</h5>
+                    <span class="text-500 text-sm">Gérez vos informations personnelles</span>
+                </div>
+            </div>
+
+            <div class="p-fluid grid" *ngIf="user">
+                <div class="field col-12 mb-4">
+                    <label class="font-bold text-700 mb-2 block">Identifiant Email</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon bg-gray-50"><i class="pi pi-envelope text-400"></i></span>
+                        <input pInputText type="text" [value]="user.email" disabled class="surface-50 font-medium" />
+                    </div>
+                    <small class="text-500 italic mt-1 block">L'adresse email ne peut pas être modifiée.</small>
+                </div>
+
+                <div class="field col-12 mb-4">
+                    <label class="font-bold text-700 mb-2 block">Niveau d'Accès (Privilège)</label>
+                    <div class="flex align-items-center gap-2">
+                        <p-tag severity="success" [rounded]="true" styleClass="px-4 py-2 text-md shadow-2 border-1 border-green-200">
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-prime text-xl"></i>
+                                <span class="font-bold">{{ getRoleLabel(user.role) }}</span>
+                            </div>
+                        </p-tag>
+                    </div>
+                </div>
+
+                <div class="field col-12 mb-5">
+                    <label for="name" class="font-bold text-700 mb-2 block flex align-items-center gap-2">
+                        Nom Complet
+                        <i *ngIf="user.fullName" class="pi pi-verified text-green-500 shadow-4 border-circle" pTooltip="Identité vérifiée"></i>
+                    </label>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-id-card text-blue-300"></i>
+                        <input pInputText id="name" type="text" [(ngModel)]="newName" placeholder="Entrez votre nom complet" class="p-3 border-round-lg shadow-1" />
+                    </span>
+                </div>
+
+                <div class="col-12">
+                    <button pButton label="Sauvegarder les modifications" icon="pi pi-check" 
+                        class="p-button-raised p-button-primary p-3 border-round-lg shadow-2"
+                        (click)="updateProfile()" [loading]="loading"></button>
+                </div>
+            </div>
+
+            <div *ngIf="!user" class="text-center p-8">
+                <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+                <div class="text-500 mt-3">Chargement de vos informations...</div>
+            </div>
+        </div>
+    </div>
+</div>

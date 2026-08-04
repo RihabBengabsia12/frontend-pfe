@@ -1,0 +1,124 @@
+<div class="grid p-4 fade-in-up">
+    <div class="col-12 mb-3">
+        <div class="card card-pastel-green p-4 border-round-3xl shadow-2">
+            <h1 class="text-midnight font-bold text-2xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-check-square text-green-800"></i>
+                VALIDATIONS & WORKFLOW
+            </h1>
+            <p class="text-700 m-0 mt-2 opacity-80">Dossiers en attente (auth-service) et historique des événements.</p>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card shadow-2 border-round-2xl p-0 overflow-hidden">
+            <p-tabView [(activeIndex)]="activeTab" (activeIndexChange)="onTabChange($event)">
+                <p-tabPanel header="Dossiers en Attente">
+                    <div class="p-4">
+                        <div class="flex justify-content-between align-items-center mb-3">
+                            <span class="font-bold text-xl text-900">{{ pendingAccounts.length }} dossier(s) en attente</span>
+                            <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-text" (click)="loadPendingAccounts()"></button>
+                        </div>
+
+                        <p-table [value]="pendingAccounts" [loading]="accountsLoading" [paginator]="true" [rows]="10"
+                                 styleClass="p-datatable-striped p-datatable-gridlines border-round-xl overflow-hidden">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Créé le</th>
+                                    <th>Rôle à assigner</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-u>
+                                <tr class="row-validated-pastel">
+                                    <td class="font-medium">{{ u.fullName }}</td>
+                                    <td>{{ u.email }}</td>
+                                    <td>{{ u.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+                                    <td>
+                                        <p-dropdown [options]="roleOptions" [(ngModel)]="selectedRole[u.id]"
+                                                    optionLabel="label" optionValue="value" placeholder="Rôle"
+                                                    styleClass="w-full" appendTo="body"></p-dropdown>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="flex gap-2 justify-content-center flex-wrap">
+                                            <button pButton icon="pi pi-check" label="Valider"
+                                                    class="p-button-success p-button-sm border-round-3xl"
+                                                    [loading]="validatingId === u.id"
+                                                    (click)="validateDossier(u)"></button>
+                                            <button pButton icon="pi pi-times" label="Refuser"
+                                                    class="p-button-danger p-button-sm border-round-3xl"
+                                                    (click)="openReject(u)"></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="5" class="text-center p-5 text-500">
+                                        <i class="pi pi-inbox text-4xl mb-2 block"></i>
+                                        Aucun dossier en attente.
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </p-tabPanel>
+
+                <p-tabPanel header="Historique & Événements">
+                    <div class="p-4">
+                        <div class="flex flex-wrap gap-3 mb-4 align-items-end">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-envelope"></i>
+                                <input pInputText placeholder="Filtrer par email" [(ngModel)]="filterEmail" class="border-round-3xl" />
+                            </span>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-filter"></i>
+                                <input pInputText placeholder="Type d'événement" [(ngModel)]="filterType" class="border-round-3xl" />
+                            </span>
+                            <button pButton label="Appliquer" icon="pi pi-search" class="border-round-3xl" (click)="applyEventFilters()"></button>
+                            <button pButton icon="pi pi-refresh" class="p-button-text" (click)="loadEvents()"></button>
+                        </div>
+
+                        <p-table [value]="events" [loading]="eventsLoading" [paginator]="true" [rows]="15"
+                                 styleClass="p-datatable-striped border-round-xl overflow-hidden">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Résultat</th>
+                                    <th>IP</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-ev>
+                                <tr>
+                                    <td>{{ ev.occurredAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                                    <td>{{ ev.emailAttempted }}</td>
+                                    <td><p-tag [value]="ev.eventType" severity="info"></p-tag></td>
+                                    <td><p-tag [value]="ev.result" [severity]="getEventSeverity(ev.result)"></p-tag></td>
+                                    <td class="text-500 text-sm">{{ ev.ipAddress || '—' }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr><td colspan="5" class="text-center p-4 text-500">Aucun événement.</td></tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Refuser le dossier" [(visible)]="displayRejectDialog" [modal]="true" [style]="{width:'450px'}">
+    <p class="text-600">Motif envoyé via PUT /reject/&#123;userId&#125; (clé <b>reason</b>).</p>
+    <textarea pInputTextarea rows="4" class="w-full mt-2" [(ngModel)]="rejectionReason"
+              placeholder="Motif du refus…"></textarea>
+    <ng-template pTemplate="footer">
+        <button pButton label="Annuler" class="p-button-text" (click)="displayRejectDialog = false"></button>
+        <button pButton label="Confirmer" icon="pi pi-times" class="p-button-danger" (click)="confirmReject()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
