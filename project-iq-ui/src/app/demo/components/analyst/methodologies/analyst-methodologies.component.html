@@ -3,11 +3,10 @@
     <div class="col-12 mb-4">
         <div class="flex align-items-center justify-content-between mb-4">
             <div>
-                <h1 class="text-3xl font-bold text-900 m-0 flex align-items-center gap-2">
+                <h1 class="text-2xl font-bold text-900 m-0 flex align-items-center gap-2">
                     <i class="pi pi-file-word text-blue-600"></i>
                     Registre des Méthodologies
                 </h1>
-                <p class="text-500 m-0 mt-1">Gérez, visualisez et téléchargez les trames d'Appel à Proposition (APO).</p>
             </div>
         </div>
 
@@ -56,18 +55,18 @@
                      [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
                      [globalFilterFields]="['intituleOffre','client','bailleurs']"
                      exportFilename="Registre_Methodologies_APO"
-                     styleClass="p-datatable-striped custom-table-premium">
+                     styleClass="p-datatable-striped custom-table-premium methodologies-table-compact">
                 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
-                        <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Méthodologies (APO)</h5>
+                        <h6 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Méthodologies (APO)</h6>
                         <div class="flex gap-2 mt-2 md:mt-0">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="searchQuery" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher (Client, Offre...)" class="border-round-2xl" />
                             </span>
-                            <button pButton icon="pi pi-file-excel" class="p-button-outlined p-button-success border-round-2xl" pTooltip="Exporter CSV" tooltipPosition="top" (click)="dt.exportCSV()"></button>
-                            <button pButton icon="pi pi-file-pdf" class="p-button-outlined p-button-danger border-round-2xl" pTooltip="Exporter PDF" tooltipPosition="top" (click)="exportPdf()"></button>
+                            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                            <p-menu #menu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
                         </div>
                     </div>
                 </ng-template>
@@ -92,8 +91,8 @@
                             </div>
                         </td>
                         <td class="p-3 text-center">
-                            <div class="font-bold text-700">
-                                <i class="pi pi-clock text-orange-500 mr-1"></i> {{ dossier.hommesMois || 0 }} H/M
+                            <div class="font-bold" [ngClass]="validHommesMois(dossier) === null ? 'text-red-600' : 'text-700'">
+                                <i class="pi pi-clock mr-1" [ngClass]="validHommesMois(dossier) === null ? 'text-red-500' : 'text-orange-500'"></i> {{ formatHommesMois(dossier) }}
                             </div>
                         </td>
                         <td class="p-3 text-center">
@@ -109,8 +108,6 @@
                         <td class="p-3 text-right">
                             <div class="flex justify-content-end gap-2">
                                 <button pButton icon="pi pi-external-link" class="p-button-rounded p-button-text p-button-secondary transition-all hover:bg-gray-200" pTooltip="Ouvrir le dossier" tooltipPosition="top" (click)="openDossier(dossier)"></button>
-                                <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-secondary transition-all hover:bg-gray-200" pTooltip="Aperçu rapide" tooltipPosition="top" (click)="openDetails(dossier)"></button>
-                                <button pButton icon="pi pi-link" class="p-button-rounded p-button-text p-button-info transition-all hover:bg-blue-100" pTooltip="Copier Lien" tooltipPosition="top" (click)="copyLink(dossier)"></button>
                                 <button pButton icon="pi pi-file-word" class="p-button-rounded p-button-success shadow-1 transition-all hover:-translate-y-1" pTooltip="Télécharger DOCX" tooltipPosition="top" (click)="downloadMethodology(dossier)"></button>
                             </div>
                         </td>
@@ -131,59 +128,5 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Détails Rapides -->
-<p-dialog header="Détails Logistiques & Méthodologie" [(visible)]="displayDetailsDialog" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false" styleClass="border-round-2xl shadow-6">
-    <div *ngIf="selectedDossier" class="flex flex-column gap-3 p-2">
-        <div class="text-center mb-3">
-            <div class="w-4rem h-4rem bg-blue-50 border-circle flex align-items-center justify-content-center mx-auto mb-3">
-                <i class="pi pi-file-word text-3xl text-blue-600"></i>
-            </div>
-            <h3 class="m-0 text-900 font-bold line-height-3">{{ selectedDossier.intituleOffre }}</h3>
-            <span class="text-500 text-sm mt-1 block">{{ selectedDossier.client }}</span>
-        </div>
-
-        <div class="surface-100 border-round-xl p-3 flex flex-column gap-2">
-            <div class="flex justify-content-between align-items-center">
-                <span class="text-600 font-medium">Pays / Langue</span>
-                <span class="font-bold text-700">{{ selectedDossier.pays || '-' }} / {{ selectedDossier.langue || '-' }}</span>
-            </div>
-            <p-divider styleClass="m-0"></p-divider>
-            <div class="flex justify-content-between align-items-center">
-                <span class="text-600 font-medium">Visite sur site</span>
-                <span class="font-bold" [ngClass]="selectedDossier.visiteObl ? 'text-orange-600' : 'text-700'">{{ selectedDossier.visiteObl ? 'OUI' : 'NON' }}</span>
-            </div>
-            <p-divider styleClass="m-0"></p-divider>
-            <div class="flex justify-content-between align-items-center">
-                <span class="text-600 font-medium">Volume estimé</span>
-                <span class="font-bold text-indigo-600">{{ selectedDossier.hommesMois || 0 }} H/M</span>
-            </div>
-        </div>
-
-        <div class="surface-100 border-round-xl p-3">
-            <span class="text-600 font-medium block mb-2">Chemin MinIO (Trame DOCX)</span>
-            <div class="text-xs font-mono text-700 bg-white p-2 border-round border-1 border-300" style="word-break: break-all;">
-                {{ selectedDossier.methodoDocxPath }}
-            </div>
-        </div>
-
-        <button pButton label="Télécharger DOCX" icon="pi pi-download" class="p-button-success border-round-3xl w-full mt-2 shadow-2" (click)="downloadMethodology(selectedDossier)"></button>
-    </div>
-</p-dialog>
-
-<!-- Modal Visionneuse Document -->
-<p-dialog [(visible)]="displayPdfViewer" [modal]="true" [style]="{width: '90vw', height: '90vh'}" [maximizable]="true" styleClass="border-round-2xl shadow-6 overflow-hidden">
-    <ng-template pTemplate="header">
-        <div class="flex align-items-center justify-content-between w-full pr-4">
-            <span class="text-xl font-bold flex align-items-center gap-2">
-                <i class="pi pi-file-word text-blue-600 text-2xl"></i> Visionneuse du Document (Trame DOCX)
-            </span>
-            <button *ngIf="selectedDossier" pButton label="Télécharger DOCX" icon="pi pi-download" class="p-button-success border-round-3xl shadow-1" (click)="downloadMethodology(selectedDossier)"></button>
-        </div>
-    </ng-template>
-    <div class="w-full h-full" style="min-height: calc(90vh - 100px);">
-        <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="100%" style="border: none; min-height: calc(90vh - 100px);"></iframe>
-    </div>
-</p-dialog>
 
 <p-toast position="top-right"></p-toast>

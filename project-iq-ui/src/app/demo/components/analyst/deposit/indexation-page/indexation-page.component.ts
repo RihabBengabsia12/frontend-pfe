@@ -9,7 +9,7 @@ import { SseService } from '../../../../../services/sse.service';
     selector: 'app-indexation-page',
     templateUrl: './indexation-page.component.html',
     styleUrls: ['./indexation-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class IndexationPageComponent implements OnInit {
     dossierId: string = '';

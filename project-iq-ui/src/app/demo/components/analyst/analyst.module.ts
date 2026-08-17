@@ -37,6 +37,7 @@ import { RapportFinalPageComponent } from './rapport-final-page/rapport-final-pa
 import { ApoEditorPageComponent } from './apo-editor-page/apo-editor-page.component';
 import { ApoFieldComponent } from './apo-editor-page/apo-field.component';
 import { PackReadyPageComponent } from './pack-ready-page/pack-ready-page.component';
+import { AuditPageComponent } from './audit-page/audit-page.component';
 
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
@@ -64,6 +65,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 
 import { SidebarModule } from 'primeng/sidebar';
 import { MenuModule } from 'primeng/menu';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ChipsModule } from 'primeng/chips';
 import { PromptOverrideComponent } from './shared/prompt-override/prompt-override.component';
 
 @NgModule({
@@ -97,7 +100,9 @@ import { PromptOverrideComponent } from './shared/prompt-override/prompt-overrid
         AccordionModule,
         SkeletonModule,
         SidebarModule,
-        MenuModule
+        MenuModule,
+        InputNumberModule,
+        ChipsModule
     ],
     declarations: [
         AnalystDashboardComponent,
@@ -130,6 +135,7 @@ import { PromptOverrideComponent } from './shared/prompt-override/prompt-overrid
         ApoEditorPageComponent,
         ApoFieldComponent,
         PackReadyPageComponent,
+        AuditPageComponent,
         AnalystNogoReportsComponent,
         PromptOverrideComponent,
         AnalystAposComponent

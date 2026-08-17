@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { AdminService, DataEvent, UserResponse } from '../../service/admin.service';
 import { Subscription, interval, startWith, switchMap, catchError, of, forkJoin, tap } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AnalystProjectsService, Dossier } from '../../service/analyst-projects.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -14,39 +14,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
     isInitialLoading: boolean = true;
 
     // --- Données des 4 Modules ---
-    validationStats = { pending: 0, processed: 0, total: 0 };
     auditStats = { recentEvents: [] as DataEvent[], dailyCount: 0 };
-    userStats = { active: 0, total: 0, distribution: [] as any[] };
-    roleStats = { total: 0, active: 0 };
-    systemHealth = { global: 'Chargement...', connection: '...', memory: '...' };
+    userStats = { active: 0, total: 0, distribution: [] as number[] };
 
     // --- Graphiques ---
-    activityData: any;
-    activityOptions: any;
+    productivityData: any;
+    productivityOptions: any;
     roleDistributionData: any;
     roleDistributionOptions: any;
 
-    // --- Business KPIs (Analyste/Manager) ---
+    // --- Business KPIs (Analyste/Manager/Admin) ---
     businessStats = {
-        totalDossiers: 0,
-        pendingDecision: 0,
-        goCount: 0,
-        noGoCount: 0,
-        forceGoCount: 0,
-        anomaliesIA: 0
+        totalAnalyses: 0,      // Analystes
+        totalDecisions: 0,     // Managers
+        auditEvents: 0         // Admins
     };
-
-    pipelineData: any;
-    pipelineOptions: any;
-
-    goNoGoData: any;
-    goNoGoOptions: any;
 
     private refreshSubscription!: Subscription;
 
     constructor(
         private adminService: AdminService,
         private analystService: AnalystProjectsService,
+        private authService: AuthService,
         public layoutService: LayoutService
     ) {}
 
@@ -56,7 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     startLiveMonitoring() {
-        this.refreshSubscription = interval(8000) // Rafraîchissement toutes les 8s pour le côté "Live"
+        this.refreshSubscription = interval(8000) // Rafraîchissement toutes les 8s
             .pipe(
                 startWith(0),
                 switchMap(() => this.loadDashboardData())
@@ -66,107 +55,130 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     loadDashboardData() {
         return forkJoin({
-            users: this.adminService.getUsers(0, 1000).pipe(catchError(() => of({ content: [] }))),
-            audit: this.adminService.getAuditEvents({ size: 6 }).pipe(catchError(() => of({ content: [] }))),
-            roles: this.adminService.getRoles().pipe(catchError(() => of([]))),
-            health: this.adminService.getHealth().pipe(catchError(() => of({ status: 'DOWN' }))),
+            users: this.authService.getAccounts(0, 1000).pipe(catchError(() => of({ content: [] } as any))),
+            audit: this.adminService.getAuditEvents({ size: 10 }).pipe(catchError(() => of({ content: [] } as any))),
+            authEvents: this.authService.getEvents({ size: 10 }).pipe(catchError(() => of({ content: [] } as any))),
             dossiers: this.analystService.getAllDossiers().pipe(catchError(() => of([])))
         }).pipe(
             tap(res => {
-                this.processUserData(res.users.content);
-                this.processAuditData(res.audit.content);
-                this.processRoleData(res.roles);
-                this.processHealthData(res.health);
-                this.processBusinessData(res.dossiers);
-                this.updateCharts(res.users.content);
+                // Robust extraction helper
+                const extractArray = (data: any) => {
+                    if (!data) return [];
+                    if (Array.isArray(data)) return data;
+                    if (data.content && Array.isArray(data.content)) return data.content;
+                    if (data.data && Array.isArray(data.data)) return data.data;
+                    return [];
+                };
+
+                const usersArr = extractArray(res.users);
+                this.processUserData(usersArr);
+                
+                const auditArr = extractArray(res.audit);
+                const authArr = extractArray(res.authEvents);
+                
+                // Combine both admin data events and auth access events
+                const combinedAudit = [...auditArr, ...authArr]
+                    .sort((a: any, b: any) => {
+                        const dateA = a.occurredAt ? new Date(a.occurredAt).getTime() : 0;
+                        const dateB = b.occurredAt ? new Date(b.occurredAt).getTime() : 0;
+                        return dateB - dateA;
+                    });
+                this.processAuditData(combinedAudit);
+                
+                const dossiersArr = extractArray(res.dossiers);
+                this.processBusinessData(dossiersArr);
+                
+                this.updateCharts();
                 this.isInitialLoading = false;
             })
         );
     }
 
-    private processHealthData(health: any) {
-        // Traduction des termes techniques en termes "Utilisateur"
-        const isOk = health.status === 'UP';
-        this.systemHealth = {
-            global: isOk ? 'Système Fluide' : 'Maintenance en cours',
-            connection: isOk ? 'Prêt' : 'Indisponible',
-            memory: isOk ? 'Optimisée' : 'Lenteur détectée'
-        };
-    }
-
     private processUserData(users: UserResponse[]) {
-        const pending = users.filter(u => (u.accountStatus || u.status) === 'PENDING').length;
         const active = users.filter(u => ['ACTIVE', 'VALIDATED'].includes(u.accountStatus || u.status || '')).length;
+        this.userStats.active = active;
+        this.userStats.total = users.length;
         
-        this.validationStats = {
-            pending: pending,
-            processed: users.length - pending,
-            total: users.length
-        };
+        let analysts = 0, managers = 0, admins = 0;
+        users.forEach(u => {
+            let roleStr = '';
+            if (typeof u.role === 'string') {
+                roleStr = u.role.toUpperCase();
+            } else if (u.role && (u.role as any).code) {
+                roleStr = (u.role as any).code.toUpperCase();
+            } else if ((u as any).roleCode) {
+                roleStr = (u as any).roleCode.toUpperCase();
+            } else if ((u as any).roles && Array.isArray((u as any).roles)) {
+                roleStr = (u as any).roles.map((r: any) => typeof r === 'string' ? r : (r.code || '')).join(',').toUpperCase();
+            }
 
-        this.userStats = {
-            active: active,
-            total: users.length,
-            distribution: []
-        };
+            if (roleStr.includes('ANALYST') || roleStr.includes('ANALYSTE')) analysts++;
+            else if (roleStr.includes('MANAGER') || roleStr.includes('DECISION') || roleStr.includes('SUPERVISION')) managers++;
+            else admins++; // Fallback pour GUEST ou ADMIN
+        });
+        
+        this.userStats.distribution = [analysts, managers, admins];
     }
 
-    private processAuditData(events: DataEvent[]) {
+    private processAuditData(events: any[]) {
         this.auditStats.recentEvents = events;
-        this.auditStats.dailyCount = events.length; // Simplifié pour le démo
+        // Mettre à jour le compteur global du dashboard
+        this.businessStats.auditEvents = events.length; 
     }
 
-    private processRoleData(roles: any[]) {
-        this.roleStats = {
-            total: roles.length,
-            active: roles.filter(r => r.active !== false).length
-        };
-    }
+    // --- Variables temporelles pour les graphiques ---
+    dailyAnalyses = [0, 0, 0, 0, 0, 0, 0];
+    dailyDecisions = [0, 0, 0, 0, 0, 0, 0];
+    last7DaysLabels = [] as string[];
 
     private processBusinessData(dossiers: Dossier[]) {
-        this.businessStats.totalDossiers = dossiers.length;
+        this.businessStats.totalAnalyses = dossiers.length;
         
-        let pending = 0;
-        let go = 0;
-        let nogo = 0;
-        let force = 0;
-        let anomalies = 0;
+        let decisions = 0;
+        this.dailyAnalyses = [0, 0, 0, 0, 0, 0, 0];
+        this.dailyDecisions = [0, 0, 0, 0, 0, 0, 0];
+        
+        const now = new Date();
+        this.last7DaysLabels = [];
+        for(let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(now.getDate() - i);
+            this.last7DaysLabels.push(d.toLocaleDateString('fr-FR', { weekday: 'short' }));
+        }
 
         dossiers.forEach(d => {
             const s = d.status || '';
-            // Les anomalies IA peuvent être mesurées si confiance < 0.6 ou boucle de correction
-            if (s === 'CORRECTION_LOOP' || (d.confianceP1 && d.confianceP1 < 0.6)) {
-                anomalies++;
-            }
+            const isDecision = ['NO_GO_CONFIRMED', 'FORCE_GO', 'MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'ARCHIVED'].includes(s);
+            if (isDecision) decisions++;
 
-            if (s === 'PENDING_VALIDATION' || s === 'DEEP_ANALYSIS' || s === 'SCORING') {
-                pending++;
-            }
-
-            if (s === 'NO_GO_CONFIRMED') {
-                nogo++;
-            } else if (s === 'FORCE_GO') {
-                force++;
-            } else if (['MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'ARCHIVED'].includes(s)) {
-                go++;
+            // Calcul temporel basé sur updatedAt (ou createdAt)
+            const dateStr = d.updatedAt || d.createdAt;
+            if (dateStr) {
+                const dateDossier = new Date(dateStr);
+                const diffTime = Math.abs(now.getTime() - dateDossier.getTime());
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays <= 7 && diffDays > 0) {
+                    const index = 7 - diffDays;
+                    this.dailyAnalyses[index]++;
+                    if (isDecision) this.dailyDecisions[index]++;
+                } else if (diffDays === 0) {
+                    this.dailyAnalyses[6]++;
+                    if (isDecision) this.dailyDecisions[6]++;
+                }
             }
         });
-
-        this.businessStats.pendingDecision = pending;
-        this.businessStats.goCount = go;
-        this.businessStats.noGoCount = nogo;
-        this.businessStats.forceGoCount = force;
-        this.businessStats.anomaliesIA = anomalies;
+        this.businessStats.totalDecisions = decisions;
     }
 
     formatAction(action: string): string {
         const map: any = {
             'LOGIN': 'Connexion',
             'REGISTER': 'Inscription',
-            'UPDATE_ROLE': 'Droits mis à jour',
-            'VALIDATE_USER': 'Compte approuvé',
-            'REJECT_USER': 'Refus d\'accès',
-            'TOGGLE_STATUS': 'Statut changé'
+            'UPDATE_ROLE': 'Droits modifiés',
+            'VALIDATE_USER': 'Compte validé',
+            'REJECT_USER': 'Accès refusé',
+            'TOGGLE_STATUS': 'Statut modifié'
         };
         return map[action] || 'Action système';
     }
@@ -174,79 +186,82 @@ export class DashboardComponent implements OnInit, OnDestroy {
     formatResource(resource: string): string {
         const map: any = {
             'AppUser': 'Utilisateur',
-            'CredentialAccount': 'Identifiants',
+            'CredentialAccount': 'Sécurité',
             'ROLE': 'Rôle',
             'PERMISSIONS': 'Permissions'
         };
         return map[resource] || resource || '—';
     }
 
-    initCharts() {
-        // Initialisation vide, sera remplie par updateCharts
-    }
+    initCharts() { }
 
-    updateCharts(users: UserResponse[]) {
-        // --- 1. Donut Chart : Go / No-Go / Force Go ---
-        const totalDecided = this.businessStats.goCount + this.businessStats.noGoCount + this.businessStats.forceGoCount;
-        
-        let goPct = 0, nogoPct = 0, forcePct = 0;
-        if (totalDecided > 0) {
-            goPct = Math.round((this.businessStats.goCount / totalDecided) * 100);
-            nogoPct = Math.round((this.businessStats.noGoCount / totalDecided) * 100);
-            forcePct = Math.round((this.businessStats.forceGoCount / totalDecided) * 100);
-        }
+    updateCharts() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
 
-        this.goNoGoData = {
-            labels: ['Approuvé (Go)', 'Refusé (No-Go)', 'Forcé (Override)'],
+        // --- 1. Bar Chart : Productivité (Analyses vs Décisions) ---
+        this.productivityData = {
+            labels: this.last7DaysLabels.length > 0 ? this.last7DaysLabels : ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            datasets: [
+                {
+                    label: 'Analyses (Analystes)',
+                    backgroundColor: '#93C5FD', // Bleu pastel
+                    hoverBackgroundColor: '#60A5FA',
+                    data: this.dailyAnalyses,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Décisions (Managers)',
+                    backgroundColor: '#86EFAC', // Vert pastel
+                    hoverBackgroundColor: '#4ADE80',
+                    data: this.dailyDecisions,
+                    borderRadius: 4
+                }
+            ]
+        };
+
+        this.productivityOptions = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+            plugins: {
+                legend: { labels: { color: textColor, usePointStyle: true, font: { weight: '600' } } }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColorSecondary },
+                    grid: { display: false }
+                },
+                y: {
+                    ticks: { color: textColorSecondary },
+                    grid: { borderDash: [5, 5] }
+                }
+            }
+        };
+
+        // --- 2. Donut Chart : Répartition des rôles ---
+        this.roleDistributionData = {
+            labels: ['Analystes', 'Managers', 'Admins'],
             datasets: [{
-                data: [this.businessStats.goCount, this.businessStats.noGoCount, this.businessStats.forceGoCount],
-                backgroundColor: ['#22C55E', '#EF4444', '#F59E0B'], // Vert, Rouge, Orange
-                hoverBackgroundColor: ['#16A34A', '#DC2626', '#D97706'],
+                data: this.userStats.distribution,
+                backgroundColor: [
+                    '#93C5FD', // Bleu pastel (Analystes)
+                    '#FDBA74', // Orange pastel (Managers)
+                    '#D8B4FE'  // Violet pastel (Admins)
+                ],
+                hoverBackgroundColor: [
+                    '#60A5FA',
+                    '#FB923C',
+                    '#C084FC'
+                ],
                 borderWidth: 0
             }]
         };
 
-        this.goNoGoOptions = {
+        this.roleDistributionOptions = {
             cutout: '75%',
             plugins: { 
-                legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 12, weight: 'bold' } } },
-                tooltip: {
-                    callbacks: {
-                        label: function(context: any) {
-                            const val = context.raw;
-                            const total = context.dataset.data.reduce((a:number, b:number) => a + b, 0);
-                            const pct = total === 0 ? 0 : Math.round((val / total) * 100);
-                            return ` ${val} Dossiers (${pct}%)`;
-                        }
-                    }
-                }
-            },
-            maintainAspectRatio: false
-        };
-
-        // --- 2. Bar Chart : Pipeline de Production (Histogramme) ---
-        this.pipelineData = {
-            labels: ['Importés', 'En IA (Score)', 'Décidés', 'Clôturés'],
-            datasets: [{
-                label: 'Volume de dossiers',
-                data: [
-                    this.businessStats.totalDossiers,
-                    this.businessStats.pendingDecision,
-                    totalDecided,
-                    this.businessStats.goCount // Estimé clôturés
-                ],
-                backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                borderColor: '#3B82F6',
-                borderWidth: 1,
-                borderRadius: 4
-            }]
-        };
-
-        this.pipelineOptions = {
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, grid: { borderDash: [5, 5] } },
-                x: { grid: { display: false } }
+                legend: { position: 'bottom', labels: { color: textColor, usePointStyle: true, font: { weight: '600' } } }
             },
             maintainAspectRatio: false
         };

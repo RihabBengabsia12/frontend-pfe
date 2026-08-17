@@ -220,8 +220,8 @@ export class AnalystProjectsService {
 
     // ── Relative paths — handled by Angular proxy (proxy.conf.json) ──
     private readonly DOSSIERS_API    = '/api/dossiers';
-    private readonly REFERENTIEL_API = '/api/referentiel';
-    private readonly APO_API         = '/api/analyst/apo';
+    private readonly REFERENTIEL_API = '/api/analyses/referentiel';
+    private readonly APO_API         = '/api/apo';
 
     constructor(private http: HttpClient) {}
 
@@ -245,6 +245,11 @@ export class AnalystProjectsService {
             reportProgress: true,
             observe: 'events'
         });
+    }
+
+    /** GET /api/dossiers/ai-logs — Logs IA Phase 1 */
+    getAiLogs(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.DOSSIERS_API}/ai-logs`);
     }
 
     /** GET /api/dossiers — Liste triée par priorité et date limite */
@@ -277,9 +282,19 @@ export class AnalystProjectsService {
         return this.http.put<Dossier>(`${this.DOSSIERS_API}/${id}/status?status=${status}`, {});
     }
 
+    /** POST /api/scoring/{id}/generate-audit */
+    generateAuditReport(id: string): Observable<any> {
+        return this.http.post<any>(`/api/scoring/${id}/generate-audit`, {});
+    }
+
     /** POST /api/dossiers/{id}/analyze — Relance manuelle de l'extraction */
     launchAnalysis(id: string): Observable<any> {
         return this.http.post<any>(`${this.DOSSIERS_API}/${id}/analyze`, {});
+    }
+
+    /** POST /api/dossiers/batch-analyze — Extraction par lot Phase 1 */
+    launchBatchAnalysis(ids: string[]): Observable<any> {
+        return this.http.post<any>(`${this.DOSSIERS_API}/batch-analyze`, ids);
     }
 
     /** GET /api/dossiers/{id}/audit — Historique complet */
@@ -323,6 +338,13 @@ export class AnalystProjectsService {
         return this.http.get<{ url: string; filename: string; type: string; path: string }>(`${this.DOSSIERS_API}/${id}/download/${type}`);
     }
 
+    /** GET /api/dossiers/{id}/download/{type}/blob
+     *  Télécharge le fichier directement via le backend (évite les CORS de MinIO).
+     */
+    getDownloadBlob(id: string, type: string): Observable<Blob> {
+        return this.http.get(`${this.DOSSIERS_API}/${id}/download/${type}/blob`, { responseType: 'blob' });
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // PHASE 2 — Analyse approfondie (analyste-service, base: /api/analyses)
     // ═══════════════════════════════════════════════════════════════════════
@@ -333,6 +355,11 @@ export class AnalystProjectsService {
      */
     triggerDeepAnalysis(id: string): Observable<any> {
         return this.http.post<any>(`/api/analyses/${id}/deep-analysis`, {});
+    }
+
+    /** POST /api/analyses/batch-deep-analysis */
+    triggerBatchDeepAnalysis(ids: string[]): Observable<any> {
+        return this.http.post<any>(`/api/analyses/batch-deep-analysis`, ids);
     }
 
     /** GET /api/analyses/dashboard-stats — Statistiques agrégées pour le Dashboard */
@@ -382,6 +409,11 @@ export class AnalystProjectsService {
      */
     runMatching(id: string): Observable<any> {
         return this.http.post<any>(`/api/matching/${id}/run`, {});
+    }
+
+    /** POST /api/matching/{id}/recalculate — recalcule SANS appeler Claude */
+    recalculateMatching(id: string): Observable<any> {
+        return this.http.post<any>(`/api/matching/${id}/recalculate`, {});
     }
 
     /** GET /api/matching/{id}/result
@@ -466,8 +498,9 @@ export class AnalystProjectsService {
     }
 
     /** POST /api/export/{id}/nogo-report */
-    generateNoGoReport(id: string): Observable<any> {
-        return this.http.post<any>(`/api/export/${id}/nogo-report`, {});
+    generateNoGoReport(id: string, analysteName?: string): Observable<any> {
+        const body = analysteName ? { analysteName } : {};
+        return this.http.post<any>(`/api/export/${id}/nogo-report`, body);
     }
 
     /** PUT /api/matching/{id}/matrix/update */
@@ -599,6 +632,18 @@ export class AnalystProjectsService {
 
     notifyManager(id: string): Observable<void> {
         return this.http.post<void>(`/api/dossiers/${id}/notify-manager`, {});
+    }
+
+    sendToValidators(id: string): Observable<any> {
+        return this.http.post<any>(`/api/validation/${id}/send`, {});
+    }
+
+    notifyManagerNoGo(id: string): Observable<void> {
+        return this.http.post<void>(`/api/dossiers/${id}/notify-manager-nogo`, {});
+    }
+
+    getValidationTargets(id: string, type: string = 'GO'): Observable<any[]> {
+        return this.http.get<any[]>(`/api/validation/${id}/targets?type=${type}`);
     }
 
     getGeneratedReportBlobUrl(id: string, type: string): Observable<{url: string, filename: string, type: string, path: string}> {

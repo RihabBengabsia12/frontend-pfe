@@ -4,11 +4,13 @@ import { NotfoundComponent } from './demo/components/notfound/notfound.component
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { authGuard } from './demo/service/auth.guard';
 import { ResetPasswordComponent } from './demo/components/auth/reset-password/reset-password.component';
+import { EmailValidationComponent } from './demo/components/auth/email-validation/email-validation.component';
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
             { path: 'reset-password', component: ResetPasswordComponent },
+            { path: 'validate/:token', component: EmailValidationComponent },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: '', redirectTo: '/landing', pathMatch: 'full' },
             {

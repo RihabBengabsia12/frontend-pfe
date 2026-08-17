@@ -1,19 +1,18 @@
 <div class="grid justify-content-center">
     <div class="col-12 md:col-8 lg:col-6">
-        <div class="card border-round-xl shadow-2 p-5 border-top-3 border-blue-200">
-            <div class="flex align-items-center gap-3 mb-5">
-                <div class="w-4rem h-4rem bg-blue-50 border-circle flex align-items-center justify-content-center shadow-1">
-                    <i class="pi pi-user text-blue-500 text-3xl"></i>
+        <div class="card border-round-xl shadow-1 p-4 border-top-3 border-blue-200">
+            <div class="flex align-items-center gap-3 mb-4">
+                <div class="w-3rem h-3rem bg-blue-50 border-circle flex align-items-center justify-content-center shadow-1">
+                    <i class="pi pi-user text-blue-500 text-xl"></i>
                 </div>
                 <div>
-                    <h5 class="m-0 font-bold text-900">Mon Profil Administrateur</h5>
-                    <span class="text-500 text-sm">Gérez vos informations personnelles</span>
+                    <h5 class="m-0 font-bold text-900 text-base">Mon profil</h5>
                 </div>
             </div>
 
             <div class="p-fluid grid" *ngIf="user">
                 <div class="field col-12 mb-4">
-                    <label class="font-bold text-700 mb-2 block">Identifiant Email</label>
+                    <label class="font-bold text-700 text-sm mb-2 block">E-mail</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon bg-gray-50"><i class="pi pi-envelope text-400"></i></span>
                         <input pInputText type="text" [value]="user.email" disabled class="surface-50 font-medium" />
@@ -24,7 +23,7 @@
                 <div class="field col-12 mb-4">
                     <label class="font-bold text-700 mb-2 block">Niveau d'Accès (Privilège)</label>
                     <div class="flex align-items-center gap-2">
-                        <p-tag severity="success" [rounded]="true" styleClass="px-4 py-2 text-md shadow-2 border-1 border-green-200">
+                        <p-tag severity="success" [rounded]="true" styleClass="px-3 py-2 text-sm shadow-none border-1 border-green-200">
                             <div class="flex align-items-center gap-2">
                                 <i class="pi pi-prime text-xl"></i>
                                 <span class="font-bold">{{ getRoleLabel(user.role) }}</span>
@@ -33,28 +32,78 @@
                     </div>
                 </div>
 
-                <div class="field col-12 mb-5">
-                    <label for="name" class="font-bold text-700 mb-2 block flex align-items-center gap-2">
-                        Nom Complet
-                        <i *ngIf="user.fullName" class="pi pi-verified text-green-500 shadow-4 border-circle" pTooltip="Identité vérifiée"></i>
+                <div class="field col-12 mb-3">
+                    <label for="name" class="font-bold text-700 text-sm mb-2 block flex align-items-center gap-2">
+                        Nom complet
                     </label>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-id-card text-blue-300"></i>
-                        <input pInputText id="name" type="text" [(ngModel)]="newName" placeholder="Entrez votre nom complet" class="p-3 border-round-lg shadow-1" />
-                    </span>
+                    <input pInputText id="name" type="text" [(ngModel)]="newName" placeholder="Entrez votre nom complet" class="w-full p-2 border-round-lg shadow-none" />
                 </div>
 
-                <div class="col-12">
-                    <button pButton label="Sauvegarder les modifications" icon="pi pi-check" 
-                        class="p-button-raised p-button-primary p-3 border-round-lg shadow-2"
+                <div class="col-12 flex flex-column align-items-end gap-2 pt-2 border-top-1 surface-border">
+                    <button pButton label="Enregistrer le nom" icon="pi pi-check" 
+                        class="profile-save-button" style="background: rgba(219, 234, 254, 0.42) !important; color: #2563eb !important; border-color: rgba(147, 197, 253, 0.72) !important;"
                         (click)="updateProfile()" [loading]="loading"></button>
+                    <button pButton label="Changer le mot de passe" icon="pi pi-lock"
+                        class="profile-password-button" style="background: rgba(219, 234, 254, 0.42) !important; color: #2563eb !important; border-color: rgba(147, 197, 253, 0.72) !important;"
+                        (click)="openPasswordDialog()"></button>
                 </div>
             </div>
 
-            <div *ngIf="!user" class="text-center p-8">
+            <div *ngIf="!user && !profileLoadError" class="text-center p-8">
                 <p-progressSpinner strokeWidth="4"></p-progressSpinner>
                 <div class="text-500 mt-3">Chargement de vos informations...</div>
+            </div>
+            <div *ngIf="profileLoadError" class="text-center p-6">
+                <i class="pi pi-exclamation-circle text-orange-400 text-3xl"></i>
+                <div class="text-700 font-semibold mt-3">Votre session a expiré ou le profil est indisponible.</div>
+                <button pButton label="Réessayer" icon="pi pi-refresh" class="profile-password-button mt-3" (click)="loadProfile()"></button>
             </div>
         </div>
     </div>
 </div>
+
+<p-dialog header="Changer le mot de passe" [(visible)]="passwordDialogVisible" [modal]="true" [draggable]="false" [resizable]="false" styleClass="profile-password-dialog">
+    <div class="flex flex-column gap-3 pt-2">
+        <div class="field m-0">
+            <label for="currentPassword" class="font-semibold text-sm mb-2 block">Mot de passe actuel</label>
+            <input id="currentPassword" pInputText type="password" [(ngModel)]="currentPassword" class="w-full" autocomplete="current-password" />
+        </div>
+        <div class="field m-0">
+            <label for="newPassword" class="font-semibold text-sm mb-2 block">Nouveau mot de passe</label>
+            <input id="newPassword" pInputText type="password" [(ngModel)]="newPassword" class="w-full" autocomplete="new-password" />
+            <small class="text-500">Minimum 8 caractères.</small>
+        </div>
+        <div class="field m-0">
+            <label for="confirmPassword" class="font-semibold text-sm mb-2 block">Confirmer le nouveau mot de passe</label>
+            <input id="confirmPassword" pInputText type="password" [(ngModel)]="confirmPassword" class="w-full" autocomplete="new-password" />
+        </div>
+        <div class="flex justify-content-end gap-2 mt-2">
+            <button pButton label="Annuler" class="p-button-text p-button-secondary" (click)="passwordDialogVisible = false"></button>
+            <button pButton label="Mettre à jour" icon="pi pi-check" class="profile-save-button" [loading]="passwordLoading" (click)="changePassword()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<style>
+    .profile-save-button {
+        background: rgba(219, 234, 254, 0.42) !important;
+        border: 1px solid rgba(147, 197, 253, 0.72) !important;
+        border-radius: 999px !important;
+        color: #2563eb !important;
+        font-size: 0.78rem !important;
+        padding: 0.48rem 0.9rem !important;
+        box-shadow: none !important;
+    }
+    .profile-save-button:hover { background: rgba(191, 219, 254, 0.62) !important; }
+    .profile-password-button {
+        background: rgba(219, 234, 254, 0.42) !important;
+        border: 1px solid rgba(147, 197, 253, 0.72) !important;
+        border-radius: 999px !important;
+        color: #2563eb !important;
+        font-size: 0.78rem !important;
+        padding: 0.48rem 0.9rem !important;
+        box-shadow: none !important;
+    }
+    .profile-password-button:hover { background: rgba(191, 219, 254, 0.62) !important; }
+    :host ::ng-deep .profile-password-dialog { width: min(28rem, calc(100vw - 2rem)); }
+</style>

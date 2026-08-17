@@ -1,226 +1,210 @@
-    <div class="grid">
+<div class="grid">
 
-        <!-- 🚀 NOUVEAU: QUICK ACCESS CARDS (Top-Level Metrics) -->
-        <div class="col-12">
-            <div class="grid">
-                <!-- KPI 1: Comptes en attente (Admin) -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <div class="surface-card shadow-2 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3 border-orange-500" routerLink="/admin/validations">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Comptes en attente</span>
-                                <div class="text-900 font-bold text-xl">
-                                    <ng-container *ngIf="!isInitialLoading; else skelNum">{{ validationStats.pending }}</ng-container>
-                                    <ng-template #skelNum><p-skeleton width="2rem" height="1.5rem"></p-skeleton></ng-template>
-                                </div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-orange-100 border-round live-icon-container" style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-user-plus text-orange-500 text-xl live-icon-pulse"></i>
+    <!-- 🚀 NOUVEAU: QUICK ACCESS CARDS (Top-Level Metrics Pastel) -->
+    <div class="col-12">
+        <div class="grid">
+            <!-- KPI 1: Dossiers Analysés (Analystes) -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="surface-card shadow-1 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3" style="border-color: #93C5FD !important;" routerLink="/analyst/dossiers">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Dossiers Analysés</span>
+                            <div class="text-900 font-bold text-xl">
+                                <ng-container *ngIf="!isInitialLoading; else skelNum">{{ businessStats.totalAnalyses }}</ng-container>
+                                <ng-template #skelNum><p-skeleton width="2rem" height="1.5rem"></p-skeleton></ng-template>
                             </div>
                         </div>
-                        <span class="text-orange-500 font-medium text-sm">Sécurité : </span>
-                        <span class="text-500 text-sm">Action requise</span>
-                    </div>
-                </div>
-
-                <!-- KPI 2: Anomalies IA (Analyste) -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <div class="surface-card shadow-2 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3 border-purple-500" routerLink="/analyst/dossiers">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Anomalies IA</span>
-                                <div class="text-900 font-bold text-xl">
-                                    <ng-container *ngIf="!isInitialLoading; else skelNum">{{ businessStats.anomaliesIA }}</ng-container>
-                                </div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-purple-100 border-round live-icon-container" style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-bolt text-purple-500 text-xl live-icon-glow"></i>
-                            </div>
+                        <div class="flex align-items-center justify-content-center border-round live-icon-container" style="width:2.5rem;height:2.5rem; background-color: #EFF6FF;">
+                            <i class="pi pi-file-search text-xl live-icon-pulse" style="color: #60A5FA;"></i>
                         </div>
-                        <span class="text-purple-500 font-medium text-sm">Scores faibles </span>
-                        <span class="text-500 text-sm">ou boucles</span>
                     </div>
-                </div>
-
-                <!-- KPI 3: Décisions en souffrance (Manager) -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <div class="surface-card shadow-2 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3 border-blue-500" routerLink="/admin/users">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Décisions en souffrance</span>
-                                <div class="text-900 font-bold text-xl">
-                                    <ng-container *ngIf="!isInitialLoading; else skelNum">{{ businessStats.pendingDecision }}</ng-container>
-                                </div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round live-icon-container" style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-inbox text-blue-500 text-xl live-icon-bounce"></i>
-                            </div>
-                        </div>
-                        <span class="text-blue-500 font-medium text-sm">Goulot </span>
-                        <span class="text-500 text-sm">Gouvernance</span>
-                    </div>
-                </div>
-
-                <!-- KPI 4: Santé Système (Admin) -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <div class="surface-card shadow-2 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3 border-green-500">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Santé Système</span>
-                                <div class="text-900 font-bold text-lg">
-                                    <ng-container *ngIf="!isInitialLoading; else skelNum">{{ systemHealth.global }}</ng-container>
-                                </div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-green-100 border-round live-icon-container" style="width:2.5rem;height:2.5rem">
-                                <i class="pi pi-server text-green-500 text-xl pi-spin"></i>
-                            </div>
-                        </div>
-                        <span class="text-green-500 font-medium text-sm">{{ systemHealth.connection }} </span>
-                        <span class="text-500 text-sm">/ {{ systemHealth.memory }}</span>
-                    </div>
+                    <span class="font-medium text-sm" style="color: #60A5FA;">Activité </span>
+                    <span class="text-500 text-sm">Analystes</span>
                 </div>
             </div>
-        </div>
 
-        <!-- 📂 ZONE 2 : CHARTS (PIPELINE & GO/NO-GO) -->
-        <div class="col-12 lg:col-6">
-            <div class="card border-round-xl shadow-2 h-full border-top-3 border-blue-400">
-                <div class="flex align-items-center justify-content-between mb-4">
-                    <h5 class="m-0 font-bold text-900">Pipeline de Production</h5>
-                    <i class="pi pi-chart-bar text-blue-500 text-2xl"></i>
-                </div>
-                
-                <ng-container *ngIf="!isInitialLoading; else skelChart">
-                    <div class="flex justify-content-center" style="height: 250px">
-                        <p-chart type="bar" [data]="pipelineData" [options]="pipelineOptions"></p-chart>
-                    </div>
-                </ng-container>
-                <ng-template #skelChart>
-                    <div class="flex justify-content-center align-items-center" style="height: 250px">
-                        <p-skeleton width="100%" height="200px"></p-skeleton>
-                    </div>
-                </ng-template>
-            </div>
-        </div>
-
-        <div class="col-12 lg:col-6">
-            <div class="card border-round-xl shadow-2 h-full border-top-3 border-orange-400">
-                <div class="flex align-items-center justify-content-between mb-4">
-                    <h5 class="m-0 font-bold text-900">Répartition Go / No-Go (Manager)</h5>
-                    <i class="pi pi-chart-pie text-orange-500 text-2xl"></i>
-                </div>
-                
-                <ng-container *ngIf="!isInitialLoading; else skelChart">
-                    <div class="flex justify-content-center" style="height: 250px">
-                        <p-chart type="doughnut" [data]="goNoGoData" [options]="goNoGoOptions"></p-chart>
-                    </div>
-                </ng-container>
-            </div>
-        </div>
-
-        <!-- 🕒 ZONE 3 : TRAÇAGE & AUDIT -->
-        <div class="col-12">
-            <div class="card border-round-xl shadow-2 h-full border-top-3 border-green-400">
-                <div class="flex align-items-center justify-content-between mb-4">
-                    <h5 class="m-0 font-bold text-900">Traçage des Activités & Sécurité</h5>
-                    <span class="text-500 text-sm cursor-pointer hover:text-primary transition-colors" routerLink="/admin/audit">Voir tout <i class="pi pi-arrow-right"></i></span>
-                </div>
-                
-                <ng-container *ngIf="!isInitialLoading; else skelList">
-                    <div class="grid">
-                        <div *ngFor="let event of auditStats.recentEvents.slice(0,4)" class="col-12 md:col-6 lg:col-3">
-                            <div class="surface-50 p-3 border-round hover:surface-100 transition-colors border-1 surface-border">
-                                <div class="flex align-items-center mb-2">
-                                    <div class="w-2rem h-2rem flex align-items-center justify-content-center border-circle bg-white shadow-1 mr-2">
-                                        <i class="pi pi-history text-green-600 text-sm"></i>
-                                    </div>
-                                    <span class="text-900 font-bold text-sm">{{ formatAction(event.action) }}</span>
-                                </div>
-                                <div class="text-600 text-xs mb-2">Ressource : <strong>{{ formatResource(event.ressource) }}</strong></div>
-                                <div class="text-right">
-                                    <span class="text-500 text-xs font-medium bg-white px-2 py-1 border-round shadow-1"><i class="pi pi-clock text-xs mr-1"></i> {{ event.occurredAt | date:'HH:mm' }}</span>
-                                </div>
+            <!-- KPI 2: Décisions Validées (Managers) -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="surface-card shadow-1 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3" style="border-color: #86EFAC !important;" routerLink="/admin/users">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Décisions Validées</span>
+                            <div class="text-900 font-bold text-xl">
+                                <ng-container *ngIf="!isInitialLoading; else skelNum">{{ businessStats.totalDecisions }}</ng-container>
                             </div>
                         </div>
-                    </div>
-                </ng-container>
-                <ng-template #skelList>
-                    <div class="grid">
-                        <div *ngFor="let i of [1,2,3,4]" class="col-12 md:col-6 lg:col-3">
-                            <p-skeleton width="100%" height="80px"></p-skeleton>
+                        <div class="flex align-items-center justify-content-center border-round live-icon-container" style="width:2.5rem;height:2.5rem; background-color: #F0FDF4;">
+                            <i class="pi pi-check-circle text-xl live-icon-bounce" style="color: #4ADE80;"></i>
                         </div>
                     </div>
-                </ng-template>
+                    <span class="font-medium text-sm" style="color: #4ADE80;">Productivité </span>
+                    <span class="text-500 text-sm">Managers</span>
+                </div>
+            </div>
+
+            <!-- KPI 3: Événements d'Audit (Admins) -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="surface-card shadow-1 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3" style="border-color: #D8B4FE !important;" routerLink="/admin/audit">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Événements d'Audit</span>
+                            <div class="text-900 font-bold text-xl">
+                                <ng-container *ngIf="!isInitialLoading; else skelNum">{{ businessStats.auditEvents }}</ng-container>
+                            </div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center border-round live-icon-container" style="width:2.5rem;height:2.5rem; background-color: #FAF5FF;">
+                            <i class="pi pi-shield text-xl live-icon-glow" style="color: #C084FC;"></i>
+                        </div>
+                    </div>
+                    <span class="font-medium text-sm" style="color: #C084FC;">Sécurité </span>
+                    <span class="text-500 text-sm">Administrateurs</span>
+                </div>
+            </div>
+
+            <!-- KPI 4: Utilisateurs Actifs (Global) -->
+            <div class="col-12 md:col-6 lg:col-3">
+                <div class="surface-card shadow-1 p-3 border-round-xl cursor-pointer quick-access-card hover-action border-left-3" style="border-color: #FDBA74 !important;">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Ressources Actives</span>
+                            <div class="text-900 font-bold text-lg">
+                                <ng-container *ngIf="!isInitialLoading; else skelNum">{{ userStats.active }} / {{ userStats.total }}</ng-container>
+                            </div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center border-round live-icon-container" style="width:2.5rem;height:2.5rem; background-color: #FFF7ED;">
+                            <i class="pi pi-users text-xl pi-spin" style="color: #FB923C; animation: soft-pulse 3s infinite;"></i>
+                        </div>
+                    </div>
+                    <span class="font-medium text-sm" style="color: #FB923C;">Taux d'engagement </span>
+                    <span class="text-500 text-sm">Global</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <style>
-        .pulse-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 14px;
-            height: 14px;
-        }
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: #3B82F6;
-            border-radius: 50%;
-            box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
-        .card { border: none; background: #ffffff; }
+    <!-- 📊 ZONE 2 : CHARTS (Pastel) -->
+    <div class="col-12 lg:col-6">
+        <div class="card p-4 border-round-xl shadow-1 h-full border-top-2" style="border-color: #93C5FD !important;">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5 class="m-0 font-bold text-700">Productivité par Rôle</h5>
+                <i class="pi pi-chart-bar text-2xl" style="color: #93C5FD;"></i>
+            </div>
+            
+            <ng-container *ngIf="!isInitialLoading; else skelChart1">
+                <div style="position: relative; height: 350px; width: 100%;">
+                    <p-chart type="bar" [data]="productivityData" [options]="productivityOptions"></p-chart>
+                </div>
+            </ng-container>
+            <ng-template #skelChart1>
+                <div class="flex justify-content-center align-items-center" style="height: 350px">
+                    <p-skeleton width="100%" height="300px"></p-skeleton>
+                </div>
+            </ng-template>
+        </div>
+    </div>
 
-        /* Quick Access Animations */
-        .hover-action {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .hover-action:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-            border-bottom: 3px solid var(--primary-color);
-        }
-        .quick-access-card {
-            border-bottom: 3px solid transparent;
-        }
+    <div class="col-12 lg:col-6">
+        <div class="card p-4 border-round-xl shadow-1 h-full border-top-2" style="border-color: #D8B4FE !important;">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5 class="m-0 font-bold text-700">Répartition des Comptes</h5>
+                <i class="pi pi-chart-pie text-2xl" style="color: #D8B4FE;"></i>
+            </div>
+            
+            <ng-container *ngIf="!isInitialLoading; else skelChart2">
+                <div class="flex justify-content-center w-full" style="height: 350px">
+                    <div style="position: relative; height: 100%; width: 100%; display: flex; justify-content: center;">
+                        <p-chart type="doughnut" [data]="roleDistributionData" [options]="roleDistributionOptions" width="250" height="250"></p-chart>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #skelChart2>
+                <div class="flex justify-content-center align-items-center" style="height: 350px">
+                    <p-skeleton width="250px" height="250px" shape="circle"></p-skeleton>
+                </div>
+            </ng-template>
+        </div>
+    </div>
 
-        /* Live Icon Animations */
-        .live-icon-container {
-            transition: all 0.3s ease;
-        }
-        .hover-action:hover .live-icon-container {
-            transform: scale(1.1);
-        }
+    <!-- 🕒 ZONE 3 : TRAÇAGE & AUDIT -->
+    <div class="col-12">
+        <div class="card p-4 border-round-xl shadow-1 h-full border-top-2" style="border-color: #cbd5e1 !important;">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h5 class="m-0 font-bold text-700">Activité Récente (Audit)</h5>
+                <span class="text-500 text-sm cursor-pointer hover:text-primary transition-colors" routerLink="/admin/audit">Voir tout <i class="pi pi-arrow-right"></i></span>
+            </div>
+            
+            <ng-container *ngIf="!isInitialLoading; else skelList">
+                <div class="grid">
+                    <div *ngFor="let event of auditStats.recentEvents.slice(0,4)" class="col-12 md:col-6 lg:col-3">
+                        <div class="surface-50 p-3 border-round hover:surface-100 transition-colors border-1 surface-border">
+                            <div class="flex align-items-center mb-2">
+                                <div class="w-2rem h-2rem flex align-items-center justify-content-center border-circle bg-white shadow-1 mr-2">
+                                    <i class="pi pi-history text-sm" style="color: #94a3b8;"></i>
+                                </div>
+                                <span class="text-700 font-medium text-sm">{{ formatAction(event.action || event.eventType) }}</span>
+                            </div>
+                            <div class="text-500 text-xs mb-2">Cible : <strong>{{ formatResource(event.ressource || event.emailAttempted) }}</strong></div>
+                            <div class="text-right">
+                                <span class="text-500 text-xs font-medium bg-white px-2 py-1 border-round shadow-1"><i class="pi pi-clock text-xs mr-1"></i> {{ event.occurredAt | date:'HH:mm' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #skelList>
+                <div class="grid">
+                    <div *ngFor="let i of [1,2,3,4]" class="col-12 md:col-6 lg:col-3">
+                        <p-skeleton width="100%" height="80px"></p-skeleton>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
 
-        @keyframes soft-pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); opacity: 0.8; }
-            100% { transform: scale(1); }
-        }
-        .live-icon-pulse {
-            animation: soft-pulse 2s infinite;
-        }
+<style>
+    .card { border: none; background: #ffffff; }
 
-        @keyframes soft-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-        .live-icon-bounce {
-            animation: soft-bounce 2s infinite ease-in-out;
-        }
+    /* Quick Access Animations */
+    .hover-action {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-action:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+        border-bottom: 3px solid #cbd5e1;
+    }
 
-        @keyframes soft-glow {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.4)); }
-            50% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8)); }
-        }
-        .live-icon-glow {
-            animation: soft-glow 2s infinite;
-        }
-    </style>
+    /* Live Icon Animations */
+    .live-icon-container {
+        transition: all 0.3s ease;
+    }
+    .hover-action:hover .live-icon-container {
+        transform: scale(1.1);
+    }
+
+    @keyframes soft-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); opacity: 0.8; }
+        100% { transform: scale(1); }
+    }
+    .live-icon-pulse {
+        animation: soft-pulse 2.5s infinite;
+    }
+
+    @keyframes soft-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+    .live-icon-bounce {
+        animation: soft-bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes soft-glow {
+        0%, 100% { filter: drop-shadow(0 0 2px rgba(192, 132, 252, 0.3)); }
+        50% { filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.7)); }
+    }
+    .live-icon-glow {
+        animation: soft-glow 2.5s infinite;
+    }
+</style>

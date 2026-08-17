@@ -9,25 +9,56 @@ export interface AppNotification {
     time: Date;
     read: boolean;
     type: 'success' | 'info' | 'warning' | 'error';
-    link?: string;
+    link?: string; detail?: string;
     action?: string;
+    silent?: boolean;
+    /** Si true, s'affiche dans la cloche. Si false/absent, c'est un simple toast interne. */
+    showInBell?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class NotificationStateService {
-    constructor(private messageService: MessageService) {}
-
-    private notificationsSubj = new BehaviorSubject<AppNotification[]>([
-        {
-            id: 'welcome-1',
-            title: 'Bienvenue sur ProjectIQ',
-            message: 'Votre espace de travail intelligent est prêt.',
-            time: new Date(),
-            read: true,
-            type: 'info'
-        }
-    ]);
+    private notificationsSubj = new BehaviorSubject<AppNotification[]>([]);
     notifications$ = this.notificationsSubj.asObservable();
+    private readonly STORAGE_KEY = 'projectiq_notifications';
+
+    constructor(private messageService: MessageService) {
+        this.loadFromStorage();
+    }
+
+    private loadFromStorage() {
+        const stored = sessionStorage.getItem(this.STORAGE_KEY);
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                // Restaurer les objets Date
+                const notifs = parsed.map((n: any) => ({ ...n, time: new Date(n.time) }));
+                this.notificationsSubj.next(notifs);
+                return;
+            } catch (e) {
+                console.error('Erreur parsing notifications', e);
+            }
+        }
+        
+        // Si vide ou erreur, mettre la notif de bienvenue
+        this.notificationsSubj.next([
+            {
+                id: 'welcome-1',
+                title: 'Bienvenue sur ProjectIQ',
+                message: 'Votre espace de travail intelligent est prêt.',
+                time: new Date(),
+                read: true,
+                type: 'info',
+                showInBell: true
+            }
+        ]);
+    }
+
+    private saveToStorage(notifs: AppNotification[]) {
+        // Garder uniquement les 50 dernières notifications pour ne pas saturer le sessionStorage
+        const recentNotifs = notifs.slice(0, 50);
+        sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(recentNotifs));
+    }
 
     addNotification(notif: Omit<AppNotification, 'id' | 'read' | 'time'>) {
         const current = this.notificationsSubj.getValue();
@@ -37,21 +68,39 @@ export class NotificationStateService {
             time: new Date(),
             read: false
         };
-        // Ajouter en haut de la liste
-        this.notificationsSubj.next([newNotif, ...current]);
+        const updated = [newNotif, ...current];
+        this.notificationsSubj.next(updated);
+        this.saveToStorage(updated);
+    }
 
-        // Déclencher la notification visuelle (Toast)
-        this.messageService.add({
-            severity: notif.type === 'warning' ? 'warn' : notif.type,
-            summary: notif.title,
-            detail: notif.message,
-            life: 6000
-        });
+    /** Raccourci pour les vraies notifs importantes (affichées dans la cloche) */
+    addBellNotification(notif: Omit<AppNotification, 'id' | 'read' | 'time' | 'showInBell'>) {
+        this.addNotification({ ...notif, showInBell: true });
+    }
+
+    /** Notifications filtrées pour la cloche uniquement */
+    get bellNotifications$() {
+        return new BehaviorSubject<AppNotification[]>(
+            this.notificationsSubj.getValue().filter(n => n.showInBell !== false)
+        ).asObservable();
     }
 
     markAllAsRead() {
         const current = this.notificationsSubj.getValue();
         const updated = current.map(n => ({ ...n, read: true }));
         this.notificationsSubj.next(updated);
+        this.saveToStorage(updated);
+    }
+
+    removeByTitles(titles: string[]) {
+        const updated = this.notificationsSubj.getValue().filter(n => !titles.includes(n.title));
+        this.notificationsSubj.next(updated);
+        this.saveToStorage(updated);
+    }
+
+    removeByAction(action: string) {
+        const updated = this.notificationsSubj.getValue().filter(n => n.action !== action);
+        this.notificationsSubj.next(updated);
+        this.saveToStorage(updated);
     }
 }

@@ -14,7 +14,7 @@ interface PromptDef {
 
 @Component({
     templateUrl: './analyst-config-ia.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .prompt-editor {
             font-family: 'Courier New', Courier, monospace;
@@ -31,6 +31,10 @@ interface PromptDef {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        :host ::ng-deep .prompt-scope-panel {
+            min-width: 22rem;
+            max-width: min(32rem, calc(100vw - 2rem));
         }
     `]
 })

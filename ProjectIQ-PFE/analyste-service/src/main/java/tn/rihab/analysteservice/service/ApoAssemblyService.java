@@ -34,6 +34,7 @@ public class ApoAssemblyService {
     private final ChecklistService         checklistService;
     private final AnalysteEventPublisher   publisher;
     private final ApoDataRepository        apoDataRepo;
+    private final SseService               sseService;
 
     /**
      * Point d'entrée principal — appelé depuis AnalyseDeepService après Phase 3.
@@ -73,6 +74,12 @@ public class ApoAssemblyService {
 
         // 8. Publier l'événement → project-service stocke les URLs et passe en PACK_READY
         publisher.publishApoGenerated(dossierId, apoDocxPath, methodoPath, rapportPath, packZipPath);
+        
+        // Push notification SSE au front-end
+        sseService.sendEvent(dossierId, "APO_GENERATED", Map.of(
+            "status", "SUCCESS",
+            "message", "Documents APO assemblés avec succès"
+        ));
 
         log.info("[ApoAssembly] Documents générés — APO={}, Méthodo={}, Rapport={}, Pack={}",
                 apoDocxPath, methodoPath, rapportPath, packZipPath);

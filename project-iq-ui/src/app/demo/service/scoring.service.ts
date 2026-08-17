@@ -91,8 +91,13 @@ export class ScoringService {
     }
 
     // ── POST /api/scoring/{id}/confirm-nogo ───────────────────────────────────
-    confirmNoGo(dossierId: string, commentaire?: string): Observable<any> {
-        return this.http.post<any>(`${this.SCORING}/${dossierId}/confirm-nogo`, { commentaire });
+    confirmNoGo(dossierId: string, commentaire?: string, analysteName?: string): Observable<any> {
+        return this.http.post<any>(`${this.SCORING}/${dossierId}/confirm-nogo`, { commentaire, analysteName });
+    }
+
+    // ── GET /api/scoring/{id}/nogo-report ───────────────────────────────────
+    getExistingNoGoReport(dossierId: string): Observable<any> {
+        return this.http.get<any>(`${this.SCORING}/${dossierId}/nogo-report`);
     }
 
     // ── GET /api/config/scoring ───────────────────────────────────────────────
@@ -135,24 +140,50 @@ export class ScoringService {
             goThreshold,
             nogoThreshold,
             risqueRedhibitoire:      pwin.risqueRedhibitoire,
-            risqueRedhibitoireChamp: pwin.risqueRedhibitoireChamp,
-            motifNogo:               pwin.motifNogo,
+            risqueRedhibitoireChamp: this.formatMotif(pwin.risqueRedhibitoireChamp),
+            motifNogo:               this.formatMotif(pwin.motifNogo),
             axes: [
-                { name: 'A', label: 'Faisabilité technique',       score: pwin.scoreA ?? 0, weight: wA },
-                { name: 'B', label: 'Rentabilité financière',      score: pwin.scoreB ?? 0, weight: wB },
-                { name: 'C', label: 'Risques maîtrisés',           score: pwin.scoreC ?? 0, weight: wC },
-                { name: 'D', label: 'Concurrence & Client',        score: pwin.scoreD ?? 0, weight: wD },
-                { name: 'E', label: 'Conformité réglementaire',    score: pwin.scoreE ?? 0, weight: wE }
+                { name: 'A', label: 'Faisabilité technique',       score: Math.round((pwin.scoreA ?? 0) * 100), weight: wA },
+                { name: 'B', label: 'Rentabilité financière',      score: Math.round((pwin.scoreB ?? 0) * 100), weight: wB },
+                { name: 'C', label: 'Risques maîtrisés',           score: Math.round((pwin.scoreC ?? 0) * 100), weight: wC },
+                { name: 'D', label: 'Concurrence & Client',        score: Math.round((pwin.scoreD ?? 0) * 100), weight: wD },
+                { name: 'E', label: 'Conformité réglementaire',    score: Math.round((pwin.scoreE ?? 0) * 100), weight: wE }
             ],
             impacts: {
                 positive: score >= goThreshold
                     ? `Score P-Win de ${score}% au-dessus du seuil GO (${goThreshold}%).`
                     : `Axe le plus fort : ${this.bestAxis(pwin)}.`,
                 negative: pwin.risqueRedhibitoire
-                    ? `⚠️ Risque rédhibitoire détecté : ${pwin.risqueRedhibitoireChamp}.`
-                    : pwin.motifNogo || `Score P-Win insuffisant (${score}% < ${goThreshold}%).`
+                    ? `⚠️ Risque rédhibitoire détecté : ${this.formatMotif(pwin.risqueRedhibitoireChamp)}.`
+                    : this.formatMotif(pwin.motifNogo) || `Score P-Win insuffisant (${score}% < ${goThreshold}%).`
             }
         };
+    }
+
+    private formatMotif(motif?: string): string {
+        if (!motif) return '';
+        const dict: Record<string, string> = {
+            'RISQUE_PAYS_SECURITE': 'Sécurité et Pays',
+            'RISQUES_FINANCIERS': 'Risques Financiers',
+            'PENALITES': 'Pénalités',
+            'EXIGENCES_TDR_INACCEPTABLES': 'Exigences TdR',
+            'GARANTIES_ASSURANCES_ELEVEES': 'Garanties et Assurances',
+            'TAILLE_DISPERSION': 'Taille et Dispersion du projet',
+            'FRAIS_DIVERS_ELEVES': 'Frais divers',
+            'BUDGET_FAIBLE_HM_LIMITES': 'Budget faible',
+            'PARTICIPATION_LOCALE_EXCESSIVE': 'Participation locale excessive',
+            'FISCALITE_NON_MAITRISEE': 'Fiscalité non maîtrisée'
+        };
+        let formatted = motif;
+        const match = motif.match(/\[\[(.*?)\]\]/);
+        if (match && match[1]) {
+            const key = match[1];
+            const readable = dict[key] || key;
+            formatted = motif.replace(`[[${key}]]`, `"${readable}"`);
+        } else if (dict[motif]) {
+            formatted = dict[motif];
+        }
+        return formatted;
     }
 
     private mapDecision(auto: string, score: number, goT: number, nogoT: number): 'GO' | 'NO-GO' | 'ORANGE' | 'MANUAL' {

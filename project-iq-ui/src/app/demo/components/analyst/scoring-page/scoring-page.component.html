@@ -2,21 +2,31 @@
 
 <!-- ═══ Pipeline Phase 2 — Calc P-Win (étape 2) ═══ -->
 <div class="px-4 pt-4 pb-0" *ngIf="!isLoading && scoringData">
-    <app-pipeline-stepper mode="phase2" [activeStep]="2" context="scoring"></app-pipeline-stepper>
+    <app-pipeline-stepper mode="phase2" [activeStep]="1" context="scoring" [dossierId]="projectId" [dossierStatus]="dossierStatus"></app-pipeline-stepper>
 </div>
 
 <div class="grid p-4 fade-in-up" *ngIf="!isLoading && scoringData">
     <!-- Header -->
-    <div class="col-12 mb-3 fade-in-up delay-1">
-        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2 hover-lift">
-            <div class="flex align-items-center gap-3">
-                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
-                    <i class="pi pi-chart-bar text-2xl text-blue-700"></i>
+    <div class="col-12 mb-2 fade-in-up delay-1">
+        <div class="card card-pastel-blue py-2 px-4 border-round-2xl shadow-1 hover-lift">
+            <div class="flex align-items-center justify-content-between gap-3">
+                <div class="flex align-items-center gap-3">
+                    <div class="w-2rem h-2rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
+                        <i class="pi pi-chart-bar text-xl text-blue-700"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-blue-900 m-0">
+                            Score P-Win
+                        </h1>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-midnight font-bold text-2xl m-0">Score P-Win — AO Eau ONEE</h1>
-                    <p class="text-blue-800 m-0 opacity-80 mt-1">Diagnostic et Évaluation de l'opportunité commerciale (Go / No-Go).</p>
-                </div>
+                <button pButton icon="pi pi-refresh" label="Recalculer"
+                        class="p-button-outlined p-button-primary border-round-3xl px-4 py-2 text-sm"
+                        [loading]="isRecalculating"
+                        [disabled]="isFinalLocked"
+                        (click)="recalculatePwin()"
+                        pTooltip="Recalcule le score P-Win avec les données actuelles">
+                </button>
             </div>
         </div>
     </div>
@@ -90,31 +100,84 @@
     </div>
 
     <!-- Bottom Actions -->
-    <div class="col-12 flex justify-content-between align-items-center flex-wrap gap-3 mt-3">
-        <!-- Override / Bypass -->
-        <button pButton icon="pi pi-key" label="Forcer le Go (Overrule)" 
-                class="p-button-warning border-round-3xl px-4 py-3" 
-                (click)="onOverruleClick()"></button>
+    <div class="col-12 flex justify-content-end align-items-center flex-wrap gap-3 mt-3">
+        <!-- Override / Bypass (Removed) -->
 
         <!-- Standard Actions -->
         <div class="flex gap-3">
-            <button *ngIf="scoringData.pwinScore < scoringData.nogoThreshold" 
-                    pButton icon="pi pi-times-circle" label="Confirmer le No-Go" 
-                    class="p-button-danger border-round-3xl px-5 py-3 pulse-button-red" 
-                    (click)="onConfirmNoGo()"></button>
+            <ng-container *ngIf="scoringData.pwinScore < scoringData.nogoThreshold || scoringData.decision === 'MANUAL'">
+                <!-- If report exists -->
+                <ng-container *ngIf="hasExistingReport">
+                    <button pButton icon="pi pi-eye" label="Voir le Rapport No-Go" 
+                            class="p-button-danger border-round-3xl px-5 py-3" 
+                            (click)="viewReport()"></button>
+                    <button pButton icon="pi pi-refresh" label="Régénérer" 
+                            class="p-button-outlined p-button-danger border-round-3xl px-3 py-3" 
+                            [loading]="isGenerating"
+                            (click)="onGenerateReport()" title="Régénérer le rapport via IA"></button>
+                </ng-container>
+                
+                <!-- If no report yet -->
+                <ng-container *ngIf="!hasExistingReport">
+                    <button pButton icon="pi pi-file-export" label="Générer Rapport No-Go" 
+                            class="p-button-danger border-round-3xl px-5 py-3 pulse-button-red" 
+                            [loading]="isGenerating"
+                            (click)="onGenerateReport()"></button>
+                </ng-container>
+            </ng-container>
 
-            <button *ngIf="scoringData.pwinScore >= scoringData.nogoThreshold" 
-                    pButton icon="pi pi-check-circle" label="Confirmer GO → Matching" 
-                    class="p-button-success border-round-3xl px-5 py-3 pulse-button" 
-                    (click)="onConfirmGo()"></button>
+            <ng-container *ngIf="scoringData.pwinScore >= scoringData.nogoThreshold">
+                <!-- Si pas encore analysé complètement -->
+                <button *ngIf="!isAlreadyAnalyzed" 
+                        pButton icon="pi pi-check-circle" label="Confirmer GO → Matching" 
+                        class="p-button-success border-round-3xl px-5 py-3 pulse-button" 
+                        (click)="onConfirmGo()"></button>
+                
+                <!-- Si déjà analysé (Matching ou au-delà) -->
+                <button *ngIf="isAlreadyAnalyzed" 
+                        pButton icon="pi pi-refresh" label="Recalculer le Score" 
+                        class="p-button-outlined p-button-info border-round-3xl px-5 py-3" 
+                        [loading]="isRecalculating"
+                        [disabled]="isFinalLocked"
+                        (click)="recalculatePwin()"></button>
+            </ng-container>
         </div>
     </div>
 </div>
 
-<!-- Modal override config -->
-<app-force-go-modal [(visible)]="showOverruleModal" 
-                     [projectId]="projectId" 
-                     (overruleConfirm)="onOverruleConfirmed($event)"></app-force-go-modal>
+<!-- Modal override config (Removed) -->
+
+<!-- Modal Consultation Rapport No-Go -->
+<p-dialog [(visible)]="showReportModal" (onShow)="loadPreview()" [modal]="true" [style]="{width: '70vw', maxWidth: '1000px'}" 
+          header="Aperçu du Document Original (DOCX)" [closable]="true" [draggable]="false" [resizable]="true" styleClass="p-fluid">
+    
+    <!-- États de chargement et d'erreur -->
+    <div *ngIf="previewState === 'loading'" class="flex flex-column align-items-center justify-content-center p-6 text-center" style="min-height: 50vh;">
+        <i class="pi pi-spin pi-spinner text-5xl text-primary mb-4"></i>
+        <h4 class="text-700 m-0">{{ previewMessage }}</h4>
+    </div>
+
+    <div *ngIf="previewState === 'error'" class="flex flex-column align-items-center justify-content-center p-6 text-center" style="min-height: 50vh;">
+        <i class="pi pi-exclamation-triangle text-5xl text-red-500 mb-4"></i>
+        <h4 class="text-red-600 m-0 mb-3">{{ previewMessage }}</h4>
+        <p class="text-600 m-0">Veuillez vérifier votre connexion à MinIO ou relancer le backend si nécessaire.</p>
+    </div>
+
+    <!-- Conteneur pour docx-preview -->
+    <div id="docx-preview-modal" [class.hidden]="previewState !== 'success'" class="w-full shadow-1" style="min-height: 70vh; background-color: #e2e8f0; overflow-y: auto; display: flex; justify-content: center; padding: 20px;">
+        <!-- Le lecteur DOCX sera injecté ici par docx-preview -->
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-between w-full">
+            <button pButton icon="pi pi-print" label="Imprimer" class="p-button-secondary p-button-text" (click)="printReport()"></button>
+            <div class="flex gap-2">
+                <button pButton icon="pi pi-times" label="Fermer" class="p-button-outlined p-button-secondary border-round-3xl" (click)="showReportModal = false"></button>
+                <button pButton icon="pi pi-download" label="Télécharger DOCX" class="p-button-danger border-round-3xl" (click)="exportDocx()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
 
 <!-- Loading State -->
 <div *ngIf="isLoading" class="text-center p-8">

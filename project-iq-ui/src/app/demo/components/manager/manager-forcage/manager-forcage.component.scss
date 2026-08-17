@@ -40,3 +40,67 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.7);
 }
+
+/* Alertes No-Go : hiérarchie compacte, claire pour une vue de supervision. */
+.nogo-alerts-compact {
+    font-size: 0.78rem;
+}
+
+.nogo-alerts-compact h2 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.35;
+}
+
+.nogo-alerts-compact h4,
+.nogo-alerts-compact h5 {
+    font-size: 0.84rem !important;
+    font-weight: 500 !important;
+}
+
+.nogo-alerts-compact .text-lg {
+    font-size: 0.76rem !important;
+}
+
+.nogo-alerts-compact .text-sm {
+    font-size: 0.7rem !important;
+}
+
+.nogo-alerts-compact .text-xs,
+.nogo-alerts-compact small {
+    font-size: 0.66rem !important;
+}
+
+.nogo-alerts-compact .text-2xl {
+    font-size: 1.15rem !important;
+}
+
+.nogo-alerts-compact .font-bold,
+.nogo-alerts-compact .font-semibold {
+    font-weight: 500 !important;
+}
+
+.nogo-alerts-compact .p-5 {
+    padding: 1.1rem !important;
+}
+
+.nogo-alerts-compact .p-4 {
+    padding: 0.85rem !important;
+}
+
+.nogo-alerts-compact .p-3 {
+    padding: 0.65rem !important;
+}
+
+:host ::ng-deep .nogo-alerts-compact .p-button {
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
+    padding: 0.38rem 0.7rem !important;
+}
+
+:host ::ng-deep .nogo-alerts-compact .p-badge {
+    font-size: 0.72rem !important;
+    min-width: 1.35rem !important;
+    height: 1.35rem !important;
+    line-height: 1.35rem !important;
+}

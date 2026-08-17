@@ -65,21 +65,29 @@ export class DossierStatusService {
             case 'CORRECTION_LOOP':
                 return ['/dossiers', id, 'validation-p1'];
             case 'INDEXED':
-                return ['/dossiers', id, 'analyse'];
+                // P1 validé → aller en P2 (extraction approfondie)
+                return ['/dossiers', id, 'validation-p2'];
             case 'DEEP_ANALYSIS':
-                return ['/dossiers', id, 'analyse'];
+                // P2 en cours → rester sur validation-p2
+                return ['/dossiers', id, 'validation-p2'];
             case 'SCORING':
             case 'FORCE_GO':
-            case 'NO_GO_CONFIRMED':
-                return ['/dossiers', id, 'scoring'];
             case 'MANUAL_INTERVENTION':
-                return ['/dossiers', id, 'nogo-report'];
+                // P2 validé → scoring
+                return ['/dossiers', id, 'scoring'];
+            case 'NO_GO_CONFIRMED':
+                // No-Go → rapport no-go
+                return ['/dossiers', id, 'no-go-report'];
             case 'MATCHING':
+                // Scoring OK → matching
                 return ['/dossiers', id, 'matching'];
             case 'DRAFTING':
             case 'REPORT_GENERATED':
             case 'PACK_READY':
                 return ['/dossiers', id, 'rapport-final'];
+            case 'AUDIT':
+            case 'ARCHIVED':
+                return ['/dossiers', id, 'audit'];
             default:
                 return ['/dossiers'];
         }

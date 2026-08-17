@@ -139,7 +139,7 @@ export class UsersComponent implements OnInit {
                 }
 
                 const authStatus = (au.accountStatus || au.status || '').toUpperCase();
-                const rejectedEmails = JSON.parse(localStorage.getItem('rejectedEmails') || '[]');
+                const rejectedEmails = JSON.parse(sessionStorage.getItem('rejectedEmails') || '[]');
                 
                 if (userMap.has(email)) {
                     const existing = userMap.get(email)!;
@@ -147,7 +147,7 @@ export class UsersComponent implements OnInit {
                     (existing as any).isAuthOnly = false;
 
                     // AUTO-SYNC BLINDÉ : Priorité absolue au Buffer ou à l'Admin si différent de GUEST
-                    const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                    const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                     const bufferedRole = pendingRoles[email];
 
                     if (bufferedRole) {
@@ -161,7 +161,7 @@ export class UsersComponent implements OnInit {
                         existing.accountStatus = 'REJECTED';
                     }
                 } else {
-                    const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                    const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                     const bufferedRole = pendingRoles[email];
 
                     // Nouveau compte (pas encore dans Admin-Service)
@@ -180,7 +180,7 @@ export class UsersComponent implements OnInit {
             }
 
             const allValues = Array.from(userMap.values());
-            const rejectedEmails = JSON.parse(localStorage.getItem('rejectedEmails') || '[]');
+            const rejectedEmails = JSON.parse(sessionStorage.getItem('rejectedEmails') || '[]');
             
             for (const user of allValues) {
                 if (user.email && rejectedEmails.includes(user.email.toLowerCase().trim())) {
@@ -189,7 +189,7 @@ export class UsersComponent implements OnInit {
                 }
             }
 
-            const adminEmail = (localStorage.getItem('userEmail') || '').toLowerCase();
+            const adminEmail = (sessionStorage.getItem('userEmail') || '').toLowerCase();
             this.users = allValues.filter(u => {
                 const email = (u.email || '').toLowerCase();
                 const isSystemAdmin = email === 'admin@st2i.tn' || email === 'admin@projectiq.com' || email === adminEmail;
@@ -198,7 +198,7 @@ export class UsersComponent implements OnInit {
 
             // Priorité affichage : le nouvel utilisateur (email = pendingEmail) doit remonter en premier,
             // puis les autres triés par createdAt décroissant.
-            const justRegisteredEmail = (localStorage.getItem('pendingEmail') || '').toLowerCase().trim();
+            const justRegisteredEmail = (sessionStorage.getItem('pendingEmail') || '').toLowerCase().trim();
             this.users.sort((a: UserResponse, b: UserResponse) => {
                 const emailA = (a.email || '').toLowerCase().trim();
                 const emailB = (b.email || '').toLowerCase().trim();
@@ -293,18 +293,31 @@ export class UsersComponent implements OnInit {
     saveUserFeatures(): void {
         if (!this.selectedUserForFeatures) return;
 
+        const email = this.selectedUserForFeatures.email;
         const payload = Object.keys(this.userFeatures).map(key => ({
             moduleCode: key,
             isEnabled: this.userFeatures[key]
         }));
 
-        this.adminService.updateUserFeatures(this.selectedUserForFeatures.email, payload).subscribe({
+        console.log('[FEATURES] Sauvegarde pour:', email, payload);
+
+        this.adminService.updateUserFeatures(email, payload).subscribe({
             next: () => {
-                this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Droits spécifiques mis à jour.' });
+                console.log('[FEATURES] Sauvegarde réussie !');
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Droits mis à jour',
+                    detail: `Les droits de ${email} ont été enregistrés avec succès.`
+                });
                 this.displayFeatures = false;
             },
-            error: () => {
-                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Échec de la sauvegarde des droits.' });
+            error: (err) => {
+                console.error('[FEATURES] Erreur sauvegarde:', err.status, err.error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Échec sauvegarde',
+                    detail: `Erreur ${err.status} : Impossible d'enregistrer les droits de ${email}.`
+                });
             }
         });
     }

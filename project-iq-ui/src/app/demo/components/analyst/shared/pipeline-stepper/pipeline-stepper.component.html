@@ -1,17 +1,25 @@
 <div class="pipeline-wrapper">
 
   <!-- ── Header Banner ── -->
-  <div class="pipeline-header">
-    <div class="pipeline-left">
-      <div class="pipeline-icon-badge" [style.background]="'linear-gradient(135deg,' + _ctx.iconColor + '22,' + _ctx.iconColor + '44)'">
-        <i [class]="_ctx.icon" [style.color]="_ctx.iconColor"></i>
-      </div>
-      <div class="pipeline-titles">
-        <div class="pipeline-phase-tag">{{ _ctx.phaseTag }}</div>
-        <div class="pipeline-title">{{ _ctx.title }}</div>
+  <div class="pipeline-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <div class="flex align-items-center gap-3">
+      <button *ngIf="mode !== 'phase1'" pButton pRipple icon="pi pi-angle-left" class="p-button-rounded p-button-outlined p-button-secondary bg-white" style="width: 2.5rem; height: 2.5rem;" [disabled]="!canGoPrevPhase()" (click)="goPrevPhase()" pTooltip="Phase précédente" tooltipPosition="bottom"></button>
+      
+      <div class="pipeline-left m-0">
+        <div class="pipeline-icon-badge" [style.background]="'linear-gradient(135deg,' + _ctx.iconColor + '22,' + _ctx.iconColor + '44)'">
+          <i [class]="_ctx.icon" [style.color]="_ctx.iconColor"></i>
+        </div>
+        <div class="pipeline-titles">
+          <div class="pipeline-phase-tag">{{ _ctx.phaseTag }}</div>
+          <div class="pipeline-title">{{ _ctx.title }}</div>
+        </div>
       </div>
     </div>
-    <span class="pipeline-subtitle">{{ _ctx.subtitle }}</span>
+
+    <div class="flex align-items-center gap-3">
+      <span class="pipeline-subtitle hidden md:block m-0">{{ _ctx.subtitle }}</span>
+      <button *ngIf="mode !== 'phase4'" pButton pRipple icon="pi pi-angle-right" class="p-button-rounded p-button-outlined p-button-secondary bg-white" style="width: 2.5rem; height: 2.5rem;" [disabled]="!canGoNextPhase()" (click)="goNextPhase()" pTooltip="Phase suivante (nécessite validation)" tooltipPosition="bottom"></button>
+    </div>
   </div>
 
   <!-- ═══ Chevron Pipeline Stepper ═══ -->
@@ -21,7 +29,7 @@
            class="chevron-step" 
            [class.active]="isActive(i)" 
            [class.done]="isCompleted(i)" 
-           [class.disabled]="!isCompleted(i) && !isActive(i)"
+           [class.disabled]="!isCompleted(i) && !isActive(i) && i > maxAllowedStep"
            (click)="onStepClick(i)">
         <span class="chevron-num">{{ i + 1 }}</span>
         <span class="chevron-label">{{ step.label }}</span>

@@ -1,0 +1,1160 @@
+
+
+=== Step 1328 ===
+Created At: 2026-08-06T16:04:43Z
+Completed At: 2026-08-06T16:04:43Z
+File Path: `file:///C:/Users/Ghada/frontend-pfe/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.ts`
+Total Lines: 569
+Total Bytes: 22273
+Showing lines 1 to 569
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+2: import { ActivatedRoute, Router } from '@angular/router';
+3: import { MessageService } from 'primeng/api';
+4: import { forkJoin, of } from 'rxjs';
+5: import { catchError } from 'rxjs/operators';
+6: import * as docx from 'docx-preview';
+7: import { AnalystProjectsService, ApoForm } from '../../../service/analyst-projects.service';
+8: 
+9: export interface MatriceRow {
+10:     critere: string;
+11:     positionEgis: 'COUVERT' | 'PARTIELLEMENT' | 'NON_COUVERT' | 'VIA_PARTENAIRE';
+12:     argumentGap: string;
+13: }
+14: 
+15: export interface CompetenceDetail {
+16:     domaine?: string;
+17:     libelle?: string;
+18:     niveauReferentiel?: string;
+19:     niveauEgis?: string;
+20:     score?: number;
+21:     couvert?: boolean;
+22: }
+23: 
+24: export interface GapRefRow {
+25:     exigence: string;
+26:     reference: string;
+27:     couvert: 'OUI' | 'NON' | 'PARTIEL';
+28: }
+29: 
+30: export interface ExpertRow {
+31:     profil: string;
+32:     expert: string;
+33:     disponible: boolean;
+34:     hm?: number;
+35: }
+36: 
+37: export interface RequirementsResponseDto {
+38:     references: string[];
+39:     experts: { role: string; hm: number }[];
+40:     secteur: string;
+41:     typeContrat: string;
+42:     qualifications: string[];
+43: }
+44: 
+45: @Component({
+46:     selector: 'app-analyst-matching',
+47:     templateUrl: './analyst-matching.component.html',
+48:     styleUrls: ['./analyst-matching.component.scss'],
+49:     providers: [MessageService]
+50: })
+51: export class AnalystMatchingComponent implements OnInit {
+52: 
+53:     dossierId = '';
+54:     isLoading = true;
+55:     isRunningMatching = false;
+56:     hasMatchingData = false;
+57: 
+58:     dossierStatus = '';
+59:     referentielReady = false;
+60: 
+61:     // Pipeline Steps
+62:     matchingProgressStep = 0;
+63:     extractedRequirements: RequirementsResponseDto | null = null;
+64: 
+65:     // Synthèse
+66:     tauxCompetences = 0; // 0 to 1
+67:     tauxExperts = 0;     // 0 to 1
+68:     relationNiveau = 1;
+69:     relationNbMissions = 0;
+70:     secteurAo = 'Non défini';
+71:     alignementStrategique = 'Non évalué';
+72:     typeContrat = '—';
+73:     conditionsResiliation = '—';
+74:     relationClientLabel = '';
+75: 
+76:     // Tab state
+77:     activeTab = 0;
+78: 
+79:     competencesDetail: CompetenceDetail[] = [];
+80:     gapRefs: GapRefRow[] = [];
+81:     expertsDetail: ExpertRow[] = [];
+82:     matriceRows: MatriceRow[] = [];
+83: 
+84:     // Champs APO groupés
+85:     partenaires = '';
+86:     chefDeFile = '';
+87:     
+88:     // Pour badges sources
+89:     apoSources: { [key: string]: string } = {
+90:         'SECTEUR_AO': '88% Claude',
+91:         'TYPE_CONTRAT': '91% Claude'
+92:     };
+93: 
+94:     private extractionP2Data: any = null;
+95: 
+96:     // Matrice édition
+97:     editingRows: { [key: number]: boolean } = {};
+98:     positions = [
+99:         { label: '✓ Couvert', value: 'COUVERT' },
+100:         { label: '≈ Partiellement', value: 'PARTIELLEMENT' },
+101:         { label: '✗ Non couvert', value: 'NON_COUVERT' },
+102:         { label: '↗ Via partenaire', value: 'VIA_PARTENAIRE' }
+103:     ];
+104: 
+105:     // Dropdowns
+106:     secteursList = ['Eau & Assainissement', 'Transport', 'Énergie', 'Urbain', 'Agriculture', 'Environnement', 'Social', 'Autre'];
+107:     typeContratsList = ['Forfait', 'Régie', 'Prix unitaires', 'Mixte', 'Assistance Technique (AT)', 'Autre'];
+108:     alignementList = ['Oui — aligné', 'Partiel', 'Non aligné'];
+109:     relationClientList = ['Premier contact', 'Missions passées', 'Client fidèle'];
+110:     chefDeFileList = ['Egis', 'Partenaire', 'Egis / Partenaire'];
+111: 
+112:     showApoPreviewDialog = false;
+113:     isDocxLoading = false;
+114:     docxLoadError = false;
+115:     errorMessageForUI = '';
+116:     @ViewChild('docxContainer', { static: false }) docxContainer!: ElementRef;
+117: 
+118:     isMethodologyGenerated = false;
+119:     isGeneratingMethodology = false;
+120:     generatedMethodology = {
+121:         section1: '',
+122:         section2: '',
+123:         section3: '',
+124:         section4: '',
+125:         section5: ''
+126:     };
+127: 
+128:     constructor(
+129:         private route: ActivatedRoute,
+130:         private router: Router,
+131:         private projectsService: AnalystProjectsService,
+132:         private messageService: MessageService
+133:     ) {}
+134: 
+135:     ngOnInit(): void {
+136:         this.route.params.subscribe(params => {
+137:             this.dossierId = params['id'] || '';
+138:             if (this.dossierId) {
+139:                 localStorage.setItem('lastProjectId', this.dossierId);
+140:                 this.bootstrapPage();
+141:             }
+142:         });
+143:     }
+144: 
+145:     bootstrapPage(): void {
+146:         this.isLoading = true;
+147:         forkJoin({
+148:             dossier: this.projectsService.getDossier(this.dossierId).pipe(catchError(() => of(null))),
+149:             referentiel: forkJoin({
+150:                 competences: this.projectsService.getReferentielCompetences(),
+151:                 references: this.projectsService.getReferentielReferences(),
+152:                 experts: this.projectsService.getReferentielExperts(),
+153:                 qualifications: this.projectsService.getReferentielQualifications()
+154:             }),
+155:             extractionP2: this.projectsService.getExtractionP2(this.dossierId).pipe(catchError(() => of(null))),
+156:             matching: this.projectsService.getMatchingResult(this.dossierId).pipe(catchError(() => of(null))),
+157:             matrix: this.projectsService.getMatchingMatrix(this.dossierId).pipe(catchError(() => of(null)))
+158:         }).subscribe({
+159:             next: (data) => {
+160:                 this.applyDossierContext(data.dossier);
+161:                 this.referentielReady = true;
+162:                 this.extractionP2Data = data.extractionP2;
+163:                 this.applyMatchingResult(data.matching, data.matrix);
+164:                 this.isLoading = false;
+165:             },
+166:             error: () => {
+167:                 this.isLoading = false;
+168:             }
+169:         });
+170:     }
+171: 
+172:     private applyDossierContext(dossier: any): void {
+173:         this.dossierStatus = dossier?.status || '';
+174:     }
+175: 
+176:     private applyMatchingResult(matching: any, matrix: any): void {
+177:         const res = matching ?? {};
+178:         const mtx = matrix ?? {};
+179: 
+180:         if (!matching && !matrix) {
+181:             this.hasMatchingData = false;
+182:             return;
+183:         }
+184: 
+185:         this.hasMatchingData = true;
+186: 
+187:         this.tauxCompetences = res.tauxCouvertureCompetences ?? mtx.tauxCouvertureCompetences ?? 0;
+188:         this.tauxExperts = res.tauxCouvertureExperts ?? mtx.tauxCouvertureExperts ?? 0;
+189:         
+190:         this.secteurAo = res.secteurAo || mtx.secteurAo || 'Non défini';
+191:         this.alignementStrategique = res.alignementStrategique || mtx.alignementStrategique || 'Non évalué';
+192:         this.typeContrat = res.typeContrat || '—';
+193: 
+194:         // Load details
+195:         const rawCompetences = this.safeParseJson(res.competencesDetail, []);
+196:         if (Array.isArray(rawCompetences) && rawCompetences.length > 0 && rawCompetences[0].score !== undefined) {
+197:             this.competencesDetail = rawCompetences;
+198:         } else if (Array.isArray(rawCompetences)) {
+199:             this.competencesDetail = rawCompetences.map((c: any) => ({
+200:                 domaine: c.domaine,
+201:                 niveauReferentiel: c.niveauEgis,
+202:                 score: c.couvert ? Math.round(70 + Math.random() * 25) : Math.round(20 + Math.random() * 40),
+203:                 couvert: c.couvert
+204:             }));
+205:         }
+206: 
+207:         this.expertsDetail = this.safeParseJson(res.expertsDetail, []);
+208:         this.gapRefs = this.safeParseJson(res.gapRefs || mtx.gapRefs, []);
+209: 
+210:         const storedMatrix = localStorage.getItem(`matching_matrix_${this.dossierId}`);
+211:         if (storedMatrix) {
+212:             this.matriceRows = JSON.parse(storedMatrix);
+213:         } else {
+214:             this.matriceRows = this.safeParseJson(res.matriceDiff || mtx.matriceDiff, []);
+215:         }
+216: 
+217:         const apo = this.extractionP2Data?.apoForm ?? this.extractionP2Data ?? {};
+218:         this.partenaires = apo.partenaires || mtx.partenaires || '';
+219:         this.chefDeFile = apo.chefDeFile || mtx.chefDeFile || '';
+220:     }
+221: 
+222: 
+223: 
+224:     setActiveTab(index: number): void {
+225:         this.activeTab = index;
+226:     }
+227: 
+228: 
+229: 
+230:     runMatching(): void {
+231:         this.isRunningMatching = true;
+232:         this.matchingProgressStep = 1;
+233: 
+234:         const progressTimer = setInterval(() => {
+235:             if (this.matchingProgressStep < 4) {
+236:                 this.matchingProgressStep++;
+237:             }
+238:         }, 3000);
+239: 
+240:         this.projectsService.runMatching(this.dossierId).subscribe({
+241:             next: () => {
+242:                 clearInterval(progressTimer);
+243:                 this.matchingProgressStep = 5;
+244:                 
+245:                 setTimeout(() => {
+246:                     this.isRunningMatching = false;
+247:                     this.dossierStatus = 'MATCHING';
+248:                     localStorage.removeItem(`matching_matrix_${this.dossierId}`);
+249: 
+250:                     this.messageService.add({ severity: 'success', summary: 'Phase 3 complétée', detail: 'Matrice de différenciation générée.' });
+251:                     this.bootstrapPage();
+252:                 }, 1000);
+253:             },
+254:             error: (err) => {
+255:                 clearInterval(progressTimer);
+256:                 this.isRunningMatching = false;
+257:                 this.matchingProgressStep = 0;
+258:                 this.messageService.add({ severity: 'error', summary: 'Échec du matching', detail: err?.error?.message || 'Erreur API.' });
+259:             }
+260:         });
+261:     }
+262: 
+263: 
+264: 
+265:     // --- Formatters & Helpers ---
+266:     
+267:     getTauxCompetences(): number { return Math.round(this.tauxCompetences * 100); }
+268:     getTauxExperts(): number { return Math.round(this.tauxExperts * 100); }
+269:     
+270:     calculateRefTaux(): number {
+271:         if (!this.gapRefs || this.gapRefs.length === 0) return 0;
+272:         let score = 0;
+273:         for (const ref of this.gapRefs) {
+274:             if (ref.couvert === 'OUI') score += 1;
+275:             else if (ref.couvert === 'PARTIEL') score += 0.5;
+276:         }
+277:         return Math.round((score / this.gapRefs.length) * 100);
+278:     }
+279: 
+280:     getDispoExpertsCount(): number {
+281:         return this.expertsDetail.filter(e => e.disponible).length;
+282:     }
+283: 
+284:     // --- Pipeline Styles ---
+285:     getStepClass(step: number): string {
+286:         if (this.matchingProgressStep === step) return 'step-active';
+287:         if (this.matchingProgressStep > step) return 'step-done';
+288:         return '';
+289:     }
+290:     getConnectorClass(step: number): string {
+291:         if (this.matchingProgressStep === step) return 'conn-active';
+292:         if (this.matchingProgressStep > step) return 'conn-done';
+293:         return '';
+294:     }
+295: 
+296:     onPipelineClick(step: number): void {
+297:         if (!this.hasMatchingData) return;
+298:         switch(step) {
+299:             case 1:
+300:                 document.getElementById('pipeline-section')?.scrollIntoView({ behavior: 'smooth' });
+301:                 break;
+302:             case 2:
+303:                 this.setActiveTab(0);
+304:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+305:                 break;
+306:             case 3:
+307:                 this.setActiveTab(1);
+308:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+309:                 break;
+310:             case 4:
+311:                 this.setActiveTab(2);
+312:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+313:                 break;
+314:             case 5:
+315:                 document.getElementById('matrix-section')?.scrollIntoView({ behavior: 'smooth' });
+316:                 break;
+317:         }
+318:     }
+319: 
+320:     // --- Table Styles ---
+321:     getScoreColor(score: number | undefined): string {
+322:         if (!score) return '#6b7280';
+323:         if (score >= 70) return '#10b981';
+324:         if (score >= 40) return '#f59e0b';
+325:         return '#ef4444';
+326:     }
+327: 
+328:     getScoreGradient(score: number | undefined): string {
+329:         if (!score) return 'transparent';
+330:         if (score >= 70) return 'linear-gradient(90deg, #34d399, #10b981)';
+331:         if (score >= 40) return 'linear-gradient(90deg, #fcd34d, #f59e0b)';
+332:         return 'linear-gradient(90deg, #fca5a5, #ef4444)';
+333:     }
+334: 
+335:     getRefStatusClass(status: string): string {
+336:         if (status === 'OUI') return 'pill-green';
+337:         if (status === 'PARTIEL') return 'pill-amber';
+338:         return 'pill-red';
+339:     }
+340:     getRefStatusIcon(status: string): string {
+341:         if (status === 'OUI') return 'pi pi-check';
+342:         if (status === 'PARTIEL') return 'pi pi-minus';
+343:         return 'pi pi-times';
+344:     }
+345:     getRefStatusLabel(status: string): string {
+346:         if (status === 'OUI') return '✓ OUI';
+347:         if (status === 'PARTIEL') return '≈ PARTIEL';
+348:         return '✗ NON';
+349:     }
+350: 
+351:     getMatrixPosClass(pos: string): string {
+352:         switch (pos) {
+353:             case 'COUVERT': return 'pos-couvert';
+354:             case 'PARTIELLEMENT': return 'pos-partiel';
+355:             case 'VIA_PARTENAIRE': return 'pos-partenaire';
+356:             default: return 'pos-gap';
+357:         }
+358:     }
+359:     getMatrixPosTextClass(pos: string): string {
+360:         switch (pos) {
+361:             case 'COUVERT': return 'text-couvert';
+362:             case 'PARTIELLEMENT': return 'text-partiel';
+363:             case 'VIA_PARTENAIRE': return 'text-partenaire';
+364:             default: return 'text-gap';
+365:         }
+366:     }
+367:     getMatrixPosIcon(pos: string): string {
+368:         switch (pos) {
+369:             case 'COUVERT': return 'pi pi-check-circle';
+370:             case 'PARTIELLEMENT': return 'pi pi-minus-circle';
+371:             case 'VIA_PARTENAIRE': return 'pi pi-users';
+372:             default: return 'pi pi-times-circle';
+373:         }
+374:     }
+375:     getMatrixPosLabel(pos: string): string {
+376:         switch (pos) {
+377:             case 'COUVERT': return '✓ Couvert';
+378:             case 'PARTIELLEMENT': return '≈ Partiel';
+379:             case 'VIA_PARTENAIRE': return '↗ Partenaire';
+380:             default: return '✗ Non couvert';
+381:         }
+382:     }
+383: 
+384:     getStatusClass(): string {
+385:         const s = this.dossierStatus.toUpperCase();
+386:         if (s.includes('MATCHING') || s.includes('DRAFTING')) return 'badge-pastel-green';
+387:         return 'badge-pastel-blue';
+388:     }
+389:     getStatusLabel(): string {
+390:         return this.dossierStatus === 'MATCHING' ? 'Terminé' : 'En attente';
+391:     }
+392: 
+393:     // --- Matrice Edition ---
+394:     getMatrixCoverage(): number {
+395:         if (!this.matriceRows || this.matriceRows.length === 0) return 0;
+396:         let covered = 0;
+397:         for (const row of this.matriceRows) {
+398:             if (row.positionEgis === 'COUVERT') covered += 1;
+399:             else if (row.positionEgis === 'PARTIELLEMENT' || row.positionEgis === 'VIA_PARTENAIRE') covered += 0.5;
+400:         }
+401:         return Math.round((covered / this.matriceRows.length) * 100);
+402:     }
+403:     getCoveredCount(): number {
+404:         return this.matriceRows.filter(r => r.positionEgis === 'COUVERT' || r.positionEgis === 'VIA_PARTENAIRE').length;
+405:     }
+406: 
+407:     editRow(index: number): void { this.editingRows[index] = true; }
+408:     saveRow(index: number): void {
+409:         this.editingRows[index] = false;
+410:         localStorage.setItem(`matching_matrix_${this.dossierId}`, JSON.stringify(this.matriceRows));
+411:         this.projectsService.updateMatchingMatrix(this.dossierId, this.matriceRows).subscribe();
+412:     }
+413:     addRow(): void {
+414:         this.matriceRows.push({ critere: 'Nouveau critère', positionEgis: 'COUVERT', argumentGap: '' });
+415:         this.editRow(this.matriceRows.length - 1);
+416:     }
+417:     onPositionChange(index: number, value: string): void {}
+418: 
+419:     // --- Champs Strat ---
+420:     updateField(fieldName: string, value: string): void {
+421:         if (!this.dossierId || !value) return;
+422:         
+423:         // Mettre à jour localement pour l'aperçu APO
+424:         if (this.extractionP2Data) {
+425:             if (this.extractionP2Data.apoForm) {
+426:                 this.extractionP2Data.apoForm[fieldName] = value;
+427:             } else {
+428:                 this.extractionP2Data[fieldName] = value;
+429:             }
+430:         }
+431:         
+432:         this.projectsService.updateApoField(this.dossierId, fieldName, value).subscribe();
+433:     }
+434:     updateRelationClient(value: string): void {
+435:         const levelIndex = this.relationClientList.indexOf(value);
+436:         let level = 1;
+437:         if (levelIndex === 2) level = 5; 
+438:         else if (levelIndex === 1) level = 3;
+439:         this.updateField('RELATION_CLIENT', level.toString());
+440:     }
+441: 
+442:     // --- Décision ---
+443:     isAlignementOk(): boolean {
+444:         return this.alignementStrategique !== 'Non aligné';
+445:     }
+446:     isCompatible(): boolean {
+447:         return this.getTauxCompetences() >= 50 && this.calculateRefTaux() >= 50 && this.getTauxExperts() >= 40 && this.isAlignementOk();
+448:     }
+449: 
+450:     generateMethodology(): void {
+451:         this.projectsService.assembleApo(this.dossierId).subscribe({
+452:             next: () => {
+453:                 this.messageService.add({ severity: 'success', summary: 'Génération en cours', detail: 'La méthodologie est générée.' });
+454:                 this.projectsService.updateStatus(this.dossierId, 'DRAFTING').subscribe({
+455:                     next: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']),
+456:                     error: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final'])
+457:                 });
+458:             }
+459:         });
+460:     }
+461: 
+462:     confirmNoGo(): void {
+463:         this.projectsService.confirmNoGo(this.dossierId).subscribe({
+464:             next: () => {
+465:                 this.projectsService.generateNoGoReport(this.dossierId).subscribe({
+466:                     next: () => {
+467:                         this.messageService.add({ severity: 'success', summary: 'No-Go Confirmé', detail: 'Rapport généré.' });
+468:                         this.router.navigate(['/dossiers', this.dossierId, 'no-go-report']);
+469:                     }
+470:                 });
+471:             }
+472:         });
+473:     }
+474: 
+475:     forceCompatible(): void {
+476:         this.projectsService.forceCompatible(this.dossierId, 'Décision forcée par l\'analyste').subscribe({
+477:             next: () => {
+478:                 this.messageService.add({ severity: 'success', summary: 'Forçage réussi', detail: 'Le dossier passe en drafting méthodologie.' });
+479:                 this.generateMethodology();
+480:             }
+481:         });
+482:     }
+483: 
+484:     private safeParseJson(data: any, fallback: any): any {
+485:         if (!data) return fallback;
+486:         if (typeof data === 'object') return data;
+487:         try { return JSON.parse(data); } catch { return fallback; }
+488:     }
+489: 
+490:     getApoPreviewData(): Record<string, string> {
+491:         return this.extractionP2Data?.apoForm ?? this.extractionP2Data ?? {};
+492:     }
+493: 
+494:     showDocxPreview(): void {
+495:         this.showApoPreviewDialog = true;
+496:         this.isMethodologyGenerated = false;
+497:         this.isGeneratingMethodology = false;
+498:         this.isDocxLoading = true;
+499:         this.docxLoadError = false;
+500:         this.errorMessageForUI = '';
+501: 
+502:         // On va chercher "Methodologie-Template1.docx" car c'est votre VRAI fichier non vide !
+503:         // (L'autre étant verrouillé par le serveur backend).
+504:         const templateToFetch = 'Methodologie-Template1.docx';
+505: 
+506:         this.projectsService.getTemplateDocx(templateToFetch).subscribe({
+507:             next: (blob) => {
+508:                 if (blob.type.includes('html') || blob.size < 100) {
+509:                     console.error('Blob is too small, likely an error page.');
+510:                     this.errorMessageForUI = 'Le backend a renvoyé un fichier invalide ou vide (' + blob.size + ' octets). Type: ' + blob.type;
+511:                     this.docxLoadError = true;
+512:                     this.isDocxLoading = false;
+513:                     return;
+514:                 }
+515:                 
+516:                 setTimeout(() => {
+517:                     if (this.docxContainer && this.docxContainer.nativeElement) {
+518:                         try {
+519:                             this.docxContainer.nativeElement.innerHTML = ''; // clear previous
+520:                             docx.renderAsync(blob, this.docxContainer.nativeElement, null, {
+521:                                 className: 'docx',
+522:                                 inWrapper: true,
+523:                                 ignoreWidth: false,
+524:                                 ignoreHeight: false,
+525:                                 ignoreFonts: false,
+526:                                 breakPages: true,
+527:                                 ignoreLastRenderedPageBreak: true,
+528:                                 experimental: true,
+529:                                 trimXmlDeclaration: true,
+530:                                 debug: false,
+531:                             }).then(() => {
+532:                                 this.isDocxLoading = false;
+533:                             }).catch(err => {
+534:                                 console.error('Error rendering docx', err);
+535:                                 this.errorMessageForUI = 'Erreur lors de la lecture du DOCX (fichier corrompu ou format non supporté).';
+536:                                 this.docxLoadError = true;
+537:                                 this.isDocxLoading = false;
+538:                             });
+539:                         } catch (e: any) {
+540:                             console.error('Exception rendering docx', e);
+541:                             this.errorMessageForUI = 'Exception Javascript : ' + (e.message || 'Erreur inconnue');
+542:                             this.docxLoadError = true;
+543:                             this.isDocxLoading = false;
+544:                         }
+545:                     } else {
+546:                         this.errorMessageForUI = 'Le conteneur HTML du document est introuvable.';
+547:                         this.docxLoadError = true;
+548:                         this.isDocxLoading = false;
+549:                     }
+550:                 }, 400);
+551:             },
+552:             error: (err) => {
+553:                 console.error('API Error fetching DOCX', err);
+554:                 this.errorMessageForUI = 'Erreur réseau/API : ' + (err.message || 'Impossible de contacter le serveur');
+555:                 this.docxLoadError = true;
+556:                 this.isDocxLoading = false;
+557:             }
+558:         });
+559:     }
+560: 
+561: 
+562: 
+563:     downloadDocxTemplate(): void {
+564:         this.projectsService.getTemplateDocx('Methodologie-Template1.docx').subscribe(blob => {
+565:             this.projectsService.triggerBrowserDownload(blob, 'Methodologie-Template1.docx');
+566:         });
+567:     }
+568: }
+569: 
+The above content shows the entire, complete file contents of the requested file.
+
+
+=== Step 1449 ===
+Created At: 2026-08-06T16:36:04Z
+Completed At: 2026-08-06T16:36:04Z
+File Path: `file:///C:/Users/Ghada/frontend-pfe/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.ts`
+Total Lines: 569
+Total Bytes: 22326
+Showing lines 1 to 569
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+2: import { ActivatedRoute, Router } from '@angular/router';
+3: import { MessageService } from 'primeng/api';
+4: import { forkJoin, of } from 'rxjs';
+5: import { catchError } from 'rxjs/operators';
+6: import * as docx from 'docx-preview';
+7: import { AnalystProjectsService, ApoForm } from '../../../service/analyst-projects.service';
+8: 
+9: export interface MatriceRow {
+10:     critere: string;
+11:     positionEgis: 'COUVERT' | 'PARTIELLEMENT' | 'NON_COUVERT' | 'VIA_PARTENAIRE';
+12:     argumentGap: string;
+13: }
+14: 
+15: export interface CompetenceDetail {
+16:     domaine?: string;
+17:     libelle?: string;
+18:     niveauReferentiel?: string;
+19:     niveauEgis?: string;
+20:     score?: number;
+21:     couvert?: boolean;
+22: }
+23: 
+24: export interface GapRefRow {
+25:     exigence: string;
+26:     reference: string;
+27:     couvert: 'OUI' | 'NON' | 'PARTIEL';
+28: }
+29: 
+30: export interface ExpertRow {
+31:     profil: string;
+32:     expert: string;
+33:     disponible: boolean;
+34:     hm?: number;
+35: }
+36: 
+37: export interface RequirementsResponseDto {
+38:     references: string[];
+39:     experts: { role: string; hm: number }[];
+40:     secteur: string;
+41:     typeContrat: string;
+42:     qualifications: string[];
+43: }
+44: 
+45: @Component({
+46:     selector: 'app-analyst-matching',
+47:     templateUrl: './analyst-matching.component.html',
+48:     styleUrls: ['./analyst-matching.component.scss'],
+49:     providers: [MessageService]
+50: })
+51: export class AnalystMatchingComponent implements OnInit {
+52: 
+53:     dossierId = '';
+54:     isLoading = true;
+55:     isRunningMatching = false;
+56:     hasMatchingData = false;
+57: 
+58:     dossierStatus = '';
+59:     referentielReady = false;
+60: 
+61:     // Pipeline Steps
+62:     matchingProgressStep = 0;
+63:     extractedRequirements: RequirementsResponseDto | null = null;
+64: 
+65:     // Synthèse
+66:     tauxCompetences = 0; // 0 to 1
+67:     tauxExperts = 0;     // 0 to 1
+68:     relationNiveau = 1;
+69:     relationNbMissions = 0;
+70:     secteurAo = 'Non défini';
+71:     alignementStrategique = 'Non évalué';
+72:     typeContrat = '—';
+73:     conditionsResiliation = '—';
+74:     relationClientLabel = '';
+75: 
+76:     // Tab state
+77:     activeTab = 0;
+78: 
+79:     competencesDetail: CompetenceDetail[] = [];
+80:     gapRefs: GapRefRow[] = [];
+81:     expertsDetail: ExpertRow[] = [];
+82:     matriceRows: MatriceRow[] = [];
+83: 
+84:     // Champs APO groupés
+85:     partenaires = '';
+86:     chefDeFile = '';
+87:     
+88:     // Pour badges sources
+89:     apoSources: { [key: string]: string } = {
+90:         'SECTEUR_AO': '88% Claude',
+91:         'TYPE_CONTRAT': '91% Claude'
+92:     };
+93: 
+94:     private extractionP2Data: any = null;
+95: 
+96:     // Matrice édition
+97:     editingRows: { [key: number]: boolean } = {};
+98:     positions = [
+99:         { label: '✓ Couvert', value: 'COUVERT' },
+100:         { label: '≈ Partiellement', value: 'PARTIELLEMENT' },
+101:         { label: '✗ Non couvert', value: 'NON_COUVERT' },
+102:         { label: '↗ Via partenaire', value: 'VIA_PARTENAIRE' }
+103:     ];
+104: 
+105:     // Dropdowns
+106:     secteursList = ['Eau & Assainissement', 'Transport', 'Énergie', 'Urbain', 'Agriculture', 'Environnement', 'Social', 'Autre'];
+107:     typeContratsList = ['Forfait', 'Régie', 'Prix unitaires', 'Mixte', 'Assistance Technique (AT)', 'Autre'];
+108:     alignementList = ['Oui — aligné', 'Partiel', 'Non aligné'];
+109:     relationClientList = ['Premier contact', 'Missions passées', 'Client fidèle'];
+110:     chefDeFileList = ['Egis', 'Partenaire', 'Egis / Partenaire'];
+111: 
+112:     showApoPreviewDialog = false;
+113:     isDocxLoading = false;
+114:     docxLoadError = false;
+115:     errorMessageForUI = '';
+116:     @ViewChild('docxContainer', { static: false }) docxContainer!: ElementRef;
+117: 
+118:     isMethodologyGenerated = false;
+119:     isGeneratingMethodology = false;
+120:     generatedMethodology = {
+121:         section1: '',
+122:         section2: '',
+123:         section3: '',
+124:         section4: '',
+125:         section5: ''
+126:     };
+127: 
+128:     constructor(
+129:         private route: ActivatedRoute,
+130:         private router: Router,
+131:         private projectsService: AnalystProjectsService,
+132:         private messageService: MessageService
+133:     ) {}
+134: 
+135:     ngOnInit(): void {
+136:         this.route.params.subscribe(params => {
+137:             this.dossierId = params['id'] || '';
+138:             if (this.dossierId) {
+139:                 localStorage.setItem('lastProjectId', this.dossierId);
+140:                 this.bootstrapPage();
+141:             }
+142:         });
+143:     }
+144: 
+145:     bootstrapPage(): void {
+146:         this.isLoading = true;
+147:         forkJoin({
+148:             dossier: this.projectsService.getDossier(this.dossierId).pipe(catchError(() => of(null))),
+149:             referentiel: forkJoin({
+150:                 competences: this.projectsService.getReferentielCompetences(),
+151:                 references: this.projectsService.getReferentielReferences(),
+152:                 experts: this.projectsService.getReferentielExperts(),
+153:                 qualifications: this.projectsService.getReferentielQualifications()
+154:             }),
+155:             extractionP2: this.projectsService.getExtractionP2(this.dossierId).pipe(catchError(() => of(null))),
+156:             matching: this.projectsService.getMatchingResult(this.dossierId).pipe(catchError(() => of(null))),
+157:             matrix: this.projectsService.getMatchingMatrix(this.dossierId).pipe(catchError(() => of(null)))
+158:         }).subscribe({
+159:             next: (data) => {
+160:                 this.applyDossierContext(data.dossier);
+161:                 this.referentielReady = true;
+162:                 this.extractionP2Data = data.extractionP2;
+163:                 this.applyMatchingResult(data.matching, data.matrix);
+164:                 this.isLoading = false;
+165:             },
+166:             error: () => {
+167:                 this.isLoading = false;
+168:             }
+169:         });
+170:     }
+171: 
+172:     private applyDossierContext(dossier: any): void {
+173:         this.dossierStatus = dossier?.status || '';
+174:     }
+175: 
+176:     private applyMatchingResult(matching: any, matrix: any): void {
+177:         const res = matching ?? {};
+178:         const mtx = matrix ?? {};
+179: 
+180:         if (!matching && !matrix) {
+181:             this.hasMatchingData = false;
+182:             return;
+183:         }
+184: 
+185:         this.hasMatchingData = true;
+186: 
+187:         this.tauxCompetences = res.tauxCouvertureCompetences ?? mtx.tauxCouvertureCompetences ?? 0;
+188:         this.tauxExperts = res.tauxCouvertureExperts ?? mtx.tauxCouvertureExperts ?? 0;
+189:         
+190:         this.secteurAo = res.secteurAo || mtx.secteurAo || 'Non défini';
+191:         this.alignementStrategique = res.alignementStrategique || mtx.alignementStrategique || 'Non évalué';
+192:         this.typeContrat = res.typeContrat || '—';
+193: 
+194:         // Load details
+195:         const rawCompetences = this.safeParseJson(res.competencesDetail, []);
+196:         if (Array.isArray(rawCompetences) && rawCompetences.length > 0 && rawCompetences[0].score !== undefined) {
+197:             this.competencesDetail = rawCompetences;
+198:         } else if (Array.isArray(rawCompetences)) {
+199:             this.competencesDetail = rawCompetences.map((c: any) => ({
+200:                 domaine: c.domaine,
+201:                 niveauReferentiel: c.niveauEgis,
+202:                 score: c.couvert ? Math.round(70 + Math.random() * 25) : Math.round(20 + Math.random() * 40),
+203:                 couvert: c.couvert
+204:             }));
+205:         }
+206: 
+207:         this.expertsDetail = this.safeParseJson(res.expertsDetail, []);
+208:         this.gapRefs = this.safeParseJson(res.gapRefs || mtx.gapRefs, []);
+209: 
+210:         const storedMatrix = localStorage.getItem(`matching_matrix_${this.dossierId}`);
+211:         if (storedMatrix) {
+212:             this.matriceRows = JSON.parse(storedMatrix);
+213:         } else {
+214:             this.matriceRows = this.safeParseJson(res.matriceDiff || mtx.matriceDiff, []);
+215:         }
+216: 
+217:         const apo = this.extractionP2Data?.apoForm ?? this.extractionP2Data ?? {};
+218:         this.partenaires = apo.partenaires || mtx.partenaires || '';
+219:         this.chefDeFile = apo.chefDeFile || mtx.chefDeFile || '';
+220:     }
+221: 
+222: 
+223: 
+224:     setActiveTab(index: number): void {
+225:         this.activeTab = index;
+226:     }
+227: 
+228: 
+229: 
+230:     runMatching(): void {
+231:         this.isRunningMatching = true;
+232:         this.matchingProgressStep = 1;
+233: 
+234:         const progressTimer = setInterval(() => {
+235:             if (this.matchingProgressStep < 4) {
+236:                 this.matchingProgressStep++;
+237:             }
+238:         }, 3000);
+239: 
+240:         this.projectsService.runMatching(this.dossierId).subscribe({
+241:             next: () => {
+242:                 clearInterval(progressTimer);
+243:                 this.matchingProgressStep = 5;
+244:                 
+245:                 setTimeout(() => {
+246:                     this.isRunningMatching = false;
+247:                     this.dossierStatus = 'MATCHING';
+248:                     localStorage.removeItem(`matching_matrix_${this.dossierId}`);
+249: 
+250:                     this.messageService.add({ severity: 'success', summary: 'Phase 3 complétée', detail: 'Matrice de différenciation générée.' });
+251:                     this.bootstrapPage();
+252:                 }, 1000);
+253:             },
+254:             error: (err) => {
+255:                 clearInterval(progressTimer);
+256:                 this.isRunningMatching = false;
+257:                 this.matchingProgressStep = 0;
+258:                 this.messageService.add({ severity: 'error', summary: 'Échec du matching', detail: err?.error?.message || 'Erreur API.' });
+259:             }
+260:         });
+261:     }
+262: 
+263: 
+264: 
+265:     // --- Formatters & Helpers ---
+266:     
+267:     getTauxCompetences(): number { return Math.round(this.tauxCompetences * 100); }
+268:     getTauxExperts(): number { return Math.round(this.tauxExperts * 100); }
+269:     
+270:     calculateRefTaux(): number {
+271:         if (!this.gapRefs || this.gapRefs.length === 0) return 0;
+272:         let score = 0;
+273:         for (const ref of this.gapRefs) {
+274:             if (ref.couvert === 'OUI') score += 1;
+275:             else if (ref.couvert === 'PARTIEL') score += 0.5;
+276:         }
+277:         return Math.round((score / this.gapRefs.length) * 100);
+278:     }
+279: 
+280:     getDispoExpertsCount(): number {
+281:         return this.expertsDetail.filter(e => e.disponible).length;
+282:     }
+283: 
+284:     // --- Pipeline Styles ---
+285:     getStepClass(step: number): string {
+286:         if (this.matchingProgressStep === step) return 'step-active';
+287:         if (this.matchingProgressStep > step) return 'step-done';
+288:         return '';
+289:     }
+290:     getConnectorClass(step: number): string {
+291:         if (this.matchingProgressStep === step) return 'conn-active';
+292:         if (this.matchingProgressStep > step) return 'conn-done';
+293:         return '';
+294:     }
+295: 
+296:     onPipelineClick(step: number): void {
+297:         if (!this.hasMatchingData) return;
+298:         switch(step) {
+299:             case 1:
+300:                 document.getElementById('pipeline-section')?.scrollIntoView({ behavior: 'smooth' });
+301:                 break;
+302:             case 2:
+303:                 this.setActiveTab(0);
+304:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+305:                 break;
+306:             case 3:
+307:                 this.setActiveTab(1);
+308:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+309:                 break;
+310:             case 4:
+311:                 this.setActiveTab(2);
+312:                 document.getElementById('tabs-section')?.scrollIntoView({ behavior: 'smooth' });
+313:                 break;
+314:             case 5:
+315:                 document.getElementById('matrix-section')?.scrollIntoView({ behavior: 'smooth' });
+316:                 break;
+317:         }
+318:     }
+319: 
+320:     // --- Table Styles ---
+321:     getScoreColor(score: number | undefined): string {
+322:         if (!score) return '#6b7280';
+323:         if (score >= 70) return '#10b981';
+324:         if (score >= 40) return '#f59e0b';
+325:         return '#ef4444';
+326:     }
+327: 
+328:     getScoreGradient(score: number | undefined): string {
+329:         if (!score) return 'transparent';
+330:         if (score >= 70) return 'linear-gradient(90deg, #34d399, #10b981)';
+331:         if (score >= 40) return 'linear-gradient(90deg, #fcd34d, #f59e0b)';
+332:         return 'linear-gradient(90deg, #fca5a5, #ef4444)';
+333:     }
+334: 
+335:     getRefStatusClass(status: string): string {
+336:         if (status === 'OUI') return 'pill-green';
+337:         if (status === 'PARTIEL') return 'pill-amber';
+338:         return 'pill-red';
+339:     }
+340:     getRefStatusIcon(status: string): string {
+341:         if (status === 'OUI') return 'pi pi-check';
+342:         if (status === 'PARTIEL') return 'pi pi-minus';
+343:         return 'pi pi-times';
+344:     }
+345:     getRefStatusLabel(status: string): string {
+346:         if (status === 'OUI') return '✓ OUI';
+347:         if (status === 'PARTIEL') return '≈ PARTIEL';
+348:         return '✗ NON';
+349:     }
+350: 
+351:     getMatrixPosClass(pos: string): string {
+352:         switch (pos) {
+353:             case 'COUVERT': return 'pos-couvert';
+354:             case 'PARTIELLEMENT': return 'pos-partiel';
+355:             case 'VIA_PARTENAIRE': return 'pos-partenaire';
+356:             default: return 'pos-gap';
+357:         }
+358:     }
+359:     getMatrixPosTextClass(pos: string): string {
+360:         switch (pos) {
+361:             case 'COUVERT': return 'text-couvert';
+362:             case 'PARTIELLEMENT': return 'text-partiel';
+363:             case 'VIA_PARTENAIRE': return 'text-partenaire';
+364:             default: return 'text-gap';
+365:         }
+366:     }
+367:     getMatrixPosIcon(pos: string): string {
+368:         switch (pos) {
+369:             case 'COUVERT': return 'pi pi-check-circle';
+370:             case 'PARTIELLEMENT': return 'pi pi-minus-circle';
+371:             case 'VIA_PARTENAIRE': return 'pi pi-users';
+372:             default: return 'pi pi-times-circle';
+373:         }
+374:     }
+375:     getMatrixPosLabel(pos: string): string {
+376:         switch (pos) {
+377:             case 'COUVERT': return '✓ Couvert';
+378:             case 'PARTIELLEMENT': return '≈ Partiel';
+379:             case 'VIA_PARTENAIRE': return '↗ Partenaire';
+380:             default: return '✗ Non couvert';
+381:         }
+382:     }
+383: 
+384:     getStatusClass(): string {
+385:         const s = this.dossierStatus.toUpperCase();
+386:         if (s.includes('MATCHING') || s.includes('DRAFTING')) return 'badge-pastel-green';
+387:         return 'badge-pastel-blue';
+388:     }
+389:     getStatusLabel(): string {
+390:         return this.dossierStatus === 'MATCHING' ? 'Terminé' : 'En attente';
+391:     }
+392: 
+393:     // --- Matrice Edition ---
+394:     getMatrixCoverage(): number {
+395:         if (!this.matriceRows || this.matriceRows.length === 0) return 0;
+396:         let covered = 0;
+397:         for (const row of this.matriceRows) {
+398:             if (row.positionEgis === 'COUVERT') covered += 1;
+399:             else if (row.positionEgis === 'PARTIELLEMENT' || row.positionEgis === 'VIA_PARTENAIRE') covered += 0.5;
+400:         }
+401:         return Math.round((covered / this.matriceRows.length) * 100);
+402:     }
+403:     getCoveredCount(): number {
+404:         return this.matriceRows.filter(r => r.positionEgis === 'COUVERT' || r.positionEgis === 'VIA_PARTENAIRE').length;
+405:     }
+406: 
+407:     editRow(index: number): void { this.editingRows[index] = true; }
+408:     saveRow(index: number): void {
+409:         this.editingRows[index] = false;
+410:         localStorage.setItem(`matching_matrix_${this.dossierId}`, JSON.stringify(this.matriceRows));
+411:         this.projectsService.updateMatchingMatrix(this.dossierId, this.matriceRows).subscribe();
+412:     }
+413:     addRow(): void {
+414:         this.matriceRows.push({ critere: 'Nouveau critère', positionEgis: 'COUVERT', argumentGap: '' });
+415:         this.editRow(this.matriceRows.length - 1);
+416:     }
+417:     onPositionChange(index: number, value: string): void {}
+418: 
+419:     // --- Champs Strat ---
+420:     updateField(fieldName: string, value: string): void {
+421:         if (!this.dossierId || !value) return;
+422:         
+423:         // Mettre à jour localement pour l'aperçu APO
+424:         if (this.extractionP2Data) {
+425:             if (this.extractionP2Data.apoForm) {
+426:                 this.extractionP2Data.apoForm[fieldName] = value;
+427:             } else {
+428:                 this.extractionP2Data[fieldName] = value;
+429:             }
+430:         }
+431:         
+432:         this.projectsService.updateApoField(this.dossierId, fieldName, value).subscribe();
+433:     }
+434:     updateRelationClient(value: string): void {
+435:         const levelIndex = this.relationClientList.indexOf(value);
+436:         let level = 1;
+437:         if (levelIndex === 2) level = 5; 
+438:         else if (levelIndex === 1) level = 3;
+439:         this.updateField('RELATION_CLIENT', level.toString());
+440:     }
+441: 
+442:     // --- Décision ---
+443:     isAlignementOk(): boolean {
+444:         return this.alignementStrategique !== 'Non aligné';
+445:     }
+446:     isCompatible(): boolean {
+447:         return this.getTauxCompetences() >= 50 && this.calculateRefTaux() >= 50 && this.getTauxExperts() >= 40 && this.isAlignementOk();
+448:     }
+449: 
+450:     generateDeliverables(): void {
+451:         this.projectsService.generateDeliverables(this.dossierId).subscribe({
+452:             next: () => {
+453:                 this.messageService.add({ severity: 'success', summary: 'Génération en cours', detail: 'La génération des livrables (APO, Méthodologie, Audit) est lancée.' });
+454:                 this.projectsService.updateStatus(this.dossierId, 'DRAFTING').subscribe({
+455:                     next: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']),
+456:                     error: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final'])
+457:                 });
+458:             }
+459:         });
+460:     }
+461: 
+462:     confirmNoGo(): void {
+463:         this.projectsService.confirmNoGo(this.dossierId).subscribe({
+464:             next: () => {
+465:                 this.projectsService.generateNoGoReport(this.dossierId).subscribe({
+466:                     next: () => {
+467:                         this.messageService.add({ severity: 'success', summary: 'No-Go Confirmé', detail: 'Rapport généré.' });
+468:                         this.router.navigate(['/dossiers', this.dossierId, 'no-go-report']);
+469:                     }
+470:                 });
+471:             }
+472:         });
+473:     }
+474: 
+475:     forceCompatible(): void {
+476:         this.projectsService.forceCompatible(this.dossierId, 'Décision forcée par l\'analyste').subscribe({
+477:             next: () => {
+478:                 this.messageService.add({ severity: 'success', summary: 'Forçage réussi', detail: 'Le dossier passe en génération des livrables.' });
+479:                 this.generateDeliverables();
+480:             }
+481:         });
+482:     }
+483: 
+484:     private safeParseJson(data: any, fallback: any): any {
+485:         if (!data) return fallback;
+486:         if (typeof data === 'object') return data;
+487:         try { return JSON.parse(data); } catch { return fallback; }
+488:     }
+489: 
+490:     getApoPreviewData(): Record<string, string> {
+491:         return this.extractionP2Data?.apoForm ?? this.extractionP2Data ?? {};
+492:     }
+493: 
+494:     showDocxPreview(): void {
+495:         this.showApoPreviewDialog = true;
+496:         this.isMethodologyGenerated = false;
+497:         this.isGeneratingMethodology = false;
+498:         this.isDocxLoading = true;
+499:         this.docxLoadError = false;
+500:         this.errorMessageForUI = '';
+501: 
+502:         // On va chercher "Methodologie-Template1.docx" car c'est votre VRAI fichier non vide !
+503:         // (L'autre étant verrouillé par le serveur backend).
+504:         const templateToFetch = 'Methodologie-Template1.docx';
+505: 
+506:         this.projectsService.getTemplateDocx(templateToFetch).subscribe({
+507:             next: (blob) => {
+508:                 if (blob.type.includes('html') || blob.size < 100) {
+509:                     console.error('Blob is too small, likely an error page.');
+510:                     this.errorMessageForUI = 'Le backend a renvoyé un fichier invalide ou vide (' + blob.size + ' octets). Type: ' + blob.type;
+511:                     this.docxLoadError = true;
+512:                     this.isDocxLoading = false;
+513:                     return;
+514:                 }
+515:                 
+516:                 setTimeout(() => {
+517:                     if (this.docxContainer && this.docxContainer.nativeElement) {
+518:                         try {
+519:                             this.docxContainer.nativeElement.innerHTML = ''; // clear previous
+520:                             docx.renderAsync(blob, this.docxContainer.nativeElement, null, {
+521:                                 className: 'docx',
+522:                                 inWrapper: true,
+523:                                 ignoreWidth: false,
+524:                                 ignoreHeight: false,
+525:                                 ignoreFonts: false,
+526:                                 breakPages: true,
+527:                                 ignoreLastRenderedPageBreak: true,
+528:                                 experimental: true,
+529:                                 trimXmlDeclaration: true,
+530:                                 debug: false,
+531:                             }).then(() => {
+532:                                 this.isDocxLoading = false;
+533:                             }).catch(err => {
+534:                                 console.error('Error rendering docx', err);
+535:                                 this.errorMessageForUI = 'Erreur lors de la lecture du DOCX (fichier corrompu ou format non supporté).';
+536:                                 this.docxLoadError = true;
+537:                                 this.isDocxLoading = false;
+538:                             });
+539:                         } catch (e: any) {
+540:                             console.error('Exception rendering docx', e);
+541:                             this.errorMessageForUI = 'Exception Javascript : ' + (e.message || 'Erreur inconnue');
+542:                             this.docxLoadError = true;
+543:                             this.isDocxLoading = false;
+544:                         }
+545:                     } else {
+546:                         this.errorMessageForUI = 'Le conteneur HTML du document est introuvable.';
+547:                         this.docxLoadError = true;
+548:                         this.isDocxLoading = false;
+549:                     }
+550:                 }, 400);
+551:             },
+552:             error: (err) => {
+553:                 console.error('API Error fetching DOCX', err);
+554:                 this.errorMessageForUI = 'Erreur réseau/API : ' + (err.message || 'Impossible de contacter le serveur');
+555:                 this.docxLoadError = true;
+556:                 this.isDocxLoading = false;
+557:             }
+558:         });
+559:     }
+560: 
+561: 
+562: 
+563:     downloadDocxTemplate(): void {
+564:         this.projectsService.getTemplateDocx('Methodologie-Template1.docx').subscribe(blob => {
+565:             this.projectsService.triggerBrowserDownload(blob, 'Methodologie-Template1.docx');
+566:         });
+567:     }
+568: }
+569: 
+The above content shows the entire, complete file contents of the requested file.

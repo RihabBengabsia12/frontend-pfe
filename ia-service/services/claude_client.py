@@ -7,7 +7,9 @@ Stratégie de Prompt Caching (Anthropic ephemeral cache, TTL = 5 min) :
      Économie : 90% du coût input sur le 2ème appel et suivants avec le même prompt.
   2. Document (TDR) → mis en cache (cache_control sur le bloc message)
      Économie : le TDR est partagé entre P1, P2, Risques, Matching du même dossier.
-  ⚠ Minimum 1024 tokens pour qu'Anthropic active le cache.
+  ⚠ Claude Haiku 4.5 exige un minimum de 4096 tokens dans le bloc à cacher
+    (contre 1024 pour Sonnet/Opus). Un bloc plus court que ça ne sera
+    tout simplement pas mis en cache (aucune erreur, juste cache_creation=0).
 """
 
 import os
@@ -25,10 +27,13 @@ logger = logging.getLogger(__name__)
 _PROMPT_CACHE: dict[str, str] = {}
 
 # ─── Constantes ─────────────────────────────────────────────────────────────
-CLAUDE_MODEL    = "claude-sonnet-4-6"
+CLAUDE_MODEL    = "claude-haiku-4-5-20251001"  # Haiku 4.5 : rapide, économique, supporte le prompt caching
 MAX_TOKENS      = 4096
 MAX_RETRIES     = 2
 RETRY_DELAY_SEC = 2.0
+
+# Seuil minimum de tokens pour qu'un bloc soit éligible au cache sur Haiku 4.5
+MIN_CACHEABLE_TOKENS_HAIKU = 4096
 
 # ─── Client Anthropic Singleton (instancié une seule fois) ──────────────────
 _anthropic_client: anthropic.Anthropic | None = None
@@ -36,18 +41,16 @@ _anthropic_client: anthropic.Anthropic | None = None
 def _get_client() -> anthropic.Anthropic:
     """
     Retourne le client Anthropic singleton.
-    Créé à la première utilisation avec le header beta prompt-caching.
+    Le prompt caching est GA (plus besoin de beta header sur les modèles récents),
+    mais on le garde par compatibilité — il n'a aucun effet négatif.
     """
     global _anthropic_client
     if _anthropic_client is None:
         api_key = os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
             raise EnvironmentError("ANTHROPIC_API_KEY non définie")
-        _anthropic_client = anthropic.Anthropic(
-            api_key=api_key,
-            default_headers={"anthropic-beta": "prompt-caching-2024-07-31"}
-        )
-        logger.info("Client Anthropic singleton initialisé avec prompt caching activé.")
+        _anthropic_client = anthropic.Anthropic(api_key=api_key)
+        logger.info("Client Anthropic singleton initialisé (modèle=%s).", CLAUDE_MODEL)
     return _anthropic_client
 
 
@@ -75,9 +78,6 @@ def call_claude(
     client = _get_client()
 
     # ── 1. System prompt — format liste avec cache_control ──────────────────
-    # Anthropic exige un tableau de blocs (pas un string simple) pour cacher.
-    # Le cache_control sur le DERNIER bloc du système active le cache pour
-    # TOUS les blocs système qui précèdent.
     system_blocks = [
         {
             "type": "text",
@@ -87,20 +87,16 @@ def call_claude(
     ]
 
     # ── 2. Message utilisateur — document caché + instruction non cachée ─────
-    # Le document TDR est le même sur tous les appels d'un dossier (P1, P2,
-    # Risques…). Le mettre en cache = économie de 90% dès le 2ème appel.
-    # L'instruction utilisateur (user_prompt) n'est PAS cachée car elle
-    # change à chaque appel.
     messages_content = []
     if document_text:
         messages_content.append({
             "type": "text",
             "text": f"<document>\n{document_text}\n</document>",
-            "cache_control": {"type": "ephemeral"}   # ← TDR mis en cache
+            "cache_control": {"type": "ephemeral"}
         })
     messages_content.append({
         "type": "text",
-        "text": user_prompt                           # ← instruction, non cachée
+        "text": user_prompt
     })
 
     # ── 3. Appel API avec retry ──────────────────────────────────────────────
@@ -128,14 +124,19 @@ def call_claude(
                 logger.debug("Cache WRITE : %d tokens créés", cache_creation)
             if cache_read > 0:
                 logger.debug("Cache READ  : %d tokens lus (économie 90%%)", cache_read)
+            if cache_creation == 0 and cache_read == 0:
+                logger.debug(
+                    "Aucun cache créé/lu — vérifier que le bloc caché fait "
+                    "≥ %d tokens sur Haiku 4.5.", MIN_CACHEABLE_TOKENS_HAIKU
+                )
 
-            # ── 5. Calcul du coût estimé (tarif Claude Sonnet 4) ─────────────
-            # Tarification : Input $3/1M | Output $15/1M
-            #                Cache Write $3.75/1M | Cache Read $0.30/1M
-            base_in_cost       = in_tokens      * 3.00  / 1_000_000
-            cache_write_cost   = cache_creation * 3.75  / 1_000_000
-            cache_read_cost    = cache_read     * 0.30  / 1_000_000
-            out_cost           = out_tokens     * 15.00 / 1_000_000
+            # ── 5. Calcul du coût estimé (tarif Claude Haiku 4.5) ────────────
+            # Tarification Haiku 4.5 : Input $1/1M | Output $5/1M
+            #                Cache Write $1.25/1M | Cache Read $0.10/1M
+            base_in_cost       = in_tokens      * 1.00  / 1_000_000
+            cache_write_cost   = cache_creation * 1.25  / 1_000_000
+            cache_read_cost    = cache_read     * 0.10  / 1_000_000
+            out_cost           = out_tokens     * 5.00  / 1_000_000
             total_cost         = base_in_cost + cache_write_cost + cache_read_cost + out_cost
 
             metrics = {
@@ -153,9 +154,15 @@ def call_claude(
             return response.content[0].text, metrics
 
         except anthropic.RateLimitError as e:
-            logger.warning("Rate limit (essai %d/%d): %s", attempt, MAX_RETRIES + 1, e)
+            logger.warning("Rate limit Claude (essai %d/%d): %s", attempt, MAX_RETRIES + 1, e)
+        except anthropic.BadRequestError as e:
+            logger.warning("Erreur 400 Claude (essai %d/%d): %s", attempt, MAX_RETRIES + 1, e)
+            raise
+        except anthropic.AuthenticationError as e:
+            logger.error("Erreur 401 Claude — Clé API invalide: %s", e)
+            raise
         except anthropic.APIConnectionError as e:
-            logger.warning("Erreur réseau (essai %d/%d): %s", attempt, MAX_RETRIES + 1, e)
+            logger.warning("Erreur réseau Claude (essai %d/%d): %s", attempt, MAX_RETRIES + 1, e)
         except Exception as e:
             logger.error("Erreur inattendue Claude: %s", e)
             raise
@@ -163,7 +170,7 @@ def call_claude(
         if attempt <= MAX_RETRIES:
             time.sleep(RETRY_DELAY_SEC * attempt)
 
-    raise RuntimeError(f"Tous les essais Claude ont échoué après {MAX_RETRIES + 1} tentatives")
+    raise RuntimeError(f"Tous les essais Claude ont échoué après {MAX_RETRIES + 1} tentatives.")
 
 
 def call_claude_json(
@@ -177,23 +184,38 @@ def call_claude_json(
     Retourne (parsed_json, metrics).
     Nettoie les éventuelles balises Markdown que Claude pourrait ajouter malgré les instructions.
     """
-    raw, metrics = call_claude(system_prompt, user_prompt, max_tokens, document_text)
-    cleaned = raw.strip()
+    for attempt in range(1, MAX_RETRIES + 2):
+        raw, metrics = call_claude(system_prompt, user_prompt, max_tokens, document_text)
 
-    # Nettoyage des balises Markdown si Claude en génère malgré les instructions
-    if cleaned.startswith("```"):
-        lines = cleaned.splitlines()
-        # Retire la première ligne (```json ou ```) et la dernière (```)
-        inner_lines = lines[1:]
-        if inner_lines and inner_lines[-1].strip() == "```":
-            inner_lines = inner_lines[:-1]
-        cleaned = "\n".join(inner_lines)
+        cleaned = raw.strip()
 
-    try:
-        return json.loads(cleaned), metrics
-    except json.JSONDecodeError as e:
-        logger.error("Réponse Claude non-JSON: %s\n---\n%s", e, cleaned[:500])
-        raise ValueError(f"Claude n'a pas retourné du JSON valide: {e}") from e
+        # Extraction du bloc JSON si du texte ou du markdown est présent
+        first_brace = cleaned.find('{')
+        last_brace = cleaned.rfind('}')
+        first_bracket = cleaned.find('[')
+        last_bracket = cleaned.rfind(']')
+
+        start_idx = -1
+        end_idx = -1
+
+        if first_brace != -1 and (first_bracket == -1 or first_brace < first_bracket):
+            start_idx = first_brace
+            end_idx = last_brace
+        elif first_bracket != -1:
+            start_idx = first_bracket
+            end_idx = last_bracket
+
+        if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+            cleaned = cleaned[start_idx:end_idx+1]
+
+        try:
+            return json.loads(cleaned), metrics
+        except json.JSONDecodeError as e:
+            logger.error("Réponse Claude non-JSON (essai %d): %s", attempt, e)
+            if attempt > MAX_RETRIES:
+                logger.error("Échec définitif du parsing JSON. Extrait: %s", cleaned[:500])
+                raise ValueError(f"Claude n'a pas retourné du JSON valide: {e}") from e
+            time.sleep(RETRY_DELAY_SEC)
 
 
 # ─── Fonctions utilitaires publiques ────────────────────────────────────────

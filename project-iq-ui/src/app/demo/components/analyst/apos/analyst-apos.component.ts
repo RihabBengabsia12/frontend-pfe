@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { AnalystProjectsService, Dossier } from '../../../service/analyst-projects.service';
-import { environment } from 'src/environments/environment';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
     templateUrl: './analyst-apos.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .fade-in-up {
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -46,6 +47,16 @@ import { environment } from 'src/environments/environment';
             transform: translateX(4px);
             background-color: #f8fafc !important;
         }
+        ::ng-deep .apos-table-compact .p-datatable-tbody > tr > td {
+            font-size: 0.82rem;
+        }
+        ::ng-deep .apos-table-compact .p-datatable-tbody .text-lg {
+            font-size: 0.92rem !important;
+        }
+        ::ng-deep .apos-table-compact .p-datatable-tbody .p-tag {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.55rem !important;
+        }
     `]
 })
 export class AnalystAposComponent implements OnInit {
@@ -71,11 +82,7 @@ export class AnalystAposComponent implements OnInit {
             {
                 label: 'Exporter en CSV',
                 icon: 'pi pi-file-excel',
-                command: () => {
-                    if (this.table) {
-                        this.table.exportCSV();
-                    }
-                }
+                command: () => this.exportCsv()
             },
             {
                 label: 'Exporter en PDF',
@@ -110,39 +117,56 @@ export class AnalystAposComponent implements OnInit {
     }
 
     openDossier(report: Dossier): void {
-        this.router.navigate(['/analyst', report.id, 'pack']);
+        this.router.navigate(['/dossiers', report.id, 'rapport-final']);
     }
 
     downloadWord(report: Dossier): void {
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${report.id}/download/apo`;
-        window.open(url, '_blank');
-        
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Téléchargement',
-            detail: `Le téléchargement de l'APO a démarré.`
+        this.projectsService.getDownloadBlob(report.id, 'apo').subscribe({
+            next: (content) => {
+                const url = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `APO_${report.id.substring(0, 8)}.docx`;
+                link.click();
+                URL.revokeObjectURL(url);
+                this.messageService.add({ severity: 'success', summary: 'Téléchargement', detail: 'Le téléchargement de l’APO a démarré.' });
+            },
+            error: (err) => this.messageService.add({ severity: 'error', summary: 'Document indisponible', detail: err.error?.message || 'L’APO ne peut pas être téléchargée.' })
         });
     }
 
     exportPdf(): void {
-        import('jspdf').then((jsPDF) => {
-            import('jspdf-autotable').then((x) => {
-                const doc = new jsPDF.default('l', 'pt', 'a4');
-                const exportColumns = [
-                    { title: 'Dossier', dataKey: 'intituleOffre' },
-                    { title: 'Client', dataKey: 'client' },
-                    { title: 'Statut', dataKey: 'status' }
-                ];
-                (doc as any).autoTable({
-                    columns: exportColumns,
-                    body: this.reports,
-                    theme: 'grid',
-                    styles: { fontSize: 8 },
-                    headStyles: { fillColor: [41, 128, 185] }
-                });
-                doc.save('Registre_APO_Final.pdf');
-            });
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+        doc.setFontSize(16);
+        doc.text('Registre des APO ProjectIQ', 40, 38);
+        autoTable(doc, {
+            startY: 55,
+            head: [['Dossier', 'Client', 'Bailleur', 'Statut', 'Date de création']],
+            body: this.reports.map(report => [
+                report.intituleOffre || '—', report.client || '—', report.bailleurs || '—', report.status || '—',
+                report.createdAt ? new Date(report.createdAt).toLocaleDateString('fr-FR') : '—'
+            ]),
+            theme: 'grid', styles: { fontSize: 8 }, headStyles: { fillColor: [37, 99, 235] }
         });
+        doc.save('Registre_APO_Final.pdf');
+    }
+
+    exportCsv(): void {
+        const escape = (value: unknown) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+        const rows = [
+            ['Dossier', 'Client', 'Bailleur', 'Statut', 'Date de création'],
+            ...this.reports.map(report => [
+                report.intituleOffre, report.client, report.bailleurs, report.status,
+                report.createdAt ? new Date(report.createdAt).toLocaleDateString('fr-FR') : ''
+            ])
+        ];
+        const blob = new Blob([`\uFEFF${rows.map(row => row.map(escape).join(';')).join('\r\n')}`], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Registre_APO.csv';
+        link.click();
+        URL.revokeObjectURL(url);
     }
 
     statusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {

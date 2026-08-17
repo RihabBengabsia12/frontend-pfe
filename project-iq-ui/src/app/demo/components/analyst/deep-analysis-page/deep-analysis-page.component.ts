@@ -21,7 +21,7 @@ export interface P2Field {
     selector: 'app-deep-analysis-page',
     templateUrl: './deep-analysis-page.component.html',
     styleUrls: ['./deep-analysis-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class DeepAnalysisPageComponent implements OnInit, OnDestroy {
 

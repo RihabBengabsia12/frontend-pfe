@@ -1,64 +1,79 @@
 <div class="grid p-4 fade-in-up">
     <!-- Header -->
     <div class="col-12 mb-3">
-        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2">
-            <div class="flex align-items-center gap-3">
-                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center">
-                    <i class="pi pi-align-left text-2xl text-blue-700"></i>
+        <div class="card p-3 border-round-2xl shadow-1 logs-header-card">
+            <div class="flex align-items-center gap-2">
+                <div class="w-2rem h-2rem border-circle flex align-items-center justify-content-center logs-header-icon">
+                    <i class="pi pi-align-left text-base text-blue-700"></i>
                 </div>
                 <div>
-                    <h1 class="text-midnight font-bold text-3xl m-0">Analyses IA (Logs)</h1>
-                    <p class="text-blue-800 m-0 opacity-80">Page d'audit technique de l'API : consommation de tokens, temps de réponse et inspection des données JSON brutes.</p>
+                    <h1 class="text-midnight font-bold text-lg m-0">Analyses IA (Logs)</h1>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Token statistics panel -->
-    <div class="col-12 md:col-6 lg:col-4 mb-4">
-        <div class="card card-pastel-blue border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between">
-            <div class="flex align-items-center justify-content-between mb-3">
-                <span class="text-700 font-semibold text-lg">Total Appels IA</span>
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="card card-pastel-blue border-round-xl shadow-1 p-3 h-full flex flex-column justify-content-between logs-kpi-card">
+            <div class="flex align-items-center justify-content-between mb-2">
+                <span class="text-700 font-semibold text-sm">Total Appels IA</span>
                 <i class="pi pi-bolt text-blue-700"></i>
             </div>
             <div>
-                <h2 class="text-midnight font-bold text-3xl m-0">{{ logs.length }}</h2>
-                <p class="text-500 text-xs m-0 mt-2">Requêtes enregistrées</p>
+                <h2 class="text-midnight font-bold text-xl m-0">{{ logs.length }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Appels réussis persistés par le backend</p>
             </div>
         </div>
     </div>
 
-    <div class="col-12 md:col-6 lg:col-4 mb-4">
-        <div class="card card-pastel-orange border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between">
-            <div class="flex align-items-center justify-content-between mb-3">
-                <span class="text-700 font-semibold text-lg">Tokens Consommés</span>
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="card card-pastel-orange border-round-xl shadow-1 p-3 h-full flex flex-column justify-content-between logs-kpi-card">
+            <div class="flex align-items-center justify-content-between mb-2">
+                <span class="text-700 font-semibold text-sm">Tokens Traités</span>
                 <i class="pi pi-database text-orange-700"></i>
             </div>
             <div>
-                <h2 class="text-midnight font-bold text-3xl m-0">{{ tokenStats.total | number }}</h2>
-                <p class="text-500 text-xs m-0 mt-2">Volume global</p>
+                <h2 class="text-midnight font-bold text-xl m-0">{{ tokenStats.total | number }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Entrée, sortie et cache inclus</p>
             </div>
         </div>
     </div>
 
-    <div class="col-12 md:col-6 lg:col-4 mb-4">
-        <div class="card border-round-2xl shadow-1 p-4 h-full flex flex-column justify-content-between" style="background:#dcfce7; border:1px solid #bbf7d0;">
-            <div class="flex align-items-center justify-content-between mb-3">
-                <span class="text-700 font-semibold text-lg">Coût Estimé</span>
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="card border-round-xl shadow-1 p-3 h-full flex flex-column justify-content-between logs-kpi-card" style="background:#dcfce7; border:1px solid #bbf7d0;">
+            <div class="flex align-items-center justify-content-between mb-2">
+                <span class="text-700 font-semibold text-sm">Coût Estimé</span>
                 <i class="pi pi-dollar text-green-700"></i>
             </div>
             <div>
-                <h2 class="text-midnight font-bold text-3xl m-0">{{ tokenStats.totalCost | currency:'USD' }}</h2>
-                <p class="text-500 text-xs m-0 mt-2">Dépense API Anthropic</p>
+                <h2 class="text-midnight font-bold text-xl m-0">{{ tokenStats.totalCost | currency:'USD' }}</h2>
+                <p class="text-500 text-xs m-0 mt-2">Estimation interne · {{ tokenStats.costedCalls }}/{{ logs.length }} appels chiffrés</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+        <div class="card border-round-xl shadow-1 p-3 h-full flex flex-column justify-content-between logs-kpi-card" style="background:#f3e8ff; border:1px solid #ddd6fe;">
+            <div class="flex align-items-center justify-content-between mb-2">
+                <span class="text-700 font-semibold text-sm">Temps moyen IA</span>
+                <i class="pi pi-clock text-purple-700"></i>
+            </div>
+            <div>
+                <h2 class="text-midnight font-bold text-xl m-0">{{ tokenStats.avgResponseTime | number:'1.1-1' }} s</h2>
+                <p class="text-500 text-xs m-0 mt-2">Durée de réponse mesurée par appel</p>
             </div>
         </div>
     </div>
 
     <!-- Logs Table -->
     <div class="col-12">
-        <div class="card border-round-2xl shadow-2 p-5 bg-white">
-            <div class="flex justify-content-between align-items-center mb-4">
-                <h5 class="text-900 font-bold text-xl m-0">Journal d'Audit Technique des Requêtes (Prompt Caching)</h5>
+        <div class="card border-round-2xl shadow-2 p-3 bg-white logs-table-card">
+            <div class="flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="text-900 font-bold text-base m-0">Journal d'Audit Technique des Requêtes</h5>
+                    <small class="text-500">Source : réponses IA enregistrées côté backend <span *ngIf="lastLoadedAt">· mis à jour à {{ lastLoadedAt | date:'shortTime' }}</span></small>
+                </div>
                 <div class="flex gap-2">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
@@ -68,14 +83,14 @@
                 </div>
             </div>
 
-            <p-table #dt [value]="logs" [paginator]="true" [rows]="10" responsiveLayout="scroll" [loading]="loadingLogs"
-                     styleClass="p-datatable-sm" [rowHover]="true" [globalFilterFields]="['project', 'actionName', 'model']">
+            <p-table #dt [value]="logs" [paginator]="true" [rows]="15" responsiveLayout="scroll" [loading]="loadingLogs"
+                     styleClass="p-datatable-sm" [rowHover]="true" [globalFilterFields]="['project', 'actionName', 'model']"
+                     rowGroupMode="subheader" groupRowsBy="projectKey" sortField="projectKey" sortMode="single">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Date</th>
-                        <th>Dossier</th>
                         <th>Action / Type</th>
-                        <th>Tokens Utilisés</th>
+                        <th>Tokens (In / Out)</th>
                         <th>Cache Hit (Read)</th>
                         <th>Cache Write</th>
                         <th>Temps (ms)</th>
@@ -83,12 +98,39 @@
                         <th class="text-center">JSON</th>
                     </tr>
                 </ng-template>
+                <ng-template pTemplate="groupheader" let-log>
+                    <tr pRowGroupHeader>
+                        <td colspan="8" class="bg-blue-50 border-y-1 border-blue-200">
+                            <div class="flex justify-content-between align-items-center w-full">
+                                <div class="font-bold text-blue-900">
+                                    <i class="pi pi-folder-open mr-2 text-base align-middle"></i>
+                                    <span class="text-sm align-middle">{{ log.project }}</span>
+                                </div>
+                                <div class="flex gap-3 text-xs font-semibold align-items-center logs-dossier-totals">
+                                    <span class="text-blue-800" pTooltip="Total des tokens non mis en cache">In/Out : {{ projectStats[log.projectKey]?.input | number }} / {{ projectStats[log.projectKey]?.output | number }}</span>
+                                    <span class="text-green-700" pTooltip="Total cache relu">Read : {{ projectStats[log.projectKey]?.cacheRead | number }}</span>
+                                    <span class="text-orange-600" pTooltip="Total cache créé">Write : {{ projectStats[log.projectKey]?.cacheWrite | number }}</span>
+                                    <span class="text-blue-800" pTooltip="Temps total d'analyse pour ce dossier"><i class="pi pi-clock mr-1"></i>{{ (projectStats[log.projectKey]?.time || 0) / 1000 | number:'1.1-1' }} s</span>
+                                    <span class="text-red-600" pTooltip="Coût total estimé pour ce dossier"><i class="pi pi-dollar mr-1"></i>{{ projectStats[log.projectKey]?.cost | number:'1.4-4' }}</span>
+                                    <button pButton pTooltip="Voir l'extraction complète du dossier (JSON)" tooltipPosition="left" icon="pi pi-code" class="p-button-rounded p-button-secondary p-button-text p-button-sm ml-2" (click)="viewFullDossierJson(log.dossierId)"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
                 <ng-template pTemplate="body" let-log>
                     <tr>
-                        <td class="text-600 text-sm">{{ log.createdAt | date:'short' }}</td>
-                        <td class="font-semibold text-700 text-sm"><i class="pi pi-folder mr-1 text-primary"></i>{{ log.project }}</td>
+                        <td class="text-600 text-sm pl-4"><i class="pi pi-clock mr-1 text-primary"></i> {{ log.createdAt | date:'short' }}</td>
                         <td><p-tag [value]="log.actionName" severity="info"></p-tag></td>
-                        <td class="font-bold">{{ log.tokenUsage | number }}</td>
+                        <td class="font-bold">
+                            <ng-container *ngIf="log.inputTokens > 0 || log.outputTokens > 0">
+                                <span class="text-blue-600 mr-2" pTooltip="Input Tokens (Prompt)"><i class="pi pi-arrow-right text-xs"></i> {{ log.inputTokens | number }}</span>
+                                <span class="text-purple-600" pTooltip="Output Tokens (Completion)"><i class="pi pi-arrow-left text-xs"></i> {{ log.outputTokens | number }}</span>
+                            </ng-container>
+                            <ng-container *ngIf="!(log.inputTokens > 0 || log.outputTokens > 0)">
+                                <span class="text-blue-600" pTooltip="Total Tokens"><i class="pi pi-database text-xs mr-1"></i>{{ log.tokenUsage | number }}</span>
+                            </ng-container>
+                        </td>
                         <td>
                             <span class="text-green-600 font-bold" *ngIf="log.cacheReadTokens > 0">
                                 <i class="pi pi-check-circle mr-1"></i>{{ log.cacheReadTokens | number }}
@@ -102,7 +144,7 @@
                             <span class="text-400" *ngIf="!log.cacheCreationTokens">-</span>
                         </td>
                         <td>{{ log.processingTimeMs }} ms</td>
-                        <td class="text-right font-bold text-red-500">${{ log.estimatedCost | number:'1.4-4' }}</td>
+                        <td class="text-right font-bold text-900">${{ log.estimatedCost | number:'1.4-4' }}</td>
                         <td class="text-center">
                             <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-sm" 
                                     (click)="inspectJson(log)" pTooltip="Voir la réponse brute"></button>
@@ -133,7 +175,7 @@
             <span class="text-500 text-sm">Réponse brute extraite par le modèle {{ selectedLog.model }}</span>
         </div>
         <div class="json-viewer shadow-inner">
-            {{ selectedLog.rawJson }}
+            {{ getFormattedJson(selectedLog.rawJson) }}
         </div>
         <div class="flex justify-content-end gap-2 mt-4">
             <button pButton label="Fermer" icon="pi pi-times" class="p-button-text" (click)="displayJsonDialog = false"></button>

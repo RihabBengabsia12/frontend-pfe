@@ -1,5 +1,5 @@
 <div class="grid">
-    <p-toast></p-toast>
+    
     
     <!-- Sidebar: Liste des Dossiers Archivés (Bibliothèque) -->
     <div class="col-12 md:col-4">
@@ -112,7 +112,7 @@
                     Ce document (DOCX) a été généré automatiquement par l'IA. Il contient la chronologie exacte des décisions, les corrections humaines apportées, le détail du scoring et l'analyse narrative des risques.
                 </p>
                 <button pButton pRipple label="Consulter le Rapport d'Audit" icon="pi pi-eye" 
-                        class="p-button-success p-button-outlined border-round-3xl px-5 font-bold p-button-lg" 
+                        class="p-button-success p-button-outlined border-round-3xl px-3 py-2 audit-consult-button" 
                         (click)="downloadAuditReport()"
                         [disabled]="!selectedDossier.auditReportPath">
                 </button>
@@ -156,7 +156,11 @@
             <p class="mt-4 font-medium text-600">Ouverture du lecteur DOCX...</p>
         </div>
 
-        <div *ngIf="!loadingPreview && selectedDossier" class="flex flex-column align-items-center justify-content-center h-full py-6 text-center animate-fade-in">
+        <div *ngIf="!loadingPreview && selectedDossier && !previewError" class="audit-preview-scroll animate-fade-in">
+            <div #docxPreview class="projectiq-audit-docx-host"></div>
+        </div>
+
+        <div *ngIf="!loadingPreview && selectedDossier && previewError" class="flex flex-column align-items-center justify-content-center h-full py-6 text-center animate-fade-in">
             <div class="w-5rem h-5rem bg-white shadow-2 border-circle flex align-items-center justify-content-center mb-4 border-1 border-green-100">
                 <i class="pi pi-file-word text-5xl text-blue-500"></i>
             </div>

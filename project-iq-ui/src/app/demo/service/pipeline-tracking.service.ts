@@ -11,6 +11,8 @@ export interface PipelineState {
     statusLabel: string;
     hasError: boolean;
     isModalVisible: boolean;
+    isCompleted?: boolean;
+    completedType?: 'success' | 'warning' | 'error' | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +45,7 @@ export class PipelineTrackingService {
             progress: 5,
             statusLabel: 'Phase 1 : Extraction des critères par l\'IA (Patientez, environ 15-30s)...',
             hasError: false,
-            isModalVisible: true // On l'affiche par défaut au lancement
+            isModalVisible: false // On attend que l'utilisateur clique sur la cloche
         });
 
         // Simuler la progression jusqu'à 25% (Phase 1)
@@ -55,12 +57,14 @@ export class PipelineTrackingService {
             }
         }, 1500);
 
-        // Envoyer la notification "IA a commencé"
+        // Notification silencieuse — pas dans la cloche
         this.notificationService.addNotification({
-            title: 'Analyse IA Démarrée',
-            message: `L'analyse du dossier "${title || dossierId}" est en cours. Cliquez sur Détails pour suivre la progression.`,
+            title: 'Analyse IA en cours',
+            message: title || dossierId,
             type: 'info',
-            action: 'SHOW_PIPELINE_MODAL'
+            action: 'SHOW_PIPELINE_MODAL',
+            silent: false,
+            showInBell: true
         });
 
         this.sseService.connect(dossierId);
@@ -85,22 +89,60 @@ export class PipelineTrackingService {
             case 'PWIN_COMPLETED':
                 this.updateState({ progress: 70, statusLabel: 'Calcul du P-WIN (Scoring) en cours...' });
                 break;
+            case 'PIPELINE_STOPPED_NOGO':
+                this.updateState({ progress: 100, statusLabel: 'Pipeline arrêté : Génération du rapport No-Go (Score < seuil)', isCompleted: true, completedType: 'warning' });
+                
+                const titleNogo = this.stateSubj.getValue().dossierTitle;
+                this.notificationService.addNotification({
+                    title: 'Dossier en No-Go',
+                    message: (event.data && event.data.message) ? event.data.message : `Le score P-Win pour "${titleNogo}" est inférieur au seuil. Un rapport NO-GO a été généré.`,
+                    detail: (event.data && event.data.detail) ? event.data.detail : undefined,
+                    type: 'warning',
+                    link: `/dossiers/${dossierId}/no-go-report`,
+                    action: 'SHOW_PIPELINE_MODAL',
+                    showInBell: true
+                });
+                
+                this.sseService.disconnect(dossierId);
+                break;
             case 'MATCHING_COMPLETED':
-                this.updateState({ progress: 85, statusLabel: 'Recherche d\'experts (Matching) terminée...' });
+                this.updateState({ progress: 80, statusLabel: 'Recherche d\'experts (Matching) terminée...' });
+                break;
+            case 'PIPELINE_PAUSED_FOR_VALIDATION':
+                this.updateState({ progress: 100, statusLabel: 'Extraction terminée (100%). Veuillez valider manuellement.', isCompleted: true, completedType: 'success' });
+                
+                const titleValidation = this.stateSubj.getValue().dossierTitle;
+                this.notificationService.addNotification({
+                    title: 'Analyse Terminée — Validation requise',
+                    message: `L'analyse du dossier "${titleValidation}" est terminée. Cliquez pour valider les données extraites.`,
+                    type: 'success',
+                    link: `/dossiers/${dossierId}/validation-p1`,
+                    action: 'SHOW_PIPELINE_MODAL',
+                    showInBell: true
+                });
+                
+                this.sseService.disconnect(dossierId);
+                break;
+            case 'RECALCUL_COMPLETED':
+                this.updateState({ progress: 80, statusLabel: 'Recalcul terminé. Prêt pour génération.' });
+                break;
+            case 'GENERATION_START':
+                this.updateState({ progress: 85, statusLabel: 'Démarrage de la génération des livrables...', isCompleted: false, completedType: null });
                 break;
             case 'APO_COMPLETED':
                 this.updateState({ progress: 95, statusLabel: 'Génération de l\'APO terminée...' });
                 break;
             case 'PIPELINE_COMPLETED':
-                this.updateState({ progress: 100, statusLabel: 'Toutes les phases terminées avec succès !' });
+                this.updateState({ progress: 100, statusLabel: 'Toutes les phases et livrables terminés avec succès !', isCompleted: true, completedType: 'success' });
                 
                 const title = this.stateSubj.getValue().dossierTitle;
                 this.notificationService.addNotification({
-                    title: 'Analyse IA Terminée',
-                    message: `L'intelligence artificielle a analysé le dossier "${title}" avec succès. Il est prêt pour validation.`,
+                    title: 'Livrables Prêts',
+                    message: `Les livrables pour le dossier "${title}" ont été générés avec succès. Cliquez pour les consulter.`,
                     type: 'success',
-                    link: `/dossiers/${dossierId}/validation-p1`,
-                    action: 'SHOW_PIPELINE_MODAL'
+                    link: `/dossiers/${dossierId}/rapport-final`,
+                    action: 'SHOW_PIPELINE_MODAL',
+                    showInBell: true
                 });
                 
                 this.sseService.disconnect(dossierId);

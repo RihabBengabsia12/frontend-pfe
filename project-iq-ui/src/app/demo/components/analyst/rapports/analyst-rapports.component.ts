@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AnalystProjectsService, Dossier } from '../../../service/analyst-projects.service';
-import { DossierStatusService } from '../../../service/dossier-status.service';
-import { environment } from 'src/environments/environment';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { ManagerValidationService } from '../../../service/manager-validation.service';
+import { catchError } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
     templateUrl: './analyst-rapports.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .fade-in-up {
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -49,6 +51,16 @@ import { environment } from 'src/environments/environment';
             transform: translateX(4px);
             background-color: #f8fafc !important;
         }
+        ::ng-deep .reports-table-compact .p-datatable-tbody > tr > td {
+            font-size: 0.82rem;
+        }
+        ::ng-deep .reports-table-compact .p-datatable-tbody .text-lg {
+            font-size: 0.92rem !important;
+        }
+        ::ng-deep .reports-table-compact .p-datatable-tbody .p-tag {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.55rem !important;
+        }
     `]
 })
 export class AnalystRapportsComponent implements OnInit {
@@ -56,27 +68,27 @@ export class AnalystRapportsComponent implements OnInit {
     reports: Dossier[] = [];
     isLoading = false;
 
-    displayDetailsDialog = false;
-    selectedReport: Dossier | null = null;
     
     totalReports = 0;
     avgPwin = 0;
     goPercentage = 0;
     nogoPercentage = 0;
     searchQuery = '';
+    exportMenuItems: any[] = [];
 
-    displayPdfViewer = false;
-    pdfUrl: SafeResourceUrl | null = null;
 
     constructor(
         private messageService: MessageService,
         private projectsService: AnalystProjectsService,
-        private router: Router,
-        private statusService: DossierStatusService,
-        private sanitizer: DomSanitizer
+        private validationService: ManagerValidationService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
+        this.exportMenuItems = [
+            { label: 'Exporter en CSV', icon: 'pi pi-file-excel', command: () => this.exportCsv() },
+            { label: 'Exporter en PDF', icon: 'pi pi-file-pdf', command: () => this.exportPdf() }
+        ];
         this.loadReports();
     }
     
@@ -84,9 +96,19 @@ export class AnalystRapportsComponent implements OnInit {
         this.isLoading = true;
         this.projectsService.getAllDossiers().subscribe({
             next: (data) => {
-                this.reports = data.filter(d => d.rapportPath != null);
-                this.calculateStats();
-                this.isLoading = false;
+                const reports = data.filter(d => d.rapportPath != null);
+                forkJoin(reports.map(report => this.validationService.getValidationStatus(report.id).pipe(catchError(() => of([]))))).subscribe({
+                    next: (allDecisions) => {
+                        this.reports = reports.map((report, index) => ({ ...report, decisions: allDecisions[index] } as Dossier));
+                        this.calculateStats();
+                        this.isLoading = false;
+                    },
+                    error: () => {
+                        this.reports = reports;
+                        this.calculateStats();
+                        this.isLoading = false;
+                    }
+                });
             },
             error: (err) => {
                 console.error(err);
@@ -105,92 +127,78 @@ export class AnalystRapportsComponent implements OnInit {
         let nogoCount = 0;
         
         this.reports.forEach(r => {
-            sumPwin += (r.pwinScore || 0);
-            if (r.status === 'GO' || r.status === 'COMPLETED' || (r.status && r.status.includes('GO')) && r.status !== 'NO-GO' && !r.status.includes('NO_GO')) {
-                goCount++;
-            }
-            if (r.status === 'NO-GO' || (r.status && r.status.includes('NO_GO'))) {
-                nogoCount++;
-            }
+            const pwin = Number(r.pwinScore);
+            sumPwin += Number.isFinite(pwin) ? pwin : 0;
+            const decisions = ((r as any).decisions || []).filter((d: any) => !['CANCELLED', 'EXPIRED'].includes(d.status));
+            const noGo = decisions.some((d: any) => ['REJECTED', 'APPROVE_NOGO'].includes(d.status));
+            const go = decisions.length > 0 && decisions.every((d: any) => d.status === 'APPROVED');
+            if (go) goCount++;
+            if (noGo) nogoCount++;
         });
         
         const finalAvg = Math.round(sumPwin / finalTotal);
         const finalGo = Math.round((goCount / finalTotal) * 100);
         const finalNogo = Math.round((nogoCount / finalTotal) * 100);
 
-        this.animateValue('totalReports', finalTotal, 1000);
-        this.animateValue('avgPwin', finalAvg, 1200);
-        this.animateValue('goPercentage', finalGo, 1400);
-        this.animateValue('nogoPercentage', finalNogo, 1600);
-    }
-
-    animateValue(prop: 'totalReports'|'avgPwin'|'goPercentage'|'nogoPercentage', end: number, duration: number): void {
-        let start = 0;
-        const stepTime = Math.abs(Math.floor(duration / (end || 1)));
-        const timer = setInterval(() => {
-            start += 1;
-            this[prop] = start;
-            if (start >= end) {
-                this[prop] = end;
-                clearInterval(timer);
-            }
-        }, stepTime < 16 ? 16 : stepTime); // minimum 16ms per frame
-    }
-
-    openDetails(report: Dossier): void {
-        this.selectedReport = report;
-        this.displayDetailsDialog = true;
+        this.totalReports = finalTotal;
+        this.avgPwin = finalAvg;
+        this.goPercentage = finalGo;
+        this.nogoPercentage = finalNogo;
     }
 
     openDossier(report: Dossier): void {
-        if (!report.rapportPath) return;
-        this.selectedReport = report;
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${report.id}/download/rapport`;
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        this.displayPdfViewer = true;
+        this.router.navigate(['/dossiers', report.id, 'rapport-final']);
     }
 
     exportPdf(): void {
-        import('jspdf').then((jsPDF) => {
-            import('jspdf-autotable').then((x) => {
-                const doc = new jsPDF.default('l', 'pt', 'a4');
-                const exportColumns = [
-                    { title: 'Intitulé de l\'offre', dataKey: 'intituleOffre' },
-                    { title: 'Client', dataKey: 'client' },
-                    { title: 'Score P-Win', dataKey: 'pwinScore' },
-                    { title: 'Décision', dataKey: 'status' }
-                ];
-                (doc as any).autoTable({
-                    columns: exportColumns,
-                    body: this.reports,
-                    theme: 'grid',
-                    styles: { fontSize: 8 },
-                    headStyles: { fillColor: [41, 128, 185] }
-                });
-                doc.save('Registre_Rapports_Final.pdf');
-            });
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+        doc.setFontSize(16);
+        doc.text('Registre des rapports ProjectIQ', 40, 38);
+        autoTable(doc, {
+            startY: 55,
+            head: [['Intitulé de l’offre', 'Client', 'P-Win', 'Statut', 'Émission']],
+            body: this.reports.map(report => [
+                report.intituleOffre || '—', report.client || '—', `${report.pwinScore ?? 0}%`,
+                report.status || '—', report.createdAt ? new Date(report.createdAt).toLocaleDateString('fr-FR') : '—'
+            ]),
+            theme: 'grid', styles: { fontSize: 8 }, headStyles: { fillColor: [220, 38, 38] }
         });
+        doc.save('Registre_Rapports_Final.pdf');
     }
 
     downloadPDF(report: Dossier): void {
         if (!report.rapportPath) return;
         
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${report.id}/download/rapport`;
-        window.open(url, '_blank');
-        
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Téléchargement',
-            detail: `Le téléchargement du rapport a démarré.`
+        this.projectsService.getDownloadBlob(report.id, 'rapport').subscribe({
+            next: (content) => {
+                const url = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Rapport_General_${report.id.substring(0, 8)}.docx`;
+                link.click();
+                URL.revokeObjectURL(url);
+                this.messageService.add({ severity: 'success', summary: 'Téléchargement', detail: 'Le téléchargement du rapport DOCX a démarré.' });
+            },
+            error: (err) => this.messageService.add({ severity: 'error', summary: 'Document indisponible', detail: err.error?.message || 'Le rapport ne peut pas être téléchargé.' })
         });
     }
 
-    copyLink(report: Dossier): void {
-        if (!report.rapportPath) return;
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${report.id}/download/rapport`;
-        navigator.clipboard.writeText(url).then(() => {
-            this.messageService.add({ severity: 'info', summary: 'Lien copié', detail: 'Le lien de téléchargement a été copié dans le presse-papier.' });
-        });
+    exportCsv(): void {
+        const escape = (value: unknown) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+        const rows = [
+            ['Intitulé de l’offre', 'Client', 'Bailleur', 'Score P-Win', 'Statut', 'Émission'],
+            ...this.reports.map(report => [
+                report.intituleOffre, report.client, report.bailleurs, report.pwinScore ?? 0,
+                report.status, report.createdAt ? new Date(report.createdAt).toLocaleDateString('fr-FR') : ''
+            ])
+        ];
+        const blob = new Blob([`\uFEFF${rows.map(row => row.map(escape).join(';')).join('\r\n')}`], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Registre_Rapports.csv';
+        link.click();
+        URL.revokeObjectURL(url);
     }
 
     statusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {
@@ -198,6 +206,30 @@ export class AnalystRapportsComponent implements OnInit {
         if (status === 'EVALUATING') return 'info';
         if (status.includes('Conditionnel')) return 'warning';
         if (status === 'NO-GO' || status.includes('NO_GO')) return 'danger';
+        return 'info';
+    }
+
+    displayStatus(report: Dossier): string {
+        const decisions = ((report as any).decisions || []).filter((d: any) => !['CANCELLED', 'EXPIRED'].includes(d.status));
+        if (decisions.some((d: any) => ['REJECTED', 'APPROVE_NOGO'].includes(d.status))) return 'NO-GO confirmé';
+        if (decisions.length > 0 && decisions.every((d: any) => d.status === 'APPROVED')) return 'GO approuvé';
+        const labels: Record<string, string> = {
+            DRAFTING: 'Documents en préparation',
+            REPORT_GENERATED: 'Rapport généré',
+            PACK_READY: 'Pack prêt à envoyer',
+            PENDING_VALIDATION: 'En attente des décisions',
+            SUBMITTED: 'GO approuvé — audit à générer',
+            AUDIT: 'Rapport d’audit en cours',
+            ARCHIVED: 'Archivé'
+        };
+        return labels[report.status] || report.status || 'Non défini';
+    }
+
+    displayStatusSeverity(report: Dossier): 'success' | 'warning' | 'danger' | 'info' {
+        const label = this.displayStatus(report);
+        if (label.startsWith('GO') || label === 'Archivé') return 'success';
+        if (label.startsWith('NO-GO')) return 'danger';
+        if (label.includes('attente') || label.includes('audit')) return 'warning';
         return 'info';
     }
 }

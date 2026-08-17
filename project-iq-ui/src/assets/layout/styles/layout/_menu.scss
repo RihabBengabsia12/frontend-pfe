@@ -133,3 +133,45 @@
         }
     }
 }
+
+// Le groupe est mis en évidence pendant le parcours d'analyse.
+@keyframes analysis-menu-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+    50% { box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.12); }
+}
+
+.layout-menu li.active-menuitem > a.analysis-flow-menu {
+    color: var(--primary-color);
+    font-weight: 700;
+    animation: analysis-menu-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pending-registration-pulse {
+    0%, 100% { background: rgba(254, 242, 242, 0.35); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    50% { background: rgba(254, 226, 226, 0.85); box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14); }
+}
+
+.layout-menu a.pending-registration-alert {
+    color: #b91c1c;
+    font-weight: 700;
+    animation: pending-registration-pulse 1.7s ease-in-out infinite;
+}
+
+.menu-item-badge {
+    min-width: 1.2rem;
+    height: 1.2rem;
+    padding: 0 0.34rem;
+    margin-left: auto;
+    border-radius: 999px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 0.68rem;
+    line-height: 1.2rem;
+    text-align: center;
+    font-weight: 800;
+}
+
+.layout-menu a.analysis-flow-step.active-route {
+    background: rgba(59, 130, 246, 0.10);
+    animation: analysis-menu-pulse 1.8s ease-in-out infinite;
+}

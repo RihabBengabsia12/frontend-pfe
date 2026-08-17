@@ -7,7 +7,7 @@ import { AnalystProjectsService, Dossier } from '../../../service/analyst-projec
 @Component({
     selector: 'app-matching-config-page',
     templateUrl: './matching-config-page.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .pastel-input {
             border-radius: 8px;
@@ -38,7 +38,7 @@ export class MatchingConfigPageComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const role = localStorage.getItem('userRole')?.toUpperCase() || 'GUEST';
+        const role = sessionStorage.getItem('userRole')?.toUpperCase() || 'GUEST';
         if (role !== 'ADMIN') {
             this.router.navigate(['/dashboard']);
             // Wait a moment for router navigation to finish before adding the toast

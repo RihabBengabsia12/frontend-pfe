@@ -13,20 +13,23 @@ export interface P1Field {
     id: string;
     label: string;
     value: any;
-    type: 'select' | 'date' | 'input' | 'number';
+    type: 'select' | 'date' | 'input' | 'number' | 'money';
     confidence: number;
     validated: boolean;
     editing: boolean;
     humanModified: boolean;
     sourceText: string;
     options?: string[];
+    amount?: number;
+    currency?: string;
+    expanded?: boolean;
 }
 
 @Component({
     selector: 'app-validation-p1-page',
     templateUrl: './validation-p1-page.component.html',
     styleUrls: ['./validation-p1-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class ValidationP1PageComponent implements OnInit, OnDestroy {
 
@@ -37,6 +40,8 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
     isLoading = true;
     isWaitingForAI = false;
     isSubmitting = false;
+    isConsultation = false;
+    isFinalLocked = false;
 
     fields: P1Field[] = [];
     tjmImplicite: number | null = null;
@@ -58,13 +63,14 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
         private statusService: DossierStatusService,
         private messageService: MessageService,
         private aiLogsService: AiLogsService
-    ) {}
+    ) { }
 
     // AI Logs Dialog state
     displayAiLogsDialog = false;
     aiLogs: AiLog[] = [];
     aiLogsLoading = false;
     aiLogsStats = { totalTokens: 0, totalCost: 0, totalTime: 0 };
+    currencies = ['TND', 'EUR', 'USD', 'GBP', 'XOF', 'MAD', 'DZD', 'Autre'];
 
     ngOnInit(): void {
         this.routeSub = this.route.params.subscribe(params => {
@@ -86,6 +92,8 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
             next: (dossier) => {
                 this.dossierTitle = dossier.intituleOffre || 'Dossier AO';
                 this.dossierStatus = dossier.status;
+                this.isConsultation = this.isAdvancedWorkflowStatus(this.dossierStatus);
+                this.isFinalLocked = this.isManagerValidatedStatus(this.dossierStatus);
                 if (this.dossierStatus === 'PARSING_INITIAL') {
                     this.startPollingStatus();
                 } else {
@@ -129,7 +137,7 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
                 } else {
                     this.mapMetadata(metas);
                 }
-                
+
                 this.computeTjm();
                 this.checkVisiteAlert();
                 this.isLoading = false;
@@ -141,7 +149,13 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    get groupedFields() {
+
+
+    groupedFields: any[] = [];
+    apoPreviewDataResult: Record<string, string> = {};
+    apoConfidencesResult: Record<string, number> = {};
+
+    private updateGroupedFields() {
         const sectionA = ['INTITULE_OFFRE', 'CLIENT', 'PAYS', 'BAILLEURS'];
         const sectionB = ['DT_LIM_SOUM', 'VISITE_OBL', 'VISITE_DATE', 'CONF_OBL', 'CONF_DATE'];
         const sectionC = ['BUDGET_GLOBAL', 'HOMMES_MOIS', 'LANGUE'];
@@ -157,18 +171,32 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
         if (cFields.length > 0) groups.push({ title: 'SECTION C — FINANCIER', icon: 'pi-dollar', color: 'green', fields: cFields });
         if (otherFields.length > 0) groups.push({ title: 'AUTRES CHAMPS (DYNAMIQUE)', icon: 'pi-sparkles', color: 'blue', fields: otherFields });
 
-        return groups;
+        this.groupedFields = groups;
+        this.updateApoData();
+    }
+
+    private updateApoData() {
+        const apoData: Record<string, string> = {};
+        const apoConf: Record<string, number> = {};
+        this.fields.forEach(f => {
+            apoData[f.id] = f.value?.toString() ?? '';
+            apoConf[f.id] = f.confidence / 100;
+        });
+        this.apoPreviewDataResult = apoData;
+        this.apoConfidencesResult = apoConf;
     }
 
     private mapMetadata(metas: ExtractionMetadata[]): void {
         this.fields = metas.map(m => {
             const raw = (m.valeurFinale === null || m.valeurFinale === 'null') ? null : (m.valeurFinale ?? m.valeurClaude ?? null);
             let val: any = raw;
-            let type: 'select' | 'date' | 'input' | 'number' = 'input';
+            let type: 'select' | 'date' | 'input' | 'number' | 'money' = 'input';
             let options: string[] = [];
 
             // Détection du type
-            const lowerId = m.fieldName.toLowerCase();
+            const normalizedId = m.fieldName.toUpperCase().replace(/\s+/g, '_');
+            const lowerId = normalizedId.toLowerCase();
+
             if (lowerId.includes('date') || lowerId.includes('dt_')) {
                 type = 'date';
             } else if (lowerId.includes('obl') || lowerId.includes('oui_non') || (raw && (String(raw).toLowerCase() === 'true' || String(raw).toLowerCase() === 'false'))) {
@@ -177,27 +205,45 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
                 if (raw !== null && raw !== '') {
                     val = (String(raw).toLowerCase() === 'true' || String(raw).toLowerCase() === 'oui') ? 'Oui' : 'Non';
                 }
-            } else if (lowerId.includes('mois') || lowerId.includes('montant') || lowerId.includes('budget')) {
-                if (lowerId.includes('mois')) type = 'number';
-                else type = 'input';
-            } else if (lowerId === 'LANGUE') {
+            } else if (lowerId === 'langue') {
                 type = 'select';
                 options = ['Français', 'Arabe', 'Anglais', 'Espagnol', 'Portugais'];
+            } else if (lowerId === 'budget_global') {
+                type = 'money';
+            }
+
+            let amount: number | undefined;
+            let currency: string | undefined;
+
+            if (type === 'money' && val) {
+                const strVal = String(val);
+                const numMatch = strVal.match(/[\d\s.,]+/);
+                if (numMatch) {
+                    amount = parseFloat(numMatch[0].replace(/\s/g, '').replace(',', '.'));
+                }
+                const currMatch = strVal.match(/[A-Za-z$€£]+/);
+                if (currMatch) {
+                    const extractedCurr = currMatch[0].toUpperCase();
+                    currency = this.currencies.includes(extractedCurr) ? extractedCurr : 'Autre';
+                }
             }
 
             return {
-                id: m.fieldName,
+                id: normalizedId,
                 label: m.fieldName.replace(/_/g, ' '),
-                value: val,
+                value: val || '',
                 type: type,
                 confidence: Math.round((m.confiance ?? 0) * 100),
-                validated: false,
+                validated: this.isConsultation,
                 editing: false,
                 humanModified: !!m.humanModified,
                 sourceText: m.sourceExtrait ?? m.source ?? '',
-                options: options
+                options: options,
+                amount: amount,
+                currency: currency
             };
         });
+        this.updateGroupedFields();
     }
 
     confidenceClass(c: number): string {
@@ -207,6 +253,22 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
         return 'conf-low';
     }
 
+    private isAdvancedWorkflowStatus(status: string): boolean {
+        return ['DEEP_ANALYSIS', 'SCORING', 'MANUAL_INTERVENTION', 'FORCE_GO',
+            'NO_GO_CONFIRMED', 'MATCHING', 'DRAFTING', 'REPORT_GENERATED',
+            'PACK_READY', 'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(status);
+    }
+
+    private isManagerValidatedStatus(status: string): boolean {
+        return ['SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(status);
+    }
+
+    startRevalidation(): void {
+        if (this.isFinalLocked) return;
+        this.isConsultation = false;
+        this.messageService.add({ severity: 'info', summary: 'Révalidation P1', detail: 'Les champs sont déverrouillés. Enregistrez pour conserver les corrections.' });
+    }
+
     startEdit(f: P1Field): void {
         f.editing = true;
     }
@@ -214,8 +276,12 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
     saveEdit(f: P1Field): void {
         f.editing = false;
         f.humanModified = true;
+        if (f.type === 'money') {
+            f.value = f.amount ? `${f.amount} ${f.currency || ''}`.trim() : '';
+        }
         this.computeTjm();
         this.checkVisiteAlert();
+        this.updateApoData();
     }
 
     reextract(f: P1Field): void {
@@ -230,6 +296,7 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
                 f.humanModified = false;
                 f.validated = false;
                 this.computeTjm();
+                this.updateApoData();
                 this.messageService.add({ severity: 'success', summary: 'Ré-extraction', detail: `Champ ${f.label} mis à jour.` });
             },
             error: (err) => {
@@ -249,9 +316,9 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
 
     toggleValidateAll(): void {
         const willValidate = this.validatedCount !== this.fields.length;
-        this.fields.forEach(f => { 
-            f.validated = willValidate; 
-            f.editing = false; 
+        this.fields.forEach(f => {
+            f.validated = willValidate;
+            f.editing = false;
         });
     }
 
@@ -260,7 +327,7 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
     }
 
     get allValidated(): boolean {
-        return this.fields.every(f => f.validated && f.value !== '' && f.value != null);
+        return this.fields.every(f => f.validated);
     }
 
     submitValidation(): void {
@@ -270,9 +337,13 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
         const dto: ValidateP1RequestDto = { champs: {} };
         this.fields.forEach(f => {
             let valeur = f.value?.toString() ?? '';
-            if (f.options?.includes('Oui') && f.options?.includes('Non')) {
+
+            if (f.type === 'money') {
+                valeur = f.amount ? `${f.amount} ${f.currency || ''}`.trim() : '';
+            } else if (f.options?.includes('Oui') && f.options?.includes('Non')) {
                 valeur = f.value === 'Oui' ? 'true' : 'false';
             }
+
             dto.champs[f.id] = { valeur, humanModified: f.humanModified };
         });
 
@@ -280,12 +351,15 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
             next: (dossier) => {
                 this.isSubmitting = false;
                 this.dossierStatus = dossier.status;
+                this.isConsultation = true;
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Dossier indexé',
                     detail: 'Statut → INDEXED. Champs propagés dans l\'APO.'
                 });
-                this.router.navigate(['/dossiers', this.dossierId, 'indexation']);
+                if (dossier.status === 'INDEXED') {
+                    this.router.navigate(['/dossiers', this.dossierId, 'validation-p2']);
+                }
             },
             error: (err) => {
                 this.isSubmitting = false;
@@ -350,15 +424,11 @@ export class ValidationP1PageComponent implements OnInit, OnDestroy {
 
     // ── Getters pour ApoPreview ──
     get apoPreviewData(): Record<string, string> {
-        const result: Record<string, string> = {};
-        this.fields.forEach(f => { result[f.id] = f.value?.toString() ?? ''; });
-        return result;
+        return this.apoPreviewDataResult;
     }
 
     get apoConfidences(): Record<string, number> {
-        const result: Record<string, number> = {};
-        this.fields.forEach(f => { result[f.id] = f.confidence / 100; });
-        return result;
+        return this.apoConfidencesResult;
     }
 
     get validatedFieldIds(): string[] {

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AnalystProjectsService, Dossier } from '../../../service/analyst-projects.service';
-import { DossierStatusService } from '../../../service/dossier-status.service';
-import { environment } from 'src/environments/environment';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
     templateUrl: './analyst-methodologies.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .fade-in-up {
             animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -48,6 +47,16 @@ import { environment } from 'src/environments/environment';
             transform: translateX(4px);
             background-color: #f8fafc !important;
         }
+        ::ng-deep .methodologies-table-compact .p-datatable-tbody > tr > td {
+            font-size: 0.82rem;
+        }
+        ::ng-deep .methodologies-table-compact .p-datatable-tbody .text-lg {
+            font-size: 0.92rem !important;
+        }
+        ::ng-deep .methodologies-table-compact .p-datatable-tbody .p-tag {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.55rem !important;
+        }
     `]
 })
 export class AnalystMethodologiesComponent implements OnInit {
@@ -55,26 +64,23 @@ export class AnalystMethodologiesComponent implements OnInit {
     dossiers: Dossier[] = [];
     isLoading = false;
 
-    displayDetailsDialog = false;
-    selectedDossier: Dossier | null = null;
-
     totalMethodologies = 0;
     totalHommesMois = 0;
     visitePercentage = 0;
     searchQuery = '';
-
-    displayPdfViewer = false;
-    pdfUrl: SafeResourceUrl | null = null;
+    exportMenuItems: any[] = [];
 
     constructor(
         private messageService: MessageService,
         private projectsService: AnalystProjectsService,
-        private router: Router,
-        private statusService: DossierStatusService,
-        private sanitizer: DomSanitizer
+        private router: Router
     ) {}
 
     ngOnInit(): void {
+        this.exportMenuItems = [
+            { label: 'Exporter en CSV', icon: 'pi pi-file-excel', command: () => this.exportCsv() },
+            { label: 'Exporter en PDF', icon: 'pi pi-file-pdf', command: () => this.exportPdf() }
+        ];
         this.loadMethodologies();
     }
     
@@ -82,7 +88,14 @@ export class AnalystMethodologiesComponent implements OnInit {
         this.isLoading = true;
         this.projectsService.getAllDossiers().subscribe({
             next: (data) => {
-                this.dossiers = data.filter(d => d.methodoDocxPath != null);
+                const validStatuses = ['DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'ARCHIVED'];
+                this.dossiers = data.filter(d => 
+                    !!d.methodoDocxPath && 
+                    d.methodoDocxPath.trim() !== '' && 
+                    d.methodoDocxPath !== 'null' && 
+                    d.methodoDocxPath !== 'undefined' &&
+                    validStatuses.includes(d.status)
+                );
                 this.calculateStats();
                 this.isLoading = false;
             },
@@ -102,7 +115,10 @@ export class AnalystMethodologiesComponent implements OnInit {
         let visiteCount = 0;
         
         this.dossiers.forEach(d => {
-            sumHM += (d.hommesMois || 0);
+            // Certaines réponses API sérialisent hommesMois en chaîne ; sans
+            // conversion, JavaScript concatène (ex. 220 + 54 => 22054).
+            const hommesMois = this.validHommesMois(d);
+            sumHM += hommesMois ?? 0;
             if (d.visiteObl === true) {
                 visiteCount++;
             }
@@ -110,77 +126,76 @@ export class AnalystMethodologiesComponent implements OnInit {
         
         const finalVisite = Math.round((visiteCount / finalTotal) * 100);
 
-        this.animateValue('totalMethodologies', finalTotal, 1000);
-        this.animateValue('totalHommesMois', sumHM, 1300);
-        this.animateValue('visitePercentage', finalVisite, 1600);
-    }
-
-    animateValue(prop: 'totalMethodologies'|'totalHommesMois'|'visitePercentage', end: number, duration: number): void {
-        let start = 0;
-        const stepTime = Math.abs(Math.floor(duration / (end || 1)));
-        const timer = setInterval(() => {
-            start += 1;
-            this[prop] = start;
-            if (start >= end) {
-                this[prop] = end;
-                clearInterval(timer);
-            }
-        }, stepTime < 16 ? 16 : stepTime);
-    }
-
-    openDetails(dossier: Dossier): void {
-        this.selectedDossier = dossier;
-        this.displayDetailsDialog = true;
+        // Valeurs réelles, non animées : une animation par incréments pouvait
+        // laisser plusieurs timers actifs et afficher une somme erronée.
+        this.totalMethodologies = finalTotal;
+        this.totalHommesMois = sumHM;
+        this.visitePercentage = finalVisite;
     }
 
     openDossier(dossier: Dossier): void {
-        if (!dossier.methodoDocxPath) return;
-        this.selectedDossier = dossier;
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${dossier.id}/download/methodologie`;
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-        this.displayPdfViewer = true;
+        this.router.navigate(['/dossiers', dossier.id, 'rapport-final']);
+    }
+
+    validHommesMois(dossier: Dossier): number | null {
+        const value = Number(dossier.hommesMois);
+        return Number.isFinite(value) && value > 0 && value <= 10000 ? value : null;
+    }
+
+    formatHommesMois(dossier: Dossier): string {
+        const value = this.validHommesMois(dossier);
+        return value === null ? 'À corriger' : `${value} H/M`;
     }
 
     exportPdf(): void {
-        import('jspdf').then((jsPDF) => {
-            import('jspdf-autotable').then((x) => {
-                const doc = new jsPDF.default('l', 'pt', 'a4');
-                const exportColumns = [
-                    { title: 'Intitulé de l\'offre', dataKey: 'intituleOffre' },
-                    { title: 'Client', dataKey: 'client' },
-                    { title: 'Bailleur', dataKey: 'bailleurs' },
-                    { title: 'Effort (H/M)', dataKey: 'hommesMois' }
-                ];
-                (doc as any).autoTable({
-                    columns: exportColumns,
-                    body: this.dossiers,
-                    theme: 'grid',
-                    styles: { fontSize: 8 },
-                    headStyles: { fillColor: [41, 128, 185] }
-                });
-                doc.save('Registre_Methodologies.pdf');
-            });
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+        doc.setFontSize(16);
+        doc.text('Registre des méthodologies ProjectIQ', 40, 38);
+        autoTable(doc, {
+            startY: 55,
+            head: [['Intitulé de l’offre', 'Client', 'Bailleur', 'Effort (H/M)', 'Généré le']],
+            body: this.dossiers.map(dossier => [
+                dossier.intituleOffre || '—', dossier.client || '—', dossier.bailleurs || '—',
+                this.formatHommesMois(dossier),
+                dossier.createdAt ? new Date(dossier.createdAt).toLocaleDateString('fr-FR') : '—'
+            ]),
+            theme: 'grid', styles: { fontSize: 8 }, headStyles: { fillColor: [37, 99, 235] }
         });
+        doc.save('Registre_Methodologies.pdf');
+    }
+
+    exportCsv(): void {
+        const escape = (value: unknown) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+        const rows = [
+            ['Intitulé de l’offre', 'Client', 'Bailleur', 'Effort (H/M)', 'Visite obligatoire', 'Conférence obligatoire', 'Généré le'],
+            ...this.dossiers.map(dossier => [
+                dossier.intituleOffre, dossier.client, dossier.bailleurs, this.formatHommesMois(dossier),
+                dossier.visiteObl ? 'Oui' : 'Non', dossier.confObl ? 'Oui' : 'Non',
+                dossier.createdAt ? new Date(dossier.createdAt).toLocaleDateString('fr-FR') : ''
+            ])
+        ];
+        const blob = new Blob([`\uFEFF${rows.map(row => row.map(escape).join(';')).join('\r\n')}`], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Registre_Methodologies.csv';
+        link.click();
+        URL.revokeObjectURL(url);
     }
 
     downloadMethodology(dossier: Dossier): void {
         if (!dossier.methodoDocxPath) return;
-        
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${dossier.id}/download/methodologie`;
-        window.open(url, '_blank');
-        
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Téléchargement',
-            detail: 'Le téléchargement de la méthodologie a démarré.'
-        });
-    }
-
-    copyLink(dossier: Dossier): void {
-        if (!dossier.methodoDocxPath) return;
-        const url = `${environment.apiUrl || 'http://localhost:8083'}/api/dossiers/${dossier.id}/download/methodologie`;
-        navigator.clipboard.writeText(url).then(() => {
-            this.messageService.add({ severity: 'info', summary: 'Lien copié', detail: 'Le lien de téléchargement a été copié dans le presse-papier.' });
+        this.projectsService.getDownloadBlob(dossier.id, 'methodo').subscribe({
+            next: (content) => {
+                const url = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Methodologie_${dossier.id.substring(0, 8)}.docx`;
+                link.click();
+                URL.revokeObjectURL(url);
+                this.messageService.add({ severity: 'success', summary: 'Téléchargement', detail: 'Le téléchargement de la méthodologie a démarré.' });
+            },
+            error: (err) => this.messageService.add({ severity: 'error', summary: 'Document indisponible', detail: err.error?.message || 'La méthodologie ne peut pas être téléchargée.' })
         });
     }
 }

@@ -20,7 +20,8 @@ def generate_nogo_report(req: NoGoReportRequest) -> dict:
     Retourne: {"rapport": "texte narratif..."}
     """
     try:
-        rapport = nogo_report_service.generate_nogo_report(req)
-        return {"dossier_id": req.dossier_id, "rapport": rapport}
+        rapport_dict = nogo_report_service.generate_nogo_report(req)
+        rapport_dict["dossier_id"] = req.dossier_id
+        return rapport_dict
     except (ValueError, RuntimeError) as e:
         raise HTTPException(status_code=502, detail=f"Erreur génération No-Go: {e}")

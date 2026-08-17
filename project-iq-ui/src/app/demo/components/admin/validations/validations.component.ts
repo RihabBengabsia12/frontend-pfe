@@ -23,6 +23,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
     selectedRoles: { [id: string]: string } = {};
     debugInfo: string = '';
     pendingCount: number = 0;
+    exportMenuItems: any[] = [];
     private refreshSub?: Subscription;
 
     // Filtres
@@ -44,7 +45,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
     }
 
     exportPendingPdf(): void {
-        const adminEmail = (localStorage.getItem('userEmail') || '').toLowerCase();
+        const adminEmail = (sessionStorage.getItem('userEmail') || '').toLowerCase();
         const pendingUsers = this.allUsers.filter(u => {
             const status = this.getUserStatus(u);
             const email = u.email ? u.email.toLowerCase() : '';
@@ -60,7 +61,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
     }
 
     exportProcessedPdf(): void {
-        const adminEmail = (localStorage.getItem('userEmail') || '').toLowerCase();
+        const adminEmail = (sessionStorage.getItem('userEmail') || '').toLowerCase();
         const processedUsers = this.allUsers.filter(u => {
             const status = this.getUserStatus(u);
             const email = u.email ? u.email.toLowerCase() : '';
@@ -151,6 +152,10 @@ export class ValidationsComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
+        this.exportMenuItems = [
+            { label: 'Exporter les inscriptions en attente', icon: 'pi pi-file-pdf', command: () => this.exportPendingPdf() },
+            { label: 'Exporter les comptes traités', icon: 'pi pi-file-pdf', command: () => this.exportProcessedPdf() }
+        ];
         this.loadRoles();
         this.loadAllUsers();
         this.refreshSub = interval(10000).subscribe(() => this.loadAllUsers());
@@ -220,7 +225,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
                 const email = (au.email || '').toLowerCase().trim();
                 const authId = au.id || au.userId || au.uuid || au.authId;
                 const authStatus = (au.accountStatus || au.status || 'PENDING').toUpperCase();
-                const rejectedEmails = JSON.parse(localStorage.getItem('rejectedEmails') || '[]');
+                const rejectedEmails = JSON.parse(sessionStorage.getItem('rejectedEmails') || '[]');
                 
                 if (userMap.has(email)) {
                     const existing = userMap.get(email)!;
@@ -228,7 +233,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
                     (existing as any).isAuthOnly = false;
 
                     // AUTO-SYNC BLINDÉ : Priorité au rôle Admin ou Buffer Local
-                    const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                    const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                     const bufferedRole = pendingRoles[email];
 
                     if (bufferedRole) {
@@ -244,7 +249,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
                     }
                     console.log(`[DEBUG-MERGE] Email: ${email} | AdminId: ${existing.id} | AuthId: ${authId}`);
                 } else {
-                    const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                    const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                     const bufferedRole = pendingRoles[email];
 
                     userMap.set(email, {
@@ -263,8 +268,8 @@ export class ValidationsComponent implements OnInit, OnDestroy {
 
             const allMerged = Array.from(userMap.values());
             
-            // Dernière passe de sécurité avec localStorage pour les comptes fraîchement refusés
-            const rejectedEmails = JSON.parse(localStorage.getItem('rejectedEmails') || '[]');
+            // Dernière passe de sécurité avec sessionStorage pour les comptes fraîchement refusés
+            const rejectedEmails = JSON.parse(sessionStorage.getItem('rejectedEmails') || '[]');
             for (const user of allMerged) {
                 if (user.email && rejectedEmails.includes(user.email.toLowerCase().trim())) {
                     user.status = 'REJECTED';
@@ -274,7 +279,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
 
             this.allUsers = allMerged;
 
-            const adminEmail = (localStorage.getItem('userEmail') || '').toLowerCase();
+            const adminEmail = (sessionStorage.getItem('userEmail') || '').toLowerCase();
             this.guests = allMerged.filter(u => {
                 const email = (u.email || '').toLowerCase();
                 const isSelf = email && email === adminEmail;
@@ -287,7 +292,7 @@ export class ValidationsComponent implements OnInit, OnDestroy {
 
             // Priorité : les nouveaux comptes en PENDING (fraîchement créés) doivent remonter en haut.
             // Sans toucher à la logique fonctionnelle : on ne change que le tri d'affichage.
-            const justRegisteredEmail = (localStorage.getItem('pendingEmail') || '').toLowerCase().trim();
+            const justRegisteredEmail = (sessionStorage.getItem('pendingEmail') || '').toLowerCase().trim();
 
             this.guests.sort((a, b) => {
                 const statusA = this.getUserStatus(a);
@@ -355,16 +360,16 @@ export class ValidationsComponent implements OnInit, OnDestroy {
                         next: () => {
                             console.log('[VALIDATE] Rôle enregistré dans Admin-Service');
                             // On nettoie le buffer local si l'admin a réussi
-                            const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                            const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                             delete pendingRoles[user.email];
-                            localStorage.setItem('pendingRoles', JSON.stringify(pendingRoles));
+                            sessionStorage.setItem('pendingRoles', JSON.stringify(pendingRoles));
                         },
                         error: (err) => {
                             console.warn('[VALIDATE] Sync Gap détecté. Mémorisation du rôle dans le buffer local.');
                             const emailKey = (user.email || '').toLowerCase().trim();
-                            const pendingRoles = JSON.parse(localStorage.getItem('pendingRoles') || '{}');
+                            const pendingRoles = JSON.parse(sessionStorage.getItem('pendingRoles') || '{}');
                             pendingRoles[emailKey] = roleCode;
-                            localStorage.setItem('pendingRoles', JSON.stringify(pendingRoles));
+                            sessionStorage.setItem('pendingRoles', JSON.stringify(pendingRoles));
                         }
                     });
                 }
@@ -401,10 +406,10 @@ export class ValidationsComponent implements OnInit, OnDestroy {
         // FORCAGE LOCAL IMMEDIAT (Même si le backend échoue, l'interface obéira à l'utilisateur)
         const emailToReject = (this.selectedUserForRejection.email || '').toLowerCase().trim();
         if (emailToReject) {
-            const rejectedEmails = JSON.parse(localStorage.getItem('rejectedEmails') || '[]');
+            const rejectedEmails = JSON.parse(sessionStorage.getItem('rejectedEmails') || '[]');
             if (!rejectedEmails.includes(emailToReject)) {
                 rejectedEmails.push(emailToReject);
-                localStorage.setItem('rejectedEmails', JSON.stringify(rejectedEmails));
+                sessionStorage.setItem('rejectedEmails', JSON.stringify(rejectedEmails));
             }
         }
         this.selectedUserForRejection.status = 'REJECTED';

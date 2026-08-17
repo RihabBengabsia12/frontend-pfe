@@ -18,45 +18,18 @@
                 <i class="pi pi-check"></i>
             </div>
             <div class="success-text">
-                <h2 class="page-title">Dossier Indexé avec Succès</h2>
-                <p class="page-subtitle">La Phase 1 est terminée. Les données ont été propagées dans le Template APO.</p>
+                <h2 class="page-title">Phase 1 Terminée</h2>
+                <p class="page-subtitle">Passer à la Phase 2</p>
             </div>
             
             <div class="header-actions">
-                <button pButton icon="pi pi-download" label="Télécharger APO (.docx)" class="btn-ghost" (click)="downloadApo()"></button>
-                <button pButton icon="pi pi-arrow-right" label="Passer à la Phase 2 (Scoring)" class="btn-primary" [routerLink]="['/dossiers', dossierId, 'scoring']"></button>
+                <button pButton icon="pi pi-arrow-right" label="Passer à la Phase 2" class="btn-primary" [routerLink]="['/dossiers', dossierId, 'validation-p2']"></button>
             </div>
         </div>
 
-        <div class="split-view">
-            <!-- Left Section: APO Live Preview + Champs remplis -->
-            <div class="apo-preview-section">
-                <div class="column-header">
-                    <i class="pi pi-file-pdf"></i> Aperçu du Document APO
-                </div>
-                
-                <!-- PDF compact -->
-                <div class="a4-paper-pdf-container">
-                    <object *ngIf="backendPdfUrl" [data]="backendPdfUrl" type="application/pdf" width="100%" height="100%">
-                        <div class="pdf-fallback">
-                            <i class="pi pi-file-pdf"></i>
-                            <p>Fichier PDF non trouvé.</p>
-                        </div>
-                    </object>
-                </div>
-
-                <!-- Champs APO auto-remplis depuis le backend -->
-                <div class="apo-preview-wrapper mt-3">
-                    <app-apo-preview
-                        [apoData]="apoData"
-                        [validatedFields]="apoFieldKeys"
-                        mode="indexation">
-                    </app-apo-preview>
-                </div>
-            </div>
-
-            <!-- Right Section: Premium Audit Panel -->
-            <div class="audit-side-panel">
+        <div class="single-view" style="display: flex; justify-content: center; margin-top: 2rem;">
+            <!-- Premium Audit Panel -->
+            <div class="audit-side-panel" style="width: 100%; max-width: 800px;">
                 <!-- Niveau 1 : Titre Principal (Cliquable) -->
                 <div class="main-history-header" (click)="showAuditLog = !showAuditLog">
                     <div class="flex align-items-center gap-2">

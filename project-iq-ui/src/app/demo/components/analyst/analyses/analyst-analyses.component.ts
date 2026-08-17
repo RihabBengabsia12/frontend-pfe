@@ -7,7 +7,7 @@ import {
 
 @Component({
     templateUrl: './analyst-analyses.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class AnalystAnalysesComponent implements OnInit {
 

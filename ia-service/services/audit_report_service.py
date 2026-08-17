@@ -33,7 +33,12 @@ def generate_audit_report(req: AuditReportRequest) -> str:
         f"TIMELINE COMPLÈTE :\n{timeline}"
     )
 
-    return call_claude(system_prompt, user_prompt, max_tokens=1200)
+    text, stats = call_claude(system_prompt, user_prompt, max_tokens=1200)
+    
+    return {
+        "report": text.strip(),
+        "stats": stats
+    }
 
 
 def _format_timeline(entries: list[dict]) -> str:

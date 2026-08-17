@@ -1,5 +1,5 @@
-<div class="card bg-white shadow-1 border-round-xl border-1 surface-border">
-    <p-toast></p-toast>
+<div class="card bg-white shadow-1 border-round-xl border-1 surface-border packs-history-compact">
+    
     
     <!-- Header du Dashboard -->
     <div class="flex flex-column md:flex-row justify-content-between md:align-items-center mb-5 pb-4 border-bottom-1 surface-border gap-4">
@@ -10,9 +10,13 @@
             </h2>
             <p class="m-0 mt-2 text-600 text-lg">Supervisez la production et téléchargez les packs générés par les analystes.</p>
         </div>
-        <div class="p-input-icon-left w-full md:w-20rem">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Rechercher (Projet, Client)..." class="w-full border-round-3xl" />
+        <div class="flex align-items-center gap-2 w-full md:w-auto">
+            <div class="p-input-icon-left w-full md:w-20rem">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Rechercher (Projet, Client)..." class="w-full border-round-3xl" />
+            </div>
+            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+            <p-menu #menu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
         </div>
     </div>
 
@@ -63,13 +67,17 @@
                 </div>
 
                 <div class="mt-auto border-top-1 surface-border pt-3">
+                    <button pButton pRipple label="Consulter les livrables" icon="pi pi-eye"
+                            class="p-button-text w-full border-round-3xl mb-2"
+                            (click)="consultPack(pack)">
+                    </button>
                     <button pButton pRipple label="Télécharger le ZIP" icon="pi pi-cloud-download" 
                             class="p-button-outlined w-full border-round-3xl font-bold transition-colors transition-duration-200"
-                            [ngClass]="pack.packGlobalPath ? 'p-button-primary' : 'p-button-secondary'"
-                            [disabled]="!pack.packGlobalPath"
+                            [ngClass]="pack.packZipPath ? 'p-button-primary' : 'p-button-secondary'"
+                            [disabled]="!pack.packZipPath"
                             (click)="downloadPack(pack)">
                     </button>
-                    <p class="text-xs text-center text-500 mt-2 m-0" *ngIf="!pack.packGlobalPath">
+                    <p class="text-xs text-center text-500 mt-2 m-0" *ngIf="!pack.packZipPath">
                         <i class="pi pi-exclamation-circle mr-1"></i>ZIP non rattaché
                     </p>
                 </div>
@@ -77,3 +85,30 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="Détail du pack et de la décision" [(visible)]="displayDocuments" [modal]="true" [style]="{width: '42rem'}" [draggable]="false">
+    <div *ngIf="selectedPack" class="flex flex-column gap-2">
+        <p class="m-0 mb-2 text-600">{{ selectedPack.intituleOffre }}</p>
+        <div class="surface-50 border-1 surface-border border-round-lg p-3 mb-2">
+            <h5 class="mt-0 mb-3">Décisions des managers</h5>
+            <div *ngIf="!selectedPack.decisions?.length" class="text-500">Aucune décision de validation enregistrée.</div>
+            <div *ngFor="let decision of selectedPack.decisions" class="flex justify-content-between align-items-start py-2 border-bottom-1 surface-border">
+                <div>
+                    <strong>{{ decision.nom || decision.role }}</strong> <span class="text-500">({{ decision.role }})</span>
+                    <div class="text-xs text-500 mt-1">
+                        {{ decision.actionAt ? (decision.actionAt | date:'dd/MM/yyyy HH:mm') : 'En attente' }}
+                        <span *ngIf="decision.decisionSource === 'EMAIL'"> · Décision prise par e-mail</span>
+                    </div>
+                    <div *ngIf="decision.commentaire" class="text-sm text-700 mt-1">{{ decision.commentaire }}</div>
+                </div>
+                <p-tag [value]="decisionLabel(decision.status)" [severity]="decisionSeverity(decision.status)"></p-tag>
+            </div>
+        </div>
+        <h5 class="mb-1">Documents générés</h5>
+        <button pButton label="Rapport général" icon="pi pi-file" class="p-button-outlined" (click)="openDocument(selectedPack, 'rapport')"></button>
+        <button pButton label="Rapport APO" icon="pi pi-file" class="p-button-outlined" (click)="openDocument(selectedPack, 'apo')"></button>
+        <button pButton label="Méthodologie" icon="pi pi-file" class="p-button-outlined" (click)="openDocument(selectedPack, 'methodo')"></button>
+        <button pButton label="Rapport d'audit" icon="pi pi-verified" class="p-button-outlined p-button-success" [disabled]="!selectedPack.auditReportPath" (click)="openDocument(selectedPack, 'audit')"></button>
+        <button pButton label="Télécharger le pack ZIP" icon="pi pi-download" class="p-button-primary" [disabled]="!selectedPack.packZipPath" (click)="openDocument(selectedPack, 'pack')"></button>
+    </div>
+</p-dialog>

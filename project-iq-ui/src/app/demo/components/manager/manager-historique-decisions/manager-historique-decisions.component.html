@@ -1,14 +1,18 @@
-<div class="grid">
-    <p-toast></p-toast>
+<div class="grid decisions-history-compact">
+    
     
     <!-- Sidebar: Liste des Projets (Master) -->
     <div class="col-12 md:col-4">
         <div class="surface-card p-0 shadow-1 border-round-xl overflow-hidden border-1 surface-border h-full flex flex-column">
             
             <div class="p-4 border-bottom-1 surface-border bg-blue-50">
-                <h5 class="m-0 font-bold text-blue-900 flex align-items-center mb-3">
-                    <i class="pi pi-list mr-2"></i> Projets Évalués
-                </h5>
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0 font-bold text-blue-900 flex align-items-center">
+                        <i class="pi pi-list mr-2"></i> Projets Évalués
+                    </h5>
+                    <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                    <p-menu #menu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
+                </div>
                 <span class="p-input-icon-left w-full">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Chercher un projet..." class="w-full border-round-2xl p-inputtext-sm" />

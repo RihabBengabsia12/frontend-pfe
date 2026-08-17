@@ -16,7 +16,7 @@ def generate_nogo_report(req: NoGoReportRequest) -> str:
     Retourne un rapport No-Go structuré en texte (200-300 mots).
     Claude argumente pourquoi l'opportunité ne justifie pas l'investissement.
     """
-    system_prompt = req.custom_prompt if req.custom_prompt else load_prompt("prompt_nogo_report.txt")
+    system_prompt = req.custom_prompts.get("nogo_report") if req.custom_prompts and "nogo_report" in req.custom_prompts else load_prompt("prompt_nogo_report.txt")
 
     champs_fmt = json.dumps(req.champs_principaux, ensure_ascii=False, indent=2)
     redh_fmt   = "\n".join(f"- {r}" for r in req.risques_redhibitoires) or "Aucun"
@@ -37,5 +37,9 @@ Champs clés extraits :
 
 Génère un rapport No-Go professionnel de 200 à 300 mots destiné au management."""
 
-    text, _ = call_claude(system_prompt, user_prompt, max_tokens=800)
-    return text
+    text, stats = call_claude(system_prompt, user_prompt, max_tokens=800)
+    return {
+        "analyseNarrative": text.strip(),
+        "motifsPrincipaux": "",
+        "stats": stats
+    }

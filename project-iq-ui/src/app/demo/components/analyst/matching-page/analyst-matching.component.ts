@@ -54,6 +54,9 @@ export class AnalystMatchingComponent implements OnInit {
     isLoading = true;
     isRunningMatching = false;
     hasMatchingData = false;
+    matchingLoadError = '';
+    isConsultation = false;
+    isFinalLocked = false;
 
     dossierStatus = '';
     referentielReady = false;
@@ -107,7 +110,7 @@ export class AnalystMatchingComponent implements OnInit {
     typeContratsList = ['Forfait', 'Régie', 'Prix unitaires', 'Mixte', 'Assistance Technique (AT)', 'Autre'];
     alignementList = ['Oui — aligné', 'Partiel', 'Non aligné'];
     relationClientList = ['Premier contact', 'Missions passées', 'Client fidèle'];
-    chefDeFileList = ['Egis', 'Partenaire', 'Egis / Partenaire'];
+    chefDeFileList = ['Notre cabinet', 'Partenaire', 'Notre cabinet / Partenaire'];
 
     showApoPreviewDialog = false;
     isDocxLoading = false;
@@ -144,6 +147,7 @@ export class AnalystMatchingComponent implements OnInit {
 
     bootstrapPage(): void {
         this.isLoading = true;
+        this.matchingLoadError = '';
         forkJoin({
             dossier: this.projectsService.getDossier(this.dossierId).pipe(catchError(() => of(null))),
             referentiel: forkJoin({
@@ -153,8 +157,14 @@ export class AnalystMatchingComponent implements OnInit {
                 qualifications: this.projectsService.getReferentielQualifications()
             }),
             extractionP2: this.projectsService.getExtractionP2(this.dossierId).pipe(catchError(() => of(null))),
-            matching: this.projectsService.getMatchingResult(this.dossierId).pipe(catchError(() => of(null))),
-            matrix: this.projectsService.getMatchingMatrix(this.dossierId).pipe(catchError(() => of(null)))
+            matching: this.projectsService.getMatchingResult(this.dossierId).pipe(catchError((error) => {
+                this.matchingLoadError = this.readMatchingError(error);
+                return of(null);
+            })),
+            matrix: this.projectsService.getMatchingMatrix(this.dossierId).pipe(catchError((error) => {
+                this.matchingLoadError = this.matchingLoadError || this.readMatchingError(error);
+                return of(null);
+            }))
         }).subscribe({
             next: (data) => {
                 this.applyDossierContext(data.dossier);
@@ -164,13 +174,33 @@ export class AnalystMatchingComponent implements OnInit {
                 this.isLoading = false;
             },
             error: () => {
+                this.matchingLoadError = 'Impossible de charger les données nécessaires à la Phase 3.';
                 this.isLoading = false;
             }
         });
     }
 
+    private readMatchingError(error: any): string {
+        if (error?.status === 401 || error?.status === 403) {
+            return 'Votre session ne permet pas de consulter le matching. Reconnectez-vous puis réessayez.';
+        }
+        if (error?.status === 404) {
+            return 'Aucun résultat de matching sauvegardé n’a été trouvé pour ce dossier.';
+        }
+        return error?.error?.message || 'Impossible de relire le résultat de matching sauvegardé.';
+    }
+
     private applyDossierContext(dossier: any): void {
         this.dossierStatus = dossier?.status || '';
+        this.isConsultation = ['DRAFTING', 'REPORT_GENERATED', 'PACK_READY',
+            'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(this.dossierStatus);
+        this.isFinalLocked = ['SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(this.dossierStatus);
+    }
+
+    startRevalidation(): void {
+        if (this.isFinalLocked) return;
+        this.isConsultation = false;
+        this.messageService.add({ severity: 'info', summary: 'Révalidation P3', detail: 'La matrice est déverrouillée. Enregistrez chaque ligne modifiée.' });
     }
 
     private applyMatchingResult(matching: any, matrix: any): void {
@@ -194,7 +224,10 @@ export class AnalystMatchingComponent implements OnInit {
         // Load details
         const rawCompetences = this.safeParseJson(res.competencesDetail, []);
         if (Array.isArray(rawCompetences) && rawCompetences.length > 0 && rawCompetences[0].score !== undefined) {
-            this.competencesDetail = rawCompetences;
+            this.competencesDetail = rawCompetences.map((c: any) => ({
+                ...c,
+                score: c.score <= 1 ? Math.round(c.score * 100) : Math.round(c.score)
+            }));
         } else if (Array.isArray(rawCompetences)) {
             this.competencesDetail = rawCompetences.map((c: any) => ({
                 domaine: c.domaine,
@@ -217,6 +250,17 @@ export class AnalystMatchingComponent implements OnInit {
         const apo = this.extractionP2Data?.apoForm ?? this.extractionP2Data ?? {};
         this.partenaires = apo.partenaires || mtx.partenaires || '';
         this.chefDeFile = apo.chefDeFile || mtx.chefDeFile || '';
+
+        // Remplir extractedRequirements pour l'affichage (depuis MatchingResult)
+        if (res) {
+            this.extractedRequirements = {
+                references: this.safeParseJson(res.refsExigees, []),
+                experts: this.safeParseJson(res.expertsRequis, []),
+                qualifications: this.safeParseJson(res.qualifsExigees, []),
+                secteur: res.secteurAo || '',
+                typeContrat: res.typeContrat || ''
+            };
+        }
     }
 
 
@@ -226,6 +270,13 @@ export class AnalystMatchingComponent implements OnInit {
     }
 
 
+
+    goToFinalisation(): void {
+        this.projectsService.updateStatus(this.dossierId, 'DRAFTING').subscribe({
+            next: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']),
+            error: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final'])
+        });
+    }
 
     runMatching(): void {
         this.isRunningMatching = true;
@@ -260,7 +311,19 @@ export class AnalystMatchingComponent implements OnInit {
         });
     }
 
-
+    recalculateMatching(): void {
+        if (this.isFinalLocked) return;
+        this.messageService.add({ severity: 'info', summary: 'Recalcul', detail: 'Recalcul du matching en cours...' });
+        this.projectsService.recalculateMatching(this.dossierId).subscribe({
+            next: () => {
+                this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Recalcul terminé.' });
+                this.bootstrapPage();
+            },
+            error: (err) => {
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Échec du recalcul.' });
+            }
+        });
+    }
 
     // --- Formatters & Helpers ---
     
@@ -407,8 +470,16 @@ export class AnalystMatchingComponent implements OnInit {
     editRow(index: number): void { this.editingRows[index] = true; }
     saveRow(index: number): void {
         this.editingRows[index] = false;
-        localStorage.setItem(`matching_matrix_${this.dossierId}`, JSON.stringify(this.matriceRows));
-        this.projectsService.updateMatchingMatrix(this.dossierId, this.matriceRows).subscribe();
+        this.projectsService.updateMatchingMatrix(this.dossierId, this.matriceRows).subscribe({
+            next: () => {
+                localStorage.removeItem(`matching_matrix_${this.dossierId}`);
+                this.messageService.add({ severity: 'success', summary: 'Matrice enregistrée', detail: 'La correction est sauvegardée en base.' });
+            },
+            error: (error) => {
+                this.editingRows[index] = true;
+                this.messageService.add({ severity: 'error', summary: 'Enregistrement impossible', detail: error?.error?.message || 'La correction n’a pas été sauvegardée.' });
+            }
+        });
     }
     addRow(): void {
         this.matriceRows.push({ critere: 'Nouveau critère', positionEgis: 'COUVERT', argumentGap: '' });
@@ -448,14 +519,11 @@ export class AnalystMatchingComponent implements OnInit {
     }
 
     generateMethodology(): void {
-        this.projectsService.assembleApo(this.dossierId).subscribe({
-            next: () => {
-                this.messageService.add({ severity: 'success', summary: 'Génération en cours', detail: 'La méthodologie est générée.' });
-                this.projectsService.updateStatus(this.dossierId, 'DRAFTING').subscribe({
-                    next: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']),
-                    error: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final'])
-                });
-            }
+        // Bypass AI generation to save tokens as requested by user
+        this.messageService.add({ severity: 'success', summary: 'Mode Éco', detail: 'Passage direct à la finalisation (sans consommer de tokens).' });
+        this.projectsService.updateStatus(this.dossierId, 'DRAFTING').subscribe({
+            next: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']),
+            error: () => this.router.navigate(['/dossiers', this.dossierId, 'rapport-final'])
         });
     }
 

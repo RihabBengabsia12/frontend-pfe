@@ -1,28 +1,26 @@
 <div class="card">
-    <p-toast></p-toast>
+    
     <p-confirmDialog></p-confirmDialog>
 
     <!-- En-tête -->
     <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-4 gap-3">
         <div>
-            <h2 class="text-900 font-bold text-3xl m-0 flex align-items-center gap-2">
-                <i class="pi pi-user-edit text-4xl" style="color:var(--primary-color)"></i>
+            <h2 class="text-900 font-bold text-xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-user-edit text-xl" style="color:var(--primary-color)"></i>
                 Validation des Inscriptions
             </h2>
         </div>
         <div class="flex align-items-center gap-3">
-            <div class="flex align-items-center gap-2 px-3 py-2 surface-100 border-round-xl">
-                <span class="font-bold text-2xl" style="color:var(--primary-color)">{{ pendingCount }}</span>
-                <span class="text-600 font-medium">en attente</span>
+            <div class="flex align-items-center gap-2 px-2 py-1 surface-100 border-round-xl">
+                <span class="font-bold text-base" style="color:var(--primary-color)">{{ pendingCount }}</span>
+                <span class="text-600 text-xs font-medium">en attente</span>
             </div>
             <span class="p-input-icon-left w-full md:w-auto">
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." class="w-full md:w-16rem border-round-3xl" />
             </span>
-            <div class="flex gap-2">
-                <button pButton icon="pi pi-file-pdf" label="Exp. En attente" class="p-button-outlined p-button-danger border-round-3xl text-sm" (click)="exportPendingPdf()" pTooltip="Exporter les comptes non validés" tooltipPosition="top"></button>
-                <button pButton icon="pi pi-file-pdf" label="Exp. Traités" class="p-button-outlined p-button-info border-round-3xl text-sm" (click)="exportProcessedPdf()" pTooltip="Exporter l'historique des validations" tooltipPosition="top"></button>
-            </div>
+            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" pTooltip="Exporter" tooltipPosition="top" (click)="exportMenu.toggle($event)"></button>
+            <p-menu #exportMenu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
             <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-text p-button-secondary" (click)="loadAllUsers()" pTooltip="Rafraîchir" tooltipPosition="top"></button>
         </div>
     </div>

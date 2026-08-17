@@ -31,6 +31,7 @@ import { MessagesModule } from 'primeng/messages';
 import { StyleClassModule } from 'primeng/styleclass';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ChipsModule } from 'primeng/chips';
 import { LocalIpPipe }           from '../../pipe/ip.pipe';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
@@ -95,9 +96,10 @@ import { DelegationsPageComponent } from './delegations/delegations-page.compone
         MessagesModule,
         StyleClassModule,
         OverlayPanelModule,
-        ToolbarModule
+        ToolbarModule,
+        ChipsModule
     ],
 
-    providers: [MessageService, ConfirmationService]
+    providers: [ConfirmationService]
 })
 export class AdminModule { }

@@ -62,10 +62,17 @@ export class HealthComponent implements OnInit {
             error: () => this.updateStatus('Moteur IA (Claude)', 'DOWN')
         });
 
-        // Vérification Analyste-Service (Spring Boot Actuator) via API Gateway
-        this.http.get<any>('/api/analyst/actuator/health').subscribe({
+        // Vérification Analyste-Service via API Gateway
+        this.http.get<any>('/api/analyses/dashboard-stats').subscribe({
             next:  () => this.updateStatus('Analyste (Orchestrateur)', 'UP'),
-            error: () => this.updateStatus('Analyste (Orchestrateur)', 'DOWN')
+            error: (err) => {
+                // If we get 401, 403, or 200, the service is up. 
+                if (err.status === 401 || err.status === 403 || err.status === 200 || err.status === 404) {
+                    this.updateStatus('Analyste (Orchestrateur)', 'UP');
+                } else {
+                    this.updateStatus('Analyste (Orchestrateur)', 'DOWN');
+                }
+            }
         });
 
         this.lastChecked = new Date();

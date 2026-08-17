@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ManagerValidationService } from '../../../service/manager-validation.service';
+import { catchError } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-manager-packs-suivi',
   templateUrl: './manager-packs-suivi.component.html',
   styleUrls: ['./manager-packs-suivi.component.scss'],
-  providers: [MessageService]
+  providers: []
 })
 export class ManagerPacksSuiviComponent implements OnInit {
 
@@ -32,9 +34,22 @@ export class ManagerPacksSuiviComponent implements OnInit {
     this.loading = true;
     this.validationService.getDossiersForSuivi().subscribe({
       next: (data) => {
-        this.dossiers = data;
-        this.organizeKanban();
-        this.loading = false;
+        forkJoin(data.map(dossier =>
+          this.validationService.getValidationStatus(dossier.id).pipe(catchError(() => of([])))
+        )).subscribe({
+          next: (allDecisions) => {
+            this.dossiers = data
+              .map((dossier, index) => ({ ...dossier, decisions: allDecisions[index] }))
+              .filter(dossier => !this.hasFinalDecision(dossier.decisions));
+            this.organizeKanban();
+            this.loading = false;
+          },
+          error: () => {
+            this.dossiers = data;
+            this.organizeKanban();
+            this.loading = false;
+          }
+        });
       },
       error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de charger le suivi' });
@@ -61,7 +76,22 @@ export class ManagerPacksSuiviComponent implements OnInit {
     // Répartition dans les colonnes
     this.matchingDossiers = filtered.filter(d => d.status === 'MATCHING');
     this.draftingDossiers = filtered.filter(d => d.status === 'DRAFTING');
-    this.readyDossiers = filtered.filter(d => d.status === 'PACK_READY');
+    this.readyDossiers = filtered.filter(d =>
+      d.status === 'PACK_READY' || d.status === 'PENDING_VALIDATION'
+    );
+  }
+
+  hasFinalDecision(decisions: any[]): boolean {
+    const active = (decisions || []).filter(d => !['CANCELLED', 'EXPIRED'].includes(d.status));
+    return active.some(d => ['REJECTED', 'APPROVE_NOGO'].includes(d.status))
+      || (active.length > 0 && active.every(d => d.status === 'APPROVED'));
+  }
+
+  decisionProgress(dossier: any): string {
+    if (dossier.status === 'PACK_READY') return 'Prêt à envoyer aux décideurs';
+    const approved = (dossier.decisions || []).filter((d: any) => d.status === 'APPROVED').length;
+    const total = (dossier.decisions || []).filter((d: any) => !['CANCELLED', 'EXPIRED'].includes(d.status)).length;
+    return `En attente des décideurs (${approved}/${total || 4} GO)`;
   }
 
   getScoreColor(score: number): string {

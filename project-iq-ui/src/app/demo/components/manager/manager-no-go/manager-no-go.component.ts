@@ -6,7 +6,7 @@ import { ManagerValidationService } from '../../../service/manager-validation.se
   selector: 'app-manager-no-go',
   templateUrl: './manager-no-go.component.html',
   styleUrls: ['./manager-no-go.component.scss'],
-  providers: [MessageService]
+  providers: []
 })
 export class ManagerNoGoComponent implements OnInit {
   dossiers: any[] = [];

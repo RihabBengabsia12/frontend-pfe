@@ -3,11 +3,10 @@
     <div class="col-12 mb-4">
         <div class="flex align-items-center justify-content-between mb-4">
             <div>
-                <h1 class="text-3xl font-bold text-900 m-0 flex align-items-center gap-2">
+                <h1 class="text-2xl font-bold text-900 m-0 flex align-items-center gap-2">
                     <i class="pi pi-file-pdf text-red-500"></i>
                     Registre des Rapports
                 </h1>
-                <p class="text-500 m-0 mt-1">Gérez, visualisez et téléchargez les rapports d'évaluation finaux générés.</p>
             </div>
         </div>
 
@@ -67,18 +66,18 @@
                      [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
                      [globalFilterFields]="['intituleOffre','client','bailleurs','status']"
                      exportFilename="Registre_Rapports_Final"
-                     styleClass="p-datatable-striped custom-table-premium">
+                     styleClass="p-datatable-striped custom-table-premium reports-table-compact">
                 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
-                        <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Rapports</h5>
+                        <h6 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Rapports</h6>
                         <div class="flex gap-2 mt-2 md:mt-0">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="searchQuery" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Rechercher (Client, Offre...)" class="border-round-2xl" />
                             </span>
-                            <button pButton icon="pi pi-file-excel" class="p-button-outlined p-button-success border-round-2xl" pTooltip="Exporter CSV" tooltipPosition="top" (click)="dt.exportCSV()"></button>
-                            <button pButton icon="pi pi-file-pdf" class="p-button-outlined p-button-danger border-round-2xl" pTooltip="Exporter PDF" tooltipPosition="top" (click)="exportPdf()"></button>
+                            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
+                            <p-menu #menu [popup]="true" [model]="exportMenuItems" appendTo="body"></p-menu>
                         </div>
                     </div>
                 </ng-template>
@@ -109,7 +108,7 @@
                             </div>
                         </td>
                         <td class="p-3 text-center">
-                            <p-tag [value]="report.status" [severity]="statusSeverity(report.status)" styleClass="border-round-2xl px-3 py-1 font-bold text-sm shadow-1"></p-tag>
+                            <p-tag [value]="displayStatus(report)" [severity]="displayStatusSeverity(report)" styleClass="border-round-2xl px-3 py-1 font-bold text-sm shadow-1"></p-tag>
                         </td>
                         <td class="p-3 text-center text-600 font-medium">
                             <i class="pi pi-calendar mr-1 text-400"></i> {{ report.createdAt | date:'dd/MM/yyyy' }}
@@ -117,9 +116,7 @@
                         <td class="p-3 text-right">
                             <div class="flex justify-content-end gap-2">
                                 <button pButton icon="pi pi-external-link" class="p-button-rounded p-button-text p-button-secondary transition-all hover:bg-gray-200" pTooltip="Ouvrir le dossier" tooltipPosition="top" (click)="openDossier(report)"></button>
-                                <button pButton icon="pi pi-eye" class="p-button-rounded p-button-text p-button-secondary transition-all hover:bg-gray-200" pTooltip="Aperçu rapide" tooltipPosition="top" (click)="openDetails(report)"></button>
-                                <button pButton icon="pi pi-link" class="p-button-rounded p-button-text p-button-info transition-all hover:bg-blue-100" pTooltip="Copier Lien" tooltipPosition="top" (click)="copyLink(report)"></button>
-                                <button pButton icon="pi pi-download" class="p-button-rounded p-button-danger shadow-1 transition-all hover:-translate-y-1" pTooltip="Télécharger PDF" tooltipPosition="top" (click)="downloadPDF(report)"></button>
+                                <button pButton icon="pi pi-file-word" class="p-button-rounded p-button-danger shadow-1 transition-all hover:-translate-y-1" pTooltip="Télécharger DOCX" tooltipPosition="top" (click)="downloadPDF(report)"></button>
                             </div>
                         </td>
                     </tr>
@@ -139,52 +136,5 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Détails Rapides -->
-<p-dialog header="Détails du Livrable" [(visible)]="displayDetailsDialog" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false" styleClass="border-round-2xl shadow-6">
-    <div *ngIf="selectedReport" class="flex flex-column gap-3 p-2">
-        <div class="text-center mb-3">
-            <div class="w-4rem h-4rem bg-red-50 border-circle flex align-items-center justify-content-center mx-auto mb-3">
-                <i class="pi pi-file-pdf text-2xl text-red-600"></i>
-            </div>
-            <h3 class="m-0 text-900 font-bold line-height-3">{{ selectedReport.intituleOffre }}</h3>
-            <span class="text-500 text-sm mt-1 block">{{ selectedReport.client }}</span>
-        </div>
-
-        <div class="surface-100 border-round-xl p-3 flex justify-content-between align-items-center">
-            <span class="text-600 font-medium">P-Win Final</span>
-            <span class="font-bold text-xl" [ngClass]="{'text-green-600': selectedReport.pwinScore >= 70, 'text-orange-600': selectedReport.pwinScore >= 50 && selectedReport.pwinScore < 70, 'text-red-600': selectedReport.pwinScore < 50}">{{ selectedReport.pwinScore }}%</span>
-        </div>
-
-        <div class="surface-100 border-round-xl p-3 flex justify-content-between align-items-center">
-            <span class="text-600 font-medium">Statut</span>
-            <p-tag [value]="selectedReport.status" [severity]="statusSeverity(selectedReport.status)" styleClass="border-round-2xl"></p-tag>
-        </div>
-
-        <div class="surface-100 border-round-xl p-3">
-            <span class="text-600 font-medium block mb-2">Chemin MinIO</span>
-            <div class="text-xs font-mono text-700 bg-white p-2 border-round border-1 border-300" style="word-break: break-all;">
-                {{ selectedReport.rapportPath }}
-            </div>
-        </div>
-
-        <button pButton label="Télécharger PDF" icon="pi pi-download" class="p-button-danger border-round-3xl w-full mt-2 shadow-2" (click)="downloadPDF(selectedReport)"></button>
-    </div>
-</p-dialog>
-
-<!-- Modal Visionneuse PDF -->
-<p-dialog [(visible)]="displayPdfViewer" [modal]="true" [style]="{width: '90vw', height: '90vh'}" [maximizable]="true" styleClass="border-round-2xl shadow-6 overflow-hidden">
-    <ng-template pTemplate="header">
-        <div class="flex align-items-center justify-content-between w-full pr-4">
-            <span class="text-xl font-bold flex align-items-center gap-2">
-                <i class="pi pi-file-pdf text-red-500 text-2xl"></i> Visionneuse du Rapport Final
-            </span>
-            <button *ngIf="selectedReport" pButton label="Télécharger le fichier" icon="pi pi-download" class="p-button-danger border-round-3xl shadow-1" (click)="downloadPDF(selectedReport)"></button>
-        </div>
-    </ng-template>
-    <div class="w-full h-full" style="min-height: calc(90vh - 100px);">
-        <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="100%" style="border: none; min-height: calc(90vh - 100px);"></iframe>
-    </div>
-</p-dialog>
 
 <p-toast position="top-right"></p-toast>

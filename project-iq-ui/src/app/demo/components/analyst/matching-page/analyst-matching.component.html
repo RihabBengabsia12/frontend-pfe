@@ -2,7 +2,7 @@
 
 <!-- Zone 1 — En-tête de l'écran Phase 3 -->
 <div class="px-4 pt-4 pb-0" *ngIf="!isLoading">
-    <app-pipeline-stepper mode="phase3" [activeStep]="0" context="matching"></app-pipeline-stepper>
+    <app-pipeline-stepper mode="phase3" [activeStep]="0" context="matching" [dossierId]="dossierId" [dossierStatus]="dossierStatus"></app-pipeline-stepper>
 </div>
 
 <div *ngIf="isLoading" class="matching-loading flex flex-column align-items-center justify-content-center py-8">
@@ -12,35 +12,16 @@
 
 <div class="matching-page grid p-4 fade-in-up" *ngIf="!isLoading">
 
-    <!-- Zone 1: En-tête -->
-    <div class="col-12 mb-3">
-        <div class="flex justify-content-between align-items-center flex-wrap gap-3">
-            <div>
-                <div class="flex align-items-center gap-2 mb-2">
-                    <span class="badge-phase">Phase 03</span>
-                    <span class="badge-status" [ngClass]="getStatusClass()">{{ getStatusLabel() }}</span>
-                </div>
-                <h1 class="text-3xl font-bold m-0 text-900">
-                    Matching, matrice et extraction stratégique
-                </h1>
-                <p class="m-0 mt-1 text-sm text-500">
-                    Comparaison exigences AO ↔ référentiel Egis · génération matrice de différenciation
-                </p>
-            </div>
-            <div class="flex flex-column align-items-end gap-1">
-                <div class="flex gap-2">
-
-                    <button pButton
-                            [icon]="isRunningMatching ? 'pi pi-spin pi-cog' : 'pi pi-play'"
-                            label="Lancer la phase 3"
-                            class="p-button-purple border-round-3xl px-4 py-3 shadow-2"
-                            [disabled]="isRunningMatching"
-                            (click)="runMatching()"></button>
-                </div>
-                <span class="text-xs text-500 mt-2">Durée estimée 10–20 secondes · 2 appels Claude</span>
-            </div>
+    <div class="col-12" *ngIf="!hasMatchingData && !isRunningMatching">
+        <div class="surface-card border-1 border-round-xl border-orange-200 p-5 text-center shadow-1">
+            <i class="pi pi-exclamation-triangle text-orange-500 text-4xl mb-3"></i>
+            <h3 class="mt-0 mb-2 text-800">Résultat de matching indisponible</h3>
+            <p class="text-600 mt-0 mb-4">{{ matchingLoadError || 'Ce dossier ne contient pas encore de résultat de Phase 3.' }}</p>
+            <button pButton icon="pi pi-refresh" label="Réessayer" class="p-button-outlined" (click)="bootstrapPage()"></button>
         </div>
     </div>
+
+    <!-- Zone 1: En-tête retirée selon la demande -->
 
     <!-- Zone 2: Pipeline d'extraction animé -->
     <div class="col-12 mb-4" *ngIf="isRunningMatching || hasMatchingData">
@@ -90,13 +71,13 @@
                         </div>
                         <div>
                             <h3 class="section-title mb-1">Champs extraits du TDR (Claude IA)</h3>
-                            <span class="text-sm text-green-600">RequirementsResponseDto</span>
+                            <span class="text-sm text-green-600">Données extraites des Termes de Référence</span>
                         </div>
                     </div>
 
                     <div class="fields-list grid">
                         <!-- Références -->
-                        <div class="col-12 lg:col-4">
+                        <div class="col-12">
                             <div class="field-item is-editing">
                                 <div class="field-label-row">
                                     <div class="flex align-items-center gap-2">
@@ -116,7 +97,7 @@
                         </div>
 
                         <!-- Experts -->
-                        <div class="col-12 lg:col-4">
+                        <div class="col-12">
                             <div class="field-item is-editing">
                                 <div class="field-label-row">
                                     <div class="flex align-items-center gap-2">
@@ -141,7 +122,7 @@
                         </div>
 
                         <!-- Qualifications -->
-                        <div class="col-12 lg:col-4">
+                        <div class="col-12">
                             <div class="field-item is-editing">
                                 <div class="field-label-row">
                                     <div class="flex align-items-center gap-2">
@@ -161,7 +142,7 @@
                         </div>
 
                         <!-- Secteur -->
-                        <div class="col-12 lg:col-4">
+                        <div class="col-12">
                             <div class="field-item is-editing">
                                 <div class="field-label-row">
                                     <div class="flex align-items-center gap-2">
@@ -177,13 +158,14 @@
                                 <div class="field-value-box mt-3 mb-1 edit-mode">
                                     <p-dropdown [options]="secteursList" [(ngModel)]="secteurAo" 
                                                 (onChange)="updateField('SECTEUR_AO', $event.value)"
+                                                [editable]="true"
                                                 styleClass="custom-select w-full border-none shadow-none" appendTo="body"></p-dropdown>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Type de contrat -->
-                        <div class="col-12 lg:col-4">
+                        <div class="col-12">
                             <div class="field-item is-editing">
                                 <div class="field-label-row">
                                     <div class="flex align-items-center gap-2">
@@ -199,6 +181,7 @@
                                 <div class="field-value-box mt-3 mb-1 edit-mode">
                                     <p-dropdown [options]="typeContratsList" [(ngModel)]="typeContrat" 
                                                 (onChange)="updateField('TYPE_CONTRAT', $event.value)"
+                                                [editable]="true"
                                                 styleClass="custom-select w-full border-none shadow-none" appendTo="body"></p-dropdown>
                                 </div>
                             </div>
@@ -300,7 +283,7 @@
                         <thead>
                             <tr>
                                 <th style="width:40%">Exigence du TDR</th>
-                                <th style="width:40%">Référence Egis</th>
+                                <th style="width:40%">Référence identifiée</th>
                                 <th style="width:20%">Statut</th>
                             </tr>
                         </thead>
@@ -336,7 +319,7 @@
                         <thead>
                             <tr>
                                 <th style="width:45%">Profil requis (TDR)</th>
-                                <th style="width:35%">Expert Egis</th>
+                                <th style="width:35%">Expert identifié</th>
                                 <th style="width:20%">Disponible</th>
                             </tr>
                         </thead>
@@ -389,58 +372,81 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="font-medium text-700">[[SECTEUR_AO]]</td>
+                                <td class="font-medium text-700">Secteur d'Activité</td>
                                 <td>
                                     <p-dropdown [options]="secteursList" [(ngModel)]="secteurAo" 
                                                 (onChange)="updateField('SECTEUR_AO', $event.value)"
+                                                [editable]="true"
                                                 styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
                                 </td>
-                                <td><span class="badge-source badge-claude">{{ apoSources['SECTEUR_AO'] || '88% Claude' }}</span></td>
+                                <td>
+                                    <span *ngIf="secteurAo && secteurAo !== 'Non défini'" class="badge-source badge-claude">{{ apoSources['SECTEUR_AO'] || '88% Claude' }}</span>
+                                    <span *ngIf="!secteurAo || secteurAo === 'Non défini'" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font-medium text-700">[[TYPE_CONTRAT]]</td>
+                                <td class="font-medium text-700">Type de Contrat</td>
                                 <td>
                                     <p-dropdown [options]="typeContratsList" [(ngModel)]="typeContrat" 
                                                 (onChange)="updateField('TYPE_CONTRAT', $event.value)"
+                                                [editable]="true"
                                                 styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
                                 </td>
-                                <td><span class="badge-source badge-claude">{{ apoSources['TYPE_CONTRAT'] || '91% Claude' }}</span></td>
+                                <td>
+                                    <span *ngIf="typeContrat && typeContrat !== '—'" class="badge-source badge-claude">{{ apoSources['TYPE_CONTRAT'] || '91% Claude' }}</span>
+                                    <span *ngIf="!typeContrat || typeContrat === '—'" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font-medium text-700">[[PARTENAIRES]]</td>
+                                <td class="font-medium text-700">Partenaires</td>
                                 <td>
                                     <input pInputText type="text" [(ngModel)]="partenaires" 
                                            (blur)="updateField('PARTENAIRES', partenaires)"
                                            class="w-full border-none shadow-none font-medium p-2" placeholder="________________________" />
                                 </td>
-                                <td><span class="badge-source badge-manuel">Manuel</span></td>
+                                <td>
+                                    <span *ngIf="partenaires && partenaires.trim() !== ''" class="badge-source badge-manuel">Manuel</span>
+                                    <span *ngIf="!partenaires || partenaires.trim() === ''" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font-medium text-700">[[CHEF_DE_FILE]]</td>
+                                <td class="font-medium text-700">Chef de file</td>
                                 <td>
                                     <p-dropdown [options]="chefDeFileList" [(ngModel)]="chefDeFile" 
                                                 (onChange)="updateField('CHEF_DE_FILE', $event.value)"
+                                                [editable]="true"
                                                 styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
                                 </td>
-                                <td><span class="badge-source badge-manuel">Manuel</span></td>
+                                <td>
+                                    <span *ngIf="chefDeFile && chefDeFile !== ''" class="badge-source badge-manuel">Manuel</span>
+                                    <span *ngIf="!chefDeFile || chefDeFile === ''" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font-medium text-700">[[ALIGNEMENT_STRAT]]</td>
+                                <td class="font-medium text-700">Alignement Stratégique</td>
                                 <td>
                                     <p-dropdown [options]="alignementList" [(ngModel)]="alignementStrategique" 
                                                 (onChange)="updateField('ALIGNEMENT_STRATEGIQUE', $event.value)"
+                                                [editable]="true"
                                                 styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
                                 </td>
-                                <td><span class="badge-source badge-calcule">Calculé</span></td>
+                                <td>
+                                    <span *ngIf="alignementStrategique && alignementStrategique !== 'Non évalué'" class="badge-source badge-calcule">Calculé</span>
+                                    <span *ngIf="!alignementStrategique || alignementStrategique === 'Non évalué'" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font-medium text-700">[[RELATION_CLIENT]]</td>
+                                <td class="font-medium text-700">Relation Client</td>
                                 <td>
                                     <p-dropdown [options]="relationClientList" [(ngModel)]="relationClientLabel" 
                                                 (onChange)="updateRelationClient($event.value)"
+                                                [editable]="true"
                                                 styleClass="w-full border-none shadow-none font-medium" appendTo="body"></p-dropdown>
                                 </td>
-                                <td><span class="badge-source badge-calcule">Calculé</span></td>
+                                <td>
+                                    <span *ngIf="relationClientLabel && relationClientLabel !== ''" class="badge-source badge-calcule">Calculé</span>
+                                    <span *ngIf="!relationClientLabel || relationClientLabel === ''" class="text-500 text-sm">Non renseigné</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -466,11 +472,15 @@
             </div>
 
             <!-- Légende -->
+            <div class="flex justify-content-end mb-3" *ngIf="isConsultation && !isFinalLocked">
+                <button pButton icon="pi pi-lock-open" label="Révalider la matrice"
+                    class="p-button-outlined p-button-warning" (click)="startRevalidation()"></button>
+            </div>
             <div class="flex gap-4 mb-3 text-sm font-medium border-bottom-1 border-gray-200 pb-3">
                 <span class="text-700">Légende :</span>
                 <span class="flex align-items-center gap-1 text-green-600"><i class="pi pi-check"></i> COUVERT</span>
                 <span class="flex align-items-center gap-1 text-orange-500"><i class="pi pi-minus"></i> PARTIELLEMENT</span>
-                <span class="flex align-items-center gap-1 text-red-500"><i class="pi pi-times"></i> NON_COUVERT</span>
+                <span class="flex align-items-center gap-1 text-purple-500"><i class="pi pi-times"></i> NON_COUVERT</span>
                 <span class="flex align-items-center gap-1 text-blue-500"><i class="pi pi-arrow-up-right"></i> VIA_PARTENAIRE</span>
             </div>
 
@@ -479,8 +489,8 @@
                     <thead>
                         <tr class="bg-gray-50 border-bottom-1 border-gray-200 text-700">
                             <th style="width:30%" class="p-3">Critère (extrait du TDR)</th>
-                            <th style="width:20%" class="p-3">Position Egis</th>
-                            <th style="width:40%" class="p-3">Argument / gap</th>
+                            <th style="width:20%" class="p-3">Notre Position</th>
+                            <th style="width:40%" class="p-3">Justification</th>
                             <th style="width:10%" class="text-center p-3">Edit</th>
                         </tr>
                     </thead>
@@ -501,7 +511,7 @@
                                 <input *ngIf="editingRows[i]" pInputText [(ngModel)]="row.argumentGap" class="w-full p-inputtext-sm">
                             </td>
                             <td class="text-center p-3">
-                                <button *ngIf="!editingRows[i]" pButton icon="pi pi-pencil" class="p-button-text p-button-rounded text-500 hover:text-purple-500 w-2rem h-2rem" (click)="editRow(i)"></button>
+                                <button *ngIf="!editingRows[i] && !isConsultation" pButton icon="pi pi-pencil" class="p-button-text p-button-rounded text-500 hover:text-purple-500 w-2rem h-2rem" (click)="editRow(i)"></button>
                                 <button *ngIf="editingRows[i]" pButton icon="pi pi-check" class="p-button-text p-button-rounded text-green-500 w-2rem h-2rem" (click)="saveRow(i)"></button>
                             </td>
                         </tr>
@@ -531,11 +541,10 @@
                 <div class="decision-header mb-5">
                     <div class="flex align-items-center gap-3">
                         <div class="decision-icon-wrapper flex align-items-center justify-content-center border-round-xl shadow-1 p-3">
-                            <i class="pi text-2xl" [ngClass]="isCompatible() ? 'pi-verified text-green-500' : 'pi-ban text-red-500'"></i>
+                            <i class="pi text-2xl" [ngClass]="isCompatible() ? 'pi-verified text-green-500' : 'pi-ban text-purple-500'"></i>
                         </div>
                         <div>
-                            <h3 class="m-0 text-2xl font-bold decision-title">Décision de compatibilité</h3>
-                            <p class="m-0 mt-1 text-sm opacity-80 font-medium">Analyse des seuils configurés (ScoringConfig)</p>
+                            <h3 class="m-0 text-2xl font-bold decision-title" style="color: #b19cd9;">Décision de compatibilité</h3>
                         </div>
                     </div>
                 </div>
@@ -546,32 +555,32 @@
                         <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
                             <span class="font-semibold text-700">Compétences (≥ 50%)</span>
                             <div class="flex align-items-center gap-3">
-                                <span class="text-xl font-black" [ngClass]="getTauxCompetences() >= 50 ? 'text-green-600' : 'text-red-500'">{{ getTauxCompetences() }}%</span>
-                                <i class="pi text-lg" [ngClass]="getTauxCompetences() >= 50 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                                <span class="text-xl font-black" [ngStyle]="{'color': getTauxCompetences() >= 50 ? '#77dd77' : '#b19cd9'}">{{ getTauxCompetences() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': getTauxCompetences() >= 50 ? '#77dd77' : '#b19cd9'}" [ngClass]="getTauxCompetences() >= 50 ? 'pi-check-circle' : 'pi-times-circle'"></i>
                             </div>
                         </div>
 
                         <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
                             <span class="font-semibold text-700">Références (≥ 50%)</span>
                             <div class="flex align-items-center gap-3">
-                                <span class="text-xl font-black" [ngClass]="calculateRefTaux() >= 50 ? 'text-green-600' : 'text-red-500'">{{ calculateRefTaux() }}%</span>
-                                <i class="pi text-lg" [ngClass]="calculateRefTaux() >= 50 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                                <span class="text-xl font-black" [ngStyle]="{'color': calculateRefTaux() >= 50 ? '#77dd77' : '#b19cd9'}">{{ calculateRefTaux() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': calculateRefTaux() >= 50 ? '#77dd77' : '#b19cd9'}" [ngClass]="calculateRefTaux() >= 50 ? 'pi-check-circle' : 'pi-times-circle'"></i>
                             </div>
                         </div>
 
                         <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
                             <span class="font-semibold text-700">Experts (≥ 40%)</span>
                             <div class="flex align-items-center gap-3">
-                                <span class="text-xl font-black" [ngClass]="getTauxExperts() >= 40 ? 'text-green-600' : 'text-red-500'">{{ getTauxExperts() }}%</span>
-                                <i class="pi text-lg" [ngClass]="getTauxExperts() >= 40 ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                                <span class="text-xl font-black" [ngStyle]="{'color': getTauxExperts() >= 40 ? '#77dd77' : '#b19cd9'}">{{ getTauxExperts() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': getTauxExperts() >= 40 ? '#77dd77' : '#b19cd9'}" [ngClass]="getTauxExperts() >= 40 ? 'pi-check-circle' : 'pi-times-circle'"></i>
                             </div>
                         </div>
 
                         <div class="rule-row flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
                             <span class="font-semibold text-700">Alignement Stratégique</span>
                             <div class="flex align-items-center gap-3">
-                                <span class="font-bold text-sm" [ngClass]="isAlignementOk() ? 'text-green-600' : 'text-red-500'">{{ alignementStrategique || 'Non évalué' }}</span>
-                                <i class="pi text-lg" [ngClass]="isAlignementOk() ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                                <span class="font-bold text-sm" [ngClass]="isAlignementOk() ? 'text-green-600' : 'text-purple-500'">{{ alignementStrategique || 'Non évalué' }}</span>
+                                <i class="pi text-lg" [ngClass]="isAlignementOk() ? 'pi-check-circle text-green-500' : 'pi-times-circle text-purple-500'"></i>
                             </div>
                         </div>
                     </div>
@@ -581,44 +590,58 @@
                         <div class="result-box p-4 border-round-2xl text-center shadow-1 transition-all duration-500 hover:shadow-3 bg-white">
                             <div *ngIf="isCompatible()">
                                 <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
-                                    <i class="pi pi-check text-green-600 text-3xl"></i>
+                                    <i class="pi pi-check text-3xl" style="color: #77dd77;"></i>
                                 </div>
-                                <h4 class="m-0 text-xl font-black text-green-700 mb-2">Compatible</h4>
-                                <p class="m-0 text-green-600 font-medium line-height-3 text-sm">
-                                    Tous les seuils sont respectés.<br/>
-                                    <strong>→ compatibleMethodologie = true</strong>
+                                <h4 class="m-0 text-xl font-black mb-2" style="color: #77dd77;">Compatible</h4>
+                                <p class="m-0 font-medium line-height-3 text-sm" style="color: #77dd77;">
+                                    Tous les critères d'exigence sont atteints.<br/>
+                                    <strong>→ Éligible à la génération des documents</strong>
                                 </p>
                             </div>
 
                             <div *ngIf="!isCompatible()">
                                 <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
-                                    <i class="pi pi-exclamation-triangle text-red-600 text-3xl"></i>
+                                    <i class="pi pi-exclamation-triangle text-3xl" style="color: #b19cd9;"></i>
                                 </div>
-                                <h4 class="m-0 text-xl font-black text-red-700 mb-2">Non Compatible</h4>
-                                <ul class="m-0 pl-0 list-none text-red-600 font-medium line-height-3 text-sm text-center">
+                                <h4 class="m-0 text-xl font-black mb-2" style="color: #b19cd9;">Non Compatible</h4>
+                                <ul class="m-0 pl-0 list-none font-medium line-height-3 text-sm text-center" style="color: #b19cd9;">
                                     <li *ngIf="getTauxCompetences() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Compétences insuffisantes ({{getTauxCompetences()}}%)</li>
                                     <li *ngIf="calculateRefTaux() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Références insuffisantes ({{calculateRefTaux()}}%)</li>
                                     <li *ngIf="getTauxExperts() < 40" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Experts insuffisants ({{getTauxExperts()}}%)</li>
                                     <li *ngIf="!isAlignementOk()" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Alignement non respecté</li>
                                 </ul>
                             </div>
-                        </div>
 
                         <!-- Actions -->
-                        <div class="decision-actions flex justify-content-center gap-3 mt-4">
-                            <div class="flex gap-2" *ngIf="isCompatible()">
-                                <button pButton icon="pi pi-sparkles" label="Générer Méthodologie"
-                                        class="p-button-rounded p-button-success px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="showDocxPreview()"></button>
-                            </div>
+                        <div class="decision-actions flex flex-column align-items-center justify-content-center w-full mt-5">
                             
-                            <button *ngIf="isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
-                                    class="p-button-rounded p-button-text p-button-danger px-4 py-3 font-bold opacity-60 hover:opacity-100" (click)="confirmNoGo()"></button>
+                            <!-- Small Pastel Animated CTA -->
+                            <div class="flex flex-column align-items-center mb-2" style="animation: bounce 2s infinite;">
+                                <i class="pi pi-chevron-down text-xl text-indigo-300"></i>
+                            </div>
 
-                            <button *ngIf="!isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
-                                    class="p-button-rounded p-button-danger px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="confirmNoGo()"></button>
+                            <div class="cta-finalisation-mini flex flex-row align-items-center justify-content-between p-3 border-round-2xl cursor-pointer shadow-2 hover:shadow-4 transition-all duration-300"
+                                 style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); width: 280px; border: 1px solid #c7d2fe; transform-origin: center;"
+                                 (click)="goToFinalisation()"
+                                 onmouseover="this.style.transform='scale(1.05)'"
+                                 onmouseout="this.style.transform='scale(1)'">
+                                 
+                                <div class="flex align-items-center gap-3">
+                                    <div class="flex align-items-center justify-content-center border-circle bg-white shadow-1" style="width: 38px; height: 38px;">
+                                        <i class="pi pi-box text-indigo-500 text-lg" style="animation: pulse 1.5s infinite;"></i>
+                                    </div>
+                                    <div class="flex flex-column">
+                                        <h3 class="m-0 text-sm font-bold text-indigo-900 mb-1">Étape Finalisation</h3>
+                                        <span class="m-0 text-indigo-600 text-xs font-medium">Générer les documents</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex align-items-center justify-content-center border-circle bg-indigo-500 text-white" style="width: 28px; height: 28px;">
+                                    <i class="pi pi-arrow-right text-sm font-bold"></i>
+                                </div>
+                            </div>
 
-                            <button *ngIf="!isCompatible()" pButton icon="pi pi-unlock" label="Forcer GO"
-                                    class="p-button-rounded p-button-outlined p-button-warning px-4 py-3 font-bold" (click)="forceCompatible()"></button>
+                            <button pButton icon="pi pi-refresh" label="Recalculer le Matching" class="p-button-outlined p-button-secondary mt-3 border-round-3xl px-4" [disabled]="isFinalLocked" (click)="recalculateMatching()"></button>
                         </div>
                     </div>
                 </div>
@@ -626,7 +649,7 @@
         </div>
     </div>
 
-    <!-- Dialog Génération de la Méthodologie Egis -->
+    <!-- Dialog Génération de la Méthodologie -->
     <p-dialog appendTo="body" header="Aperçu du Template (DOCX Réel)" [(visible)]="showApoPreviewDialog" [modal]="true" [style]="{width: '80vw', maxWidth: '1200px'}" [breakpoints]="{'960px': '95vw'}" [draggable]="false" [resizable]="false">
         
         <div class="methodo-preview-container p-2 flex flex-column h-full">

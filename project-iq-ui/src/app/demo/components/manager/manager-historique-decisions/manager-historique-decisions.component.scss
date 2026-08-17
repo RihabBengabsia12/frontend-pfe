@@ -30,6 +30,63 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
+/* Vue compacte : liste des projets et chronologie des décisions. */
+.decisions-history-compact {
+    font-size: 0.78rem;
+}
+
+.decisions-history-compact h3 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.35;
+}
+
+.decisions-history-compact h4,
+.decisions-history-compact h5 {
+    font-size: 0.84rem !important;
+    font-weight: 500 !important;
+}
+
+.decisions-history-compact .text-lg {
+    font-size: 0.84rem !important;
+}
+
+.decisions-history-compact .text-sm {
+    font-size: 0.7rem !important;
+}
+
+.decisions-history-compact .text-xs {
+    font-size: 0.66rem !important;
+}
+
+.decisions-history-compact .font-bold,
+.decisions-history-compact .font-semibold {
+    font-weight: 500 !important;
+}
+
+.decisions-history-compact .p-5 {
+    padding: 1.1rem !important;
+}
+
+.decisions-history-compact .p-4 {
+    padding: 0.85rem !important;
+}
+
+.decisions-history-compact .p-3 {
+    padding: 0.65rem !important;
+}
+
+:host ::ng-deep .decisions-history-compact .p-button {
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
+    padding: 0.35rem 0.6rem !important;
+}
+
+:host ::ng-deep .decisions-history-compact .p-tag {
+    font-size: 0.67rem !important;
+    padding: 0.2rem 0.45rem !important;
+}
+
 /* Style de commentaire Premium (Glass) */
 .glass-comment {
     background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.4) 100%);

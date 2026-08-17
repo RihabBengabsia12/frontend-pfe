@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -14,8 +14,16 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { ResetPasswordModule } from './demo/components/auth/reset-password/reset-password.module';
+import { EmailValidationModule } from './demo/components/auth/email-validation/email-validation.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+
+export class GlobalErrorHandler implements ErrorHandler {
+    handleError(error: any) {
+        console.error('Error from global error handler', error);
+        alert('CRASH DÉTECTÉ: ' + (error.message || error.toString()));
+    }
+}
 
 @NgModule({
     declarations: [
@@ -25,14 +33,14 @@ import { MessageService } from 'primeng/api';
         AppRoutingModule,
         AppLayoutModule,
         ResetPasswordModule,
+        EmailValidationModule,
         ToastModule
     ],
-    providers: [
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
+    providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MessageService
-    ],
+        PhotoService, ProductService, MessageService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

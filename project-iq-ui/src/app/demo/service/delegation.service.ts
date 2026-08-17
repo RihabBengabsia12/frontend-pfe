@@ -16,7 +16,7 @@ export interface Delegation {
 })
 export class DelegationService {
 
-    private apiUrl = `${environment.apiUrl || 'http://localhost:8089'}/api/delegations`;
+    private apiUrl = '/api/delegations';
 
     constructor(private http: HttpClient) { }
 

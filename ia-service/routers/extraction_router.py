@@ -40,7 +40,10 @@ def extract_phase2(req: ExtractionRequest):
         from services.claude_client import fetch_dossier_overrides
         req.custom_prompts = fetch_dossier_overrides(req.dossier_id)
         return extraction_p2_service.extract_phase2(req)
-    except (ValueError, RuntimeError) as e:
+    except Exception as e:
+        import traceback
+        print(f"CRITICAL ERROR in phase2: {e}")
+        traceback.print_exc()
         raise HTTPException(status_code=502, detail=f"Erreur extraction P2: {e}")
 
 
@@ -65,6 +68,8 @@ def reextract_field(req: ReextractFieldRequest):
             champs={req.field_name: champ},
             alertes=[],
             token_usage=metrics["token_usage"],
+            input_tokens=metrics.get("input_tokens", 0),
+            output_tokens=metrics.get("output_tokens", 0),
             processing_time_ms=metrics["processing_time_ms"],
             estimated_cost=metrics["estimated_cost"],
             cache_creation_tokens=metrics.get("cache_creation_tokens", 0),

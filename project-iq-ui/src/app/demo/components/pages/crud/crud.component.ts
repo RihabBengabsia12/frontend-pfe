@@ -6,7 +6,7 @@ import { ProductService } from 'src/app/demo/service/product.service';
 
 @Component({
     templateUrl: './crud.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class CrudComponent implements OnInit {
 

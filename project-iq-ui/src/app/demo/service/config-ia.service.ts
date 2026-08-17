@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class ConfigIaService {
-    private apiUrl = '/api/ia-config/prompts';
+    private apiUrl = '/api/dossiers/config-ia/prompts';
     private overrideUrl = '/api/dossiers/config-ia/overrides';
 
     constructor(private http: HttpClient) {}

@@ -4,12 +4,14 @@ Claude évalue chaque risque sur 4 niveaux + justification courte.
 """
 
 import logging
+import os
 from models.extraction_request  import RiskAnalysisRequest
 from models.extraction_response import RiskAnalysisResponse, RiskResult
 from services.claude_client     import call_claude_json, load_prompt
 from validators.scoring_validators import detect_redhibitoires, validate_risk_levels
 
 logger = logging.getLogger(__name__)
+DOCUMENT_MAX_CHARS = int(os.getenv("DOCUMENT_MAX_CHARS", "100000"))
 
 RISQUES_ATTENDUS = [
     "risque_pays_securite",
@@ -42,7 +44,7 @@ def analyze_risks(req: RiskAnalysisRequest) -> RiskAnalysisResponse:
     user_prompt = f"Extrais les risques à partir du document fourni en utilisant tes instructions.{context_tjm}"
 
     try:
-        raw, metrics = call_claude_json(system_prompt, user_prompt, document_text=req.document_text[:14000])
+        raw, metrics = call_claude_json(system_prompt, user_prompt, document_text=req.document_text[:DOCUMENT_MAX_CHARS])
     except ValueError as e:
         logger.error("Analyse risques échouée pour dossier %s: %s", req.dossier_id, e)
         raise
@@ -69,6 +71,8 @@ def analyze_risks(req: RiskAnalysisRequest) -> RiskAnalysisResponse:
         alerte_redhibitoire   = len(redhibitoires) > 0,
         risques_redhibitoires = redhibitoires,
         token_usage           = metrics["token_usage"],
+        input_tokens          = metrics.get("input_tokens", 0),
+        output_tokens         = metrics.get("output_tokens", 0),
         processing_time_ms    = metrics["processing_time_ms"],
         estimated_cost        = metrics["estimated_cost"],
         cache_creation_tokens = metrics.get("cache_creation_tokens", 0),

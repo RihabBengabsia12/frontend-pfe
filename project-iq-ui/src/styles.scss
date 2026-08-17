@@ -301,3 +301,219 @@ $gutter: 1rem; //for primeflex grid system
 
 
 
+
+
+/* Animation pour le badge de notification */
+@keyframes pulse-badge {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(226, 76, 76, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(226, 76, 76, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(226, 76, 76, 0); }
+}
+.animate-pulse-badge {
+  animation: pulse-badge 2s infinite;
+  background-color: #e24c4c !important;
+  color: white !important;
+  border: 2px solid white;
+}
+
+
+/* ========================================================
+   PREMIUM NOTIFICATION SYSTEM (Facebook/Instagram Style)
+   ======================================================== */
+.custom-notification-btn {
+    position: relative;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1);
+    border: 1px solid rgba(255,255,255,0.8);
+    z-index: 1;
+}
+
+.custom-notification-btn::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #a78bfa, #f472b6, #fb7185);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    filter: blur(8px);
+}
+
+.custom-notification-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+.custom-notification-btn:hover::before {
+    opacity: 0.6;
+    animation: pulse-glow 2s infinite alternate;
+}
+
+.custom-notification-btn:hover .bell-icon {
+    animation: ring-bell 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
+    color: #ec4899; 
+}
+
+.bell-icon {
+    font-size: 1.4rem;
+    color: #8b5cf6; 
+    transition: color 0.4s;
+    filter: drop-shadow(0 2px 3px rgba(139, 92, 246, 0.3));
+}
+
+.notif-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ef4444; 
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 10px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+    animation: badge-alert 2s infinite;
+    z-index: 2;
+}
+
+@keyframes badge-alert {
+    0% { transform: scale(1); }
+    10%, 20% { transform: scale(1.15) rotate(-5deg); box-shadow: 0 4px 8px rgba(239,68,68,0.6); }
+    15%, 25% { transform: scale(1.15) rotate(5deg); }
+    30%, 100% { transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+    0% { filter: blur(6px); opacity: 0.4; }
+    100% { filter: blur(12px); opacity: 0.8; }
+}
+
+@keyframes ring-bell {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(20deg); }
+    30% { transform: rotate(-20deg); }
+    45% { transform: rotate(15deg); }
+    60% { transform: rotate(-15deg); }
+    75% { transform: rotate(5deg); }
+    85% { transform: rotate(-5deg); }
+    100% { transform: rotate(0); }
+}
+
+/* Dropdown Notification Cards */
+.premium-notif-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 1;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #f1f5f9;
+}
+
+.premium-notif-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+.premium-notif-bg {
+    position: absolute;
+    inset: 2px;
+    background: #ffffff;
+    border-radius: 10px;
+    z-index: -1; /* Changed to -1 so text is visible */
+    pointer-events: none;
+}
+
+.premium-notif-success {
+    background: linear-gradient(45deg, #22c55e, #10b981, #0ea5e9, #8b5cf6, #ec4899, #f59e0b, #22c55e);
+    background-size: 300% 300%;
+    animation: frise-gradient 4s linear infinite;
+    border: none;
+}
+
+.premium-notif-success .premium-notif-bg {
+    background: linear-gradient(145deg, #ffffff, #f0fdf4);
+}
+
+.premium-notif-success .notif-icon-container {
+    background: linear-gradient(135deg, #22c55e, #10b981);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+    animation: pulse-icon 2s infinite;
+}
+
+.premium-notif-info .notif-icon-container {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+.premium-notif-warning .notif-icon-container {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+.premium-notif-error .notif-icon-container {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+@keyframes frise-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-icon {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); transform: scale(1); }
+    50% { transform: scale(1.05); }
+    70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); transform: scale(1); }
+}
+
+@keyframes animate-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+.animate-pulse {
+    animation: animate-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+/* Permissions Menu Locking */
+.menu-locked { opacity: 0.5 !important; pointer-events: none !important; cursor: not-allowed !important; filter: grayscale(100%); }
+
+
+/* Menu locked styling for disabled features */
+.menu-locked {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+    filter: grayscale(100%) !important;
+    background-color: rgba(150, 150, 150, 0.1) !important;
+    border-radius: 6px;
+}
+.menu-locked * {
+    color: #888 !important;
+}

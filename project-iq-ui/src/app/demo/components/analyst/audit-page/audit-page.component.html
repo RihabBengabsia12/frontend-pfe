@@ -1,0 +1,118 @@
+<div class="surface-ground px-4 py-5 md:px-6 lg:px-8 min-h-screen fade-in-up">
+    <!-- Header -->
+    <div class="flex flex-column md:flex-row align-items-center justify-content-between mb-5">
+        <div class="flex align-items-center gap-3">
+            <button pButton pRipple icon="pi pi-arrow-left" class="p-button-rounded p-button-text p-button-secondary bg-white shadow-1 hover-lift" (click)="goBack()"></button>
+            <div>
+                <h1 class="m-0 text-3xl font-bold text-900" style="font-family: 'Outfit', sans-serif;">Phase 6 : Audit & Archivage</h1>
+                <p class="m-0 text-500 mt-1 flex align-items-center gap-2">
+                    <i class="pi pi-briefcase text-primary"></i>
+                    <span>{{ dossier?.intituleOffre || 'Chargement...' }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement Principal -->
+    <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-5">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+
+    <!-- Contenu Principal -->
+    <div *ngIf="!isLoading" class="grid justify-content-center">
+        <div class="col-12 md:col-8 lg:col-6">
+            
+            <!-- ÉTAT 1 : En attente d'audit (AUDIT) -->
+            <div class="card bg-white p-5 border-round-3xl shadow-2 text-center" *ngIf="dossier?.status === 'AUDIT' && !dossier?.auditReportPath">
+                <div class="w-5rem h-5rem border-circle flex align-items-center justify-content-center mx-auto mb-4 shadow-1" 
+                     style="background: #E0F2FE; border: 3px solid #BAE6FD;">
+                    <i class="pi pi-shield text-4xl text-blue-500"></i>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-900 mb-2">Décision Validée</h2>
+                <p class="text-600 mb-5">
+                    Le dossier a été officiellement approuvé (GO). Pour clôturer le projet et assurer la traçabilité complète de l'intelligence artificielle, veuillez générer le rapport d'audit final.
+                </p>
+                
+                <button pButton pRipple icon="pi pi-file-pdf" label="Générer Rapport Audit" 
+                        class="p-button-lg font-bold w-full p-3 shadow-2 hover-lift transition-all"
+                        style="background: linear-gradient(135deg, #3B82F6, #2563EB); border: none; border-radius: 1rem;"
+                        [disabled]="isGenerating"
+                        (click)="generateAuditReport()">
+                </button>
+                
+                <div *ngIf="isGenerating" class="mt-4 flex flex-column align-items-center fade-in-up">
+                    <i class="pi pi-spin pi-spinner text-3xl text-blue-500 mb-2"></i>
+                    <span class="text-500">Génération du rapport et archivage en cours...</span>
+                </div>
+            </div>
+
+            <!-- ÉTAT 2 : Clôturé et Archivé (ARCHIVED) -->
+            <div class="card bg-white p-5 border-round-3xl shadow-2" *ngIf="dossier?.status === 'ARCHIVED' || dossier?.auditReportPath">
+                <div class="flex align-items-center justify-content-center gap-3 mb-4 p-3 border-round-2xl" 
+                     style="background: #ECFDF5; border: 1px solid #10B981;">
+                    <i class="pi pi-check-circle text-4xl text-green-500"></i>
+                    <div>
+                        <h2 class="m-0 text-xl font-bold text-green-700">Dossier Clôturé & Archivé</h2>
+                        <span class="text-sm text-green-600">L'audit complet a été enregistré avec succès.</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-column gap-3 mt-5">
+                    <button pButton pRipple icon="pi pi-eye" label="Voir Rapport d'Audit" 
+                            class="p-button-outlined p-button-secondary w-full p-3 font-bold border-round-xl hover-lift"
+                            (click)="showPreview()">
+                    </button>
+                    
+                    <button pButton pRipple icon="pi pi-download" label="Télécharger DOCX" 
+                            class="w-full p-3 font-bold border-round-xl shadow-1 hover-lift"
+                            style="background: #F8FAFC; color: #334155; border: 1px solid #E2E8F0;"
+                            (click)="downloadReport()">
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal Prévisualisation du Rapport d'Audit -->
+<p-dialog header="Aperçu du Rapport d'Audit" 
+          [(visible)]="showReportDialog" 
+          [modal]="true" 
+          [style]="{ width: '85vw', maxWidth: '1200px' }" 
+          [maximizable]="true"
+          styleClass="custom-docx-dialog">
+          
+    <div class="flex flex-column h-full">
+        <!-- Toolbar -->
+        <div class="flex justify-content-between align-items-center mb-3 bg-gray-50 p-3 border-round-lg shadow-1">
+            <div class="flex align-items-center gap-2">
+                <i class="pi pi-file-word text-blue-500 text-xl"></i>
+                <span class="font-bold text-700">Rapport d'Audit ProjectIQ</span>
+            </div>
+            <div class="flex gap-2">
+                <button pButton pRipple icon="pi pi-download" label="Télécharger" class="p-button-outlined p-button-sm p-button-secondary" (click)="downloadReport()"></button>
+                <button pButton pRipple icon="pi pi-print" class="p-button-text p-button-sm p-button-secondary" pTooltip="Imprimer" tooltipPosition="bottom" (click)="printReport()"></button>
+            </div>
+        </div>
+
+        <!-- Zone de chargement / erreur -->
+        <div *ngIf="isReportLoading" class="flex flex-column align-items-center justify-content-center p-5 min-h-30rem">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4" animationDuration=".5s"></p-progressSpinner>
+            <span class="mt-4 text-600 font-medium">Chargement du document...</span>
+        </div>
+        
+        <div *ngIf="reportLoadError" class="flex flex-column align-items-center justify-content-center p-5 min-h-30rem text-red-500">
+            <i class="pi pi-exclamation-triangle text-5xl mb-3"></i>
+            <span class="font-bold">Erreur de chargement du document.</span>
+            <button pButton label="Réessayer" icon="pi pi-refresh" class="p-button-outlined p-button-danger mt-3" (click)="showPreview()"></button>
+        </div>
+
+        <!-- Conteneur Docx-Preview -->
+        <div class="docx-preview-wrapper flex-grow-1 overflow-auto border-1 surface-border border-round bg-gray-100" 
+             [hidden]="isReportLoading || reportLoadError">
+            <div #docxContainerAudit id="docx-container-audit" class="docx-container"></div>
+        </div>
+    </div>
+</p-dialog>

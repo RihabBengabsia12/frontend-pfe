@@ -7,12 +7,13 @@ import { AnalystProjectsService } from '../../../service/analyst-projects.servic
     selector: 'app-pack-ready-page',
     templateUrl: './pack-ready-page.component.html',
     styleUrls: ['./pack-ready-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class PackReadyPageComponent implements OnInit {
     dossierId: string = '';
     isLoading = false;
     isDownloading = false;
+    isSending = false;
 
     documents = [
         { name: 'APO_Final.docx', size: '342 KB', type: 'word', icon: 'pi pi-file-word text-blue-600', bg: 'bg-blue-50' },
@@ -45,11 +46,35 @@ export class PackReadyPageComponent implements OnInit {
         setTimeout(() => {
             this.isDownloading = false;
             this.messageService.add({ severity: 'success', summary: 'Téléchargement', detail: 'Le pack ZIP a été téléchargé.' });
-            
-            // Optionally redirect to dashboard after a delay
-            setTimeout(() => {
-                this.router.navigate(['/analyst/dashboard']);
-            }, 3000);
         }, 2000);
+    }
+
+    sendToManager(): void {
+        if (!this.dossierId) return;
+        this.isSending = true;
+        
+        this.projectsService.sendToValidators(this.dossierId).subscribe({
+            next: () => {
+                this.isSending = false;
+                this.messageService.add({ 
+                    severity: 'success', 
+                    summary: 'Soumis à la Direction', 
+                    detail: 'Le dossier a été envoyé aux managers pour validation finale.' 
+                });
+                
+                setTimeout(() => {
+                    this.router.navigate(['/analyst/dashboard']);
+                }, 2000);
+            },
+            error: (err) => {
+                this.isSending = false;
+                this.messageService.add({ 
+                    severity: 'error', 
+                    summary: 'Erreur', 
+                    detail: 'Impossible de soumettre le dossier à la direction.' 
+                });
+                console.error(err);
+            }
+        });
     }
 }

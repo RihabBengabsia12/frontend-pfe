@@ -6,7 +6,7 @@ import { Delegation, DelegationService } from '../../../service/delegation.servi
   selector: 'app-delegations-page',
   templateUrl: './delegations-page.component.html',
   styleUrls: ['./delegations-page.component.scss'],
-  providers: [MessageService]
+  providers: []
 })
 export class DelegationsPageComponent implements OnInit {
 

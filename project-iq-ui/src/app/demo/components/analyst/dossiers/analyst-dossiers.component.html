@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+
 
 <div class="dashboard-page grid p-4 fade-in-up">
     <!-- Header -->
@@ -9,7 +9,6 @@
                     <div class="header-icon-box"><i class="pi pi-briefcase"></i></div>
                     <div>
                         <h1 class="m-0 page-title">Dashboard Dossiers AO</h1>
-                        <p class="m-0 page-subtitle">Pilotage global et supervision des flux d'appels d'offres</p>
                     </div>
                 </div>
                 <button pButton icon="pi pi-plus" label="Nouveau Dossier" class="border-round-3xl btn-new-project px-4 py-3" (click)="newDossier()"></button>
@@ -68,7 +67,7 @@
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
                         <div class="flex align-items-center gap-3">
-                            <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des Dossiers</h5>
+                            <h6 class="m-0 text-700 font-bold text-sm"><i class="pi pi-list mr-2"></i>Liste des Dossiers</h6>
                             <!-- BATCH ACTION BAR (Appears only if selection > 0) -->
                             <div *ngIf="selectedDossiers.length > 0" class="fade-in flex align-items-center bg-blue-50 px-3 py-1 border-round-3xl border-1 border-blue-200">
                                 <span class="font-bold text-blue-800 mr-2 text-sm">
@@ -84,8 +83,8 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="searchTerm" placeholder="Rechercher (Client, Offre...)" class="border-round-2xl" />
                             </span>
-                            <button pButton icon="pi pi-file-excel" class="p-button-outlined p-button-success border-round-2xl" pTooltip="Exporter CSV" tooltipPosition="top" (click)="dt.exportCSV()"></button>
-                            <button pButton icon="pi pi-file-pdf" class="p-button-outlined p-button-danger border-round-2xl" pTooltip="Exporter PDF" tooltipPosition="top" (click)="exportPdf()"></button>
+                            <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" pTooltip="Exporter" tooltipPosition="top" (click)="exportMenu.toggle($event)"></button>
+                            <p-menu #exportMenu [model]="exportMenuItems" [popup]="true" appendTo="body"></p-menu>
                             <button pButton icon="pi pi-refresh" class="p-button-outlined p-button-secondary border-round-2xl ml-1" pTooltip="Actualiser" (click)="loadDossiers()"></button>
                         </div>
                     </div>

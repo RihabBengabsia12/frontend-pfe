@@ -7,7 +7,7 @@ import { AnalystProjectsService } from '../../../service/analyst-projects.servic
 @Component({
     selector: 'app-nogo-report-page',
     templateUrl: './nogo-report-page.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class NogoReportPageComponent implements OnInit {
     projectId: string = '';
@@ -24,12 +24,12 @@ export class NogoReportPageComponent implements OnInit {
     ) {}
 
     get isManager(): boolean {
-        const role = (localStorage.getItem('userRole') || '').toUpperCase();
+        const role = (sessionStorage.getItem('userRole') || '').toUpperCase();
         return role.includes('MANAGER') || role.includes('DIRECTOR') || role.includes('DO');
     }
 
     get isAnalyst(): boolean {
-        const role = (localStorage.getItem('userRole') || '').toUpperCase();
+        const role = (sessionStorage.getItem('userRole') || '').toUpperCase();
         return role === 'ANALYST';
     }
 
@@ -131,8 +131,8 @@ export class NogoReportPageComponent implements OnInit {
         this.nogoService.forcePhase3(this.projectId, event.reason, event.justification).subscribe({
             next: (res) => {
                 // Notifier l'analyste en retour
-                localStorage.setItem('notificationCount', '1');
-                localStorage.setItem('lastNotifDossierId', this.projectId);
+                sessionStorage.setItem('notificationCount', '1');
+                sessionStorage.setItem('lastNotifDossierId', this.projectId);
                 
                 this.messageService.add({
                     severity: 'success',

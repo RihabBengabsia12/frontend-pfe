@@ -5,7 +5,7 @@ import { AnalystService } from '../../../../demo/service/analyst.service';
 
 @Component({
     templateUrl: './analyst-projects.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .tdr-json-viewer {
             background: #1e293b;

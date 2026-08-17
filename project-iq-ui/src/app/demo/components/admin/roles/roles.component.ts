@@ -15,6 +15,7 @@ export class RolesComponent implements OnInit {
 
     roleMenuItems: MenuItem[] = [];
     selectedPermissionIds: string[] = [];
+    permissionMap: { [key: string]: boolean } = {};
 
     loading: boolean = false;
     detailsLoading: boolean = false;
@@ -45,7 +46,7 @@ export class RolesComponent implements OnInit {
         }).subscribe({
             next: (res) => {
                 this.allPermissions = res.allPerms || [];
-                this.roles = res.roles || [];
+                this.roles = (res.roles || []).map(r => ({ ...r, active: (r as any).active !== undefined ? (r as any).active : true }));
                 this.categorizePermissions();
 
                 if (this.roles.length > 0) {
@@ -97,17 +98,20 @@ export class RolesComponent implements OnInit {
             next: (data: any[]) => {
                 // Mapping ultra-robuste pour éviter tout décalage d'ID
                 this.selectedPermissionIds = data.map(item => {
-                    const val = (typeof item === 'object' ? item.id : item).toString().toLowerCase().trim();
+                    const val = (typeof item === 'object' ? (item as any).id : item).toString().toLowerCase().trim();
 
                     if (this.isUUID(val)) {
-                        // On cherche le vrai ID dans allPermissions qui matche (insensible à la casse)
                         const match = this.allPermissions.find(p => p.id.toLowerCase().trim() === val);
-                        return match ? match.id : val;
+                        return match ? match.code : val; // Retourne le CODE
                     }
 
                     const found = this.allPermissions.find(p => p.code.toLowerCase().trim() === val);
-                    return found ? found.id : val;
+                    return found ? found.code : val; // Retourne le CODE
                 });
+
+                // Build a boolean map for easy UI binding with p-inputSwitch
+                this.permissionMap = {};
+                this.selectedPermissionIds.forEach(id => this.permissionMap[id] = true);
 
                 this.detailsLoading = false;
                 this.loadRoleAudit(role);
@@ -131,7 +135,13 @@ export class RolesComponent implements OnInit {
         this.saveSuccess = false;
         this.successMessages = [];
 
-        this.adminService.updateRolePermissions(this.selectedRole.id, this.selectedPermissionIds).subscribe({
+        // Map CODES back to UUIDs for the backend
+        const uuidList = this.selectedPermissionIds.map(code => {
+            const found = this.allPermissions.find(p => p.code === code);
+            return found ? found.id : code;
+        });
+
+        this.adminService.updateRolePermissions(this.selectedRole.id, uuidList).subscribe({
             next: () => {
                 this.saveLoading = false;
                 this.saveSuccess = true;
@@ -150,23 +160,47 @@ export class RolesComponent implements OnInit {
         });
     }
 
-    categorized: any = { intelligence: [], governance: [], admin: [] };
+    appVolets = {
+        analyst: [
+            { id: 'ESPACE_ANALYSTE', label: 'Espace Analyste (Tableau de bord)', icon: 'pi-chart-bar' },
+            { id: 'LIVRABLES', label: 'Livrables & Historique', icon: 'pi-history' },
+            { id: 'LOGS_IA', label: 'Logs & IA', icon: 'pi-align-left' }
+        ],
+        managerDecision: [
+            { id: 'ESPACE_DECISION', label: 'Espace Décision (VIP / Approbations)', icon: 'pi-check-circle' }
+        ],
+        managerSupervision: [
+            { id: 'ESPACE_SUPERVISION', label: 'Espace Supervision (Suivi d\'équipe)', icon: 'pi-eye' }
+        ],
+        admin: [
+            { id: 'SUPERVISION_GLOBALE', label: 'Supervision Globale', icon: 'pi-server' },
+            { id: 'PARAMETRES_SYSTEME', label: 'Paramètres Système', icon: 'pi-sliders-h' },
+            { id: 'GOUVERNANCE', label: 'Gouvernance', icon: 'pi-shield' },
+            { id: 'MON_COMPTE', label: 'Mon Compte', icon: 'pi-user' },
+            { id: 'REFERENTIEL_METIER', label: 'Référentiel Métier', icon: 'pi-database' }
+        ]
+    };
+
+    onPermissionToggle(id: string) {
+        const isChecked = this.permissionMap[id];
+        if (isChecked) {
+            if (!this.selectedPermissionIds.includes(id)) this.selectedPermissionIds.push(id);
+        } else {
+            this.selectedPermissionIds = this.selectedPermissionIds.filter(x => x !== id);
+        }
+    }
 
     categorizePermissions() {
-        this.categorized = { intelligence: [], governance: [], admin: [] };
-        this.allPermissions.forEach((p: Permission) => {
-            const cat = p.category || '';
-            if (cat === 'Intelligence Documentaire') this.categorized.intelligence.push(p);
-            else if (cat === 'Gouvernance & Verdict') this.categorized.governance.push(p);
-            else this.categorized.admin.push(p);
-        });
+        // Obsolete function since we now use static appVolets for UI rendering
     }
 
     selectAllPermissions() {
-        this.selectedPermissionIds = this.allPermissions.map(p => p.id);
+        Object.values(this.appVolets).flat().forEach(v => this.permissionMap[v.id] = true);
+        this.selectedPermissionIds = Object.values(this.appVolets).flat().map(v => v.id);
     }
 
     deselectAllPermissions() {
+        this.permissionMap = {};
         this.selectedPermissionIds = [];
     }
 

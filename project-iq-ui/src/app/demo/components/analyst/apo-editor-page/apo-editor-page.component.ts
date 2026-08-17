@@ -21,7 +21,7 @@ interface ApoSectionConfig {
     selector: 'app-apo-editor-page',
     templateUrl: './apo-editor-page.component.html',
     styleUrls: ['./apo-editor-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class ApoEditorPageComponent implements OnInit {
     dossierId: string = '';

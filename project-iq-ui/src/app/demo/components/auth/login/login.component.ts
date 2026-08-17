@@ -4,6 +4,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from 'src/app/demo/service/auth.service';
 import { MessageService } from 'primeng/api';
 import { DelegationService } from 'src/app/demo/service/delegation.service';
+import { FeatureFlagService } from 'src/app/demo/service/feature-flag.service';
 
 @Component({
     selector: 'app-login',
@@ -88,12 +89,13 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
         private router: Router,
         private messageService: MessageService,
-        private delegationService: DelegationService
+        private delegationService: DelegationService,
+        private featureFlagService: FeatureFlagService
     ) { }
 
     ngOnInit(): void {
         // Pré-remplir l'email si "Remember me" était coché
-        const savedEmail = localStorage.getItem('rememberedEmail');
+        const savedEmail = sessionStorage.getItem('rememberedEmail');
         if (savedEmail) {
             this.email = savedEmail;
             this.rememberMe = true;
@@ -146,11 +148,14 @@ export class LoginComponent implements OnInit {
                 // VALID users only
                 this.authService.setSession(response);
 
+                // Charger les feature flags depuis le backend pour cet utilisateur
+                this.featureFlagService.loadFlagsForCurrentUser(response.email).subscribe();
+
                 // Gérer le "Remember me"
                 if (this.rememberMe) {
-                    localStorage.setItem('rememberedEmail', this.email);
+                    sessionStorage.setItem('rememberedEmail', this.email);
                 } else {
-                    localStorage.removeItem('rememberedEmail');
+                    sessionStorage.removeItem('rememberedEmail');
                 }
                 
                 const routes: { [key: string]: string } = {
@@ -214,10 +219,10 @@ export class LoginComponent implements OnInit {
                 if (err.status === 401 || err.status === 403) {
                     this.showPendingBanner = true;
                     // Auto-fill email from pending register
-                    const pendingEmail = localStorage.getItem('pendingEmail');
+                    const pendingEmail = sessionStorage.getItem('pendingEmail');
                     if (pendingEmail) {
                         this.email = pendingEmail;
-                        localStorage.removeItem('pendingEmail');
+                        sessionStorage.removeItem('pendingEmail');
                     }
                 } else {
                     let msg = err.error?.message || err.error?.error;

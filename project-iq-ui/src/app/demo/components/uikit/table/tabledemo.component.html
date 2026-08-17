@@ -188,7 +188,7 @@
 	<div class="col-12">
 		<div class="card">
 			<h5>Row Expand</h5>
-			<p-toast></p-toast>
+			
 			<p-table [value]="products" dataKey="name" [expandedRowKeys]="expandedRows" responsiveLayout="scroll">
 				<ng-template pTemplate="caption">
 					<button pButton icon="pi pi-fw {{isExpanded ? 'pi-minus' : 'pi-plus'}}" label="{{isExpanded ? 'Collapse All' : 'Expand All'}}" (click)="expandAll()"></button>

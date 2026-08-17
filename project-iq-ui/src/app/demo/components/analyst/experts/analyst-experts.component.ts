@@ -5,7 +5,7 @@ import { ProjectService, ProjectDTO } from '../../../../demo/service/project.ser
 
 @Component({
     templateUrl: './analyst-experts.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .upload-zone {
             border: 2px dashed #bbdefb;

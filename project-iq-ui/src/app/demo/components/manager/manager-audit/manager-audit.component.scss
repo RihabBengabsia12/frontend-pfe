@@ -40,3 +40,71 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.7);
 }
+
+.audit-preview-scroll {
+    max-height: 68vh;
+    overflow: auto;
+    padding: 1.25rem;
+    background: #eef2f7;
+}
+
+.projectiq-audit-docx-host {
+    margin: 0 auto;
+}
+
+/* Bibliothèque compacte : même hiérarchie, typographie plus discrète. */
+:host > .grid {
+    font-size: 0.78rem;
+}
+
+:host > .grid h3 {
+    font-size: 1rem !important;
+    line-height: 1.35;
+    font-weight: 500 !important;
+}
+
+:host > .grid h4,
+:host > .grid h5 {
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+}
+
+:host > .grid .text-sm {
+    font-size: 0.7rem !important;
+}
+
+:host > .grid .text-lg {
+    font-size: 0.86rem !important;
+}
+
+:host > .grid .text-xl {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+}
+
+:host > .grid .font-bold {
+    font-weight: 500 !important;
+}
+
+:host > .grid .p-5 {
+    padding: 1.1rem !important;
+}
+
+:host > .grid .p-4 {
+    padding: 0.9rem !important;
+}
+
+:host ::ng-deep .audit-consult-button {
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+}
+
+:host ::ng-deep .projectiq-audit-docx-wrapper {
+    background: transparent;
+    padding: 0;
+}
+
+:host ::ng-deep .projectiq-audit-docx {
+    box-shadow: 0 2px 12px rgba(15, 23, 42, .14);
+    margin: 0 auto 1rem;
+}

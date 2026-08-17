@@ -1,24 +1,23 @@
-<p-toast></p-toast>
+
 
 <div class="grid p-4 fade-in-up" *ngIf="!isLoading && config">
     <!-- Header -->
     <div class="col-12 mb-3">
-        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2">
-            <div class="flex flex-column lg:flex-row align-items-start lg:align-items-center justify-content-between gap-4">
-                <div class="flex align-items-center gap-3">
-                    <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center">
-                        <i class="pi pi-sitemap text-2xl text-blue-700"></i>
+        <div class="card p-3 border-round-2xl shadow-1 matching-header-card">
+            <div class="flex flex-column lg:flex-row align-items-start lg:align-items-center justify-content-between gap-2">
+                <div class="flex align-items-center gap-2">
+                    <div class="w-2rem h-2rem border-circle flex align-items-center justify-content-center matching-header-icon">
+                        <i class="pi pi-sitemap text-base text-blue-700"></i>
                     </div>
                     <div>
-                        <h1 class="text-midnight font-bold text-2xl m-0">Configuration du Matching IA</h1>
-                        <p class="text-blue-800 m-0 opacity-80 mt-1">Ajustez les seuils de couverture exigés pour les compétences et les experts lors de la Phase 3.</p>
+                        <h1 class="text-midnight font-bold text-lg m-0">Configuration du Matching IA</h1>
                     </div>
                 </div>
                 
-                <div class="flex align-items-center gap-3 bg-white p-3 border-round-2xl shadow-1">
-                    <i class="pi pi-folder-open text-blue-500 text-xl"></i>
+                <div class="flex align-items-center gap-2 bg-white-alpha-60 p-2 border-round-xl shadow-none">
+                    <i class="pi pi-folder-open text-blue-500 text-sm"></i>
                     <div class="flex flex-column gap-1">
-                        <label class="text-xs font-semibold text-500 uppercase">Configuration Spécifique</label>
+                        <label class="text-xs font-semibold text-500 uppercase matching-specific-label">Configuration Spécifique</label>
                         <p-dropdown [options]="dossiers" [(ngModel)]="selectedDossierId" 
                                     optionLabel="intituleOffre" optionValue="id" 
                                     placeholder="Configuration Globale" 
@@ -38,9 +37,8 @@
     </div>
 
     <!-- Configuration Cards -->
-    <div class="col-12 lg:col-6 mb-4">
-        <div class="flex flex-column gap-4 h-full">
-            <div class="card border-round-2xl shadow-2 p-5 bg-white flex-1">
+    <div class="col-12 lg:col-6 mb-2">
+        <div class="card border-round-2xl shadow-2 p-4 bg-white h-full flex flex-column">
                 <h5 class="text-900 font-bold text-lg mb-3">Compatibilité (Matching IA)</h5>
                 <p class="text-500 text-xs mb-4">Seuils minimums pour le passage en Phase de Méthodologie.</p>
 
@@ -57,20 +55,11 @@
                         <small class="text-500">Ex: 0.40 signifie que 40% des experts requis doivent être détectés avec succès.</small>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Footer Save Actions -->
-            <div class="flex justify-content-end gap-3 mt-1">
-                <button pButton icon="pi pi-check" label="Sauvegarder les configurations"
-                        class="p-button-primary border-round-3xl px-5 py-3 w-full shadow-2"
-                        [disabled]="isSaveDisabled()"
-                        (click)="saveConfig()"></button>
-            </div>
         </div>
     </div>
 
-    <div class="col-12 lg:col-6 mb-4">
-        <div class="card border-round-2xl shadow-2 p-5 bg-white h-full flex flex-column">
+    <div class="col-12 lg:col-6 mb-2">
+        <div class="card border-round-2xl shadow-2 p-4 bg-white h-full flex flex-column">
             <div>
                 <h5 class="text-900 font-bold text-lg mb-3">Règles d'Alignement Stratégique</h5>
                 <p class="text-500 text-xs mb-4">Définissez les seuils pour classer l'alignement en "Oui" ou "Partiel".</p>
@@ -95,7 +84,32 @@
             </div>
         </div>
     </div>
+
+    <div class="col-12">
+        <div class="flex justify-content-end mt-2">
+            <button pButton icon="pi pi-check" label="Sauvegarder les configurations"
+                    class="matching-save-button"
+                    [disabled]="isSaveDisabled()"
+                    (click)="saveConfig()"></button>
+        </div>
+    </div>
 </div>
+
+<style>
+    .matching-header-card { background: rgba(219, 234, 254, 0.32); border: 1px solid rgba(147, 197, 253, 0.50); }
+    .matching-header-icon { background: rgba(255, 255, 255, 0.50); }
+    .matching-specific-label { font-size: 0.62rem !important; }
+    .matching-save-button {
+        background: rgba(219, 234, 254, 0.42) !important;
+        border: 1px solid rgba(147, 197, 253, 0.72) !important;
+        border-radius: 999px !important;
+        color: #2563eb !important;
+        font-size: 0.74rem !important;
+        padding: 0.42rem 0.78rem !important;
+        box-shadow: none !important;
+    }
+    .matching-save-button:hover { background: rgba(191, 219, 254, 0.62) !important; border-color: #93c5fd !important; }
+</style>
 
 <!-- Loader -->
 <div *ngIf="isLoading" class="text-center p-8">

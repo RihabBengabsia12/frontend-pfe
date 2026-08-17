@@ -1,6 +1,6 @@
 """
 ProjectIQ-PFE — ia-service
-Point d'entrée FastAPI. Enregistre tous les routeurs.
+Point d'entrée FastAPI. Enrnotre cabinettre tous les routeurs.
 """
 
 from fastapi import FastAPI
@@ -21,13 +21,19 @@ from routers.config_router     import router as config_router
 
 app = FastAPI(
     title="ProjectIQ ia-service",
-    description="Service IA Claude pour l'analyse d'appels d'offres — Egis",
+    description="Service IA Claude pour l'analyse d'appels d'offres — notre cabinet",
     version="1.0.0",
 )
 
+allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:4200").split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -43,9 +49,9 @@ logger = logging.getLogger(__name__)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    body = await request.body()
-    logger.error(f"422 Validation Error: {exc.errors()} \nBody: {body.decode('utf-8', errors='replace')}")
-    return JSONResponse(status_code=422, content={"detail": exc.errors(), "body": body.decode('utf-8', errors='replace')})
+    # Ne pas journaliser ni renvoyer le TDR complet : il peut contenir des données sensibles.
+    logger.warning("422 Validation Error on %s: %s", request.url.path, exc.errors())
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})
 
 
 @app.get("/health", tags=["Health"])

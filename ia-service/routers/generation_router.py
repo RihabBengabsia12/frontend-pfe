@@ -37,8 +37,8 @@ def generate_methodologie(req: MethodologieRequest) -> dict:
     Génère la méthodologie structurée en 5 sections.
     Injectée dans Methodologie-Template.docx via Apache POI.
     """
-    if not req.document_text.strip():
-        raise HTTPException(status_code=400, detail="document_text est vide")
+    if not req.document_text or not req.document_text.strip():
+        req.document_text = "N/A" # Fallback so it doesn't crash if Java omitted it
     try:
         from services.claude_client import fetch_dossier_overrides
         req.custom_prompts = fetch_dossier_overrides(req.dossier_id)
@@ -54,6 +54,6 @@ def generate_checklist(req: ChecklistRequest) -> dict:
     Génère la checklist des pièces administratives selon le bailleur.
     Logique déterministe (pas d'appel Claude — instantané).
     """
-    if not req.bailleur.strip():
-        raise HTTPException(status_code=400, detail="bailleur est requis")
+    if not req.bailleurs or not req.bailleurs.strip():
+        req.bailleurs = "Standard"
     return checklist_service.generate_checklist(req)

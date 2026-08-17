@@ -1,0 +1,52 @@
+
+
+=== Step 1423 ===
+Created At: 2026-08-06T23:33:16Z
+Completed At: 2026-08-06T23:33:16Z
+File Path: `file:///c:/Users/Ghada/frontend-pfe/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html`
+Total Lines: 683
+Total Bytes: 45394
+Showing lines 100 to 140
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+100:                             <div class="field-item is-editing">
+101:                                 <div class="field-label-row">
+102:                                     <div class="flex align-items-center gap-2">
+103:                                         <span class="field-label">Exigences références</span>
+104:                                     </div>
+105:                                     <div class="flex align-items-center gap-2">
+106:                                         <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+107:                                             <div class="conf-dot"></div>
+108:                                             91%
+109:                                         </span>
+110:                                     </div>
+111:                                 </div>
+112:                                 <div class="field-value-box mt-3 mb-1 edit-mode">
+113:                                     <p-chips *ngIf="extractedRequirements" [(ngModel)]="extractedRequirements.references" styleClass="w-full" inputStyleClass="custom-input w-full border-none shadow-none" placeholder="Ajouter référence..."></p-chips>
+114:                                 </div>
+115:                             </div>
+116:                         </div>
+117: 
+118:                         <!-- Experts -->
+119:                         <div class="col-12 lg:col-4">
+120:                             <div class="field-item is-editing">
+121:                                 <div class="field-label-row">
+122:                                     <div class="flex align-items-center gap-2">
+123:                                         <span class="field-label">Profils experts requis</span>
+124:                                     </div>
+125:                                     <div class="flex align-items-center gap-2">
+126:                                         <span class="confidence-badge conf-high" pTooltip="Taux de confiance IA" tooltipPosition="top">
+127:                                             <div class="conf-dot"></div>
+128:                                             89%
+129:                                         </span>
+130:                                     </div>
+131:                                 </div>
+132:                                 <div class="field-value-box mt-3 mb-1 p-2">
+133:                                     <div class="flex flex-wrap gap-2">
+134:                                         <span class="badge-pastel-green-dark" *ngFor="let exp of extractedRequirements?.experts">
+135:                                             {{exp.role}} ({{exp.hm}} h/m)
+136:                                         </span>
+137:                                         <span *ngIf="!extractedRequirements?.experts?.length" class="text-green-600 italic text-sm">Aucun expert détecté</span>
+138:                                     </div>
+139:                                 </div>
+140:                             </div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

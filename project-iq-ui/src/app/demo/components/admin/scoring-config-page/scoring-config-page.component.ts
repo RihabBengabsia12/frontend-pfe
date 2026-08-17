@@ -7,7 +7,7 @@ import { AnalystProjectsService, Dossier } from '../../../service/analyst-projec
 @Component({
     selector: 'app-scoring-config-page',
     templateUrl: './scoring-config-page.component.html',
-    providers: [MessageService],
+    providers: [],
     styles: [`
         .total-badge {
             font-size: 1.1rem;
@@ -43,7 +43,7 @@ export class ScoringConfigPageComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const role = localStorage.getItem('userRole')?.toUpperCase() || 'GUEST';
+        const role = sessionStorage.getItem('userRole')?.toUpperCase() || 'GUEST';
         if (role !== 'ADMIN') {
             this.router.navigate(['/dashboard']);
             // Wait a moment for router navigation to finish before adding the toast

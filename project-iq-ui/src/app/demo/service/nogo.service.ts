@@ -50,6 +50,6 @@ export class NogoService {
 
     /** Download the generated No-Go DOCX report */
     downloadReport(dossierId: string): Observable<Blob> {
-        return this.http.get(`${this.SCORING}/${dossierId}/nogo-report/download`, { responseType: 'blob' });
+        return this.http.get(`/api/dossiers/${dossierId}/download/nogo/blob`, { responseType: 'blob' });
     }
 }

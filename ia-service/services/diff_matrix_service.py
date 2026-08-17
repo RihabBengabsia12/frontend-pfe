@@ -1,5 +1,5 @@
 """
-Génération de la matrice de différenciation Egis vs AO.
+Génération de la matrice de différenciation notre cabinet vs AO.
 Retourne un tableau JSON [{critere, position, argument}] éditable par l'analyste.
 """
 
@@ -8,9 +8,7 @@ import json
 from services.claude_client import call_claude_json, load_prompt
 
 logger = logging.getLogger(__name__)
-
-POSITIONS_VALIDES = {"✓ Couvert", "≈ Partiel", "✗ Gap", "? Inconnu"}
-
+POSITIONS_VALIDES = {"✓ Couvert", "≈ Partiel", "✗ Non couvert", "? Inconnu"}
 
 def generate_diff_matrix(matching_result: dict, dossier_id: str, custom_prompts: dict = None) -> list[dict]:
     """
@@ -27,7 +25,7 @@ def generate_diff_matrix(matching_result: dict, dossier_id: str, custom_prompts:
     )
 
     try:
-        raw = call_claude_json(system_prompt, user_prompt)
+        raw, metrics = call_claude_json(system_prompt, user_prompt)
     except ValueError as e:
         logger.error("Génération matrice différenciation échouée: %s", e)
         raise
@@ -35,7 +33,7 @@ def generate_diff_matrix(matching_result: dict, dossier_id: str, custom_prompts:
     rows = raw.get("matrice", raw) if isinstance(raw, dict) else raw
     if not isinstance(rows, list):
         logger.warning("Réponse matrice inattendue, type=%s", type(rows))
-        return []
+        return [], metrics
 
     # Normalisation + validation des lignes
     result = []
@@ -45,9 +43,9 @@ def generate_diff_matrix(matching_result: dict, dossier_id: str, custom_prompts:
             position = "? Inconnu"
         result.append({
             "critere":  row.get("critere", ""),
-            "position": position,
-            "argument": row.get("argument", ""),
+            "positionCabinet": position,
+            "argumentGap": row.get("argument", ""),
             "editable": True,
         })
 
-    return result
+    return result, metrics

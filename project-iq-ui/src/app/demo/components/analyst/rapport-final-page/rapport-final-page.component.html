@@ -1,127 +1,572 @@
-<p-toast></p-toast>
-
-<div class="px-4 pt-4 pb-0">
-    <app-pipeline-stepper mode="phase4" [activeStep]="0" context="rapport-final"></app-pipeline-stepper>
-</div>
-
-<div class="grid p-4 fade-in-up">
-    <!-- Header -->
-    <div class="col-12 mb-3 fade-in-up delay-1">
-        <div class="card card-pastel-blue p-4 border-round-3xl shadow-2 hover-lift">
-            <div class="flex align-items-center gap-3">
-                <div class="w-3rem h-3rem bg-white-alpha-60 border-circle flex align-items-center justify-content-center floating">
-                    <i class="pi pi-file-pdf text-2xl text-blue-700"></i>
-                </div>
-                <div>
-                    <h1 class="text-midnight font-bold text-2xl m-0">Génération du Rapport d'Analyse Final</h1>
-                    <p class="text-blue-800 m-0 opacity-80 mt-1">Aperçu avant consolidation de toutes les données d'extraction, P-Win et Matching.</p>
-                </div>
-            </div>
-        </div>
+<div class="px-4 pt-4 pb-2 flex align-items-center gap-4 bg-gray-50 z-5" style="position: sticky; top: 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+    <div class="mt-4">
+        <p-splitButton label="Retour" icon="pi pi-arrow-left" (onClick)="goToPhase(3)" [model]="backMenuItems" appendTo="body" styleClass="p-button-outlined p-button-secondary border-round-xl shadow-1 bg-white"></p-splitButton>
     </div>
-
-    <!-- Main Content -->
-    <div class="col-12 lg:col-6 mb-4 fade-in-up">
-        <!-- Template Preview Card -->
-        <div class="card p-4 border-round-2xl shadow-2 hover-lift flex flex-column align-items-center justify-content-center h-full" style="min-height: 250px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
-            <i class="pi pi-file-word text-6xl text-blue-400 mb-3 floating"></i>
-            <h3 class="text-xl font-bold text-700 m-0 mb-2">Modèle de Rapport (Template)</h3>
-            <p class="text-500 text-sm text-center mb-4 max-w-15rem">Visualisez le document modèle avant sa génération et son remplissage automatique par l'IA.</p>
-            <button pButton icon="pi pi-eye" label="Visualiser le modèle" class="p-button-outlined p-button-rounded p-button-info font-bold" (click)="showTemplatePreview = true"></button>
-        </div>
-    </div>
-
-    <div class="col-12 lg:col-6 mb-4 fade-in-up delay-2">
-        <!-- Actions Card -->
-        <div class="card p-4 border-round-2xl shadow-2 flex flex-column align-items-center justify-content-center h-full" style="min-height: 250px;">
-            <i class="pi pi-cog text-5xl text-purple-400 mb-3" [ngClass]="{'pi-spin': isGenerating}"></i>
-            <h3 class="text-xl font-bold text-700 m-0 mb-4">Actions de Génération</h3>
-            
-            <div class="flex flex-column gap-3 w-full max-w-15rem">
-                <!-- Prompt Config Button -->
-                <button pButton icon="pi pi-sliders-h" label="Ajuster Prompts IA" 
-                        class="p-button-rounded p-button-outlined p-button-secondary font-bold shadow-2 w-full" 
-                        (click)="promptDrawer.showDialog()"></button>
-
-                <!-- Generate Button -->
-                <button pButton icon="pi pi-cloud-upload" label="Générer Rapport" 
-                        class="p-button-rounded font-bold shadow-2 w-full" 
-                        [ngClass]="{'p-button-secondary': generatedReportPath, 'btn-pastel-primary pulse-button': !generatedReportPath}"
-                        (click)="generateRapport()"
-                        [disabled]="isGenerating"></button>
-                        
-                <!-- Export Button -->
-                <button pButton icon="pi pi-download" label="Exporter Rapport" 
-                        class="p-button-rounded p-button-success font-bold shadow-2 w-full" 
-                        [disabled]="!generatedReportPath"
-                        (click)="downloadReport()"></button>
-            </div>
-            
-            <div class="text-500 mt-4 text-xs text-center"><i class="pi pi-info-circle mr-1"></i> "Générer" remplira les champs du modèle avec les données extraites.</div>
-        </div>
-    </div>
-
-    <!-- Generated Report Section (Navigation) -->
-    <div id="generated-report-section" *ngIf="generatedReportPath" class="col-12 mt-2 mb-4 fade-in-up">
-        <div class="card p-4 border-round-xl border-1 border-blue-200" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
-            <div class="flex align-items-center justify-content-center gap-3 mb-4">
-                <i class="pi pi-check-circle text-4xl text-green-600"></i>
-                <h2 class="text-green-800 m-0 font-bold text-2xl">Rapport Généré avec Succès</h2>
-            </div>
-            <div class="flex justify-content-center gap-4 mt-2">
-                <button pButton icon="pi pi-arrow-right" iconPos="right" label="Continuer vers l'Éditeur APO" 
-                        class="btn-pastel-success border-round-3xl px-6 py-3 font-bold shadow-3 text-lg hover-lift" 
-                        (click)="continueToApo()"></button>
-                        
-                <button pButton icon="pi pi-box" label="Continuer vers le Pack Final" 
-                        class="btn-pastel-info border-round-3xl px-6 py-3 font-bold shadow-3 text-lg hover-lift" 
-                        (click)="continueToPack()"></button>
-            </div>
-        </div>
+    <div class="flex-1">
+        <app-pipeline-stepper mode="phase4" [activeStep]="currentStep" context="rapport-final" [dossierId]="dossierId" [dossierStatus]="dossierStatus"></app-pipeline-stepper>
     </div>
 </div>
+
+<div class="grid p-4 fade-in-up" *ngIf="!isLoading && currentStep === 0">
+
+
+    <!-- Zone de Décision (Importée du Matching) -->
+    <div class="col-12 mb-4">
+        <div class="decision-card shadow-1 relative overflow-hidden transition-all duration-500" 
+             [ngClass]="isCompatible() ? 'decision-go' : 'decision-nogo'">
+             
+            <!-- Decorative animated blobs -->
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            
+            <div class="decision-content relative z-1 p-5">
+                <div class="decision-header mb-5">
+                    <div class="flex align-items-center gap-3">
+                        <div class="decision-icon-wrapper flex align-items-center justify-content-center border-round-xl shadow-1 p-3">
+                            <i class="pi text-2xl" [ngClass]="isCompatible() ? 'pi-verified text-green-500' : 'pi-ban text-red-500'"></i>
+                        </div>
+                        <div>
+                            <h3 class="m-0 text-2xl font-bold decision-title" style="color: #b19cd9;">Décision de compatibilité</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid decision-body gap-4 mt-2">
+                    <!-- Les règles -->
+                    <div class="col-12 flex flex-wrap gap-3 justify-content-center border-bottom-1 pb-4 border-gray-300 border-opacity-50">
+                        <div class="rule-row flex-1 flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md min-w-min">
+                            <span class="font-semibold text-700 mr-3">Compétences (≥ 50%)</span>
+                            <div class="flex align-items-center gap-2">
+                                <span class="text-xl font-black" [ngStyle]="{'color': getTauxCompetences() >= 50 ? '#77dd77' : '#b19cd9'}">{{ getTauxCompetences() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': getTauxCompetences() >= 50 ? '#77dd77' : '#b19cd9'}" [ngClass]="getTauxCompetences() >= 50 ? 'pi-check-circle' : 'pi-times-circle'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex-1 flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md min-w-min">
+                            <span class="font-semibold text-700 mr-3">Références (≥ 50%)</span>
+                            <div class="flex align-items-center gap-2">
+                                <span class="text-xl font-black" [ngStyle]="{'color': calculateRefTaux() >= 50 ? '#77dd77' : '#b19cd9'}">{{ calculateRefTaux() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': calculateRefTaux() >= 50 ? '#77dd77' : '#b19cd9'}" [ngClass]="calculateRefTaux() >= 50 ? 'pi-check-circle' : 'pi-times-circle'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex-1 flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md min-w-min">
+                            <span class="font-semibold text-700 mr-3">Experts (≥ 40%)</span>
+                            <div class="flex align-items-center gap-2">
+                                <span class="text-xl font-black" [ngStyle]="{'color': getTauxExperts() >= 40 ? '#77dd77' : '#b19cd9'}">{{ getTauxExperts() }}%</span>
+                                <i class="pi text-lg" [ngStyle]="{'color': getTauxExperts() >= 40 ? '#77dd77' : '#b19cd9'}" [ngClass]="getTauxExperts() >= 40 ? 'pi-check-circle' : 'pi-times-circle'"></i>
+                            </div>
+                        </div>
+
+                        <div class="rule-row flex-1 flex align-items-center justify-content-between p-3 border-round-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md min-w-min">
+                            <span class="font-semibold text-700 mr-3">Alignement Stratégique</span>
+                            <div class="flex align-items-center gap-2">
+                                <span class="font-bold text-sm" [ngClass]="isAlignementOk() ? 'text-green-600' : 'text-red-500'">{{ alignementStrategique || 'Non évalué' }}</span>
+                                <i class="pi text-lg" [ngClass]="isAlignementOk() ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Le Résultat -->
+                    <div class="col-12 flex flex-column justify-content-center mt-2">
+                        <div class="result-box p-4 border-round-2xl text-center shadow-1 transition-all duration-500 hover:shadow-3 bg-white">
+                            <div *ngIf="isCompatible()">
+                                <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
+                                    <i class="pi pi-check text-3xl" style="color: #77dd77;"></i>
+                                </div>
+                                <h4 class="m-0 text-xl font-black mb-2" style="color: #77dd77;">Compatible</h4>
+                                <p class="m-0 font-medium line-height-3 text-sm" style="color: #77dd77;">
+                                    Tous les seuils sont respectés.
+                                </p>
+                            </div>
+
+                            <div *ngIf="!isCompatible()">
+                                <div class="inline-flex align-items-center justify-content-center w-4rem h-4rem border-circle mb-3 pulse-animation">
+                                    <i class="pi pi-exclamation-triangle text-3xl" style="color: #b19cd9;"></i>
+                                </div>
+                                <h4 class="m-0 text-xl font-black mb-2" style="color: #b19cd9;">Non Compatible</h4>
+                                <ul class="m-0 pl-0 list-none font-medium line-height-3 text-sm text-center" style="color: #b19cd9;">
+                                    <li *ngIf="getTauxCompetences() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Compétences insuffisantes ({{getTauxCompetences()}}%)</li>
+                                    <li *ngIf="calculateRefTaux() < 50" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Références insuffisantes ({{calculateRefTaux()}}%)</li>
+                                    <li *ngIf="getTauxExperts() < 40" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Experts insuffisants ({{getTauxExperts()}}%)</li>
+                                    <li *ngIf="!isAlignementOk()" class="flex justify-content-center align-items-center gap-2"><i class="pi pi-times mt-1 text-xs"></i> Alignement non respecté</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- ========= ACTIONS ========= -->
+                        <div class="decision-actions mt-4">
+
+                            <!-- Compatible -->
+                            <div *ngIf="isCompatible() && !isMethodologyGenerated" class="flex justify-content-center mb-4">
+                                <button pButton pRipple icon="pi pi-sparkles" label="Générer Méthodologie"
+                                        class="p-button-success p-button-rounded px-5 py-3 font-bold shadow-2"
+                                        [loading]="isGeneratingMethodology" (click)="generateMethodology()"></button>
+                            </div>
+
+                            <!-- Génération du Pack (affiché si Non Compatible OU si Méthodologie déjà générée) -->
+                            <div *ngIf="!isCompatible() || isMethodologyGenerated">
+
+                                <!-- ÉTAT 1 : Générer -->
+                                <div *ngIf="!isPackDecisionnelGenerated" class="flex flex-column align-items-center p-4 border-round-2xl border-1 gap-3 transition-all duration-300 hover:shadow-2" style="background: #f5f3ff; border-color: #ede9fe !important;">
+                                    <i class="pi pi-box text-5xl" style="color: #b19cd9;"></i>
+                                    <div class="text-center">
+                                        <h4 class="m-0 text-lg font-bold" style="color: #4c1d95;">{{ hasGeneratedPack() ? 'Pack déjà généré' : 'Génération des Livrables Finaux' }}</h4>
+                                        <p class="m-0 mt-1 text-sm font-medium" style="color: #8b5cf6;">{{ hasGeneratedPack() ? 'Les livrables sont disponibles pour consultation.' : 'Génère simultanément le Rapport Général et l’APO.' }}</p>
+                                    </div>
+                                    <button pButton pRipple [icon]="hasGeneratedPack() ? 'pi pi-eye' : 'pi pi-cog'" [label]="hasGeneratedPack() ? 'Voir le pack généré' : 'Générer le Pack'"
+                                            class="p-button-lg font-bold shadow-2 hover:shadow-4 transition-all duration-300"
+                                            style="background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%); border: none; color: white;"
+                                            [loading]="isGeneratingPackDecisionnel"
+                                            (click)="generateDecisionPack()"></button>
+                                </div>
+
+                                <!-- ÉTAT 2 : Split après génération -->
+                                <div *ngIf="isPackDecisionnelGenerated" class="animation-fadein">
+
+                                    <div class="flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                                        <span class="inline-flex align-items-center gap-2 px-3 py-2 border-round-xl font-bold text-sm"
+                                              style="background:#dcfce7; color:#16a34a; border:1px solid #86efac;">
+                                            <i class="pi pi-check-circle"></i>
+                                            {{ isCompatible() && isMethodologyGenerated
+                                                ? 'Rapport Général + APO + Méthodologie générés'
+                                                : 'Rapport Général + APO générés' }}
+                                        </span>
+                                        <button pButton pRipple icon="pi pi-refresh" label="Regénérer"
+                                                class="p-button-text p-button-secondary p-button-sm font-semibold"
+                                                (click)="isPackDecisionnelGenerated = false"></button>
+                                    </div>
+
+                                    <!-- Boutons Voir APO / Voir Rapport (Popups) -->
+                                    <div class="flex gap-3 justify-content-center mt-4 fade-in-up">
+                                        <button pButton pRipple class="p-button-text p-button-plain shadow-1 hover:shadow-2 font-semibold transition-all duration-300 border-round-xl border-1"
+                                                style="background: #f8fafc; border-color: #e2e8f0; color: #475569;"
+                                                (click)="showGeneralReportPreview()">
+                                            <div class="flex align-items-center gap-2 px-2 py-1">
+                                                <i class="pi pi-file-pdf text-xl text-indigo-400"></i>
+                                                <span>Voir Rapport Général</span>
+                                            </div>
+                                        </button>
+                                        <button pButton pRipple class="p-button-text p-button-plain shadow-1 hover:shadow-2 font-semibold transition-all duration-300 border-round-xl border-1"
+                                                style="background: #f8fafc; border-color: #e2e8f0; color: #475569;"
+                                                (click)="showApoPreview()">
+                                            <div class="flex align-items-center gap-2 px-2 py-1">
+                                                <i class="pi pi-file-word text-xl text-blue-400"></i>
+                                                <span>Voir Document APO</span>
+                                            </div>
+                                        </button>
+                                        <button *ngIf="isCompatible() && isMethodologyGenerated" pButton pRipple class="p-button-text p-button-plain shadow-1 hover:shadow-2 font-semibold transition-all duration-300 border-round-xl border-1"
+                                                style="background: #f8fafc; border-color: #e2e8f0; color: #475569;"
+                                                (click)="viewGeneratedMethodology()">
+                                            <div class="flex align-items-center gap-2 px-2 py-1">
+                                                <i class="pi pi-file-word text-xl text-green-500"></i>
+                                                <span>Voir Méthodologie</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Préparer Pack (ZIP) -->
+                                    <div class="flex align-items-center gap-3 p-4 border-round-2xl border-1 mt-4" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border-color:#86efac;">
+                                        <div class="w-3rem h-3rem border-circle flex align-items-center justify-content-center flex-shrink-0" style="background:#bbf7d0; border:2px solid #86efac;">
+                                            <i class="pi pi-box text-green-600 text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="m-0 text-lg font-bold text-900">Pack Finalis&eacute;</h4>
+                                            <p class="m-0 mt-1 text-sm text-600">Archive ZIP prête ({{isCompatible() ? 'Rapport, APO et Méthodologie' : 'Rapport et APO'}}). Vous pouvez maintenant préparer l'envoi.</p>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 ml-auto">
+                                            <button pButton pRipple icon="pi pi-file-zip" label="T&eacute;l&eacute;charger le ZIP" class="p-button-secondary p-button-outlined font-bold px-3" (click)="prepareZipPackOnly()"></button>
+                                            <button pButton pRipple icon="pi pi-envelope" label="Préparer l'envoi" class="p-button-success font-bold px-3 shadow-1" (click)="currentStep = 1"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ÉTAPE 2 : SOUMISSION PACK (Prévisualisation) -->
+<div class="grid p-4 fade-in-up" *ngIf="!isLoading && currentStep === 1">
+    
+    <!-- 1. Bannière de Notification pleine largeur -->
+    <div class="col-12 pb-0">
+        <div class="flex align-items-center mb-2 p-3 border-round-lg shadow-1"
+             style="background-color: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46;">
+            <i class="pi pi-check-circle text-2xl mr-3" style="color: #10B981;"></i>
+            <div>
+                <h4 class="m-0 font-bold text-base" style="color: #065F46;">Pack généré avec succès</h4>
+                <p class="m-0 text-sm mt-1" style="color: #047857;">Le document et les fichiers joints ({{isCompatible() ? 'Rapport, APO et Méthodologie' : 'Rapport et APO'}}) sont prêts à être envoyés pour validation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Colonne de Gauche : Logique + Bouton d'Envoi -->
+    <div class="col-12 lg:col-4 xl:col-3 flex flex-column gap-3">
+        
+        <div class="card shadow-1 border-round-xl p-3 bg-white h-full" style="border-left: 4px solid #10B981;">
+            <div class="flex align-items-center gap-2 mb-3">
+                <i class="pi pi-sitemap text-xl" style="color: #10B981;"></i>
+                <h4 class="m-0 font-bold text-800 text-sm">Délégation de Pouvoir</h4>
+            </div>
+            
+            <p class="m-0 text-600 text-sm line-height-3 mb-3">
+                Pour un dossier compatible, le pack est envoyé simultanément aux quatre décideurs.<br>
+                
+                <span *ngIf="validationTargets?.length === 1">
+                    Cible unique : <strong>{{ validationTargets[0].nom }} ({{ validationTargets[0].role }})</strong>
+                </span>
+
+                <span *ngIf="validationTargets && validationTargets.length > 1">
+                    Destinataires : 
+                    <strong>
+                        <ng-container *ngFor="let target of validationTargets; let last = last">
+                            {{ target.role }}<ng-container *ngIf="!last"> ➔ </ng-container>
+                        </ng-container>
+                    </strong>
+                </span>
+            </p>
+
+            <!-- Bouton d'Envoi normal -->
+            <button class="btn-pastel-main w-full flex align-items-center justify-content-center gap-2 mb-2"
+                    *ngIf="isCompatible() && dossierStatus !== 'PENDING_VALIDATION' && dossierStatus !== 'SUBMITTED' && dossierStatus !== 'AUDIT'"
+                    [disabled]="isSubmitting"
+                    (click)="submitToManager()">
+                <i class="pi" [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : 'pi-send'"></i> 
+                {{ isSubmitting ? 'Envoi...' : 'Déclencher l\'e-mail' }}
+            </button>
+
+            <button class="w-full flex align-items-center justify-content-center gap-2 mb-2"
+                    *ngIf="!isCompatible() && dossierStatus !== 'PENDING_VALIDATION' && dossierStatus !== 'SUBMITTED' && dossierStatus !== 'AUDIT'"
+                    style="background: #FEE2E2; color: #991B1B; border: 1px solid #EF4444; border-radius: 8px; padding: .75rem 1rem; font-weight: 600;"
+                    [disabled]="isSubmitting"
+                    (click)="submitToManager()">
+                <i class="pi" [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : 'pi-send'"></i>
+                {{ isSubmitting ? 'Envoi...' : 'Declencher l\'e-mail No-Go' }}
+            </button>
+            
+            <!-- Bouton Validation Téléphonique (Phase 5 - Attente) -->
+            <button class="btn-pastel-main w-full flex align-items-center justify-content-center gap-2 mb-2"
+                    *ngIf="dossierStatus === 'PENDING_VALIDATION' || dossierStatus === 'SUBMITTED'"
+                    style="background: #ECFDF5; color: #065F46; border: 1px solid #10B981;"
+                    [disabled]="isPhoneValidating"
+                    (click)="simulatePhoneValidation()">
+                <i class="pi" [ngClass]="isPhoneValidating ? 'pi-spin pi-spinner' : 'pi-phone'"></i> 
+                Enregistrer Accord Tél.
+            </button>
+            
+            <button class="btn-pastel-secondary w-full flex align-items-center justify-content-center gap-2 mb-2"
+                    *ngIf="dossierStatus === 'PENDING_VALIDATION'"
+                    [disabled]="isSubmitting"
+                    (click)="submitToManager()">
+                <i class="pi" [ngClass]="isSubmitting ? 'pi-spin pi-spinner' : 'pi-send'"></i>
+                {{ isSubmitting ? 'Renvoi en cours...' : 'Renvoyer l\'e-mail' }}
+            </button>
+
+            <!-- Message de Validation & Bouton Audit (Phase 5 → Phase 6) -->
+            <div *ngIf="dossierStatus === 'AUDIT'" class="mb-3 p-3 border-round-lg" style="background-color: #F0FDF4; border: 1px solid #86EFAC;">
+                <div class="flex align-items-center gap-2 mb-2" style="color: #166534;">
+                    <i class="pi pi-check-circle text-xl"></i>
+                    <span class="font-bold">Décision Validée (GO)</span>
+                </div>
+                <button class="p-button-success p-button-sm w-full font-bold shadow-1 mt-1" 
+                        pButton label="Passer à l'Audit" icon="pi pi-arrow-right" iconPos="right"
+                        (click)="goToAuditPage()">
+                </button>
+            </div>
+            
+            <button class="btn-pastel-secondary w-full flex align-items-center justify-content-center gap-2"
+                    *ngIf="dossierStatus !== 'SUBMITTED'"
+                    (click)="currentStep = 0">
+                <i class="pi pi-arrow-left"></i> Retour à l'édition
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. Aperçu dans l'interface Gmail : même contenu que l'e-mail réel -->
+    <div class="col-12 lg:col-8 xl:col-9">
+        <div style="max-width:760px; margin:auto; background:#ffffff; border:1px solid #dadce0; border-radius:12px; overflow:hidden; font-family:Roboto,Arial,sans-serif; color:#202124;">
+            <div style="padding:18px 22px; border-bottom:1px solid #f1f3f4; font-size:19px; line-height:27px;">ProjectIQ — Action requise : GO / NO-GO — {{ dossierData?.intituleOffre || 'Dossier en cours' }} <span style="background:#f1f3f4; color:#5f6368; font-size:11px; padding:4px 8px; border-radius:10px; white-space:nowrap;">Boîte de réception</span></div>
+            <div style="padding:16px 22px 10px; display:flex; align-items:flex-start; gap:12px;">
+                <div style="width:40px; height:40px; border-radius:50%; background:#1a73e8; color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:19px;">P</div>
+                <div style="flex:1; font-size:12px; line-height:18px;"><div><strong style="font-size:14px;">ProjectIQ (Système)</strong> <span style="color:#5f6368;">&lt;noreply&#64;st2i.com.tn&gt;</span></div><div style="color:#5f6368;">À <ng-container *ngIf="validationTargets?.length; else loadingTargets"><ng-container *ngFor="let target of validationTargets; let last = last">{{ target.nom || target.email || target.role }}<ng-container *ngIf="!last">, </ng-container></ng-container></ng-container><ng-template #loadingTargets>chargement des destinataires…</ng-template></div></div>
+                <span style="font-size:12px; color:#5f6368;">À l'instant</span>
+            </div>
+            <div style="padding:10px 28px 24px 74px; font-size:14px;">
+                    <p style="line-height:22px; margin:0 0 10px;">Bonjour Madame, Monsieur,</p>
+                    <p style="line-height:22px; margin:0 0 20px; color:#3c4043;">L'équipe d'analyse a finalisé l'étude du dossier ci-dessous. Consultez la synthèse puis rendez votre décision.</p>
+                    <table style="width:100%; border-collapse:separate; border-spacing:0; border:1px solid #e8eaed; border-radius:8px; overflow:hidden; margin-bottom:20px;">
+                        <tr><td style="padding:9px 12px; width:36%; color:#5f6368; border-bottom:1px solid #e8eaed;">Intitulé</td><td style="padding:9px 12px; font-weight:600; border-bottom:1px solid #e8eaed;">{{ dossierData?.intituleOffre || 'Non précisé' }}</td></tr>
+                        <tr><td style="padding:9px 12px; color:#5f6368; border-bottom:1px solid #e8eaed;">Client</td><td style="padding:9px 12px; border-bottom:1px solid #e8eaed;">{{ dossierData?.client || 'Non précisé' }}</td></tr>
+                        <tr><td style="padding:9px 12px; color:#5f6368; border-bottom:1px solid #e8eaed;">Pays</td><td style="padding:9px 12px; border-bottom:1px solid #e8eaed;">{{ dossierData?.pays || 'Non précisé' }}</td></tr>
+                        <tr><td style="padding:9px 12px; color:#5f6368; border-bottom:1px solid #e8eaed;">Budget</td><td style="padding:9px 12px; border-bottom:1px solid #e8eaed;">{{ dossierData?.budgetGlobal || apoData?.budgetGlobal || 'Non précisé' }}</td></tr>
+                        <tr><td style="padding:9px 12px; color:#5f6368; border-bottom:1px solid #e8eaed;">P-Win</td><td style="padding:9px 12px; font-weight:700; color:#137333; border-bottom:1px solid #e8eaed;">{{ scoringData?.scoreGlobal ?? 'Non évalué' }}<ng-container *ngIf="scoringData?.scoreGlobal !== null && scoringData?.scoreGlobal !== undefined">%</ng-container></td></tr>
+                        <tr><td style="padding:9px 12px; color:#5f6368;">Date limite</td><td style="padding:9px 12px; font-weight:600; color:#c5221f;">{{ dossierData?.dtLimSoum || 'Non précisée' }}</td></tr>
+                    </table>
+                    <div style="font-size:14px; font-weight:700; margin:22px 0 8px;">Livrables disponibles</div>
+                    <div style="font-size:13px; line-height:24px; color:#1967d2; font-weight:600;">• Rapport général (DOCX)<br>• Rapport APO (DOCX)<br><ng-container *ngIf="isCompatible() && isMethodologyGenerated">• Méthodologie (DOCX)<br></ng-container>• Pack complet (ZIP)</div>
+                    <p style="line-height:20px; margin:20px 0 14px;">En tant que <strong><ng-container *ngIf="validationTargets?.length; else defaultRole">{{ validationTargets[0].role || validationTargets[0].nom }}</ng-container><ng-template #defaultRole>manager destinataire</ng-template></strong>, votre approbation est nécessaire pour finaliser la décision.</p>
+                    <div style="margin:20px 0;"><span style="display:inline-block; background:#1a73e8; color:#ffffff; padding:12px 20px; border-radius:5px; font-weight:700; margin:0 10px 10px 0;">Approuver (GO)</span><span style="display:inline-block; background:#ffffff; color:#c5221f; border:1px solid #c5221f; padding:11px 20px; border-radius:5px; font-weight:700;">Rejeter (NO-GO)</span></div>
+                    <div style="border-top:1px solid #e8eaed; padding-top:16px; font-size:12px; line-height:18px; color:#5f6368;">Les boutons actifs et le lien sécurisé à usage unique sont ajoutés lors de l'envoi réel. Le lien est valable 48 h.</div>
+            </div>
+            <div style="padding:0 22px 18px 74px; color:#5f6368; font-size:13px;"><span style="display:inline-block; border:1px solid #dadce0; border-radius:18px; padding:8px 16px; margin-right:8px;">↩ Répondre</span><span style="display:inline-block; border:1px solid #dadce0; border-radius:18px; padding:8px 16px;">→ Transférer</span></div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-pastel-main {
+    background-color: rgba(16, 185, 129, 0.08);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-pastel-main:hover:not(:disabled) {
+    background-color: rgba(16, 185, 129, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-pastel-main:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-pastel-secondary {
+    background-color: rgba(100, 116, 139, 0.08);
+    color: #475569;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-pastel-secondary:hover {
+    background-color: rgba(100, 116, 139, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(100, 116, 139, 0.2);
+}
+
+.btn-pastel-go {
+    background-color: rgba(16, 185, 129, 0.08);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 10px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+.btn-pastel-go:hover {
+    background-color: rgba(16, 185, 129, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-pastel-nogo {
+    background-color: rgba(225, 29, 72, 0.08);
+    color: #e11d48;
+    border: 1px solid rgba(225, 29, 72, 0.3);
+    padding: 10px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+.btn-pastel-nogo:hover {
+    background-color: rgba(225, 29, 72, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+}
+</style>
 
 <div *ngIf="isLoading" class="flex flex-column align-items-center justify-content-center h-20rem">
     <p-progressSpinner></p-progressSpinner>
     <span class="text-600 mt-3 font-medium">Récupération des données du dossier...</span>
 </div>
 
-<!-- Modal de Génération Animée -->
-<p-dialog [(visible)]="displayModal" [modal]="true" [closable]="false" [style]="{width: '450px'}" styleClass="border-round-2xl shadow-6">
-    <div class="flex flex-column align-items-center p-4 text-center">
-        <div class="w-5rem h-5rem bg-blue-50 border-circle flex align-items-center justify-content-center mb-4 floating">
-            <i class="pi pi-cog text-4xl text-blue-500" [ngClass]="{'pi-spin': progressValue < 100}"></i>
-        </div>
-        
-        <h2 class="text-900 font-bold m-0 mb-2">Création du Rapport Final</h2>
-        <p class="text-600 mb-5">{{ loadingMessages[loadingStep] }}</p>
-
-        <div class="w-full">
-            <p-progressBar [value]="progressValue" [showValue]="false" styleClass="h-1rem border-round-xl bg-blue-50"></p-progressBar>
-        </div>
-        <div class="text-right w-full mt-2 text-sm font-bold text-blue-600">{{ progressValue }}%</div>
-        
-        <div class="flex justify-content-between w-full mt-4 border-top-1 surface-border pt-4">
-            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 0}">
-                <i class="pi pi-database text-xl mb-1 text-blue-500"></i>
-                <span class="text-xs font-medium">Données</span>
+<!-- Modal : méthodologie réellement générée -->
+<p-dialog appendTo="body" header="Méthodologie générée" [(visible)]="showApoPreviewDialog" [modal]="true" [style]="{width: '80vw', maxWidth: '1200px'}" [breakpoints]="{'960px': '95vw'}">
+    <div class="methodo-preview-container p-2 flex flex-column h-full">
+        <div class="flex align-items-center justify-content-between mb-4 pb-3 border-bottom-1 border-gray-200">
+            <div class="flex align-items-center gap-3">
+                <i class="pi pi-file-word text-5xl text-blue-600"></i>
+                <div>
+                    <h2 class="m-0 text-xl font-bold text-800">Document méthodologique généré</h2>
+                    <p class="m-0 text-sm text-500 mt-1">Aperçu du document produit à partir des données du dossier et de l’IA.</p>
+                </div>
             </div>
-            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 1}">
-                <i class="pi pi-file-word text-xl mb-1 text-purple-500"></i>
-                <span class="text-xs font-medium">Formatage</span>
+            <div class="flex gap-2">
+                <button pButton icon="pi pi-download" label="Exporter DOCX" class="p-button-outlined p-button-primary shadow-1 font-bold px-3" (click)="downloadGeneratedMethodology()"></button>
+                <button pButton icon="pi pi-print" label="Imprimer" class="p-button-outlined p-button-secondary shadow-1 font-bold px-3" (click)="printGeneratedMethodology()"></button>
+                <button pButton icon="pi pi-refresh" label="Régénérer" class="p-button-outlined p-button-warning shadow-1 font-bold px-3" [loading]="isGeneratingMethodology" (click)="regenerateMethodologyOnly()"></button>
             </div>
-            <div class="flex flex-column align-items-center opacity-50" [ngClass]="{'opacity-100': loadingStep >= 2}">
-                <i class="pi pi-check-circle text-xl mb-1 text-green-500"></i>
-                <span class="text-xs font-medium">Finalisation</span>
+        </div>
+        <div class="relative w-full" style="height: 65vh; min-height: 400px;">
+            <div *ngIf="isDocxLoading" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl" style="background: rgba(255,255,255,0.9);">
+                <i class="pi pi-spin pi-spinner text-6xl text-blue-500 mb-3"></i>
+                <p class="mt-3 text-700 font-bold text-lg">Chargement de la méthodologie générée...</p>
+            </div>
+            <div *ngIf="docxLoadError" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl p-5 text-center" style="background: rgba(255,255,255,0.96);">
+                <i class="pi pi-exclamation-triangle text-5xl text-orange-500 mb-3"></i>
+                <p class="m-0 text-700 font-medium">{{ errorMessageForUI }}</p>
+            </div>
+            <div [class.hidden]="isDocxLoading" class="docx-preview-wrapper bg-gray-100 p-2 border-round-xl overflow-auto shadow-inner w-full h-full">
+                <div #docxContainer></div>
             </div>
         </div>
     </div>
 </p-dialog>
 
-<!-- Modal de Prévisualisation du Template -->
-<p-dialog [(visible)]="showTemplatePreview" [modal]="true" header="Aperçu du Modèle (Template)" [style]="{width: '80vw', height: '90vh'}" [maximizable]="true" styleClass="border-round-xl" (onShow)="onTemplateModalShow()">
-    <div id="docx-preview-container" class="w-full h-full bg-white border-round-xl overflow-auto p-4" style="min-height: 500px;">
-        <!-- docx-preview will render the real DOCX here -->
+<!-- État visible pendant l'appel IA et l'assemblage du document -->
+<p-dialog appendTo="body" [(visible)]="showMethodologyLoadingDialog" [modal]="true" [closable]="false" [showHeader]="false" [style]="{width: '420px'}">
+    <div class="flex flex-column align-items-center text-center p-5 gap-3">
+        <i class="pi pi-spin pi-spinner text-5xl text-primary"></i>
+        <h3 class="m-0 text-800">Génération en cours</h3>
+        <p class="m-0 text-600 line-height-3">ProjectIQ rédige la méthodologie et prépare le document Word. Cette opération peut prendre quelques instants.</p>
+    </div>
+</p-dialog>
+
+<!-- Dialog Pack ZIP Loading (PREMIUM) -->
+<p-dialog appendTo="body" [(visible)]="showPackDialog" [modal]="true" [closable]="false" [showHeader]="false" [style]="{width: '450px', borderRadius: '24px'}">
+    <div class="premium-loading-dialog relative overflow-hidden flex flex-column align-items-center justify-content-center p-6 text-center" style="background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%); min-height: 350px;">
+        <!-- Animated Background Blobs -->
+        <div class="blob-loader blob-purple"></div>
+        <div class="blob-loader blob-pink"></div>
+
+        <div class="z-1 flex flex-column align-items-center gap-4">
+            <!-- Spinner / Icon Container -->
+            <div class="icon-container-pulse">
+                <i class="pi pi-cog spin-animation" style="font-size: 3.5rem; color: #8b5cf6;"></i>
+                <div class="pulse-ring"></div>
+            </div>
+
+            <div class="text-content">
+                <h3 class="m-0 text-2xl font-bold" style="color: #4c1d95;">Génération en cours</h3>
+                <p class="m-0 mt-2 text-sm font-medium" style="color: #8b5cf6;">Analyse IA et création des documents...</p>
+            </div>
+            
+            <!-- Loading Progress Bar -->
+            <div class="loading-bar-container mt-2">
+                <div class="loading-bar-progress"></div>
+            </div>
+
+            <!-- Bouton Annuler tout petit -->
+            <button pButton pRipple type="button" icon="pi pi-times" label="Annuler" 
+                    class="p-button-text p-button-sm p-button-secondary mt-2"
+                    style="font-size: 0.75rem; opacity: 0.6; padding: 0.25rem 0.5rem;"
+                    (click)="cancelGeneration()"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Dialog Pack ZIP Preparation (PREMIUM) -->
+<p-dialog appendTo="body" [(visible)]="showZipDialog" [modal]="true" [closable]="packStep !== 'zip'" [showHeader]="false" [style]="{width: '450px', borderRadius: '24px'}">
+    <div class="premium-loading-dialog relative overflow-hidden flex flex-column align-items-center justify-content-center p-6 text-center" style="background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%); min-height: 350px;">
+        <!-- Animated Background Blobs -->
+        <div class="blob-loader blob-purple"></div>
+        <div class="blob-loader blob-pink"></div>
+
+        <div class="z-1 flex flex-column align-items-center gap-4">
+            
+            <ng-container *ngIf="packStep === 'zip'">
+                <!-- Spinner / Icon Container -->
+                <div class="icon-container-pulse">
+                    <i class="pi pi-box spin-animation" style="font-size: 3.5rem; color: #8b5cf6;"></i>
+                    <div class="pulse-ring"></div>
+                </div>
+
+                <div class="text-content">
+                    <h3 class="m-0 text-2xl font-bold" style="color: #4c1d95;">Préparation du Pack</h3>
+                    <p class="m-0 mt-2 text-sm font-medium" style="color: #8b5cf6;">Compression des documents en cours...</p>
+                </div>
+                
+                <!-- Loading Progress Bar -->
+                <div class="loading-bar-container mt-2">
+                    <div class="loading-bar-progress"></div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="packStep === 'ready'">
+                <div class="inline-flex align-items-center justify-content-center w-5rem h-5rem border-circle mb-2 pulse-animation" style="background: #dcfce7; border: 3px solid #86efac;">
+                    <i class="pi pi-check text-4xl" style="color: #16a34a;"></i>
+                </div>
+                <div class="text-content">
+                    <h3 class="m-0 text-2xl font-bold" style="color: #16a34a;">Pack Prêt !</h3>
+                    <p class="m-0 mt-2 text-sm font-medium" style="color: #4b5563;">Le fichier ZIP a été généré avec succès.<br>Le manager a été notifié par email.</p>
+                </div>
+                <button pButton pRipple icon="pi pi-download" label="Télécharger le ZIP"
+                        class="p-button-rounded p-button-success px-5 py-3 font-bold mt-3 shadow-2 hover:shadow-4 transition-all duration-300"
+                        (click)="downloadPack(); showZipDialog = false;"></button>
+            </ng-container>
+            
+            <ng-container *ngIf="packStep === 'error'">
+                <div class="inline-flex align-items-center justify-content-center w-5rem h-5rem border-circle mb-2" style="background: #fee2e2; border: 3px solid #fca5a5;">
+                    <i class="pi pi-times text-4xl" style="color: #ef4444;"></i>
+                </div>
+                <div class="text-content">
+                    <h3 class="m-0 text-2xl font-bold" style="color: #ef4444;">Erreur</h3>
+                    <p class="m-0 mt-2 text-sm font-medium" style="color: #4b5563;">Impossible de préparer le pack.</p>
+                </div>
+                <button pButton pRipple icon="pi pi-refresh" label="Réessayer"
+                        class="p-button-rounded p-button-danger p-button-outlined px-5 py-3 font-bold mt-3"
+                        (click)="showZipDialog = false"></button>
+            </ng-container>
+
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Dialog Rapport Général -->
+<p-dialog appendTo="body" header="Aperçu Rapport Général" [(visible)]="showGeneralReportDialog" [modal]="true" [style]="{width: '80vw', maxWidth: '1200px'}" [breakpoints]="{'960px': '95vw'}">
+    <div class="methodo-preview-container p-2 flex flex-column h-full">
+        <div class="flex justify-content-end gap-2 mb-3">
+            <button pButton pRipple icon="pi pi-print" label="Imprimer" class="p-button-outlined p-button-secondary font-bold" (click)="printGeneralReport()"></button>
+            <button pButton pRipple icon="pi pi-download" label="Télécharger DOCX" class="p-button-outlined p-button-danger font-bold" (click)="downloadGeneralReportDocx()"></button>
+            <button pButton pRipple icon="pi pi-refresh" label="Régénérer" class="p-button-outlined p-button-warning font-bold" (click)="regenerateGeneralReportOnly()"></button>
+        </div>
+        <div class="relative w-full" style="height: 65vh; min-height: 400px;">
+            <div *ngIf="isGeneralDocxLoading" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl" style="background: rgba(255,255,255,0.9);">
+                <i class="pi pi-spin pi-spinner text-6xl text-red-500 mb-3"></i>
+                <p class="mt-3 text-700 font-bold text-lg">Chargement de l'aperçu...</p>
+            </div>
+            <div [class.hidden]="isGeneralDocxLoading" class="docx-preview-wrapper bg-gray-100 p-2 border-round-xl overflow-auto shadow-inner w-full h-full">
+                <div #docxContainerGeneral></div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Dialog APO -->
+<p-dialog appendTo="body" header="Aperçu Document APO" [(visible)]="showApoDocumentDialog" [modal]="true" [style]="{width: '80vw', maxWidth: '1200px'}" [breakpoints]="{'960px': '95vw'}">
+    <div class="methodo-preview-container p-2 flex flex-column h-full">
+        <div class="flex justify-content-end gap-2 mb-3">
+            <button pButton pRipple icon="pi pi-print" label="Imprimer" class="p-button-outlined p-button-secondary font-bold" (click)="printApoDocument()"></button>
+            <button pButton pRipple icon="pi pi-download" label="Télécharger DOCX" class="p-button-outlined p-button-info font-bold" (click)="downloadApoDocumentDocx()"></button>
+            <button pButton pRipple icon="pi pi-refresh" label="Régénérer" class="p-button-outlined p-button-warning font-bold" (click)="regenerateApoOnly()"></button>
+        </div>
+        <div class="relative w-full" style="height: 65vh; min-height: 400px;">
+            <div *ngIf="isApoDocumentLoading" class="absolute top-0 left-0 w-full h-full flex flex-column align-items-center justify-content-center z-2 border-round-xl" style="background: rgba(255,255,255,0.9);">
+                <i class="pi pi-spin pi-spinner text-6xl text-blue-500 mb-3"></i>
+                <p class="mt-3 text-700 font-bold text-lg">Chargement de l'aperçu...</p>
+            </div>
+            <div [class.hidden]="isApoDocumentLoading" class="docx-preview-wrapper bg-gray-100 p-2 border-round-xl overflow-auto shadow-inner w-full h-full">
+                <div #docxContainerApoDocument></div>
+            </div>
+        </div>
     </div>
 </p-dialog>
 

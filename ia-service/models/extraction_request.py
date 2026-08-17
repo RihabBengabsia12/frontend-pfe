@@ -23,14 +23,33 @@ class RiskAnalysisRequest(BaseModel):
     custom_prompts: dict[str, str] = Field(default_factory=dict, description="Prompts spécifiques au dossier")
 
 class NoGoReportRequest(BaseModel):
-    dossier_id: str
-    pwin_score: float
-    score_a_faisabilite: float
-    score_b_rentabilite: float
-    score_c_risques: float
-    score_d_concurrence: float
-    score_e_conformite: float
-    risques_redhibitoires: list[str] = Field(default_factory=list)
-    champs_principaux: dict          = Field(default_factory=dict,
-        description="Dict des champs clés: PAYS, CLIENT, BUDGET, HM, TJM_IMPLICITE…")
+    dossier_id: str = Field(..., alias="dossierId")
+    pwin_score: float = Field(..., alias="pwinScore")
+    score_a_faisabilite: float = Field(..., alias="scoreA")
+    score_b_rentabilite: float = Field(..., alias="scoreB")
+    score_c_risques: float = Field(..., alias="scoreC")
+    score_d_concurrence: float = Field(..., alias="scoreD")
+    score_e_conformite: float = Field(..., alias="scoreE")
+    
+    decisionAuto: Optional[str] = None
+    motifPrincipal: Optional[str] = None
+    risques: list[dict] = Field(default_factory=list)
+    intituleOffre: Optional[str] = None
+    client: Optional[str] = None
+    pays: Optional[str] = None
+    
     custom_prompts: dict[str, str] = Field(default_factory=dict, description="Prompts spécifiques au dossier")
+
+    @property
+    def risques_redhibitoires(self) -> list[str]:
+        # Extract 'nom' or 'justification' from the dict
+        return [r.get('nom', 'Inconnu') for r in self.risques if isinstance(r, dict)]
+
+    @property
+    def champs_principaux(self) -> dict:
+        return {
+            "INTITULÉ OFFRE": self.intituleOffre or "N/A",
+            "CLIENT": self.client or "N/A",
+            "PAYS": self.pays or "N/A",
+            "MOTIF PRINCIPAL": self.motifPrincipal or "N/A"
+        }

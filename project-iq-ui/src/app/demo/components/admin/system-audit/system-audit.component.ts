@@ -14,7 +14,7 @@ interface SystemAuditEntry {
 @Component({
     selector: 'app-system-audit',
     templateUrl: './system-audit.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class SystemAuditComponent implements OnInit {
 
@@ -36,7 +36,14 @@ export class SystemAuditComponent implements OnInit {
 
     loadHistory(): void {
         this.isLoading = true;
-        this.http.get<SystemAuditEntry[]>(`${environment.apiUrl}/analyste-service/api/system-audit`)
+        this.http.get<SystemAuditEntry[]>('/api/analyst/system-audit', {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            },
+            params: { t: new Date().getTime().toString() }
+        })
             .subscribe({
                 next: (data) => {
                     this.auditHistory = data;
@@ -76,5 +83,16 @@ export class SystemAuditComponent implements OnInit {
         if (action.includes('ADD')) return 'pi pi-plus';
         if (action.includes('DELETE')) return 'pi pi-trash';
         return 'pi pi-cog';
+    }
+
+    formatAction(action: string): string {
+        switch (action) {
+            case 'DLP_ADD_WORD': return 'Ajout mot sensible';
+            case 'DLP_DELETE_WORD': return 'Suppression mot sensible';
+            case 'DLP_UPDATE_STATUS': return 'Statut mot sensible modifié';
+            case 'UPDATE_SCORING_THRESHOLDS': return 'Seuils Scoring modifiés';
+            case 'UPDATE_MATCHING_CONFIG': return 'Config Matching modifiée';
+            default: return action;
+        }
     }
 }

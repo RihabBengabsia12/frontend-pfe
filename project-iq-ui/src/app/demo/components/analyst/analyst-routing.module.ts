@@ -22,6 +22,7 @@ import { PackReadyPageComponent } from './pack-ready-page/pack-ready-page.compon
 import { AnalystNogoReportsComponent } from './nogo-reports/analyst-nogo-reports.component';
 import { AnalystMethodologiesComponent } from './methodologies/analyst-methodologies.component';
 import { AnalystAposComponent } from './apos/analyst-apos.component';
+import { AuditPageComponent } from './audit-page/audit-page.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -52,7 +53,10 @@ import { AnalystAposComponent } from './apos/analyst-apos.component';
         // ── Phase 4 — Finalisation APO & Pack ──
         { path: ':id/rapport-final', component: RapportFinalPageComponent },
         { path: ':id/apo-editor', component: ApoEditorPageComponent },
-        { path: ':id/pack', component: PackReadyPageComponent }
+        { path: ':id/pack', component: PackReadyPageComponent },
+
+        // ── Phase 6 — Audit et Archivage ──
+        { path: ':id/audit', component: AuditPageComponent }
     ])],
     exports: [RouterModule]
 })

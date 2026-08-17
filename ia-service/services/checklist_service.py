@@ -60,7 +60,7 @@ def generate_checklist(req: ChecklistRequest) -> dict:
     Retourne la checklist adaptée au bailleur.
     Matching partiel (ex: 'Banque Mondiale + AFD' → prend BM).
     """
-    bailleur_upper = req.bailleur.upper()
+    bailleur_upper = (req.bailleurs or "").upper()
 
     if "BANQUE MONDIALE" in bailleur_upper or "WORLD BANK" in bailleur_upper or "BM" in bailleur_upper:
         key = "Banque Mondiale"

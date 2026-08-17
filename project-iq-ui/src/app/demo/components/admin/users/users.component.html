@@ -1,22 +1,22 @@
-<div class="card">
-    <p-toast></p-toast>
+<div class="card p-3">
+    
     <p-confirmDialog></p-confirmDialog>
 
-    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-4 gap-3">
+    <div class="flex flex-column md:flex-row md:align-items-center justify-content-between mb-3 gap-2">
         <div>
-            <h2 class="text-900 font-bold text-3xl m-0 flex align-items-center gap-2">
-                <i class="pi pi-users text-4xl" style="color:var(--primary-color)"></i>
+            <h2 class="text-900 font-bold text-xl m-0 flex align-items-center gap-2">
+                <i class="pi pi-users text-xl" style="color:var(--primary-color)"></i>
                 Annuaire des Utilisateurs
             </h2>
-            <p class="text-500 mt-2 mb-0">{{ totalRecords }} utilisateurs</p>
+            <p class="text-500 text-xs mt-1 mb-0">{{ totalRecords }} utilisateurs</p>
         </div>
         <div class="flex align-items-center gap-2">
             <span class="p-input-icon-left w-full md:w-auto">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher par nom ou email..." class="w-full md:w-20rem border-round-3xl" />
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher par nom ou email..." class="p-inputtext-sm w-full md:w-15rem border-round-3xl" />
             </span>
-            <button pButton icon="pi pi-file-pdf" label="Exporter" class="p-button-danger border-round-3xl" (click)="exportPdf()" pTooltip="Exporter en PDF" tooltipPosition="top"></button>
-            <button pButton icon="pi pi-refresh" class="p-button-rounded p-button-text p-button-secondary" (click)="loadUsers(0)" pTooltip="Rafraîchir" tooltipPosition="top"></button>
+            <button pButton icon="pi pi-file-pdf" label="Exporter" class="directory-pastel-button" (click)="exportPdf()" pTooltip="Exporter en PDF" tooltipPosition="top"></button>
+            <button pButton icon="pi pi-refresh" class="directory-pastel-button p-button-rounded" (click)="loadUsers(0)" pTooltip="Rafraîchir" tooltipPosition="top"></button>
         </div>
     </div>
 
@@ -127,6 +127,19 @@
         </ng-template>
     </p-table>
 </div>
+
+<style>
+    .directory-pastel-button {
+        background: rgba(219, 234, 254, 0.40) !important;
+        border: 1px solid rgba(147, 197, 253, 0.72) !important;
+        color: #2563eb !important;
+        border-radius: 999px !important;
+        font-size: 0.72rem !important;
+        padding: 0.34rem 0.65rem !important;
+        box-shadow: none !important;
+    }
+    .directory-pastel-button:hover { background: rgba(191, 219, 254, 0.62) !important; border-color: #93c5fd !important; }
+</style>
 
 <!-- User Detail Dialog -->
 <p-dialog header="Détails de l'utilisateur" [(visible)]="displayDetail" [modal]="true" [style]="{width: '450px'}" [draggable]="false" [resizable]="false">

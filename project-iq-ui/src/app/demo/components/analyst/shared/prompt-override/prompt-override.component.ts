@@ -6,7 +6,7 @@ import { ConfigIaService } from '../../../../service/config-ia.service';
   selector: 'app-prompt-override',
   templateUrl: './prompt-override.component.html',
   styleUrls: ['./prompt-override.component.scss'],
-  providers: [MessageService]
+  providers: []
 })
 export class PromptOverrideComponent implements OnInit {
   

@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+
 
 <div class="page-container">
 
@@ -25,6 +25,11 @@
             </div>
         </div>
     </header>
+
+    <!-- ── Alertes IA (Document Partiel, etc.) ── -->
+    <div class="mt-4" *ngIf="alertesIa">
+        <p-messages [value]="[{severity:'warn', summary:'Alerte IA (Qualité du Document)', detail: alertesIa}]" [enableService]="false" [closable]="false"></p-messages>
+    </div>
 
     <!-- ── Alerte Rédhibitoire ── -->
     <div class="redhibitoire-alert mt-4" *ngIf="hasRedhibitoire">
@@ -68,8 +73,10 @@
                             <span>Vérification des Champs (P2)</span>
                         </div>
                         <div class="header-actions">
+                            <button *ngIf="isConsultation && !isFinalLocked" pButton icon="pi pi-lock-open" label="Révalider"
+                                class="p-button-outlined p-button-warning" (click)="startRevalidation()"></button>
                             <span class="progress-text">{{ validatedCount }} / {{ fields.length }} validés</span>
-                            <button pButton class="btn-validate-all" (click)="toggleValidateAll()">
+                            <button pButton class="btn-validate-all" (click)="toggleValidateAll()" [disabled]="isConsultation">
                                 <i class="pi" [ngClass]="validatedCount === fields.length ? 'pi-times' : 'pi-check-square'"></i>
                                 <span>{{ validatedCount === fields.length ? 'Tout dévalider' : 'Tout valider' }}</span>
                             </button>
@@ -92,7 +99,6 @@
                                         <div class="field-label-wrapper">
                                             <span class="field-label">{{ f.label }}</span>
                                             <span class="badge-source" *ngIf="f.humanModified">Manuel</span>
-                                            <span class="badge-source ai" *ngIf="!f.humanModified">IA Claude</span>
                                         </div>
                                         <div class="field-confidence" *ngIf="!f.humanModified">
                                             <div class="conf-dot" [ngClass]="confidenceClass(f.confidence)"></div>
@@ -103,8 +109,18 @@
                                     <!-- Field Value & Controls -->
                                     <div class="field-controls">
                                         <!-- Affichage Read-Only -->
-                                        <div class="value-display" *ngIf="!f.editing" [ngClass]="{'empty-val': !f.value}">
-                                            {{ f.value || 'Non renseigné' }}
+                                        <div class="value-display" [hidden]="f.editing" [ngClass]="{'empty-val': !f.value}">
+                                            <span class="main-val font-semibold">{{ f.value || 'Non renseigné' }}</span>
+                                            
+                                            <div class="proof-container mt-2" *ngIf="f.sourceText">
+                                                <div class="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors" 
+                                                     (click)="f.showProof = !f.showProof">
+                                                    {{ f.showProof ? '🔽 Masquer la justification' : '💡 Voir justification' }}
+                                                </div>
+                                                <div class="proof-box mt-2 p-3 border-round surface-100" *ngIf="f.showProof" style="animation: fadeScaleIn 0.3s ease-out; border-left: 3px solid #3b82f6;">
+                                                    <span class="text-sm text-700 font-italic" style="line-height: 1.5; white-space: pre-wrap;">"{{ f.sourceText }}"</span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- Mode Édition -->
@@ -125,21 +141,21 @@
                                     <!-- Action Buttons -->
                                     <div class="field-actions">
                                         <!-- Actions en Read-Only -->
-                                        <ng-container *ngIf="!f.editing">
-                                            <button class="pill-btn btn-edit" pTooltip="Modifier" (click)="startEdit(f)">
+                                        <ng-container>
+                                            <button class="pill-btn btn-edit" title="Modifier" (click)="startEdit(f)" [hidden]="f.editing || isConsultation">
                                                 <i class="pi pi-pencil"></i>
                                             </button>
-                                            <button class="pill-btn btn-reextract" pTooltip="Ré-extraire via IA" (click)="reextract(f)" [disabled]="f.validated">
+                                            <button class="pill-btn btn-reextract" title="Ré-extraire via IA" (click)="reextract(f)" [disabled]="f.validated" [hidden]="f.editing">
                                                 <i class="pi pi-sync"></i>
                                             </button>
-                                            <button class="pill-btn btn-validate" [ngClass]="{'active': f.validated}" pTooltip="Valider ce champ" (click)="validateField(f)">
+                                            <button class="pill-btn btn-validate" [ngClass]="{'active': f.validated}" [title]="f.validated ? 'Dévalider' : 'Valider'" (click)="validateField(f)" [hidden]="f.editing">
                                                 <i class="pi" [ngClass]="f.validated ? 'pi-check-circle' : 'pi-check'"></i>
                                             </button>
                                         </ng-container>
 
                                         <!-- Actions en Mode Édition -->
-                                        <ng-container *ngIf="f.editing">
-                                            <button class="pill-btn btn-save" (click)="saveEdit(f)">
+                                        <ng-container>
+                                            <button class="pill-btn btn-save" title="Enregistrer" (click)="saveEdit(f)" [hidden]="!f.editing">
                                                 <i class="pi pi-save"></i> Enregistrer
                                             </button>
                                         </ng-container>
@@ -169,26 +185,24 @@
 
         </div>
 
-        <!-- ── APO Template Preview (En bas de page) ── -->
-        <div class="apo-preview-wrapper mt-4">
-            <app-apo-preview
-                [apoData]="apoPreviewData"
-                [confidences]="apoConfidences"
-                [validatedFields]="validatedFieldIds"
-                mode="validation">
-            </app-apo-preview>
-        </div>
+
 
         <!-- ── Footer ── -->
         <div class="page-footer">
             <button pButton icon="pi pi-arrow-left" label="Retour" class="btn-ghost" routerLink="/dossiers"></button>
-            <button pButton icon="pi pi-calculator" 
-                    label="Valider & Calculer P-Win" 
-                    class="btn-submit" 
-                    [loading]="isSubmitting"
-                    [disabled]="!allValidated"
-                    (click)="submitValidation()">
-            </button>
+            <div class="flex align-items-center gap-3">
+                <small *ngIf="allValidated && hasEmptyFields" class="p-error flex align-items-center gap-2" style="font-weight: 600; font-size: 0.9rem; max-width: 300px; line-height: 1.2;">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 1.2rem;"></i>
+                    Attention : Certains champs vides risquent de fausser le calcul du scoring et le matching.
+                </small>
+                <button pButton icon="pi pi-calculator" 
+                        label="Valider & Calculer P-Win" 
+                        class="btn-submit" 
+                        [loading]="isSubmitting"
+                        [disabled]="isConsultation || !allValidated"
+                        (click)="submitValidation()">
+                </button>
+            </div>
         </div>
 
     </main>

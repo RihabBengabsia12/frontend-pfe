@@ -21,19 +21,22 @@ public class AuditService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveAudit(UUID actorId, String entity, String action, String oldVal, String newVal) {
         try {
+            // Null-safe: actorId peut être null si appelé sans contexte d'authentification
+            String entityId = (actorId != null) ? actorId.toString() : "SYSTEM";
+
             DataEvent event = DataEvent.builder()
                     .actorUserId(actorId)
                     .entityName(entity)
-                    .entityId(actorId.toString()) // <--- AJOUTE CETTE LIGNE ICI
+                    .entityId(entityId)
                     .action(action)
                     .oldData(oldVal)
                     .newData(newVal)
                     .occurredAt(java.time.OffsetDateTime.now())
-                    .createdAt(java.time.OffsetDateTime.now()) // Ajoute aussi le createdAt si nécessaire
+                    .createdAt(java.time.OffsetDateTime.now())
                     .build();
 
             eventRepo.saveAndFlush(event);
-            System.out.println("✅ Audit inséré pour l'entité : " + actorId);
+            System.out.println("✅ Audit inséré pour l'entité : " + entityId);
         } catch (Exception e) {
             System.err.println("❌ Erreur lors de l'enregistrement de l'audit : " + e.getMessage());
         }

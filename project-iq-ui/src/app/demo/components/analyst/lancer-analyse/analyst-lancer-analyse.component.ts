@@ -36,7 +36,7 @@ export interface AuditLogEntry {
 @Component({
     templateUrl: './analyst-lancer-analyse.component.html',
     styleUrls: ['./analyst-lancer-analyse.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class AnalystLancerAnalyseComponent implements OnInit, OnDestroy {
 
@@ -309,11 +309,12 @@ export class AnalystLancerAnalyseComponent implements OnInit, OnDestroy {
                     this.isUploading = false;
                     this.projectId = dossier.id;
                     this.projectBackendData = dossier;
-                    localStorage.setItem('lastProjectId', dossier.id);
+                    sessionStorage.setItem('lastProjectId', dossier.id);
                     this.messageService.add({
                         severity: 'success',
-                        summary: 'Upload reussi',
-                        detail: "Le dossier a ete televerse avec succes. Passage automatique a l'extraction."
+                        summary: 'Analyse lancée',
+                        detail: "Le dossier a été téléversé avec succès. Passage automatique à l'extraction. Cliquez pour voir les détails.",
+                        data: { action: 'SHOW_PIPELINE_MODAL' }
                     });
                     this.isExtracting = true;
                     this.navigateToStep(1);
@@ -730,11 +731,14 @@ export class AnalystLancerAnalyseComponent implements OnInit, OnDestroy {
                     this.sseService.disconnect(this.projectId!);
                     break;
                 case 'PIPELINE_STOPPED_NOGO':
+                    // NotificationService already adds a persistent bell notification with details.
+                    this.sseService.disconnect(this.projectId!);
+                    break;
                 case 'PIPELINE_ERROR':
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Attention',
-                        detail: 'Le pipeline s\'est arrÃªtÃ© ou a rencontrÃ© une erreur.'
+                        detail: 'Le pipeline a rencontré une erreur.'
                     });
                     this.sseService.disconnect(this.projectId!);
                     break;

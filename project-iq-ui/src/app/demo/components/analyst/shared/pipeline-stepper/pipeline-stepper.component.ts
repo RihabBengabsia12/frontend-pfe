@@ -47,28 +47,28 @@ export const PIPELINE_CONTEXTS: Record<string, PipelineContext> = {
   matching: {
     phaseTag: 'Phase 3',
     title: 'Matching, Matrice de Différenciation & Extraction Stratégique',
-    subtitle: 'Comparaison exigences AO ↔ référentiel Egis. Extraction des champs optionnels stratégiques et génération de la matrice de différenciation.',
+    subtitle: '',
     icon: 'pi pi-percentage',
     iconColor: '#7c3aed'
   },
   deposit: {
     phaseTag: 'Phase 1',
     title: 'ProjectIQ — Dépôt & Extraction',
-    subtitle: 'Dépôt fusionné AP & TDR, extraction automatique par Claude IA et validation métier.',
+    subtitle: '',
     icon: 'pi pi-play',
     iconColor: '#1976d2'
   },
   'deep-analysis': {
     phaseTag: 'Phase 2',
     title: 'ProjectIQ — Analyse Approfondie',
-    subtitle: 'Extraction approfondie des clauses contractuelles et évaluation des risques (P-Win).',
+    subtitle: '',
     icon: 'pi pi-search-plus',
     iconColor: '#6366f1'
   },
   'rapport-final': {
     phaseTag: 'Phase 4',
     title: 'ProjectIQ — Rapport Général',
-    subtitle: 'Génération et consolidation du rapport d\'analyse final reprenant toutes les phases.',
+    subtitle: '',
     icon: 'pi pi-file-pdf',
     iconColor: '#dc2626'
   },
@@ -101,6 +101,36 @@ export class PipelineStepperComponent {
   @Input() activeStep = 0;
 
   @Input() dossierId: string | null = null;
+  @Input() dossierStatus: string = '';
+
+  canGoPrevPhase(): boolean {
+    return this.mode !== 'phase1';
+  }
+
+  canGoNextPhase(): boolean {
+    if (this.mode === 'phase4') return false;
+    const s = (this.dossierStatus || '').toUpperCase();
+    // Un dossier déjà envoyé aux managers reste consultable dans toutes les phases.
+    // Seuls les écrans de validation protègent alors les modifications.
+    if (this.mode === 'phase1') return ['INDEXED', 'DEEP_ANALYSIS', 'SCORING', 'MANUAL_INTERVENTION', 'FORCE_GO', 'NO_GO_CONFIRMED', 'MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s);
+    if (this.mode === 'phase2') return ['MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s);
+    if (this.mode === 'phase3') return ['DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s);
+    return false;
+  }
+
+  goPrevPhase(): void {
+    if (!this.dossierId) return;
+    if (this.mode === 'phase2') this.router.navigate(['/dossiers', this.dossierId, 'validation-p1']);
+    if (this.mode === 'phase3') this.router.navigate(['/dossiers', this.dossierId, 'scoring']);
+    if (this.mode === 'phase4') this.router.navigate(['/dossiers', this.dossierId, 'matching']);
+  }
+
+  goNextPhase(): void {
+    if (!this.dossierId || !this.canGoNextPhase()) return;
+    if (this.mode === 'phase1') this.router.navigate(['/dossiers', this.dossierId, 'scoring']);
+    if (this.mode === 'phase2') this.router.navigate(['/dossiers', this.dossierId, 'matching']);
+    if (this.mode === 'phase3') this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']);
+  }
 
   @Input() set context(key: string) {
     this._ctx = PIPELINE_CONTEXTS[key] ?? PIPELINE_CONTEXTS['clauses'];
@@ -108,12 +138,11 @@ export class PipelineStepperComponent {
 
   _ctx: PipelineContext = PIPELINE_CONTEXTS['clauses'];
 
-  /** Phase 1 — Chevron workflow (Dépôt, Extraction, Validation, Indexation) */
+  /** Phase 1 — Chevron workflow (Dépôt, Extraction, Validation) */
   phase1Steps: PipelineStep[] = [
     { label: 'Dépôt',      icon: 'pi pi-cloud-upload' },
     { label: 'Extraction IA', icon: 'pi pi-cog' },
-    { label: 'Validation', icon: 'pi pi-verified' },
-    { label: 'Indexation', icon: 'pi pi-server' },
+    { label: 'Validation', icon: 'pi pi-verified' }
   ];
 
   /** Phase 2 — Analyse Approfondie */
@@ -131,9 +160,8 @@ export class PipelineStepperComponent {
 
   /** Phase 4 — Finalisation APO & Pack */
   phase4Steps: PipelineStep[] = [
-    { label: 'Rapport Général', icon: 'pi pi-file-pdf' },
-    { label: 'Éditeur APO', icon: 'pi pi-file-edit' },
-    { label: 'Pack Soumission', icon: 'pi pi-box' }
+    { label: 'Génération document et éditeur APO', icon: 'pi pi-file-pdf' },
+    { label: 'Soumission Pack', icon: 'pi pi-send' }
   ];
 
   constructor(private router: Router) {}
@@ -152,12 +180,28 @@ export class PipelineStepperComponent {
     return max > 0 ? (this.activeStep / max) * 90 : 0;
   }
 
-  isCompleted(i: number): boolean { return i < this.activeStep; }
+  get maxAllowedStep(): number {
+    const s = (this.dossierStatus || '').toUpperCase();
+    if (this.mode === 'phase1') {
+      if (['INDEXED', 'DEEP_ANALYSIS', 'SCORING', 'MANUAL_INTERVENTION', 'FORCE_GO', 'NO_GO_CONFIRMED', 'MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s)) return 2;
+    } else if (this.mode === 'phase2') {
+      if (['MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s)) return 2;
+    } else if (this.mode === 'phase3') {
+      if (['DRAFTING', 'REPORT_GENERATED', 'PACK_READY', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(s)) return 1;
+    } else if (this.mode === 'phase4') {
+      return 1;
+    }
+    return this.activeStep;
+  }
+
+  isCompleted(i: number): boolean { 
+    const max = Math.max(this.activeStep, this.maxAllowedStep);
+    return i < max || (i < this.activeStep); 
+  }
   isActive(i: number): boolean { return i === this.activeStep; }
 
   onStepClick(i: number): void {
-    if (this.mode !== 'phase1' && this.mode !== 'phase4') return;
-    if (i > this.activeStep) return; // Can't skip forward
+    if (i > this.maxAllowedStep && i > this.activeStep) return; // Can't skip forward beyond what's allowed
 
     if (this.mode === 'phase1') {
         if (i === 0) {
@@ -166,16 +210,24 @@ export class PipelineStepperComponent {
           this.router.navigate(['/dossiers', this.dossierId, 'extraction']);
         } else if (i === 2 && this.dossierId) {
           this.router.navigate(['/dossiers', this.dossierId, 'validation-p1']);
-        } else if (i === 3) {
-          this.router.navigate(['/dossiers']);
+        }
+    } else if (this.mode === 'phase2' && this.dossierId) {
+        if (i === 0) {
+            this.router.navigate(['/dossiers', this.dossierId, 'analyse']);
+        } else if (i === 1) {
+            this.router.navigate(['/dossiers', this.dossierId, 'scoring']);
+        } else if (i === 2) {
+            this.router.navigate(['/dossiers', this.dossierId, 'no-go-report']); // or manual-intervention/decision page
+        }
+    } else if (this.mode === 'phase3' && this.dossierId) {
+        if (i === 0) {
+            this.router.navigate(['/dossiers', this.dossierId, 'matching']);
+        } else if (i === 1) {
+            this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']); // Or methodologie
         }
     } else if (this.mode === 'phase4' && this.dossierId) {
-        if (i === 0) {
+        if (i === 0 || i === 1) {
             this.router.navigate(['/dossiers', this.dossierId, 'rapport-final']);
-        } else if (i === 1) {
-            this.router.navigate(['/dossiers', this.dossierId, 'apo-editor']);
-        } else if (i === 2) {
-            this.router.navigate(['/dossiers', this.dossierId, 'pack']);
         }
     }
   }

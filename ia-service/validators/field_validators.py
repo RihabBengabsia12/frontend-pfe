@@ -9,8 +9,8 @@ from typing import Optional
 
 
 DATE_FORMAT = "%d/%m/%Y"
-TJM_MIN_EGIS = 450.0
-TJM_MAX_EGIS = 3000.0
+TJM_MIN_CABINET = 450.0
+TJM_MAX_CABINET = 3000.0
 VISITE_URGENCE_JOURS = 5
 
 
@@ -74,13 +74,13 @@ def calc_tjm_implicite(
 
 
 def check_tjm_range(tjm: Optional[float]) -> Optional[str]:
-    """Alerte si le TJM est hors plage acceptable Egis."""
+    """Alerte si le TJM est hors plage acceptable CABINET."""
     if tjm is None:
         return None
-    if tjm < TJM_MIN_EGIS:
-        return f"TJM implicite {tjm:.0f} €/j — sous le minimum Egis ({TJM_MIN_EGIS:.0f} €/j) → risque budget Rédhibitoire"
-    if tjm > TJM_MAX_EGIS:
-        return f"TJM implicite {tjm:.0f} €/j — supérieur au maximum plausible ({TJM_MAX_EGIS:.0f} €/j) → vérifier budget"
+    if tjm < TJM_MIN_CABINET:
+        return f"TJM implicite {tjm:.0f} €/j — sous le minimum CABINET ({TJM_MIN_CABINET:.0f} €/j) → risque budget Rédhibitoire"
+    if tjm > TJM_MAX_CABINET:
+        return f"TJM implicite {tjm:.0f} €/j — supérieur au maximum plausible ({TJM_MAX_CABINET:.0f} €/j) → vérifier budget"
     return None
 
 

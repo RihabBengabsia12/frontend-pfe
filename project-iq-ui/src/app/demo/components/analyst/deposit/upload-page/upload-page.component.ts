@@ -15,7 +15,7 @@ import { PipelineTrackingService } from '../../../../service/pipeline-tracking.s
     selector: 'app-upload-page',
     templateUrl: './upload-page.component.html',
     styleUrls: ['./upload-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class UploadPageComponent implements OnInit, OnDestroy {
 
@@ -179,19 +179,27 @@ export class UploadPageComponent implements OnInit, OnDestroy {
         return '';
     }
 
+    getDaysRemainingLabel(jours: number): string {
+        if (jours < 0) {
+            return `Dépassé (${Math.abs(jours)}j)`;
+        }
+        return `${jours}j`;
+    }
+
     // ══════════════════════════════════════════════════════
-    /** Calcule la priorité exacte (1, 2, 3) en se basant sur les jours ouvrables restants, comme le backend */
+    /** Calcule la priorité exacte (1, 2, 3, 4) en se basant sur les jours ouvrables restants, comme le backend */
     getDossierPriorite(dossier: Dossier): number {
         if (dossier.priorityOverride && dossier.priorite) {
             return dossier.priorite;
         }
         if (dossier.dtLimSoum) {
             const jours = this.getDaysRemainingFromDate(dossier.dtLimSoum);
+            if (jours < 0) return 4; // Expiré
             if (jours <= 10) return 1;
             if (jours <= 20) return 2;
             return 3;
         }
-        return dossier.priorite || 3;
+        return 3;
     }
 
     getPriorityLabel(priorite: number | undefined): string {
@@ -199,15 +207,17 @@ export class UploadPageComponent implements OnInit, OnDestroy {
             case 1: return 'Urgent';
             case 2: return 'Modéré';
             case 3: return 'Normal';
+            case 4: return 'Expiré';
             default: return 'Normal';
         }
     }
 
-    getPrioritySeverity(priorite: number | undefined): 'danger' | 'warning' | 'success' {
+    getPrioritySeverity(priorite: number | undefined): 'danger' | 'warning' | 'success' | 'secondary' {
         switch (priorite) {
             case 1: return 'danger';
             case 2: return 'warning';
             case 3: return 'success';
+            case 4: return 'secondary' as any;
             default: return 'success';
         }
     }
@@ -217,6 +227,7 @@ export class UploadPageComponent implements OnInit, OnDestroy {
             case 1: return 'priority-urgent';
             case 2: return 'priority-moderate';
             case 3: return 'priority-normal';
+            case 4: return 'priority-expired';
             default: return 'priority-normal';
         }
     }
@@ -229,6 +240,7 @@ export class UploadPageComponent implements OnInit, OnDestroy {
     }
 
     getDaysRemainingClass(days: number): string {
+        if (days < 0) return 'days-expired';
         if (days <= 10) return 'days-critical';
         if (days <= 20) return 'days-warning';
         return 'days-ok';
@@ -257,20 +269,24 @@ export class UploadPageComponent implements OnInit, OnDestroy {
         // Mise à jour optimiste de l'UI
         dossier.status = 'PARSING_INITIAL';
 
+        if (dossier.isPrivate) {
+            this.messageService.add({
+                severity: 'info',
+                summary: 'DLP Activé',
+                detail: 'Encapsulation et anonymisation des données sensibles en cours...',
+                life: 6000
+            });
+        }
+
         // Déléguer le suivi global à notre nouveau service
         this.pipelineTrackingService.startTracking(dossier.id!, dossier.intituleOffre || '');
 
         this.projectsService.launchAnalysis(dossier.id).subscribe({
             next: () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Analyse lancée',
-                    detail: `Le dossier "${dossier.intituleOffre || dossier.id}" est en cours de traitement IA.`
-                });
                 this.loadDossiers();
 
                 // Démarrer le polling pour surveiller la fin de l'extraction
-                this.startPolling(dossier.id!);
+                this.startPolling(dossier.id!, dossier.isPrivate || false);
             },
             error: (err) => {
                 this.cancelAnalysis();
@@ -508,7 +524,7 @@ export class UploadPageComponent implements OnInit, OnDestroy {
                 } else if (event.type === HttpEventType.Response) {
                     const dossier = event.body;
                     this.dossierId = dossier.id;
-                    localStorage.setItem('lastProjectId', dossier.id);
+                    sessionStorage.setItem('lastProjectId', dossier.id);
                     this.fileUploaded = true;
                     this.isFileUploading = false;
                     this.fileUploadProgress = 100;
@@ -545,7 +561,7 @@ export class UploadPageComponent implements OnInit, OnDestroy {
         this.projectsService.launchAnalysis(this.dossierId).subscribe({
             next: () => {
                 // Démarrer le polling
-                this.startPolling(this.dossierId!);
+                this.startPolling(this.dossierId!, this.isPrivate);
             },
             error: (err) => {
                 this.isUploading = false;
@@ -558,14 +574,14 @@ export class UploadPageComponent implements OnInit, OnDestroy {
         });
     }
 
-    private startPolling(dossierId: string): void {
+    private startPolling(dossierId: string, isPrivate: boolean): void {
         this.pollSub?.unsubscribe();
 
         this.pollSub = this.statusService.watchUploadPipeline(dossierId, (resp) => {
             this.currentStatus = resp.status;
             if (resp.status === 'UPLOADED') { this.uploadProgress = 40; this.currentIndex = 0; }
             else if (resp.status === 'PARSING_INITIAL') { this.uploadProgress = 67; this.currentIndex = 1; }
-            else if (resp.status === 'CORRECTION_LOOP') { this.uploadProgress = 85; this.currentIndex = 2; }
+            else if (resp.status === 'CORRECTION_LOOP') { this.uploadProgress = 100; this.currentIndex = 2; }
             else if (resp.status === 'INDEXED') { this.uploadProgress = 100; this.currentIndex = 3; }
 
             // Reload the table so the row updates the status
@@ -589,6 +605,15 @@ export class UploadPageComponent implements OnInit, OnDestroy {
                     this.isUploading = false;
                     this.analyzingDossierId = null; 
                     
+                    if (isPrivate) {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'DLP Réussi',
+                            detail: 'Analyse terminée avec succès. Données privées décapsulées en toute sécurité.',
+                            life: 6000
+                        });
+                    }
+
                     // On met à jour l'état visuel du polling principal
                     this.pollSub?.unsubscribe();
                     this.loadDossiers();
@@ -644,7 +669,7 @@ export class UploadPageComponent implements OnInit, OnDestroy {
 
     goToValidation(dossier: Dossier | null): void {
         if (dossier) {
-            this.statusService.navigateForStatus(dossier);
+            this.router.navigate(['/dossiers', dossier.id, 'validation-p1']);
         }
     }
 
@@ -661,6 +686,21 @@ export class UploadPageComponent implements OnInit, OnDestroy {
         return undefined;
     }
 
+    getStatusStyle(status: string): { [key: string]: string } {
+        switch (status) {
+            case 'UPLOADED':
+                return { background: '#eff6ff', color: '#3b82f6', border: '1px solid #bfdbfe' };
+            case 'PARSING_INITIAL':
+                return { background: '#fffbeb', color: '#d97706', border: '1px solid #fde68a' };
+            case 'CORRECTION_LOOP':
+                return { background: '#f5f3ff', color: '#7c3aed', border: '1px solid #ddd6fe' };
+            case 'INDEXED':
+                return { background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0' };
+            default:
+                return { background: '#f8fafc', color: '#94a3b8', border: '1px solid #e2e8f0' };
+        }
+    }
+
     getStatusIcon(status: string): string {
         switch (status) {
             case 'UPLOADED': return 'pi pi-cloud-upload';
@@ -668,6 +708,16 @@ export class UploadPageComponent implements OnInit, OnDestroy {
             case 'CORRECTION_LOOP': return 'pi pi-pencil';
             case 'INDEXED': return 'pi pi-check-circle';
             default: return 'pi pi-circle';
+        }
+    }
+
+    getStatusStyleStr(status: string): string {
+        switch (status) {
+            case 'UPLOADED':        return 'background:#eff6ff;color:#3b82f6;border:1px solid #bfdbfe;';
+            case 'PARSING_INITIAL': return 'background:#fffbeb;color:#d97706;border:1px solid #fde68a;';
+            case 'CORRECTION_LOOP': return 'background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;';
+            case 'INDEXED':         return 'background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;';
+            default:                return 'background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;';
         }
     }
 }

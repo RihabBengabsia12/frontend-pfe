@@ -204,7 +204,7 @@ export class RegisterComponent implements OnInit {
                 if (res.toLowerCase().includes('réussie') || res.toLowerCase().includes('success') || res.toLowerCase().includes('attente')) {
                     console.log('Inscription validée par le backend');
                     this.registeredEmail = this.email;
-                    localStorage.setItem('pendingEmail', this.email);
+                    sessionStorage.setItem('pendingEmail', this.email);
                     this.registrationSuccess = true;
                     return;
                 }

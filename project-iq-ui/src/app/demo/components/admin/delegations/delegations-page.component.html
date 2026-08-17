@@ -1,12 +1,12 @@
 <div class="grid">
-    <p-toast></p-toast>
+    
     
     <!-- Sidebar: Liste des Délégations -->
     <div class="col-12 md:col-4">
         <div class="surface-card p-0 shadow-1 border-round-xl overflow-hidden border-1 surface-border h-full">
             <div class="p-4 border-bottom-1 surface-border surface-50">
                 <div class="flex justify-content-between align-items-center">
-                    <h5 class="m-0 font-bold text-900">Niveaux de Décision</h5>
+                    <h5 class="m-0 font-bold text-900 text-sm">Niveaux de Décision</h5>
                     <p-badge [value]="delegations.length.toString()" severity="info"></p-badge>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                         <i [class]="getRoleIcon(selectedDelegation.roleName) + ' text-3xl'"></i>
                     </div>
                     <div>
-                        <h3 class="m-0 font-bold text-900 flex align-items-center gap-3">
+                        <h3 class="m-0 font-bold text-900 text-lg flex align-items-center gap-3">
                             {{ selectedDelegation.roleName }} - {{ selectedDelegation.displayName }}
                         </h3>
                         <p class="m-0 mt-1 text-500 text-sm">Gestion des droits financiers et notifications d'approbation</p>
@@ -70,10 +70,27 @@
                 <div class="col-12 mb-4">
                     <div class="p-3 border-round surface-50 border-1 surface-border flex align-items-center gap-3 mb-4">
                         <i class="pi pi-info-circle text-primary text-2xl"></i>
-                        <p class="m-0 text-700 line-height-3">
-                            Les dossiers dépassant le seuil indiqué ci-dessous nécessiteront l'approbation de ce niveau hiérarchique. 
-                            L'email renseigné recevra le jeton de validation sécurisé.
-                        </p>
+                        <div class="m-0 text-700 line-height-3" [ngSwitch]="selectedDelegation.roleName">
+                            <p *ngSwitchCase="'DO'" class="m-0">
+                                La <strong>Direction de l'Offre</strong> effectue la validation de base de <strong>tous les dossiers</strong>. 
+                                L'e-mail renseigné recevra systématiquement une demande de validation, quel que soit le budget du projet.
+                            </p>
+                            <p *ngSwitchCase="'DDA'" class="m-0">
+                                Si le budget global du dossier <strong>dépasse le seuil</strong> indiqué ci-dessous, 
+                                la <strong>Direction du Développement des Affaires</strong> s'ajoutera obligatoirement à la chaîne de validation.
+                            </p>
+                            <p *ngSwitchCase="'DGA'" class="m-0">
+                                Si le budget global du dossier <strong>dépasse le seuil</strong> indiqué ci-dessous, 
+                                la <strong>Direction Générale Adjointe</strong> s'ajoutera obligatoirement à la chaîne de validation.
+                            </p>
+                            <p *ngSwitchCase="'PDG'" class="m-0">
+                                Si le budget global du dossier <strong>dépasse le seuil</strong> indiqué ci-dessous, 
+                                le <strong>Président Directeur Général</strong> s'ajoutera obligatoirement à la chaîne de validation.
+                            </p>
+                            <p *ngSwitchDefault class="m-0">
+                                Les dossiers dépassant ce seuil nécessiteront l'approbation de ce niveau hiérarchique.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -86,13 +103,12 @@
                 </div>
 
                 <div class="col-12 md:col-6 mb-4" *ngIf="selectedDelegation.roleName !== 'DO'">
-                    <label for="threshold" class="font-bold text-900 block mb-2">Seuil de Validation (€)</label>
-                    <p-inputNumber id="threshold" [(ngModel)]="editDelegation.threshold" mode="currency" currency="EUR" locale="fr-FR" [min]="0"></p-inputNumber>
+                    <label for="threshold" class="font-bold text-900 block mb-2">Seuil de Validation (TND)</label>
+                    <p-inputNumber id="threshold" [(ngModel)]="editDelegation.threshold" mode="currency" currency="TND" locale="fr-FR" [min]="0"></p-inputNumber>
                 </div>
                 
                 <div class="col-12 md:col-6 mb-4" *ngIf="selectedDelegation.roleName === 'DO'">
-                    <label class="font-bold text-900 block mb-2">Seuil de Validation (€)</label>
-                    <div class="p-3 surface-100 border-round text-600 font-italic">
+                    <div class="p-3 surface-100 border-round text-600 font-italic mt-4">
                         Validation de base (Aucun seuil limitant)
                     </div>
                 </div>
@@ -111,7 +127,7 @@
             <div class="w-6rem h-6rem bg-primary-50 text-primary flex align-items-center justify-content-center border-circle mb-4">
                 <i class="pi pi-sitemap text-4xl"></i>
             </div>
-            <h4 class="text-900 font-bold mb-2">Aucun Niveau Sélectionné</h4>
+            <h4 class="text-900 font-bold text-base mb-2">Aucun Niveau Sélectionné</h4>
             <p class="text-600 m-0">Veuillez sélectionner un niveau hiérarchique dans la liste de gauche pour configurer ses délégations.</p>
         </div>
     </div>

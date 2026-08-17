@@ -24,6 +24,6 @@ import { RippleModule } from 'primeng/ripple';
         DialogModule,
         RippleModule
     ],
-    providers: [MessageService]
+    providers: []
 })
 export class AuthModule { }

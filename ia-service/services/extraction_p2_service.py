@@ -4,12 +4,14 @@ Un seul appel Claude avec prompt_p2_fields.txt.
 """
 
 import logging
+import os
 from models.extraction_request  import ExtractionRequest
 from models.extraction_response import ExtractionResponse, ChampExtraitIA
 from services.claude_client     import call_claude_json, load_prompt
 from validators.field_validators import validate_all_p2
 
 logger = logging.getLogger(__name__)
+DOCUMENT_MAX_CHARS = int(os.getenv("DOCUMENT_MAX_CHARS", "100000"))
 
 CHAMPS_P2 = [
     "DATE_LIMITE_QUESTIONS",
@@ -45,7 +47,7 @@ def extract_phase2(req: ExtractionRequest) -> ExtractionResponse:
     user_prompt   = "Analyse le document fourni et extrais les 20 champs Phase 2 en respectant exactement le format JSON spécifié dans tes instructions."
 
     try:
-        raw, metrics = call_claude_json(system_prompt, user_prompt, max_tokens=6144, document_text=req.document_text[:40000])
+        raw, metrics = call_claude_json(system_prompt, user_prompt, max_tokens=6144, document_text=req.document_text[:DOCUMENT_MAX_CHARS])
     except ValueError as e:
         logger.error("Extraction P2 échouée pour dossier %s: %s", req.dossier_id, e)
         raise
@@ -57,6 +59,8 @@ def extract_phase2(req: ExtractionRequest) -> ExtractionResponse:
         valeur = data.get("valeur")
         if isinstance(valeur, list):
             valeur = "; ".join(str(v) for v in valeur)
+        elif valeur is not None:
+            valeur = str(valeur)
         champs[nom] = ChampExtraitIA(
             valeur    = valeur,
             confiance = float(data.get("confiance", 0.0)),
@@ -72,6 +76,8 @@ def extract_phase2(req: ExtractionRequest) -> ExtractionResponse:
         champs=champs,
         alertes=alertes,
         token_usage=metrics["token_usage"],
+        input_tokens=metrics.get("input_tokens", 0),
+        output_tokens=metrics.get("output_tokens", 0),
         processing_time_ms=metrics["processing_time_ms"],
         estimated_cost=metrics["estimated_cost"],
         cache_creation_tokens=metrics.get("cache_creation_tokens", 0),

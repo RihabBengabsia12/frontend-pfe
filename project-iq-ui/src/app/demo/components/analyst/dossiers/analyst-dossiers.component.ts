@@ -9,13 +9,14 @@ import { DossierStatusService } from '../../../../demo/service/dossier-status.se
 @Component({
     templateUrl: './analyst-dossiers.component.html',
     styleUrls: ['./analyst-dossiers.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class AnalystDossiersComponent implements OnInit, OnDestroy {
 
     dossiers: Dossier[] = [];
     isLoading = false;
     searchTerm = '';
+    exportMenuItems: any[] = [];
 
     stats = { urgent: 0, enAnalyse: 0, enValidation: 0, total: 0 };
 
@@ -39,6 +40,10 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.exportMenuItems = [
+            { label: 'Exporter en CSV', icon: 'pi pi-file-excel', command: () => this.exportCsv() },
+            { label: 'Exporter en PDF', icon: 'pi pi-file-pdf', command: () => this.exportPdf() }
+        ];
         this.loadDossiers();
         // Polling 30s sur statuts asynchrones (spec)
         this.refreshSub = interval(30000).pipe(
@@ -117,6 +122,18 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
         }, stepTime < 16 ? 16 : stepTime);
     }
 
+    exportCsv(): void {
+        const rows = this.filtered.map(d => [
+            d.priorite ?? '', d.intituleOffre ?? '', d.client ?? '', d.pays ?? '',
+            this.formatDate(d.dtLimSoum), this.pwinDisplay(d), this.statusLabel(d.status)
+        ]);
+        const csv = [
+            ['Priorité', 'Intitulé de l’offre', 'Client', 'Pays', 'Date limite', 'P-Win', 'Statut'],
+            ...rows
+        ].map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(';')).join('\n');
+        this.downloadFile(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }), 'Registre_Dossiers_Importes.csv');
+    }
+
     exportPdf(): void {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then((x) => {
@@ -129,7 +146,7 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
                 ];
                 (doc as any).autoTable({
                     columns: exportColumns,
-                    body: this.dossiers,
+                    body: this.filtered,
                     theme: 'grid',
                     styles: { fontSize: 8 },
                     headStyles: { fillColor: [41, 128, 185] }
@@ -137,6 +154,14 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
                 doc.save('Dossiers_Importes.pdf');
             });
         });
+    }
+
+    private downloadFile(blob: Blob, fileName: string): void {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(link.href);
     }
 
     get filtered(): Dossier[] {
@@ -153,8 +178,28 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
     }
 
     openDossier(d: Dossier): void {
-        localStorage.setItem('lastProjectId', d.id);
-        this.router.navigate(this.statusService.resolveRoute(d));
+        sessionStorage.setItem('lastProjectId', d.id);
+        const phaseByStatus: Record<string, string> = {
+            UPLOADED: 'extraction',
+            PARSING_INITIAL: 'extraction',
+            CORRECTION_LOOP: 'validation-p1',
+            INDEXED: 'validation-p1',
+            DEEP_ANALYSIS: 'analyse',
+            SCORING: 'scoring',
+            MANUAL_INTERVENTION: 'scoring',
+            FORCE_GO: 'scoring',
+            NO_GO_CONFIRMED: 'no-go-report',
+            MATCHING: 'matching',
+            DRAFTING: 'rapport-final',
+            REPORT_GENERATED: 'rapport-final',
+            PACK_READY: 'rapport-final',
+            PENDING_VALIDATION: 'rapport-final',
+            SUBMITTED: 'rapport-final',
+            AUDIT: 'rapport-final',
+            ARCHIVED: 'rapport-final',
+            ERROR: 'validation-p1'
+        };
+        this.router.navigate(['/dossiers', d.id, phaseByStatus[d.status] || 'validation-p1']);
     }
 
     newDossier(): void {
@@ -215,11 +260,15 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
         
         if (!allSameStatus) return null;
         
-        if (firstStatus === 'INDEXED') return 'START_PHASE_2';
-        if (firstStatus === 'DEEP_ANALYSIS') return 'RESUME_PHASE_2';
-        if (firstStatus === 'PARSING_INITIAL') return 'START_PHASE_1';
-        
-        return null; // Plus d'actions de lot peuvent être ajoutées ici
+        switch (firstStatus) {
+            case 'UPLOADED': return 'START_PHASE_1';
+            case 'PARSING_INITIAL': return 'RESUME_PHASE_1';
+            case 'INDEXED': return 'START_PHASE_2';
+            case 'DEEP_ANALYSIS': return 'RESUME_PHASE_2';
+            case 'PENDING_VALIDATION': return 'VALIDATE_DECISION';
+            case 'ERROR': return 'START_PHASE_1';
+            default: return null;
+        }
     }
 
     get availableBatchActionLabel(): string {
@@ -234,6 +283,8 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
         const action = this.availableBatchAction;
         if (!action) return;
         
+        if (!this.selectedDossiers || this.selectedDossiers.length === 0) return;
+        
         this.isBatchProcessing = true;
         this.batchStatusModalVisible = true;
         this.batchActionTitle = this.availableBatchActionLabel;
@@ -244,21 +295,15 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
         this.selectedDossiers.forEach(d => {
             this.batchProgress[d.id] = { status: 'INITIALISATION...', progress: 10, completed: false, error: false };
         });
+
+        const ids = this.selectedDossiers.map(d => d.id);
         
-        let observables: Observable<any>[] = [];
+        let batchObservable: Observable<any>;
         
         if (action === 'START_PHASE_2' || action === 'RESUME_PHASE_2') {
-            observables = this.selectedDossiers.map(d => {
-                return this.projectsService.triggerDeepAnalysis(d.id).pipe(
-                    catchError(err => of({ error: true, id: d.id }))
-                );
-            });
+            batchObservable = this.projectsService.triggerBatchDeepAnalysis(ids);
         } else if (action === 'START_PHASE_1') {
-            observables = this.selectedDossiers.map(d => {
-                return this.projectsService.launchAnalysis(d.id).pipe(
-                    catchError(err => of({ error: true, id: d.id }))
-                );
-            });
+            batchObservable = this.projectsService.launchBatchAnalysis(ids);
         } else {
              this.messageService.add({severity: 'info', summary: 'Info', detail: 'Action en lot non encore implémentée pour ce statut.'});
              this.batchStatusModalVisible = false;
@@ -266,18 +311,17 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
              return;
         }
 
-        // Lancer les requêtes en parallèle au backend
-        forkJoin(observables).subscribe(results => {
-            // Vérifier s'il y a eu des erreurs d'initialisation
-            results.forEach((res: any, index) => {
-                if (res && res.error) {
-                     const d = this.selectedDossiers[index];
-                     this.batchProgress[d.id].error = true;
-                     this.batchProgress[d.id].status = 'ERREUR API';
-                }
-            });
-            // Démarrer le polling pour mettre à jour les statuts en temps réel
-            this.startBatchPolling();
+        // Appeler le point d'entrée de lot au backend
+        batchObservable.subscribe({
+            next: (res) => {
+                // Démarrer le polling pour mettre à jour les statuts en temps réel
+                this.startBatchPolling();
+            },
+            error: (err) => {
+                console.error("Erreur appel batch", err);
+                this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'appel à l\'API lot.'});
+                this.isBatchProcessing = false;
+            }
         });
     }
 
@@ -297,12 +341,11 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
                const currentDossier = dossiersList.find(d => d.id === selected.id);
                if (currentDossier) {
                    state.status = this.statusLabel(currentDossier.status);
-                                      // Logique de progression basée sur le statut
                     if (this.currentBatchAction === 'START_PHASE_1') {
                         if (currentDossier.status === 'PARSING_INITIAL') {
                             state.progress = 50;
                             allCompleted = false;
-                        } else if (currentDossier.status === 'CORRECTION_LOOP' || currentDossier.status === 'INDEXED') {
+                        } else if (['CORRECTION_LOOP', 'INDEXED', 'DEEP_ANALYSIS', 'SCORING', 'MATCHING', 'PENDING_VALIDATION', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY'].includes(currentDossier.status)) {
                             state.progress = 100;
                             state.completed = true;
                         } else {
@@ -314,7 +357,7 @@ export class AnalystDossiersComponent implements OnInit, OnDestroy {
                         if (currentDossier.status === 'DEEP_ANALYSIS') {
                             state.progress = 50;
                             allCompleted = false;
-                        } else if (currentDossier.status === 'SCORING' || currentDossier.status === 'PENDING_VALIDATION' || currentDossier.status === 'NO_GO_CONFIRMED' || currentDossier.status === 'MATCHING') {
+                        } else if (['SCORING', 'PENDING_VALIDATION', 'NO_GO_CONFIRMED', 'MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY'].includes(currentDossier.status)) {
                             state.progress = 100;
                             state.completed = true;
                         } else {

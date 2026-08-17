@@ -285,3 +285,167 @@
     border: none !important;
 }
 
+.decision-card {
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.03);
+    
+    .blob {
+        position: absolute;
+        filter: blur(40px);
+        opacity: 0.5;
+        z-index: 0;
+        border-radius: 50%;
+    }
+
+    .blob-1 {
+        width: 300px;
+        height: 300px;
+        top: -100px;
+        right: -100px;
+        animation: floatBlob1 15s ease-in-out infinite;
+    }
+
+    .blob-2 {
+        width: 250px;
+        height: 250px;
+        bottom: -80px;
+        left: -80px;
+        animation: floatBlob2 18s ease-in-out infinite alternate;
+    }
+
+    &.decision-go {
+        background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+        border-color: #dcfce7;
+        
+        .blob-1 { background: #dcfce7; }
+        .blob-2 { background: #bbf7d0; }
+        
+        .decision-title { color: #166534; }
+        .decision-icon-wrapper { background: #ffffff; color: #22c55e; }
+        
+        .pulse-animation {
+            animation: softPulse 2.5s infinite;
+            background: rgba(34, 197, 94, 0.15);
+        }
+    }
+
+    &.decision-nogo {
+        background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);
+        border-color: #ede9fe;
+        
+        .blob-1 { background: #ede9fe; }
+        .blob-2 { background: #ddd6fe; }
+        
+        .decision-title { color: #4c1d95; }
+        .decision-icon-wrapper { background: #ffffff; color: #8b5cf6; }
+        
+        .pulse-animation {
+            animation: softPulse 2.5s infinite;
+            background: rgba(139, 92, 246, 0.15);
+        }
+    }
+}
+
+@keyframes floatBlob1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+@keyframes floatBlob2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-30px, 50px) scale(1.1); }
+    66% { transform: translate(20px, -20px) scale(0.9); }
+}
+@keyframes softPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0.1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,0,0,0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+}
+/* Premium Loading Dialog */
+:host ::ng-deep .p-dialog:has(.premium-loading-dialog) {
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: none;
+    .p-dialog-content {
+        padding: 0 !important;
+        border-radius: 24px;
+    }
+}
+
+.premium-loading-dialog {
+    .blob-loader {
+        position: absolute;
+        filter: blur(40px);
+        opacity: 0.6;
+        border-radius: 50%;
+        animation: floatBlobs 8s ease-in-out infinite alternate;
+    }
+    .blob-purple {
+        width: 150px;
+        height: 150px;
+        background: #ede9fe;
+        top: -50px;
+        left: -50px;
+    }
+    .blob-pink {
+        width: 150px;
+        height: 150px;
+        background: #fce7f3;
+        bottom: -50px;
+        right: -50px;
+        animation-delay: -4s;
+    }
+
+    .icon-container-pulse {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+        z-index: 2;
+
+        .pulse-ring {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            border: 2px solid #8b5cf6;
+            animation: ripple 2s infinite cubic-bezier(0.65, 0, 0.34, 1);
+        }
+    }
+
+    .loading-bar-container {
+        width: 200px;
+        height: 6px;
+        background: #ede9fe;
+        border-radius: 10px;
+        overflow: hidden;
+
+        .loading-bar-progress {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, #c4b5fd 0%, #8b5cf6 100%);
+            border-radius: 10px;
+            animation: scan 1.5s infinite ease-in-out alternate;
+        }
+    }
+}
+
+@keyframes floatBlobs {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.2) translate(20px, 20px); }
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes scan {
+    0% { transform: translateX(-100%); width: 50%; }
+    100% { transform: translateX(200%); width: 50%; }
+}

@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<p-toast></p-toast>
+
 
 <div *ngIf="loading" class="flex justify-content-center py-8">
     <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="4"></p-progressSpinner>
@@ -98,14 +98,16 @@
             <div class="flex-1 flex flex-column gap-3">
                 <div *ngFor="let d of readyDossiers" class="kanban-card bg-white p-3 border-round-lg shadow-1 border-left-3 border-green-500 animate-fade-in relative overflow-hidden">
                     <div class="flex justify-content-between mb-2">
-                        <span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 border-round-2xl">TERMINÉ</span>
+                        <span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 border-round-2xl">
+                            {{ d.status === 'PENDING_VALIDATION' ? 'EN VALIDATION' : 'PACK PRÊT' }}
+                        </span>
                         <i class="pi pi-file-zip text-green-400"></i>
                     </div>
                     <h6 class="m-0 font-bold text-900 mb-1 line-height-3">{{ d.intituleOffre }}</h6>
                     <span class="text-sm text-600"><i class="pi pi-building text-green-400 mr-1"></i>{{ d.client }}</span>
                     
                     <div class="mt-3 bg-green-100 p-2 border-round-md text-center">
-                        <span class="text-xs font-bold text-green-700">En attente des décideurs</span>
+                        <span class="text-xs font-bold text-green-700">{{ decisionProgress(d) }}</span>
                     </div>
                 </div>
 

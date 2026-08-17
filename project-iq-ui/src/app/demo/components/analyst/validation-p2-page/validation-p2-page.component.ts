@@ -21,16 +21,19 @@ export interface P2Field {
     selector: 'app-validation-p2-page',
     templateUrl: './validation-p2-page.component.html',
     styleUrls: ['./validation-p2-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class ValidationP2PageComponent implements OnInit, OnDestroy {
 
     dossierId = '';
     isLoading = true;
     isSubmitting = false;
+    isConsultation = false;
+    isFinalLocked = false;
 
     fields: P2Field[] = [];
     hasRedhibitoire = false;
+    alertesIa: any = null;
 
     private routeSub?: Subscription;
 
@@ -68,7 +71,28 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
         this.routeSub = this.route.params.subscribe(params => {
             this.dossierId = params['id'] || '';
             if (this.dossierId) {
-                this.loadExtractionP2();
+                // Garde : vérifier que P1 est validé avant d'autoriser l'accès à P2
+                this.projectsService.getDossier(this.dossierId).subscribe({
+                    next: (dossier) => {
+                        this.isConsultation = this.isAdvancedWorkflowStatus(dossier.status);
+                        this.isFinalLocked = ['SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(dossier.status);
+                        const allowedStatuses = ['INDEXED', 'DEEP_ANALYSIS', 'SCORING', 'MATCHING',
+                            'MANUAL_INTERVENTION', 'FORCE_GO', 'NO_GO_CONFIRMED',
+                            'DRAFTING', 'REPORT_GENERATED', 'PACK_READY',
+                            'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'];
+                        if (!allowedStatuses.includes(dossier.status)) {
+                            this.messageService.add({
+                                severity: 'warn',
+                                summary: 'Phase 1 requise',
+                                detail: 'Veuillez d\'abord valider la Phase 1 avant d\'accéder à la Phase 2.'
+                            });
+                            this.router.navigate(['/dossiers', this.dossierId, 'validation-p1']);
+                            return;
+                        }
+                        this.loadExtractionP2();
+                    },
+                    error: () => this.loadExtractionP2()
+                });
             }
         });
     }
@@ -94,7 +118,12 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
                         detail: 'Aucun champ P2 retourné. Déclenchez d\'abord POST /api/analyses/{id}/deep-analysis.'
                     });
                 }
-                this.checkRedhibitoire();
+                this.computeScores();
+                if (this.isConsultation) {
+                    this.fields.forEach(field => field.validated = true);
+                }
+                this.updateGroupedFields();
+                this.updateApoData();
                 this.isLoading = false;
             },
             error: (err) => {
@@ -108,9 +137,6 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    /**
-     * Mappe l'objet AnalyseDossier (Java camelCase) vers les P2Field locaux.
-     */
     private mapBackendData(data: any): void {
         const mapping: Record<string, string> = {
             noteMinimale:               'NOTE_MINIMALE',
@@ -139,7 +165,6 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
             if (!f) return;
             const raw = data[backendKey];
             if (raw == null) return;
-            // Les risques sont stockés "NIVEAU||justification" côté back
             if (typeof raw === 'string' && raw.includes('||')) {
                 f.value = raw.split('||')[0].trim();
                 f.sourceText = raw.split('||')[1]?.trim() ?? '';
@@ -151,7 +176,12 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
     }
 
 
-    get groupedFields() {
+    groupedFields: any[] = [];
+    apoPreviewDataResult: Record<string, string> = {};
+    apoConfidencesResult: Record<string, number> = {};
+    validatedFieldIds: string[] = [];
+
+    private updateGroupedFields() {
         const sectionD = ['MODE_NOTATION', 'PON_TECH', 'PON_FIN', 'NOTE_MINIMALE'];
         const sectionE = ['CAUTION_MONTANT', 'CAUTION_MONNAIE', 'CAUTION_DUREE', 'BANQUE_LOCALE_EXIGEE', 'DELAI_PREP_SUF', 'CAPACITE_DELAI'];
         const sectionF = [
@@ -160,11 +190,23 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
             'BUDGET_FAIBLE_HM_LIMITES', 'PARTICIPATION_LOCALE_EXCESSIVE', 'FISCALITE_NON_MAITRISEE'
         ];
 
-        return [
+        this.groupedFields = [
             { title: 'SECTION D — NOTATION & SÉLECTION', icon: 'pi-star', color: 'blue', fields: this.fields.filter(f => sectionD.includes(f.id)) },
             { title: 'SECTION E — CAUTION & DÉLAI', icon: 'pi-shield', color: 'orange', fields: this.fields.filter(f => sectionE.includes(f.id)) },
             { title: 'SECTION F — 10 RISQUES (GÉNÉRÉS PAR IA)', icon: 'pi-exclamation-triangle', color: 'red', fields: this.fields.filter(f => sectionF.includes(f.id)) }
         ];
+    }
+
+    private updateApoData() {
+        const apoData: Record<string, string> = {};
+        const apoConf: Record<string, number> = {};
+        this.fields.forEach(f => { 
+            apoData[f.id] = f.value?.toString() ?? ''; 
+            apoConf[f.id] = f.confidence / 100;
+        });
+        this.apoPreviewDataResult = apoData;
+        this.apoConfidencesResult = apoConf;
+        this.validatedFieldIds = this.fields.filter(f => f.validated).map(f => f.id);
     }
 
     confidenceClass(c: number): string {
@@ -173,15 +215,26 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
         return 'conf-low';
     }
 
+    private isAdvancedWorkflowStatus(status: string): boolean {
+        return ['MATCHING', 'DRAFTING', 'REPORT_GENERATED', 'PACK_READY',
+            'PENDING_VALIDATION', 'SUBMITTED', 'AUDIT', 'ARCHIVED'].includes(status);
+    }
+
+    startRevalidation(): void {
+        if (this.isFinalLocked) return;
+        this.isConsultation = false;
+        this.messageService.add({ severity: 'info', summary: 'Révalidation P2', detail: 'Les champs sont déverrouillés. Enregistrez pour conserver les corrections.' });
+    }
+
     startEdit(f: P2Field): void { f.editing = true; }
 
     saveEdit(f: P2Field): void {
         f.editing = false;
         f.humanModified = true;
-        this.checkRedhibitoire();
+        this.computeScores();
+        this.updateApoData();
     }
 
-    /** Ré-extraction via PUT /api/dossiers/{id}/reextract-field */
     reextract(f: P2Field): void {
         this.projectsService.reextractField(this.dossierId, f.id).subscribe({
             next: (res) => {
@@ -189,8 +242,9 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
                 f.confidence = Math.round((res.confiance ?? 0) * 100);
                 f.humanModified = false;
                 f.validated = false;
-                this.checkRedhibitoire();
-                this.messageService.add({ severity: 'success', summary: 'Ré-extraction', detail: `Champ ${f.label} mis à jour par l'IA.` });
+                this.computeScores();
+                this.updateApoData();
+                this.messageService.add({ severity: 'success', summary: 'Ré-extraction', detail: `Champ ${f.label} mis à jour.` });
             },
             error: (err) => {
                 this.messageService.add({
@@ -205,26 +259,34 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
     validateField(f: P2Field): void {
         f.validated = !f.validated;
         f.editing = false;
+        this.updateApoData();
     }
 
     toggleValidateAll(): void {
         const willValidate = this.validatedCount !== this.fields.length;
         this.fields.forEach(f => { f.validated = willValidate; f.editing = false; });
+        this.updateApoData();
     }
 
     get validatedCount(): number { return this.fields.filter(f => f.validated).length; }
 
-    get allValidated(): boolean { return this.fields.every(f => f.validated && f.value !== '' && f.value != null); }
+    get allValidated(): boolean { return this.fields.every(f => f.validated); }
+
+    /** Recalcul automatique à chaque modification de champ */
+    onFieldChange(f: P2Field): void {
+        this.computeScores();
+        this.updateApoData();
+    }
+
+    private computeScores(): void {
+        this.checkRedhibitoire();
+    }
 
     private checkRedhibitoire(): void {
         const risks = this.fields.filter(f => f.id.startsWith('RISQUE') || f.id === 'PENALITES' || f.id === 'EXIGENCES_TDR_INACCEPTABLES' || f.id === 'GARANTIES_ASSURANCES_ELEVEES' || f.id === 'TAILLE_DISPERSION' || f.id === 'FRAIS_DIVERS_ELEVES' || f.id === 'BUDGET_FAIBLE_HM_LIMITES' || f.id === 'PARTICIPATION_LOCALE_EXCESSIVE' || f.id === 'FISCALITE_NON_MAITRISEE');
         this.hasRedhibitoire = risks.some(r => r.value === 'Rédhibitoire');
     }
 
-    /**
-     * Soumet la validation P2 → PUT /api/analyses/{id}/validate-p2
-     * Construit le body AnalyseDossier attendu par le backend Java.
-     */
     submitValidation(): void {
         if (!this.allValidated) return;
         this.isSubmitting = true;
@@ -259,6 +321,7 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
         this.projectsService.validateP2(this.dossierId, body).subscribe({
             next: () => {
                 this.isSubmitting = false;
+                this.isConsultation = true;
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Phase 2 validée',
@@ -277,7 +340,6 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    /** Construit la valeur "NIVEAU||justification" attendue par le backend Java */
     private buildRisque(id: string): string {
         const f = this.fields.find(x => x.id === id);
         if (!f) return '';
@@ -320,16 +382,10 @@ export class ValidationP2PageComponent implements OnInit, OnDestroy {
     }
 
     get apoPreviewData(): Record<string, string> {
-        const result: Record<string, string> = {};
-        this.fields.forEach(f => { result[f.id] = f.value?.toString() ?? ''; });
-        return result;
+        return this.apoPreviewDataResult;
     }
 
     get apoConfidences(): Record<string, number> {
-        const result: Record<string, number> = {};
-        this.fields.forEach(f => { result[f.id] = f.confidence / 100; });
-        return result;
+        return this.apoConfidencesResult;
     }
-
-    get validatedFieldIds(): string[] { return this.fields.filter(f => f.validated).map(f => f.id); }
 }

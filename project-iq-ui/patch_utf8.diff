@@ -1,0 +1,390 @@
+﻿warning: in the working copy of 'project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html', LF will be replaced by CRLF the next time Git touches it
+diff --git a/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html b/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html
+index f3721a2..3f1ec22 100644
+--- a/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html
++++ b/project-iq-ui/src/app/demo/components/analyst/matching-page/analyst-matching.component.html
+@@ -27,12 +27,12 @@
+                     Comparaison exigences AO â†” rÃ©fÃ©rentiel Egis Â· gÃ©nÃ©ration matrice de diffÃ©renciation
+                 </p>
+             </div>
+-            <div class="flex flex-column align-items-end gap-1">
++            <div class="flex flex-column align-items-end gap-1" *ngIf="!hasMatchingData || isRunningMatching">
+                 <div class="flex gap-2">
+ 
+                     <button pButton
+                             [icon]="isRunningMatching ? 'pi pi-spin pi-cog' : 'pi pi-play'"
+-                            label="Lancer la phase 3"
++                            [label]="isRunningMatching ? 'Phase 3 en cours...' : 'Lancer la phase 3'"
+                             class="p-button-purple border-round-3xl px-4 py-3 shadow-2"
+                             [disabled]="isRunningMatching"
+                             (click)="runMatching()"></button>
+@@ -45,6 +45,9 @@
+     <!-- Zone 2: Pipeline d'extraction animÃ© -->
+     <div class="col-12 mb-4" *ngIf="isRunningMatching || hasMatchingData">
+         <div class="pipeline-card p-5 border-round-2xl shadow-2 bg-white" id="pipeline-section">
++            <h3 class="mt-0 mb-4 text-xl font-semibold text-800 flex align-items-center gap-2">
++                <i class="pi pi-bolt text-yellow-500"></i> Interface dynamique de Matching
++            </h3>
+             <div class="pipeline-container">
+                 <!-- Step 1: Exig. TDR -->
+                 <div class="pipeline-step" [ngClass]="getStepClass(1)" [class.cursor-pointer]="hasMatchingData" (click)="onPipelineClick(1)">
+@@ -89,14 +92,14 @@
+                             <i class="pi pi-sparkles text-green-500"></i>
+                         </div>
+                         <div>
+-                            <h3 class="section-title mb-1">Champs extraits du TDR (Claude IA)</h3>
+-                            <span class="text-sm text-green-600">RequirementsResponseDto</span>
++                            <h3 class="section-title mb-1">CritÃ¨res exigÃ©s par l'appel d'offres</h3>
++                            <span class="text-sm text-green-600">Extraction intelligente et structurÃ©e des prÃ©requis</span>
+                         </div>
+                     </div>
+ 
+                     <div class="fields-list grid">
+                         <!-- RÃ©fÃ©rences -->
+-                        <div class="col-12 lg:col-4">
++                        <div class="col-12">
+                             <div class="field-item is-editing">
+                                 <div class="field-label-row">
+                                     <div class="flex align-items-center gap-2">
+@@ -116,7 +119,7 @@
+                         </div>
+ 
+                         <!-- Experts -->
+-                        <div class="col-12 lg:col-4">
++                        <div class="col-12">
+                             <div class="field-item is-editing">
+                                 <div class="field-label-row">
+                                     <div class="flex align-items-center gap-2">
+@@ -141,7 +144,7 @@
+                         </div>
+ 
+                         <!-- Qualifications -->
+-                        <div class="col-12 lg:col-4">
++                        <div class="col-12">
+                             <div class="field-item is-editing">
+                                 <div class="field-label-row">
+                                     <div class="flex align-items-center gap-2">
+@@ -161,7 +164,7 @@
+                         </div>
+ 
+                         <!-- Secteur -->
+-                        <div class="col-12 lg:col-4">
++                        <div class="col-12 lg:col-6">
+                             <div class="field-item is-editing">
+                                 <div class="field-label-row">
+                                     <div class="flex align-items-center gap-2">
+@@ -183,7 +186,7 @@
+                         </div>
+ 
+                         <!-- Type de contrat -->
+-                        <div class="col-12 lg:col-4">
++                        <div class="col-12 lg:col-6">
+                             <div class="field-item is-editing">
+                                 <div class="field-label-row">
+                                     <div class="flex align-items-center gap-2">
+@@ -389,7 +392,7 @@
+                         </thead>
+                         <tbody>
+                             <tr>
+-                                <td class="font-medium text-700">[[SECTEUR_AO]]</td>
++                                <td class="font-medium text-700">Secteur dÃ©tectÃ©</td>
+                                 <td>
+                                     <p-dropdown [options]="secteursList" [(ngModel)]="secteurAo" 
+                                                 (onChange)="updateField('SECTEUR_AO', $event.value)"
+@@ -398,7 +401,7 @@
+                                 <td><span class="badge-source badge-claude">{{ apoSources['SECTEUR_AO'] || '88% Claude' }}</span></td>
+                             </tr>
+                             <tr>
+-                                <td class="font-medium text-700">[[TYPE_CONTRAT]]</td>
++                                <td class="font-medium text-700">Type de contrat</td>
+                                 <td>
+                                     <p-dropdown [options]="typeContratsList" [(ngModel)]="typeContrat" 
+                                                 (onChange)="updateField('TYPE_CONTRAT', $event.value)"
+@@ -407,7 +410,10 @@
+                                 <td><span class="badge-source badge-claude">{{ apoSources['TYPE_CONTRAT'] || '91% Claude' }}</span></td>
+                             </tr>
+                             <tr>
+-                                <td class="font-medium text-700">[[PARTENAIRES]]</td>
++                                <td class="font-medium text-700 flex align-items-center gap-2">
++                                    Partenaires potentiels
++                                    <i class="pi pi-info-circle text-400" pTooltip="Saisi manuellement par l'analyste car l'information n'est pas dans le TDR." tooltipPosition="top"></i>
++                                </td>
+                                 <td>
+                                     <input pInputText type="text" [(ngModel)]="partenaires" 
+                                            (blur)="updateField('PARTENAIRES', partenaires)"
+@@ -416,7 +422,10 @@
+                                 <td><span class="badge-source badge-manuel">Manuel</span></td>
+                             </tr>
+                             <tr>
+-                                <td class="font-medium text-700">[[CHEF_DE_FILE]]</td>
++                                <td class="font-medium text-700 flex align-items-center gap-2">
++                                    Chef de file
++                                    <i class="pi pi-info-circle text-400" pTooltip="Saisi manuellement par l'analyste selon l'accord de groupement." tooltipPosition="top"></i>
++                                </td>
+                                 <td>
+                                     <p-dropdown [options]="chefDeFileList" [(ngModel)]="chefDeFile" 
+                                                 (onChange)="updateField('CHEF_DE_FILE', $event.value)"
+@@ -425,7 +434,10 @@
+                                 <td><span class="badge-source badge-manuel">Manuel</span></td>
+                             </tr>
+                             <tr>
+-                                <td class="font-medium text-700">[[ALIGNEMENT_STRAT]]</td>
++                                <td class="font-medium text-700 flex align-items-center gap-2">
++                                    Alignement stratÃ©gique
++                                    <i class="pi pi-info-circle text-400" pTooltip="CalculÃ© par le backend selon la stratÃ©gie pays/secteur du cabinet." tooltipPosition="top"></i>
++                                </td>
+                                 <td>
+                                     <p-dropdown [options]="alignementList" [(ngModel)]="alignementStrategique" 
+                                                 (onChange)="updateField('ALIGNEMENT_STRATEGIQUE', $event.value)"
+@@ -434,7 +446,10 @@
+                                 <td><span class="badge-source badge-calcule">CalculÃ©</span></td>
+                             </tr>
+                             <tr>
+-                                <td class="font-medium text-700">[[RELATION_CLIENT]]</td>
++                                <td class="font-medium text-700 flex align-items-center gap-2">
++                                    Relation client (Historique)
++                                    <i class="pi pi-info-circle text-400" pTooltip="DÃ©duit par le backend en fonction des projets passÃ©s avec ce client." tooltipPosition="top"></i>
++                                </td>
+                                 <td>
+                                     <p-dropdown [options]="relationClientList" [(ngModel)]="relationClientLabel" 
+                                                 (onChange)="updateRelationClient($event.value)"
+@@ -479,7 +494,7 @@
+                     <thead>
+                         <tr class="bg-gray-50 border-bottom-1 border-gray-200 text-700">
+                             <th style="width:30%" class="p-3">CritÃ¨re (extrait du TDR)</th>
+-                            <th style="width:20%" class="p-3">Position Egis</th>
++                            <th style="width:20%" class="p-3">Position Cabinet</th>
+                             <th style="width:40%" class="p-3">Argument / gap</th>
+                             <th style="width:10%" class="text-center p-3">Edit</th>
+                         </tr>
+@@ -491,10 +506,10 @@
+                                 <input *ngIf="editingRows[i]" pInputText [(ngModel)]="row.critere" class="w-full p-inputtext-sm">
+                             </td>
+                             <td class="p-3">
+-                                <div *ngIf="!editingRows[i]" class="font-medium flex align-items-center gap-2" [ngClass]="getMatrixPosTextClass(row.positionEgis)">
+-                                    <i [class]="getMatrixPosIcon(row.positionEgis)"></i> {{ getMatrixPosLabel(row.positionEgis) }}
++                                <div *ngIf="!editingRows[i]" class="font-medium flex align-items-center gap-2" [ngClass]="getMatrixPosTextClass(row.positionCabinet)">
++                                    <i [class]="getMatrixPosIcon(row.positionCabinet)"></i> {{ getMatrixPosLabel(row.positionCabinet) }}
+                                 </div>
+-                                <p-dropdown *ngIf="editingRows[i]" [options]="positions" [(ngModel)]="row.positionEgis" styleClass="w-full p-inputtext-sm" appendTo="body" (onChange)="onPositionChange(i, $event.value)"></p-dropdown>
++                                <p-dropdown *ngIf="editingRows[i]" [options]="positions" [(ngModel)]="row.positionCabinet" styleClass="w-full p-inputtext-sm" appendTo="body" (onChange)="onPositionChange(i, $event.value)"></p-dropdown>
+                             </td>
+                             <td class="p-3">
+                                 <div *ngIf="!editingRows[i]" class="text-sm text-700">{{ row.argumentGap }}</div>
+@@ -604,22 +619,93 @@
+                             </div>
+                         </div>
+ 
+-                        <!-- Actions -->
+-                        <div class="decision-actions flex justify-content-center gap-3 mt-4">
+-                            <div class="flex gap-2" *ngIf="isCompatible()">
+-                                <button pButton icon="pi pi-sparkles" label="GÃ©nÃ©rer MÃ©thodologie"
+-                                        class="p-button-rounded p-button-success px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="showDocxPreview()"></button>
++                        <!-- Actions Zone -->
++                        <!-- GO: GÃ©nÃ©rer MÃ©thodologie -->
++                        <div *ngIf="isCompatible()" class="action-zone-go mt-4">
++                            <div class="action-card-go">
++                                <div class="action-card-icon">
++                                    <i class="pi pi-check-circle"></i>
++                                </div>
++                                <div class="action-card-body">
++                                    <span class="action-card-title">Dossier Compatible â€” Prochaine Ã©tape</span>
++                                    <span class="action-card-subtitle">L'analyse confirme la faisabilitÃ©. GÃ©nÃ©rez la mÃ©thodologie technique ou confirmez un No-Go manuel.</span>
++                                </div>
++                                <div class="action-card-buttons">
++                                    <button pButton icon="pi pi-sparkles" label="GÃ©nÃ©rer MÃ©thodologie"
++                                            class="p-button-success font-bold shadow-2" (click)="showDocxPreview()"></button>
++                                    <button pButton icon="pi pi-ban" label="No-Go Manuel"
++                                            class="p-button-text p-button-danger font-bold" (click)="confirmNoGo()"></button>
++                                </div>
+                             </div>
+-                            
+-                            <button *ngIf="isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
+-                                    class="p-button-rounded p-button-text p-button-danger px-4 py-3 font-bold opacity-60 hover:opacity-100" (click)="confirmNoGo()"></button>
++                        </div>
+ 
+-                            <button *ngIf="!isCompatible()" pButton icon="pi pi-times" label="Confirmer No-Go"
+-                                    class="p-button-rounded p-button-danger px-4 py-3 font-bold shadow-2 hover:-translate-y-1 transition-all duration-300" (click)="confirmNoGo()"></button>
++                        <!-- NO-GO: Action Zone -->
++                        <div *ngIf="!isCompatible()" class="action-zone-nogo mt-4">
++                            <div class="action-card-nogo" [class.done]="isGeneralReportGenerated">
+ 
+-                            <button *ngIf="!isCompatible()" pButton icon="pi pi-unlock" label="Forcer GO"
+-                                    class="p-button-rounded p-button-outlined p-button-warning px-4 py-3 font-bold" (click)="forceCompatible()"></button>
++                                <!-- Header de la carte -->
++                                <div class="action-card-header">
++                                    <div class="action-card-icon" [class.done]="isGeneralReportGenerated" [class.nogo]="!isGeneralReportGenerated">
++                                        <i [class]="isGeneralReportGenerated ? 'pi pi-check-circle' : 'pi pi-file-o'"></i>
++                                    </div>
++                                    <div class="action-card-body">
++                                        <span class="action-card-title">
++                                            {{ isGeneralReportGenerated ? 'Rapport GÃ©nÃ©ral gÃ©nÃ©rÃ© avec succÃ¨s' : 'Dossier Non Compatible â€” Rapport NO-GO requis' }}
++                                        </span>
++                                        <span class="action-card-subtitle">
++                                            {{ isGeneralReportGenerated
++                                                ? 'Le document est prÃªt. Choisissez votre prochaine action ci-dessous.'
++                                                : 'L\'IA va rÃ©diger l\'argumentaire complet et gÃ©nÃ©rer le rapport officiel au format DOCX.' }}
++                                        </span>
++                                    </div>
++                                </div>
++
++                                <!-- AVANT gÃ©nÃ©ration -->
++                                <div *ngIf="!isGeneralReportGenerated" class="action-card-buttons mt-3">
++                                    <button pButton
++                                            icon="pi pi-cog"
++                                            label="GÃ©nÃ©rer le Rapport"
++                                            [loading]="isGeneratingReport"
++                                            class="p-button-danger font-bold shadow-2 w-full"
++                                            style="height: 3rem; font-size: 1rem;"
++                                            (click)="generateGeneralReport()"></button>
++                                </div>
++
++                                <!-- APRÃˆS gÃ©nÃ©ration â€” grille de boutons claire -->
++                                <div *ngIf="isGeneralReportGenerated" class="post-gen-actions mt-3">
++
++                                    <!-- Ligne 1 : Action principale -->
++                                    <button pButton
++                                            icon="pi pi-eye"
++                                            label="Voir le Rapport"
++                                            class="p-button-info font-bold shadow-2 post-gen-btn-primary"
++                                            (click)="showGeneralReportPreview()">
++                                    </button>
++
++                                    <!-- Ligne 2 : Actions secondaires -->
++                                    <div class="post-gen-secondary">
++                                        <button pButton
++                                                icon="pi pi-download"
++                                                label="Exporter DOCX"
++                                                class="p-button-outlined p-button-secondary font-bold post-gen-btn-sec"
++                                                (click)="downloadGeneralReportDocx()"></button>
++                                        <button pButton
++                                                icon="pi pi-refresh"
++                                                label="RÃ©gÃ©nÃ©rer"
++                                                [loading]="isGeneratingReport"
++                                                class="p-button-outlined p-button-warning font-bold post-gen-btn-sec"
++                                                (click)="generateGeneralReport()"></button>
++                                        <button pButton
++                                                icon="pi pi-box"
++                                                label="PrÃ©parer Pack (APO + Rapport)"
++                                                class="p-button-success font-bold shadow-2 post-gen-btn-sec"
++                                                (click)="_generatePackAfterReport()"></button>
++                                    </div>
++                                </div>
++
++                            </div>
+                         </div>
++
+                     </div>
+                 </div>
+             </div>
+@@ -640,7 +726,7 @@
+                 </div>
+                 <div class="flex gap-2">
+                     <button pButton icon="pi pi-download" label="TÃ©lÃ©charger DOCX" class="p-button-outlined p-button-primary shadow-1 font-bold px-3" (click)="downloadDocxTemplate()"></button>
+-                    <button pButton icon="pi pi-bolt" label="GÃ©nÃ©rer avec l'IA" class="p-button-rounded p-button-success shadow-2 font-bold px-4" (click)="generateMethodology()"></button>
++                    <button pButton icon="pi pi-bolt" label="GÃ©nÃ©rer les Livrables Finaux" class="p-button-rounded p-button-success shadow-2 font-bold px-4" (click)="generateDeliverables()"></button>
+                 </div>
+             </div>
+ 
+@@ -669,14 +755,97 @@
+                 </div>
+ 
+                 <!-- Docx container (docx-preview needs the exact div to inject elements) -->
+-                <div [class.hidden]="isDocxLoading || docxLoadError" class="docx-preview-wrapper bg-gray-100 p-2 border-round-xl overflow-auto shadow-inner w-full h-full">
+-                    <div #docxContainer></div>
++              header="ðŸ“¦ PrÃ©paration du Pack NO-GO"
++              [(visible)]="showPackDialog"
++              [modal]="true"
++              [closable]="packStep === 'ready' || packStep === 'error'"
++              [style]="{width: '560px'}"
++              [draggable]="false"
++              [resizable]="false">
++
++        <div class="pack-dialog-body p-4">
++
++            <!-- â”€â”€â”€ Ã‰tapes de progression â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
++            <div class="pack-steps mb-4">
++
++                <!-- Step 1 : APO -->
++                <div class="pack-step-row" [class.active]="packStep === 'apo'" [class.done]="packStep !== 'apo'">
++                    <div class="pack-step-icon">
++                        <i *ngIf="packStep === 'apo'" class="pi pi-spin pi-spinner"></i>
++                        <i *ngIf="packStep !== 'apo' && packStep !== 'error'" class="pi pi-check"></i>
++                        <i *ngIf="packStep === 'error'" class="pi pi-times"></i>
++                    </div>
++                    <div class="pack-step-text">
++                        <span class="pack-step-label">GÃ©nÃ©ration APO complet</span>
++                        <span class="pack-step-sub">Assemblage des 65 champs extraits et validation des donnÃ©es</span>
++                    </div>
++                </div>
++
++                <div class="pack-step-connector" [class.done]="packStep === 'zip' || packStep === 'ready'"></div>
++
++                <!-- Step 2 : ZIP -->
++                <div class="pack-step-row" [class.active]="packStep === 'zip'" [class.done]="packStep === 'ready'" [class.waiting]="packStep === 'apo'">
++                    <div class="pack-step-icon">
++                        <i *ngIf="packStep === 'zip'" class="pi pi-spin pi-spinner"></i>
++                        <i *ngIf="packStep === 'ready'" class="pi pi-check"></i>
++                        <i *ngIf="packStep === 'apo'" class="pi pi-clock"></i>
++                        <i *ngIf="packStep === 'error'" class="pi pi-times"></i>
++                    </div>
++                    <div class="pack-step-text">
++                        <span class="pack-step-label">CrÃ©ation du pack ZIP</span>
++                        <span class="pack-step-sub">Compression : Rapport GÃ©nÃ©ral + APO DOCX + README</span>
++                    </div>
++                </div>
++
++                <div class="pack-step-connector" [class.done]="packStep === 'ready'"></div>
++
++                <!-- Step 3 : PrÃªt -->
++                <div class="pack-step-row" [class.active]="packStep === 'ready'" [class.waiting]="packStep !== 'ready'">
++                    <div class="pack-step-icon">
++                        <i *ngIf="packStep === 'ready'" class="pi pi-send"></i>
++                        <i *ngIf="packStep !== 'ready' && packStep !== 'error'" class="pi pi-clock"></i>
++                    </div>
++                    <div class="pack-step-text">
++                        <span class="pack-step-label">Pack prÃªt pour envoi</span>
++                        <span class="pack-step-sub">Notification envoyÃ©e au Manager pour validation</span>
++                    </div>
++                </div>
++            </div>
++
++            <!-- â”€â”€â”€ Ã‰tat : PrÃªt â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
++            <div *ngIf="packStep === 'ready'" class="pack-ready-zone">
++                <div class="pack-ready-card">
++                    <i class="pi pi-check-circle text-5xl text-green-500 mb-3"></i>
++                    <h3 class="m-0 text-xl font-bold text-800 mb-1">Pack prÃªt pour envoi !</h3>
++                    <p class="m-0 text-500 text-sm text-center mb-4 max-w-20rem">
++                        Le pack contient le <strong>Rapport GÃ©nÃ©ral</strong> et l'<strong>APO complet</strong>.
++                        Le Manager a Ã©tÃ© notifiÃ© automatiquement.
++                    </p>
++                    <div class="flex gap-3 justify-content-center flex-wrap">
++                        <button pButton
++                                icon="pi pi-download"
++                                label="TÃ©lÃ©charger le Pack .ZIP"
++                                class="p-button-success font-bold shadow-2 px-4"
++                                (click)="downloadPack()"></button>
++                        <button pButton
++                                icon="pi pi-times"
++                                label="Fermer"
++                                class="p-button-text p-button-secondary font-bold"
++                                (click)="showPackDialog = false"></button>
++                    </div>
+                 </div>
+             </div>
+ 
+-            <div class="flex justify-content-end mt-4">
+-                <button pButton icon="pi pi-times" label="Fermer" class="p-button-text font-bold text-red-500" (click)="showApoPreviewDialog = false"></button>
++            <!-- â”€â”€â”€ Ã‰tat : Erreur â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
++            <div *ngIf="packStep === 'error'" class="pack-error-zone mt-3">
++                <p-message severity="error" [text]="packErrorMsg || 'Erreur lors de la crÃ©ation du pack.'"></p-message>
++                <div class="flex gap-2 justify-content-center mt-3">
++                    <button pButton icon="pi pi-refresh" label="RÃ©essayer" class="p-button-outlined p-button-warning font-bold" (click)="_generatePackAfterReport()"></button>
++                    <button pButton icon="pi pi-times" label="Fermer" class="p-button-text p-button-secondary font-bold" (click)="showPackDialog = false"></button>
++                </div>
+             </div>
++
+         </div>
+     </p-dialog>
++
+ </div>

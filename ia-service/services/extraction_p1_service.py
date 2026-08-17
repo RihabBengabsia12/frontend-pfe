@@ -4,12 +4,14 @@ Un seul appel Claude avec prompt_p1.txt.
 """
 
 import logging
+import os
 from models.extraction_request  import ExtractionRequest, ReextractFieldRequest
 from models.extraction_response import ExtractionResponse, ChampExtraitIA
 from services.claude_client     import call_claude_json, load_prompt
 from validators.field_validators import validate_all_p1, calc_tjm_implicite
 
 logger = logging.getLogger(__name__)
+DOCUMENT_MAX_CHARS = int(os.getenv("DOCUMENT_MAX_CHARS", "100000"))
 
 CHAMPS_P1 = [
     "PAYS", "INTITULE_OFFRE", "CLIENT", "BAILLEURS",
@@ -33,7 +35,7 @@ def extract_phase1(req: ExtractionRequest) -> ExtractionResponse:
     user_prompt   = "Analyse le document fourni et extrais les 12 champs Phase 1 en respectant exactement le format JSON spécifié dans tes instructions."
 
     try:
-        raw, metrics = call_claude_json(system_prompt, user_prompt, document_text=req.document_text[:40000])
+        raw, metrics = call_claude_json(system_prompt, user_prompt, document_text=req.document_text[:DOCUMENT_MAX_CHARS])
     except ValueError as e:
         logger.error("Extraction P1 échouée pour dossier %s: %s", req.dossier_id, e)
         raise
@@ -74,6 +76,8 @@ def extract_phase1(req: ExtractionRequest) -> ExtractionResponse:
         champs=champs,
         alertes=alertes,
         token_usage=metrics["token_usage"],
+        input_tokens=metrics.get("input_tokens", 0),
+        output_tokens=metrics.get("output_tokens", 0),
         processing_time_ms=metrics["processing_time_ms"],
         estimated_cost=metrics["estimated_cost"],
         cache_creation_tokens=metrics.get("cache_creation_tokens", 0),
@@ -99,7 +103,7 @@ def reextract_field(req: ReextractFieldRequest) -> ChampExtraitIA:
     )
     user_prompt = f"Extrais le champ '{req.field_name}' du document fourni et retourne le résultat en JSON."
 
-    raw, metrics = call_claude_json(system_prompt, user_prompt, max_tokens=512, document_text=req.document_text[:20000])
+    raw, metrics = call_claude_json(system_prompt, user_prompt, max_tokens=512, document_text=req.document_text[:DOCUMENT_MAX_CHARS])
     champ = ChampExtraitIA(
         valeur    = raw.get("valeur"),
         confiance = float(raw.get("confiance", 0.0)),

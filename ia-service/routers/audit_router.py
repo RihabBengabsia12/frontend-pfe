@@ -20,7 +20,8 @@ def generate_audit_report(req: AuditReportRequest) -> dict:
     if not req.audit_entries:
         raise HTTPException(status_code=400, detail="audit_entries est vide — rien à auditer")
     try:
-        rapport = audit_report_service.generate_audit_report(req)
-        return {"dossier_id": req.dossier_id, "rapport": rapport}
+        rapport_dict = audit_report_service.generate_audit_report(req)
+        rapport_dict["dossier_id"] = req.dossier_id
+        return rapport_dict
     except (ValueError, RuntimeError) as e:
         raise HTTPException(status_code=502, detail=f"Erreur génération rapport audit: {e}")

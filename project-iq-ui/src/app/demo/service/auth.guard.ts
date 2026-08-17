@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = () => {
     }
 
     // Double sécurité : un GUEST ne peut pas accéder au dashboard
-    const role = localStorage.getItem('userRole');
+    const role = sessionStorage.getItem('userRole');
     const roleUpper = role ? role.toUpperCase() : 'GUEST';
     
     if (roleUpper === 'GUEST' || roleUpper === 'PENDING' || !['ADMIN', 'MANAGER', 'USER', 'ANALYST'].includes(roleUpper)) {

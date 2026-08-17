@@ -5,6 +5,7 @@ import { LayoutService } from './service/app.layout.service';
 import { AuthService } from '../demo/service/auth.service';
 import { AdminService } from '../demo/service/admin.service';
 import { DelegationService } from '../demo/service/delegation.service';
+import { FeatureFlagService } from '../demo/service/feature-flag.service';
 import { catchError, of } from 'rxjs';
 
 @Component({
@@ -22,21 +23,22 @@ export class AppMenuComponent implements OnInit {
         private authService: AuthService,
         private adminService: AdminService,
         private delegationService: DelegationService,
+        private featureFlagService: FeatureFlagService,
         private router: Router
     ) { }
 
     ngOnInit() {
-        const role = localStorage.getItem('userRole') || 'GUEST';
+        const role = sessionStorage.getItem('userRole') || 'GUEST';
         const roleUpper = role.toUpperCase();
         this.roleUpper = roleUpper;
 
-        const fullName = localStorage.getItem('userFullName') || '';
-        const email = localStorage.getItem('userEmail') || '';
+        const fullName = sessionStorage.getItem('userFullName') || sessionStorage.getItem('userName') || '';
+        const email = sessionStorage.getItem('userEmail') || '';
         const fromName = fullName.trim().split(/\s+/)[0];
         const fromEmail = email.split('@')[0];
         this.firstName = fromName || fromEmail || 'Rihab';
 
-        const lastProjectId = localStorage.getItem('lastProjectId') || 'TEST-PROJECT-001';
+        const lastProjectId = sessionStorage.getItem('lastProjectId') || localStorage.getItem('lastProjectId') || 'TEST-PROJECT-001';
 
         if (roleUpper === 'ADMIN') {
             this.model = [
@@ -122,75 +124,75 @@ export class AppMenuComponent implements OnInit {
                 }
             ];
 
-            // Mise à jour asynchrone selon les features (si nécessaire)
-            this.adminService.getUserFeatures(email).pipe(catchError(() => of({}))).subscribe({
-                next: (features) => {
-                    if (Object.keys(features).length > 0) {
-                        let dynamicModel = [];
-                        
-                        if (features['ESPACE_ANALYSTE'] !== false) {
-                            dynamicModel.push({
-                                label: "📊 ESPACE ANALYSTE",
-                                items: [
-                                    { label: 'Tableau de bord (Vue générale)', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/analyst/dashboard'] },
-                                    {
-                                        label: 'Lancer une Analyse',
-                                        icon: 'pi pi-fw pi-play',
-                                        items: [
-                                            { label: '1. Dépôt du dossier', icon: 'pi pi-fw pi-upload', routerLink: ['/dossiers/nouveau'] },
-                                            { label: '2. Extraction approfondie', icon: 'pi pi-fw pi-file-edit', routerLink: ['/dossiers/' + lastProjectId + '/analyse'] },
-                                            { label: '3. Matching', icon: 'pi pi-fw pi-percentage', routerLink: ['/dossiers/' + lastProjectId + '/matching'] },
-                                            { label: '4. Finalisation', icon: 'pi pi-fw pi-check-circle', routerLink: ['/dossiers/' + lastProjectId + '/rapport-final'] }
-                                        ]
-                                    }
-                                ]
-                            });
-                            dynamicModel.push({ separator: true });
+            this.featureFlagService.initFromCache();
+            this.featureFlagService.flags$.subscribe(features => {
+                let dynamicModel = [];
+                
+                let isAnalystLocked = features['ESPACE_ANALYSTE'] === false;
+                dynamicModel.push({
+                    label: "📊 ESPACE ANALYSTE",
+                    disabled: isAnalystLocked,
+                    styleClass: isAnalystLocked ? 'menu-locked' : '',
+                    items: [
+                        { label: 'Tableau de bord (Vue générale)', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/analyst/dashboard'], disabled: isAnalystLocked },
+                        {
+                            label: 'Lancer une Analyse',
+                            icon: 'pi pi-fw pi-play',
+                            styleClass: 'analysis-flow-menu',
+                            disabled: isAnalystLocked,
+                            items: [
+                                { label: '1. Dépôt du dossier', icon: 'pi pi-fw pi-upload', routerLink: ['/dossiers/nouveau'], styleClass: 'analysis-flow-step', disabled: isAnalystLocked },
+                                { label: '2. Extraction approfondie', icon: 'pi pi-fw pi-file-edit', routerLink: ['/dossiers/' + lastProjectId + '/analyse'], styleClass: 'analysis-flow-step', disabled: isAnalystLocked },
+                                { label: '3. Matching', icon: 'pi pi-fw pi-percentage', routerLink: ['/dossiers/' + lastProjectId + '/matching'], styleClass: 'analysis-flow-step', disabled: isAnalystLocked },
+                                { label: '4. Finalisation', icon: 'pi pi-fw pi-check-circle', routerLink: ['/dossiers/' + lastProjectId + '/rapport-final'], styleClass: 'analysis-flow-step', disabled: isAnalystLocked }
+                            ]
                         }
+                    ]
+                });
+                dynamicModel.push({ separator: true });
 
-                        if (features['LIVRABLES'] !== false) {
-                            dynamicModel.push({
-                                label: "📄 LIVRABLES & HISTORIQUE",
-                                items: [
-                                    { label: 'Dossiers importés (Historique)', icon: 'pi pi-fw pi-history', routerLink: ['/dossiers'] },
-                                    { label: 'Rapports générés', icon: 'pi pi-fw pi-file-pdf', routerLink: ['/analyst/rapports'] },
-                                    { label: 'Méthodologies', icon: 'pi pi-fw pi-book', routerLink: ['/analyst/methodologies'] },
-                                    { label: 'Rapports No-Go', icon: 'pi pi-fw pi-ban', routerLink: ['/analyst/nogo-reports'] },
-                                    { label: 'APO Finales', icon: 'pi pi-fw pi-file-word', routerLink: ['/analyst/apos'] }
-                                ]
-                            });
-                        }
+                let isLivrablesLocked = features['LIVRABLES'] === false;
+                dynamicModel.push({
+                    label: "📄 LIVRABLES & HISTORIQUE",
+                    disabled: isLivrablesLocked,
+                    styleClass: isLivrablesLocked ? 'menu-locked' : '',
+                    items: [
+                        { label: 'Dossiers importés (Historique)', icon: 'pi pi-fw pi-history', routerLink: ['/dossiers'], disabled: isLivrablesLocked },
+                        { label: 'Rapports générés', icon: 'pi pi-fw pi-file-pdf', routerLink: ['/analyst/rapports'], disabled: isLivrablesLocked },
+                        { label: 'Méthodologies', icon: 'pi pi-fw pi-book', routerLink: ['/analyst/methodologies'], disabled: isLivrablesLocked },
+                        { label: 'Rapports No-Go', icon: 'pi pi-fw pi-ban', routerLink: ['/analyst/nogo-reports'], disabled: isLivrablesLocked },
+                        { label: 'APO Finales', icon: 'pi pi-fw pi-file-word', routerLink: ['/analyst/apos'], disabled: isLivrablesLocked }
+                    ]
+                });
 
-                        if (features['LOGS_IA'] !== false) {
-                            dynamicModel.push({
-                                label: "⚙️ LOGS & IA",
-                                items: [
-                                    { label: 'Analyses IA (Logs)', icon: 'pi pi-fw pi-align-left', routerLink: ['/analyst/analyses-logs'] }
-                                ]
-                            });
-                        }
-                        
-                        dynamicModel.push(
-                            { separator: true },
-                            {
-                                label: 'SESSION',
-                                items: [
-                                    {
-                                        label: 'Déconnexion',
-                                        icon: 'pi pi-fw pi-sign-out',
-                                        command: () => {
-                                            this.authService.logout();
-                                            this.router.navigate(['/landing']);
-                                        }
-                                    }
-                                ]
+                let isLogsLocked = features['LOGS_IA'] === false;
+                dynamicModel.push({
+                    label: "⚙️ LOGS & IA",
+                    disabled: isLogsLocked,
+                    styleClass: isLogsLocked ? 'menu-locked' : '',
+                    items: [
+                        { label: 'Analyses IA (Logs)', icon: 'pi pi-fw pi-align-left', routerLink: ['/analyst/analyses-logs'], disabled: isLogsLocked }
+                    ]
+                });
+                
+                this.model = dynamicModel;
+                
+                this.model.push(
+                    { separator: true },
+                    {
+                        label: 'SESSION',
+                        items: [{
+                            label: 'Déconnexion',
+                            icon: 'pi pi-fw pi-sign-out',
+                            command: () => {
+                                this.authService.logout();
+                                this.router.navigate(['/landing']);
                             }
-                        );
-                        this.model = dynamicModel;
+                        }]
                     }
-                },
-                error: (err) => console.error(err)
+                );
             });
+            return;
         } else if (roleUpper === 'MANAGER') {
             const FALLBACK_VIPS = ['do@t2i.tn', 'do@st2i.tn', 'dda@st2i.tn', 'dga@st2i.tn', 'pdg@st2i.tn'];
             const isHardcodedVip = FALLBACK_VIPS.includes(email.toLowerCase());

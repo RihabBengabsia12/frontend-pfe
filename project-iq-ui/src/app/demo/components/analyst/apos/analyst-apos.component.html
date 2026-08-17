@@ -3,11 +3,10 @@
     <div class="col-12 mb-4">
         <div class="flex align-items-center justify-content-between mb-4">
             <div>
-                <h1 class="text-3xl font-bold text-900 m-0 flex align-items-center gap-2">
+                <h1 class="text-2xl font-bold text-900 m-0 flex align-items-center gap-2">
                     <i class="pi pi-file-word text-blue-500"></i>
                     Registre des APO Finales
                 </h1>
-                <p class="text-500 m-0 mt-1">Gérez, visualisez et téléchargez les APO finaux générés pour chaque dossier.</p>
             </div>
         </div>
 
@@ -34,11 +33,11 @@
                      [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
                      [globalFilterFields]="['intituleOffre','client','bailleurs','status']"
                      exportFilename="Registre_APO_Final"
-                     styleClass="p-datatable-striped custom-table-premium">
+                     styleClass="p-datatable-striped custom-table-premium apos-table-compact">
                 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center p-3 surface-50 border-bottom-1 border-300">
-                        <h5 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des APO</h5>
+                        <h6 class="m-0 text-700 font-bold"><i class="pi pi-list mr-2"></i>Liste des APO</h6>
                         <div class="flex gap-2 mt-2 md:mt-0">
                             <span class="p-input-icon-left">
                                 <i class="pi pi-search"></i>

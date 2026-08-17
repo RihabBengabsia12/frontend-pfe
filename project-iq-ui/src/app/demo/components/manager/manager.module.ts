@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -28,6 +29,7 @@ import { ChartModule } from 'primeng/chart';
 import { KnobModule } from 'primeng/knob';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SkeletonModule } from 'primeng/skeleton';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
     declarations: [
@@ -50,6 +52,7 @@ import { SkeletonModule } from 'primeng/skeleton';
         TableModule,
         ToastModule,
         DialogModule,
+        DropdownModule,
         TagModule,
         InputTextModule,
         ProgressSpinnerModule,
@@ -59,7 +62,8 @@ import { SkeletonModule } from 'primeng/skeleton';
         ChartModule,
         KnobModule,
         ProgressBarModule,
-        SkeletonModule
+        SkeletonModule,
+        MenuModule
     ]
 })
 export class ManagerModule { }

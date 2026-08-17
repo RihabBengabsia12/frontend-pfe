@@ -1,25 +1,25 @@
-<div class="surface-card shadow-2 border-round p-4">
-    <div class="flex align-items-center justify-content-between mb-4">
+<div class="surface-card shadow-2 border-round p-3">
+    <div class="flex align-items-center justify-content-between mb-3">
         <div>
-            <h2 class="text-900 font-bold m-0 mb-1">
-                <i class="pi pi-server mr-2" style="color: var(--primary-color)"></i>
+            <h2 class="text-900 font-bold text-xl m-0 mb-1">
+                <i class="pi pi-server text-lg mr-2" style="color: var(--primary-color)"></i>
                 Traçabilité Globale (Système)
             </h2>
-            <div class="mt-2 text-600">
+            <div class="mt-1 text-600 text-xs">
                 Historique des modifications de la configuration de l'IA et du référentiel par les administrateurs.
             </div>
         </div>
-        <button pButton icon="pi pi-refresh" label="Actualiser" severity="secondary" 
-                class="p-button-outlined" size="small" (click)="loadHistory()"></button>
+        <button pButton icon="pi pi-refresh" label="Actualiser" 
+                class="system-audit-pastel-button" size="small" (click)="loadHistory()"></button>
     </div>
 
     <!-- Filtres -->
-    <div class="flex flex-column md:flex-row gap-3 mb-4 surface-section p-3 border-round-xl shadow-1">
+    <div class="flex flex-column md:flex-row gap-2 mb-3 surface-section p-2 border-round-xl shadow-1">
         <span class="p-input-icon-left w-full md:w-auto">
             <i class="pi pi-search"></i>
-            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher (acteur, action, détails)..." class="w-full md:w-20rem border-round-3xl" />
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher (acteur, action, détails)..." class="p-inputtext-sm w-full md:w-15rem border-round-3xl" />
         </span>
-        <button pButton icon="pi pi-file-excel" severity="success" class="border-round-3xl p-button-outlined ml-auto"
+        <button pButton icon="pi pi-file-excel" class="system-audit-pastel-button ml-auto"
             label="Exporter" (click)="dt.exportCSV()"></button>
     </div>
 
@@ -53,7 +53,7 @@
                     <p-tag [severity]="getSeverity(row.action)" [rounded]="true">
                         <div class="flex align-items-center gap-1 px-1">
                             <i [class]="getIcon(row.action)"></i>
-                            <span class="font-bold text-sm">{{ row.action }}</span>
+                            <span class="font-bold text-sm">{{ formatAction(row.action) }}</span>
                         </div>
                     </p-tag>
                 </td>
@@ -75,5 +75,21 @@
         </ng-template>
     </p-table>
 </div>
+
+<style>
+    .system-audit-pastel-button {
+        background: rgba(219, 234, 254, 0.40) !important;
+        border: 1px solid rgba(147, 197, 253, 0.72) !important;
+        color: #2563eb !important;
+        border-radius: 999px !important;
+        font-size: 0.72rem !important;
+        padding: 0.34rem 0.65rem !important;
+        box-shadow: none !important;
+    }
+    .system-audit-pastel-button:hover {
+        background: rgba(191, 219, 254, 0.62) !important;
+        border-color: #93c5fd !important;
+    }
+</style>
 
 <p-toast></p-toast>

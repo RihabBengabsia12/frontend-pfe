@@ -80,7 +80,7 @@ export class AuthService {
 
     // ── POST /api/auth/refresh ─────────────────────────────────
     refresh(): Observable<LoginResponse> {
-        const refreshToken = localStorage.getItem('refreshToken') || '';
+        const refreshToken = sessionStorage.getItem('refreshToken') || '';
         return this.http.post<LoginResponse>(`${this.API_URL}/refresh`, { refreshToken }).pipe(
             tap(res => this.setSession(res))
         );
@@ -88,13 +88,13 @@ export class AuthService {
 
     // ── POST /api/auth/logout ──────────────────────────────────
     logout(): void {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = sessionStorage.getItem('refreshToken');
         if (refreshToken) {
             this.http.post(`${this.API_URL}/logout`, { refreshToken }).subscribe({
                 error: () => {}
             });
         }
-        localStorage.clear();
+        sessionStorage.clear();
     }
 
     // ── GET /api/auth/me ───────────────────────────────────────
@@ -104,7 +104,7 @@ export class AuthService {
 
     // ── PATCH /api/auth/me/password ────────────────────────────
     changePassword(req: ChangePasswordRequest): Observable<{ message: string }> {
-        return this.http.patch<{ message: string }>(`${this.API_URL}/me/password`, req);
+        return this.http.post<{ message: string }>(`${this.API_URL}/change-password`, req);
     }
 
     // ── POST /api/auth/validate-dossier/{id} (ADMIN) ───────────
@@ -186,18 +186,18 @@ export class AuthService {
 
     // ─── Utilitaires session ───────────────────────────────────
     setSession(authResult: LoginResponse): void {
-        localStorage.setItem('accessToken', authResult.accessToken);
-        localStorage.setItem('refreshToken', authResult.refreshToken);
-        localStorage.setItem('userEmail', authResult.email);
+        sessionStorage.setItem('accessToken', authResult.accessToken);
+        sessionStorage.setItem('refreshToken', authResult.refreshToken);
+        sessionStorage.setItem('userEmail', authResult.email);
         const finalRole = authResult.roleCode || authResult.role || 'GUEST';
-        localStorage.setItem('userRole', finalRole);
+        sessionStorage.setItem('userRole', finalRole);
     }
 
     isLoggedIn(): boolean {
-        return !!localStorage.getItem('accessToken');
+        return !!sessionStorage.getItem('accessToken');
     }
 
     getToken(): string | null {
-        return localStorage.getItem('accessToken');
+        return sessionStorage.getItem('accessToken');
     }
 }

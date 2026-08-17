@@ -21,11 +21,12 @@ interface ExtractedSection {
     selector: 'app-extraction-page',
     templateUrl: './extraction-page.component.html',
     styleUrls: ['./extraction-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class ExtractionPageComponent implements OnInit {
 
     dossierId = '';
+    dossierStatus = '';
     isLoading = true;
     isWaitingForAI = false;
     extractedData: any = null;
@@ -43,6 +44,14 @@ export class ExtractionPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.dossierId = this.route.snapshot.paramMap.get('id') || '';
+        
+        // Fetch dossier to get its status
+        this.projectsService.getDossier(this.dossierId).subscribe({
+            next: (dossier) => {
+                this.dossierStatus = dossier.status;
+            }
+        });
+
         // Branchement au backend réel
         this.loadExtractionFromBackend();
     }

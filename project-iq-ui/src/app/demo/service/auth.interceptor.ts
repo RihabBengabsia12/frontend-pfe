@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         const isPublic = this.isPublicRequest(req.url);
 
         let authReq = req;
@@ -39,7 +39,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
         return next.handle(authReq).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 401 && !isPublic) {
+                // Certains microservices renvoient 403 pour un JWT expiré alors
+                // que d'autres renvoient 401 : dans les deux cas on tente le
+                // renouvellement du jeton avant de bloquer l'action utilisateur.
+                if ((error.status === 401 || error.status === 403) && !isPublic) {
                     return this.handle401Error(authReq, next);
                 }
                 return throwError(() => error);
@@ -70,7 +73,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 }),
                 catchError((err) => {
                     this.isRefreshing = false;
-                    localStorage.clear();
+                    sessionStorage.clear();
                     this.router.navigate(['/auth/login']);
                     return throwError(() => err);
                 })

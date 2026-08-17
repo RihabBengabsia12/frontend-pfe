@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ManagerValidationService } from '../../../service/manager-validation.service';
+import { renderAsync } from 'docx-preview';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-manager-audit',
   templateUrl: './manager-audit.component.html',
   styleUrls: ['./manager-audit.component.scss'],
-  providers: [MessageService]
+  providers: []
 })
 export class ManagerAuditComponent implements OnInit {
+
+  @ViewChild('docxPreview') docxPreview?: ElementRef<HTMLDivElement>;
 
   archivedDossiers: any[] = [];
   selectedDossier: any = null;
@@ -18,10 +22,12 @@ export class ManagerAuditComponent implements OnInit {
   // Preview DOCX
   displayDialog: boolean = false;
   loadingPreview: boolean = false;
+  previewError = '';
 
   constructor(
     private validationService: ManagerValidationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +39,14 @@ export class ManagerAuditComponent implements OnInit {
     this.validationService.getArchivedDossiers().subscribe({
       next: (data) => {
         this.archivedDossiers = data;
-        if (this.archivedDossiers.length > 0) {
+        const requestedId = this.route.snapshot.queryParamMap.get('dossierId');
+        const requestedDossier = requestedId
+          ? this.archivedDossiers.find(dossier => dossier.id === requestedId)
+          : undefined;
+        if (requestedDossier) {
+          this.selectDossier(requestedDossier);
+          this.downloadAuditReport();
+        } else if (this.archivedDossiers.length > 0) {
           this.selectDossier(this.archivedDossiers[0]);
         } else {
           this.selectedDossier = null;
@@ -60,11 +73,30 @@ export class ManagerAuditComponent implements OnInit {
     // Au lieu de juste télécharger, on ouvre la modale de prévisualisation
     this.displayDialog = true;
     this.loadingPreview = true;
-    
-    // Simulation du chargement du lecteur DOCX
-    setTimeout(() => {
-      this.loadingPreview = false;
-    }, 1500);
+    this.previewError = '';
+    this.validationService.downloadDocument(this.selectedDossier.id, 'audit').subscribe({
+      next: async (file) => {
+        try {
+          // Crée d'abord le conteneur Angular ; sans cela ViewChild est vide et
+          // docx-preview ne peut rien dessiner.
+          this.loadingPreview = false;
+          await new Promise(resolve => setTimeout(resolve));
+          const container = this.docxPreview?.nativeElement;
+          if (!container) throw new Error('Zone de previsualisation indisponible.');
+          container.replaceChildren();
+          await renderAsync(file, container, undefined, {
+            className: 'projectiq-audit-docx', inWrapper: true, breakPages: true,
+            ignoreLastRenderedPageBreak: false
+          });
+        } catch {
+          this.previewError = 'Impossible d’afficher ce rapport dans le lecteur. Vous pouvez le télécharger au format DOCX.';
+        } finally { this.loadingPreview = false; }
+      },
+      error: () => {
+        this.previewError = 'Le rapport d’audit est indisponible au téléchargement.';
+        this.loadingPreview = false;
+      }
+    });
   }
 
   downloadOriginal() {

@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
     selector: 'app-referentiel-page',
     templateUrl: './referentiel-page.component.html',
     styleUrls: ['./referentiel-page.component.scss'],
-    providers: [MessageService]
+    providers: []
 })
 export class ReferentielPageComponent implements OnInit {
 
@@ -192,9 +192,23 @@ export class ReferentielPageComponent implements OnInit {
         this.expertDialog = true;
     }
 
+    private formatDate(date: any): any {
+        if (!date) return null;
+        if (typeof date === 'string') return date.split('T')[0];
+        const d = new Date(date);
+        const month = '' + (d.getMonth() + 1);
+        const day = '' + d.getDate();
+        const year = d.getFullYear();
+        return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+    }
+
     saveExpert() {
-        if (this.expert.id) {
-            this.referentielService.updateExpert(this.expert.id, this.expert).subscribe({
+        const payload = { ...this.expert };
+        payload.disponibleDu = this.formatDate(payload.disponibleDu);
+        payload.disponibleAu = this.formatDate(payload.disponibleAu);
+
+        if (payload.id) {
+            this.referentielService.updateExpert(payload.id, payload).subscribe({
                 next: () => {
                     this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Expert mis à jour' });
                     this.loadExperts();
@@ -203,7 +217,7 @@ export class ReferentielPageComponent implements OnInit {
                 error: () => this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Mise à jour échouée' })
             });
         } else {
-            this.referentielService.createExpert(this.expert).subscribe({
+            this.referentielService.createExpert(payload).subscribe({
                 next: () => {
                     this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Expert créé' });
                     this.loadExperts();

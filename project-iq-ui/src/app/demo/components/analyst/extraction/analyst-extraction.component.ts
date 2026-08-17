@@ -5,7 +5,7 @@ import { AnalystService } from '../../../../demo/service/analyst.service';
 @Component({
     selector: 'app-analyst-extraction',
     templateUrl: './analyst-extraction.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class AnalystExtractionComponent {
 

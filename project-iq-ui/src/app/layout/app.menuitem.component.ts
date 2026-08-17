@@ -57,6 +57,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
     @Input() parentKey!: string;
 
+    @HostBinding('class.menu-locked') get isLocked() { return this.item?.disabled; }
+
     active = false;
 
     menuSourceSubscription: Subscription;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 export interface ScoringConfig {
     seuilNogo: number;
@@ -22,40 +22,71 @@ export interface ScoringConfig {
     providedIn: 'root'
 })
 export class ConfigService {
-    private API_URL = 'http://localhost:8089/api/admin/scoring-config';
+    private API_URL = '/api/config/scoring';
 
     constructor(private http: HttpClient) {}
 
     getConfig(): Observable<ScoringConfig> {
-        return this.http.get<ScoringConfig>(this.API_URL).pipe(
+        return this.http.get<any>(this.API_URL).pipe(
+            map(raw => this.fromApiConfig(raw)),
             catchError(() => of(this.getMockConfig()))
         );
     }
 
     getConfigForDossier(dossierId: string): Observable<ScoringConfig> {
         if (!dossierId) return this.getConfig();
-        return this.http.get<ScoringConfig>(`${this.API_URL}/dossier/${dossierId}`).pipe(
-            catchError(() => this.getConfig())
+        return this.http.get<any>(`${this.API_URL}/dossier/${dossierId}`).pipe(
+            map(raw => this.fromApiConfig(raw)),
+            catchError(() => of(this.getMockConfig()))
         );
     }
 
     saveConfig(config: ScoringConfig): Observable<any> {
-        return this.http.put<any>(this.API_URL, config).pipe(
-            catchError(() => {
-                sessionStorage.setItem('scoringConfig', JSON.stringify(config));
-                return of({ status: 'SUCCESS', message: 'Configuration globale enregistrée (Offline)' });
-            })
-        );
+        return this.http.put<any>(this.API_URL, this.toApiConfig(config));
     }
 
     saveConfigForDossier(dossierId: string, config: ScoringConfig): Observable<any> {
         if (!dossierId) return this.saveConfig(config);
-        return this.http.put<any>(`${this.API_URL}/dossier/${dossierId}`, config).pipe(
-            catchError(() => {
-                sessionStorage.setItem(`scoringConfig_${dossierId}`, JSON.stringify(config));
-                return of({ status: 'SUCCESS', message: 'Configuration spécifique enregistrée (Offline)' });
-            })
-        );
+        return this.http.put<any>(`${this.API_URL}/dossier/${dossierId}`, this.toApiConfig(config));
+    }
+
+    /** Adapte le contrat Java aux pourcentages affichés dans l'interface Admin. */
+    private fromApiConfig(raw: any): ScoringConfig {
+        const numberOr = (value: unknown, fallback: number) => {
+            const parsed = Number(value);
+            return Number.isFinite(parsed) ? parsed : fallback;
+        };
+        return {
+            seuilNogo: numberOr(raw?.seuilNoGo ?? raw?.seuilNogo, 20),
+            seuilGo: numberOr(raw?.seuilGoFort ?? raw?.seuilGo, 70),
+            weightA: numberOr(raw?.poidsA_faisabilite, 0.25) * 100,
+            weightB: numberOr(raw?.poidsB_rentabilite, 0.25) * 100,
+            weightC: numberOr(raw?.poidsC_risques, 0.25) * 100,
+            weightD: numberOr(raw?.poidsD_concurrence, 0.15) * 100,
+            weightE: numberOr(raw?.poidsE_conformite, 0.10) * 100,
+            minTjm: numberOr(raw?.tjmMinEgis ?? raw?.minTjm, 350),
+            seuilCompatCompetences: numberOr(raw?.seuilCompatCompetences, 0.50),
+            seuilCompatExperts: numberOr(raw?.seuilCompatExperts, 0.40),
+            seuilAlignementOui: numberOr(raw?.seuilAlignementOui, 0.80),
+            seuilAlignementPartiel: numberOr(raw?.seuilAlignementPartiel, 0.50)
+        };
+    }
+
+    private toApiConfig(config: ScoringConfig): any {
+        return {
+            seuilNoGo: config.seuilNogo,
+            seuilGoConditionnel: (Number(config.seuilNogo) + Number(config.seuilGo)) / 2,
+            seuilGoFort: config.seuilGo,
+            poidsA_faisabilite: Number(config.weightA) / 100,
+            poidsB_rentabilite: Number(config.weightB) / 100,
+            poidsC_risques: Number(config.weightC) / 100,
+            poidsD_concurrence: Number(config.weightD) / 100,
+            poidsE_conformite: Number(config.weightE) / 100,
+            tjmMinEgis: config.minTjm,
+            tjmMaxEgis: 3000,
+            seuilCompatCompetences: config.seuilCompatCompetences,
+            seuilCompatExperts: config.seuilCompatExperts
+        };
     }
 
     private getMockConfig(): ScoringConfig {

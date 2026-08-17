@@ -13,7 +13,7 @@ interface PendingAccount {
 
 @Component({
     templateUrl: './analyst-config.component.html',
-    providers: [MessageService]
+    providers: []
 })
 export class AnalystConfigComponent implements OnInit {
 
@@ -63,7 +63,7 @@ export class AnalystConfigComponent implements OnInit {
         this.authService.getAccounts(0, 500).subscribe({
             next: (res) => {
                 const list = res?.content || (Array.isArray(res) ? res : []);
-                const myEmail = (localStorage.getItem('userEmail') || '').toLowerCase();
+                const myEmail = (sessionStorage.getItem('userEmail') || '').toLowerCase();
 
                 this.pendingAccounts = list
                     .map((u: any) => ({

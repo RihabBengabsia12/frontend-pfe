@@ -312,19 +312,40 @@ $pastel-red-dark: #ef4444;
 }
 
 .field-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.4);
-    border: 1px solid rgba(0,0,0,0.02);
-    transition: all 0.4s ease;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: fadeScaleIn 0.5s ease-out backwards;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 4px; height: 100%;
+        background: transparent;
+        transition: background 0.3s ease;
+    }
+
+    &:hover {
+        box-shadow: 0 8px 24px rgba(148, 163, 184, 0.12);
+        border-color: rgba(148, 163, 184, 0.3);
+        transform: translateY(-2px);
+    }
 
     &.is-editing {
-        background: #ffffff;
-        border-color: rgba(96, 165, 250, 0.15);
-        box-shadow: 0 4px 16px rgba(96, 165, 250, 0.06);
+        background: #f8fafc;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        z-index: 10;
+        
+        &::before {
+            background: #3b82f6;
+        }
     }
 }
 
@@ -480,4 +501,628 @@ $pastel-red-dark: #ef4444;
             transform: translateX(4px);
         }
     }
+}
+
+// ─── Action Cards ───────────────────────────────────────────────────────────
+
+.action-zone-go,
+.action-zone-nogo {
+    animation: fadeInUp 0.4s ease;
+}
+
+.action-card-go,
+.action-card-nogo {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    border: 1.5px solid;
+    flex-wrap: wrap;
+}
+
+// GO card
+.action-card-go {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-color: #86efac;
+
+    .action-card-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: #22c55e;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+}
+
+// NO-GO card — initial state
+.action-card-nogo {
+    background: linear-gradient(135deg, #fff7f7 0%, #fee2e2 100%);
+    border-color: #fca5a5;
+    flex-direction: column;
+    align-items: stretch;
+
+    .action-card-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: #ef4444;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+
+        &.nogo { background: #ef4444; }
+        &.done { background: #22c55e; }
+    }
+
+    // NO-GO card — done state
+    &.done {
+        background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+        border-color: #6ee7b7;
+    }
+}
+
+// Card body (text)
+.action-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 200px;
+
+    .action-card-title {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #1e293b;
+    }
+    .action-card-subtitle {
+        font-size: 0.82rem;
+        color: #64748b;
+        line-height: 1.4;
+    }
+}
+
+// Buttons group
+.action-card-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+// Action card header (icon + text side by side)
+.action-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+// Post-generation buttons layout
+.post-gen-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    padding-top: 1rem;
+}
+
+.post-gen-btn-primary {
+    width: 100%;
+    height: 3rem !important;
+    font-size: 1rem !important;
+    justify-content: center;
+    letter-spacing: 0.3px;
+}
+
+.post-gen-secondary {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .post-gen-btn-sec {
+        flex: 1;
+        min-width: 120px;
+        height: 2.5rem !important;
+        font-size: 0.85rem !important;
+        justify-content: center;
+    }
+}
+
+// ─── Pack NO-GO Dialog ──────────────────────────────────────────────────────
+
+.pack-dialog-body {
+    min-height: 200px;
+}
+
+.pack-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.pack-step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0;
+
+    .pack-step-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        border: 2px solid #e2e8f0;
+        background: #f8fafc;
+        color: #94a3b8;
+        transition: all 0.3s ease;
+    }
+
+    .pack-step-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        padding-top: 0.35rem;
+
+        .pack-step-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .pack-step-sub {
+            font-size: 0.78rem;
+            color: #cbd5e1;
+        }
+    }
+
+    &.active {
+        .pack-step-icon {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+        .pack-step-label { color: #1e293b; }
+        .pack-step-sub   { color: #64748b; }
+    }
+
+    &.done {
+        .pack-step-icon {
+            border-color: #22c55e;
+            background: #f0fdf4;
+            color: #22c55e;
+        }
+        .pack-step-label { color: #1e293b; }
+        .pack-step-sub   { color: #64748b; }
+    }
+}
+
+.pack-step-connector {
+    width: 2px;
+    height: 1.5rem;
+    background: #e2e8f0;
+    margin-left: 1.19rem;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+
+    &.done { background: #22c55e; }
+}
+
+.pack-ready-zone {
+    display: flex;
+    justify-content: center;
+}
+
+.pack-ready-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1.5px solid #86efac;
+    border-radius: 14px;
+    width: 100%;
+}
+
+.pack-error-zone {
+    text-align: center;
+}
+
+// =============================================
+// PACK DÉCISIONNEL — DESIGN PREMIUM PASTEL
+// =============================================
+
+.pack-decision-container {
+    margin-top: 0.5rem;
+}
+
+// Alias for new class names
+.pack-flow { width: 100%; }
+
+.pack-ready { width: 100%; animation: fadeInUp 0.4s ease forwards; }
+
+.pack-ready-header {
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.pack-ready-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+    border-radius: 50px;
+    padding: 0.3rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    i { font-size: 0.85rem; }
+}
+
+// --- Zone Générer ---
+.pack-generate-zone {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+
+.pack-generate-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #fff7f7 0%, #fee2e2 100%);
+    border: 1.5px dashed #fca5a5;
+    border-radius: 18px;
+    padding: 2rem 2.5rem;
+    width: 100%;
+    max-width: 460px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 8px 24px rgba(239, 68, 68, 0.12);
+    }
+
+    .pack-generate-icon {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background: #fee2e2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fca5a5;
+
+        i {
+            font-size: 1.8rem;
+            color: #ef4444;
+        }
+    }
+
+    .pack-generate-text {
+        h4 {
+            margin: 0 0 0.25rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+    }
+}
+
+.pack-generate-btn {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
+    transition: all 0.25s ease !important;
+
+    &:hover {
+        background: #dc2626 !important;
+        border-color: #dc2626 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45) !important;
+    }
+}
+
+// --- Header after generation ---
+.pack-ready-zone-split {
+    width: 100%;
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.pack-split-header {
+    text-align: center;
+    margin-bottom: 1.25rem;
+
+    .pack-split-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #dcfce7;
+        color: #16a34a;
+        border: 1px solid #86efac;
+        border-radius: 50px;
+        padding: 0.3rem 1rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+
+        i { font-size: 0.85rem; }
+    }
+
+    h3 {
+        margin: 0.5rem 0 0;
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #1e293b;
+    }
+}
+
+// --- Split Grid ---
+.pack-split-grid {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+}
+
+.pack-split-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.75rem;
+
+    .pack-split-and {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #f1f5f9;
+        border: 1.5px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 900;
+        color: #94a3b8;
+    }
+}
+
+// --- Document Cards ---
+.pack-doc-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 16px;
+    padding: 1.5rem 1.25rem;
+    border: 1.5px solid transparent;
+    transition: all 0.25s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &.rapport-card {
+        background: linear-gradient(145deg, #fff7f7, #fee2e2);
+        border-color: #fca5a5;
+
+        .pack-doc-icon-wrap {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            i { color: #ef4444; }
+        }
+    }
+
+    &.apo-card {
+        background: linear-gradient(145deg, #eff6ff, #dbeafe);
+        border-color: #93c5fd;
+
+        .pack-doc-icon-wrap {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            i { color: #3b82f6; }
+        }
+    }
+}
+
+.pack-doc-icon-wrap {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+
+    i { font-size: 1.5rem; }
+}
+
+.pack-doc-title {
+    margin: 0 0 0.2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+}
+
+.pack-doc-sub {
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.pack-doc-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pack-btn-voir {
+    width: 100%;
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    padding: 0.55rem 1rem !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+        background: #2563eb !important;
+        border-color: #2563eb !important;
+        transform: translateY(-1px) !important;
+    }
+
+    &.pack-btn-voir-blue {
+        background: #6366f1 !important;
+        border-color: #6366f1 !important;
+        &:hover {
+            background: #4f46e5 !important;
+            border-color: #4f46e5 !important;
+        }
+    }
+}
+
+.pack-btn-group {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.pack-btn-secondary {
+    flex: 1;
+    background: white !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 0.5rem 0.6rem !important;
+    font-size: 0.82rem !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+        background: #f8fafc !important;
+        border-color: #94a3b8 !important;
+        color: #1e293b !important;
+    }
+}
+
+// --- Zone ZIP ---
+.pack-zip-zone {
+    margin-top: 1.25rem;
+}
+
+.pack-zip-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 1.5px solid #86efac;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+
+    .pack-zip-icon {
+        flex-shrink: 0;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: #bbf7d0;
+        border: 2px solid #86efac;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            font-size: 1.3rem;
+            color: #16a34a;
+        }
+    }
+
+    .pack-zip-text {
+        flex: 1;
+        h4 {
+            margin: 0 0 0.2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+    }
+}
+
+.pack-zip-btn {
+    background: #16a34a !important;
+    border-color: #16a34a !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    padding: 0.65rem 1.25rem !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3) !important;
+    transition: all 0.25s ease !important;
+    flex-shrink: 0;
+
+    &:hover {
+        background: #15803d !important;
+        border-color: #15803d !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4) !important;
+    }
+}
+
+// Force pack-dialog content area to fill available height
+// (must use ::ng-deep since the dialog is appended to body)
+:host ::ng-deep .pack-dialog {
+    .p-dialog-content {
+        flex: 1 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 1rem 1.25rem !important;
+    }
+    &.p-dialog {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+}
+
+@keyframes customSpin {
+    0% { transform: scale(1.2) rotate(0deg); }
+    100% { transform: scale(1.2) rotate(360deg); }
+}
+
+.spin-animation {
+    animation: customSpin 3s linear infinite;
 }

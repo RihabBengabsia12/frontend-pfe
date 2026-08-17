@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+
 
 <!-- ═══════════════════════════════════════════════════════════════════════ -->
 <!-- REUSABLE STEPPER COMPONENT FOR PHASE 1 -->
@@ -8,6 +8,7 @@
     mode="phase1"
     [activeStep]="currentIndex >= 0 ? currentIndex : 0"
     [dossierId]="dossierId"
+    [dossierStatus]="currentStatus"
     context="deposit">
   </app-pipeline-stepper>
 </div>
@@ -70,7 +71,7 @@
                             <div class="ai-status-text mt-3 text-center font-bold" [ngClass]="isPrivate ? 'text-purple-600' : 'text-primary'" *ngIf="isUploading || (isFileUploading && fileUploadProgress === 100)">
                                 <i class="pi pi-spin pi-spinner mr-2"></i> 
                                 <ng-container *ngIf="isFileUploading && fileUploadProgress === 100 && !isUploading">
-                                    <span>Extraction du texte et sauvegarde (MinIO) en cours...</span>
+                                    <span class="text-sm font-normal text-500 opacity-70" style="color: var(--text-color-secondary) !important;">Enregistrement en cours...</span>
                                 </ng-container>
                                 <ng-container *ngIf="isUploading">
                                     <span *ngIf="!isPrivate">{{ uploadProgress < 50 ? 'Lecture du document par l\'IA...' : 'Extraction des critères (Prompt Caching) en cours...' }}</span>
@@ -326,7 +327,7 @@
                         <!-- Jours Restants -->
                         <td style="text-align: center">
                             <span class="days-badge" [class]="getDaysRemainingClass(getDaysRemainingFromDate(dossier.dtLimSoum))" *ngIf="dossier.dtLimSoum">
-                                {{ getDaysRemainingFromDate(dossier.dtLimSoum) }}j
+                                {{ getDaysRemainingLabel(getDaysRemainingFromDate(dossier.dtLimSoum)) }}
                             </span>
                             <span *ngIf="!dossier.dtLimSoum">—</span>
                         </td>
@@ -350,42 +351,44 @@
 
                         <!-- Statut -->
                         <td style="text-align: center">
-                            <p-tag [value]="statusLabel(dossier.status || '')"
-                                   [severity]="getStatusSeverity(dossier.status || '')"
-                                   [icon]="getStatusIcon(dossier.status || '')"
-                                   styleClass="status-tag">
-                            </p-tag>
+                            <span [attr.style]="getStatusStyleStr(dossier.status || '')"
+                                  style="display:inline-flex;align-items:center;gap:0.3rem;padding:4px 14px;border-radius:99px;font-size:0.75rem;font-weight:600;white-space:nowrap;">
+                                <i [class]="getStatusIcon(dossier.status || '')" style="font-size:0.7rem;"></i>
+                                {{ statusLabel(dossier.status || '') }}
+                            </span>
                         </td>
 
                         <!-- Action -->
-                        <td style="text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
-                            <button pButton icon="pi pi-cog" 
-                                    class="p-button-rounded p-button-secondary p-button-text" 
-                                    pTooltip="Ajuster Prompts IA" tooltipPosition="left"
-                                    (click)="openPromptConfig(dossier.id)"></button>
-                            <button pButton
-                                    *ngIf="canLaunchAnalysis(dossier)"
-                                    class="action-analyze-btn"
-                                    [disabled]="analyzingDossierId === dossier.id"
-                                    (click)="launchAnalysis(dossier)"
-                                    pTooltip="Passer ce dossier en analyse IA"
-                                    tooltipPosition="left">
-                                <ng-container *ngIf="analyzingDossierId !== dossier.id">
-                                    <i class="pi pi-play mr-1"></i> Analyser
-                                </ng-container>
-                                <ng-container *ngIf="analyzingDossierId === dossier.id">
-                                    <i class="pi pi-spin pi-spinner mr-1"></i> En cours...
-                                </ng-container>
-                            </button>
-                            <button pButton
-                                    *ngIf="!canLaunchAnalysis(dossier)"
-                                    icon="pi pi-eye"
-                                    label="Consulter"
-                                    class="p-button-outlined p-button-info p-button-sm"
-                                    (click)="goToValidation(dossier)"
-                                    pTooltip="Voir les champs extraits"
-                                    tooltipPosition="left">
-                            </button>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; height: 100%;">
+                                <button pButton icon="pi pi-cog" 
+                                        class="p-button-rounded p-button-secondary p-button-text" 
+                                        pTooltip="Ajuster Prompts IA" tooltipPosition="left"
+                                        (click)="openPromptConfig(dossier.id)"></button>
+                                <button pButton
+                                        *ngIf="canLaunchAnalysis(dossier)"
+                                        class="action-analyze-btn"
+                                        [disabled]="analyzingDossierId === dossier.id"
+                                        (click)="launchAnalysis(dossier)"
+                                        pTooltip="Passer ce dossier en analyse IA"
+                                        tooltipPosition="left">
+                                    <ng-container *ngIf="analyzingDossierId !== dossier.id">
+                                        <i class="pi pi-play mr-1"></i> Analyser
+                                    </ng-container>
+                                    <ng-container *ngIf="analyzingDossierId === dossier.id">
+                                        <i class="pi pi-spin pi-spinner mr-1"></i> En cours...
+                                    </ng-container>
+                                </button>
+                                <button pButton
+                                        *ngIf="!canLaunchAnalysis(dossier)"
+                                        icon="pi pi-eye"
+                                        label="Consulter"
+                                        class="p-button-outlined p-button-info p-button-sm"
+                                        (click)="goToValidation(dossier)"
+                                        pTooltip="Voir les champs extraits"
+                                        tooltipPosition="left">
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </ng-template>

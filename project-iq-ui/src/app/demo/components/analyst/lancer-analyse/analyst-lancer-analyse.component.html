@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+
 
 <div class="grid p-4 fade-in-up">
     <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
@@ -394,12 +394,18 @@
                                 class="btn-cta-secondary"
                                 (click)="toggleValidateAllFields()"></button>
 
-                        <button pButton icon="pi pi-check-circle" label="Valider et remplir APO"
-                                class="btn-cta-primary"
-                                [class.pulse-button]="isAllFieldsValidated()"
-                                [disabled]="!isAllFieldsValidated()"
-                                [loading]="isSubmittingValidation"
-                                (click)="submitValidation()"></button>
+                        <div class="flex flex-column align-items-center gap-2">
+                            <small *ngIf="isAllFieldsValidated() && hasEmptyFields" class="p-error flex align-items-center gap-2" style="font-weight: 600; font-size: 0.9rem; max-width: 300px; line-height: 1.2;">
+                                <i class="pi pi-exclamation-triangle" style="font-size: 1.2rem;"></i>
+                                Attention : Certains champs vides risquent de fausser le calcul du scoring et le matching.
+                            </small>
+                            <button pButton icon="pi pi-check-circle" label="Valider et remplir APO"
+                                    class="btn-cta-primary"
+                                    [class.pulse-button]="isAllFieldsValidated()"
+                                    [disabled]="!isAllFieldsValidated()"
+                                    [loading]="isSubmittingValidation"
+                                    (click)="submitValidation()"></button>
+                        </div>
                     </div>
                 </div>
 

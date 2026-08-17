@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+
 
 <div class="grid">
     <div class="col-12">
@@ -6,10 +6,7 @@
             <p-tabView>
                 <!-- Onglet Prompt Engineering -->
                 <p-tabPanel header="Prompt Engineering" leftIcon="pi pi-code">
-                    <h4 class="text-900 font-bold mb-2 mt-3">Ingénierie des Prompts</h4>
-                    <p class="text-600 mb-5">
-                        Gérez dynamiquement le comportement de Claude 3.5 Sonnet. Sélectionnez le contexte d'application puis modifiez les instructions.
-                    </p>
+                    <h4 class="text-900 font-bold text-base mb-4 mt-3">Ingénierie des Prompts</h4>
 
                     <div class="flex flex-column md:flex-row align-items-start md:align-items-center gap-4 mb-5 p-4 bg-indigo-50 border-round-xl border-1 border-indigo-100">
                         <div class="flex flex-column">
@@ -20,19 +17,22 @@
                             <p-dropdown [options]="dossiers" [(ngModel)]="selectedDossier" optionLabel="intituleOffre" [filter]="true" filterBy="intituleOffre,id"
                                         [showClear]="true" placeholder="Global (Par défaut)"
                                         (onChange)="onScopeChange()"
-                                        styleClass="w-full md:w-20rem">
+                                        appendTo="body"
+                                        styleClass="w-full md:w-22rem"
+                                        panelStyleClass="prompt-scope-panel"
+                                        [panelStyle]="{ width: '22rem', 'max-width': 'calc(100vw - 2rem)' }">
                                 <ng-template pTemplate="selectedItem">
-                                    <div class="flex align-items-center gap-2" *ngIf="selectedDossier">
-                                        <i class="pi pi-folder-open text-indigo-500"></i>
-                                        <div>{{ selectedDossier.intituleOffre || selectedDossier.id }}</div>
+                                    <div class="flex align-items-center gap-2 min-w-0">
+                                        <i [class]="selectedDossier ? 'pi pi-folder-open text-indigo-500' : 'pi pi-globe text-indigo-500'"></i>
+                                        <span class="white-space-nowrap overflow-hidden text-overflow-ellipsis">{{ selectedDossier ? (selectedDossier.intituleOffre || selectedDossier.id) : 'Global (Par défaut)' }}</span>
                                     </div>
                                 </ng-template>
                                 <ng-template let-dossier pTemplate="item">
-                                    <div class="flex align-items-center gap-2">
+                                    <div class="flex align-items-center gap-2 w-full min-w-0 py-1">
                                         <i class="pi pi-folder text-500"></i>
-                                        <div>
-                                            <div class="font-bold">{{ dossier.intituleOffre || 'Sans titre' }}</div>
-                                            <div class="text-xs text-500">ID: {{ dossier.id }}</div>
+                                        <div class="min-w-0">
+                                            <div class="font-semibold text-900 white-space-nowrap overflow-hidden text-overflow-ellipsis">{{ dossier.intituleOffre || 'Sans titre' }}</div>
+                                            <div class="text-xs text-500 white-space-nowrap overflow-hidden text-overflow-ellipsis">ID: {{ dossier.id }}</div>
                                         </div>
                                     </div>
                                 </ng-template>

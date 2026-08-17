@@ -12,7 +12,7 @@ interface expandedRows {
 
 @Component({
     templateUrl: './tabledemo.component.html',
-    providers: [MessageService, ConfirmationService]
+    providers: [ConfirmationService]
 })
 export class TableDemoComponent implements OnInit {
 

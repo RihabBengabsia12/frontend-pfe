@@ -75,9 +75,9 @@ export class AuditComponent implements OnInit {
     }
 
     private seedCurrentUserFromJwt(): void {
-        const token = localStorage.getItem('accessToken');
-        const email = localStorage.getItem('userEmail');
-        let fullName = localStorage.getItem('userFullName');
+        const token = sessionStorage.getItem('accessToken');
+        const email = sessionStorage.getItem('userEmail');
+        let fullName = sessionStorage.getItem('userFullName');
         if (!fullName) fullName = email;
         
         if (!token || !email) return;

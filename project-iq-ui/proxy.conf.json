@@ -26,31 +26,77 @@
     "changeOrigin": true,
     "logLevel": "debug"
   },
+  "/api/validation": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/api/analyses": {
     "target": "http://localhost:8085",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "proxyTimeout": 300000,
+    "timeout": 300000
   },
   "/api/scoring": {
     "target": "http://127.0.0.1:8089",
     "secure": false,
     "changeOrigin": true,
-    "pathRewrite": {
-      "^/api/scoring": "/analyste/api/scoring"
-    },
     "logLevel": "debug"
   },
   "/api/config/scoring": {
     "target": "http://127.0.0.1:8089",
     "secure": false,
     "changeOrigin": true,
-    "pathRewrite": {
-      "^/api/config/scoring": "/analyste/api/config/scoring"
-    },
     "logLevel": "debug"
   },
   "/api/matching": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "proxyTimeout": 300000,
+    "timeout": 300000
+  },
+  "/api/export": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "proxyTimeout": 300000,
+    "timeout": 300000
+  },
+  "/api/export": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "proxyTimeout": 300000,
+    "timeout": 300000
+  },
+  "/api/apo": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "proxyTimeout": 300000,
+    "timeout": 300000
+  },
+  "/api/admin": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/analyst": {
+    "target": "http://127.0.0.1:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/referentiel": {
     "target": "http://localhost:8085",
     "secure": false,
     "changeOrigin": true,

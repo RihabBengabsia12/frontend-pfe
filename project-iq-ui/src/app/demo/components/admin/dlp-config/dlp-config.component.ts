@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 interface AnonymizationDict {
-  id?: number;
+  id?: string;
   originalWord: string;
   replacementCode?: string;
   isActive: boolean;
@@ -15,7 +15,7 @@ interface AnonymizationDict {
   selector: 'app-dlp-config',
   templateUrl: './dlp-config.component.html',
   styleUrls: ['./dlp-config.component.scss'],
-  providers: [MessageService]
+  providers: [ConfirmationService]
 })
 export class DlpConfigComponent implements OnInit {
   dictionaries: AnonymizationDict[] = [];
@@ -25,7 +25,11 @@ export class DlpConfigComponent implements OnInit {
   displayAddDialog = false;
   newWord = '';
 
-  constructor(private http: HttpClient, private messageService: MessageService) {}
+  constructor(
+    private http: HttpClient, 
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadDictionaries();
@@ -83,18 +87,23 @@ export class DlpConfigComponent implements OnInit {
     });
   }
 
-  deleteWord(id: number): void {
-    if (confirm('Voulez-vous vraiment supprimer ce mot-clé ?')) {
-      this.http.delete(`/api/projects/anonymization/${id}`).subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Mot-clé supprimé.' });
-          this.loadDictionaries();
-        },
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de supprimer.' });
-        }
-      });
-    }
+  deleteWord(id: string): void {
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment supprimer ce mot-clé ?',
+      header: 'Confirmation de suppression',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.http.delete(`/api/projects/anonymization/${id}`).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Mot-clé supprimé.' });
+            this.loadDictionaries();
+          },
+          error: () => {
+            this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Impossible de supprimer.' });
+          }
+        });
+      }
+    });
   }
 
   forceRegenerate(): void {
